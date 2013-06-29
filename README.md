@@ -1,4 +1,4 @@
-EvvGCC
+EvvGC - Open Source 3 axis gimbal controller
 ======================
 
 20130629 - initial commit (derived from FW03preB)
