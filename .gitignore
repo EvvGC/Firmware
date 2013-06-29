@@ -1,0 +1,12 @@
+# Object files
+*.o
+
+# Libraries
+*.lib
+*.a
+
+# system Directories
+/Debug
+/Release
+.cproject
+.cproject.backup
