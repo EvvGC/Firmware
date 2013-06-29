@@ -1,7 +1,7 @@
 EvvGCC
 ======================
 
-20130629 - initial commit
+20130629 - initial commit (derived from FW03preB)
 
     - to build under eclipse, you'll need the gnu toolchain from - https://launchpad.net/gcc-arm-embedded
     - I borrowed a setup documnent from the AQ32PLUS software, you'll have to translate a little bit from it.
