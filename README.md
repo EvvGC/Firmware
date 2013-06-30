@@ -1,6 +1,6 @@
 EvvGC - Open Source 3 axis gimbal controller
 ======================
-(THIS IS NOT FUNCTION AT THE MOMENT DUE TO SOME CALLS TO PRINTF IN THE SOURCE)
+BUILDABLE, but UNTESTED
 
 20130629 - initial commit (derived from FW03preB)
 
@@ -12,3 +12,5 @@ EvvGC - Open Source 3 axis gimbal controller
     - where it talks about importing a .cproject file, use the one in the setup folder called .cproject.orig
     
 20130629 - added USB libaries and stubbed in the VCP code (NOT FUNCTIONAL)
+20130629 - added newlib_stubs.c - these are the stub routines that should allow the uarts to function like
+           consoles with limited input/output features like printf, etc.
