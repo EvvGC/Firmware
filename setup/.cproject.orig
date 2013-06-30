@@ -34,9 +34,14 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Libraries/CMSIS/Device/ST/STM32F10x/Include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Libraries/STM32F10x_StdPeriph_Driver/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Libraries/STM32_USB_Device_Library/Core/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Libraries/STM32_USB_Device_Library/Class/cdc/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Libraries/STM32_USB_OTG_Driver/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/VCP/inc}&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.preprocessor.def.1778726492" name="Defined symbols (-D)" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STM32F10X_MD"/>
+									<listOptionValue builtIn="false" value="USE_USB_OTG_FS"/>
 									<listOptionValue builtIn="false" value="USE_STDPERIPH_DRIVER"/>
 								</option>
 								<inputType id="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.c.compiler.base.input.392471200" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.c.compiler.base.input"/>
@@ -65,7 +70,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="src/drv|Libraries/CMSIS/SVD|Libraries/CMSIS/RTOS|Libraries/CMSIS/Documentation" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="src/VCP|Libraries/STM32_USB_Device_Library/Class/cdc/src/usbd_cdc_if_template.c|Libraries/STM32_USB_OTG_Driver/src/usb_otg.c|Libraries/STM32_USB_OTG_Driver/src/usb_hcd.c|Libraries/STM32_USB_OTG_Driver/src/usb_hcd_int.c|Libraries/STM32_USB_OTG_Driver/src/usb_bsp_template.c|Libraries/STM32_USB_Device_Library/Class/msc|Libraries/STM32_USB_Device_Library/Class/hid|Libraries/STM32_USB_Device_Library/Class/dfu|Libraries/STM32_USB_Device_Library/Class/audio|src/drv|Libraries/CMSIS/SVD|Libraries/CMSIS/RTOS|Libraries/CMSIS/Documentation" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -105,12 +110,17 @@
 									<listOptionValue builtIn="false" value="&quot;C:\Program Files (x86)\GNU Tools ARM Embedded\4.7 2013q1\arm-none-eabi\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\Program Files (x86)\GNU Tools ARM Embedded\4.7 2013q1\lib\gcc\arm-none-eabi\4.7.3\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\Program Files (x86)\GNU Tools ARM Embedded\4.7 2013q1\lib\gcc\arm-none-eabi\4.7.3\include-fixed&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Libraries/STM32_USB_Device_Library/Core/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Libraries/STM32_USB_Device_Library/Class/cdc/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Libraries/STM32_USB_OTG_Driver/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/VCP/inc}&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.preprocessor.def.291816249" name="Defined symbols (-D)" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STM32F10X_HD"/>
+									<listOptionValue builtIn="false" value="USE_USB_OTG_FS"/>
 									<listOptionValue builtIn="false" value="USE_STDPERIPH_DRIVER"/>
 								</option>
-								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.std.377324321" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.std" value="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.std.gnu99" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.std.377324321" name="Language Standard" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.std" value="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.std.gnu99" valueType="enumerated"/>
 								<inputType id="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.c.compiler.base.input.1844219294" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.c.compiler.base.input"/>
 							</tool>
 							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.cpp.compiler.release.689978708" name="ARM Sourcery Windows GCC C++ Compiler" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.cpp.compiler.release">
@@ -141,7 +151,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="src/drv|Libraries/CMSIS/SVD|Libraries/CMSIS/RTOS|Libraries/CMSIS/Documentation" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="src/VCP|Libraries/STM32_USB_Device_Library/Class/cdc/src/usbd_cdc_if_template.c|Libraries/STM32_USB_OTG_Driver/src/usb_otg.c|Libraries/STM32_USB_OTG_Driver/src/usb_hcd.c|Libraries/STM32_USB_OTG_Driver/src/usb_hcd_int.c|Libraries/STM32_USB_OTG_Driver/src/usb_bsp_template.c|Libraries/STM32_USB_Device_Library/Class/msc|Libraries/STM32_USB_Device_Library/Class/hid|Libraries/STM32_USB_Device_Library/Class/dfu|Libraries/STM32_USB_Device_Library/Class/audio|src/drv|Libraries/CMSIS/SVD|Libraries/CMSIS/RTOS|Libraries/CMSIS/Documentation" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
