@@ -14,3 +14,5 @@ BUILDABLE, but UNTESTED
 20130629 - added USB libaries and stubbed in the VCP code (NOT FUNCTIONAL)
 20130629 - added newlib_stubs.c - these are the stub routines that should allow the uarts to function like
            consoles with limited input/output features like printf, etc.
+20130711 - updated the CMSIS library to the latest version from ARM (3.2)
+           updated setup/.cproject.orig, confirmed build
