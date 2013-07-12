@@ -16,3 +16,4 @@ BUILDABLE, but UNTESTED
            consoles with limited input/output features like printf, etc.
 20130711 - updated the CMSIS library to the latest version from ARM (3.2)
            updated setup/.cproject.orig, confirmed build
+20130712 - updated with latest sources from evvaldis, builds ok, still untested
