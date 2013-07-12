@@ -1,0 +1,1 @@
+.\Build\STM32F10x.o: STM32F10x.s

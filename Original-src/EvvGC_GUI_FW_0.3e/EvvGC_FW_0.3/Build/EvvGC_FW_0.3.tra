@@ -1,0 +1,40 @@
+*** Creating Trace Output File '.\Build\EvvGC_FW_0.3.tra' Ok.
+### Preparing for ADS-LD.
+### Creating ADS-LD Command Line
+### List of Objects: adding '".\build\stm32f10x.o"'
+### List of Objects: adding '".\build\stm32f10x_usart.o"'
+### List of Objects: adding '".\build\main.o"'
+### List of Objects: adding '".\build\misc.o"'
+### List of Objects: adding '".\build\system_stm32f10x.o"'
+### List of Objects: adding '".\build\stm32f10x_adc.o"'
+### List of Objects: adding '".\build\stm32f10x_dma.o"'
+### List of Objects: adding '".\build\stm32f10x_exti.o"'
+### List of Objects: adding '".\build\stm32f10x_gpio.o"'
+### List of Objects: adding '".\build\stm32f10x_rcc.o"'
+### List of Objects: adding '".\build\stm32f10x_sdio.o"'
+### List of Objects: adding '".\build\stm32f10x_tim.o"'
+### List of Objects: adding '".\build\config.o"'
+### List of Objects: adding '".\build\pins.o"'
+### List of Objects: adding '".\build\utils.o"'
+### List of Objects: adding '".\build\adc.o"'
+### List of Objects: adding '".\build\timers.o"'
+### List of Objects: adding '".\build\i2c.o"'
+### List of Objects: adding '".\build\eeprom.o"'
+### List of Objects: adding '".\build\gyro.o"'
+### List of Objects: adding '".\build\engine.o"'
+### List of Objects: adding '".\build\usart.o"'
+### ADS-LD Command completed:
+--cpu Cortex-M3 ".\build\stm32f10x.o" ".\build\stm32f10x_usart.o" ".\build\main.o" ".\build\misc.o" ".\build\system_stm32f10x.o" ".\build\stm32f10x_adc.o" ".\build\stm32f10x_dma.o" ".\build\stm32f10x_exti.o" ".\build\stm32f10x_gpio.o" ".\build\stm32f10x_rcc.o" ".\build\stm32f10x_sdio.o" ".\build\stm32f10x_tim.o" ".\build\config.o" ".\build\pins.o" ".\build\utils.o" ".\build\adc.o" ".\build\timers.o" ".\build\i2c.o" ".\build\eeprom.o" ".\build\gyro.o" ".\build\engine.o" ".\build\usart.o" --strict --scatter ".\Build\EvvGC_FW_0.3.sct" 
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\EvvGC_FW_0.map" -o .\Build\EvvGC_FW_0.3.axf### Preparing Environment (PrepEnvAds)
+### ADS-LD Output File: '.\Build\EvvGC_FW_0.3.axf'
+### ADS-LD Command File: '.\Build\EvvGC_FW_0.3.lnp'
+### Checking for dirty Components...
+### Creating CmdFile '.\Build\EvvGC_FW_0.3.lnp', Handle=0x00000368
+### Writing '.lnp' file
+### ADS-LD Command file '.\Build\EvvGC_FW_0.3.lnp' is ready.
+### ADS-LD: About to start ADS-LD Thread.
+### ADS-LD: executed with 0 errors
+### Updating obj list
+### LDADS_file() completed.

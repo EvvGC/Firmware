@@ -17,3 +17,4 @@ BUILDABLE, but UNTESTED
 20130711 - updated the CMSIS library to the latest version from ARM (3.2)
            updated setup/.cproject.orig, confirmed build
 20130712 - updated with latest sources from evvaldis, builds ok, still untested
+20130712 - added the original sources for 0.3b and 0.3e (latest as of this date)

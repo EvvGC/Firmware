@@ -1,0 +1,35 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\as\Desktop\EvvGC_FW_0.3_e\EvvGC_FW_0.3\EvvGC_FW_0.3.uvproj
+Project File Date:  06/28/2013
+
+<h2>Output:</h2>
+compiling main.c...
+main.c(21): warning:  #1295-D: Deprecated declaration UART4_IRQHandler - give arg types
+main.c(40): warning:  #223-D: function "Usart4Init" declared implicitly
+main.c(87): warning:  #223-D: function "USART_PutString" declared implicitly
+main.c - 0 Error(s), 3 Warning(s).
+Build target 'Target 1'
+linking...
+Program Size: Code=24080 RO-data=784 RW-data=752 ZI-data=1648  
+FromELF: creating hex file...
+".\Build\EvvGC_FW_03.axf" - 0 Error(s), 0 Warning(s).
+"C:\Program Files (x86)\STMicroelectronics\STM32 ST-LINK Utility\ST-LINK Utility\ST-LINK_CLI.exe" -c SWD -p "C:\Users\as\Desktop\EvvGC_FW_0.3_e\EvvGC_FW_0.3\Build\EvvGC_FW_03.hex" -Rst -Run
+STM32 ST-LINK CLI v1.3.0
+STM32 ST-LINK Command Line Interface
+Connected via SWD.
+Device ID:0x414 
+Device flash Size : 256 Kbytes
+Device family :STM32F10xxx High-density device
+Flash Programming:
+  File : C:\Users\as\Desktop\EvvGC_FW_0.3_e\EvvGC_FW_0.3\Build\EvvGC_FW_03.hex
+  Address : 0x08000000
+Flash Programming...
+北北北北北北北北北北北北北北北北北北北北北北北北北 0% 0%圹圹 8%圹圹 16%圹圹 24%圹圹 32%圹圹 40%圹圹 48%圹圹 56%圹圹 64%圹圹 73%圹圹 81%圹圹 89%圹圹 97%圹 100%
+Flash memory programmed in 2s and 917ms.
+Programming Complete.
+MCU Reset.
+Application started.
