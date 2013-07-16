@@ -12,9 +12,16 @@ BUILDABLE, but UNTESTED
     - where it talks about importing a .cproject file, use the one in the setup folder called .cproject.orig
     
 20130629 - added USB libaries and stubbed in the VCP code (NOT FUNCTIONAL)
+
 20130629 - added newlib_stubs.c - these are the stub routines that should allow the uarts to function like
            consoles with limited input/output features like printf, etc.
+           
 20130711 - updated the CMSIS library to the latest version from ARM (3.2)
            updated setup/.cproject.orig, confirmed build
+           
 20130712 - updated with latest sources from evvaldis, builds ok, still untested
+
 20130712 - added the original sources for 0.3b and 0.3e (latest as of this date)
+
+20130716 - updated with new sprintf_ that is much smaller than original, changed Release build to optimize for size
+           added the USB FS Driver (none of the USB drivers are currently used           
