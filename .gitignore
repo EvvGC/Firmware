@@ -8,5 +8,7 @@
 # system Directories
 /Debug
 /Release
+/.settings
+
 .cproject
 .cproject.backup
