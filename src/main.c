@@ -15,6 +15,8 @@
 #include "engine.h"
 #include "gyro.h"
 
+#include "sys/printf.h"
+
 EXTI_InitTypeDef        	EXTI_InitStructure;
 
 void Periph_clock_enable(void); //Enabling clocks for peripheral
@@ -89,14 +91,14 @@ void UART4_IRQHandler()//UART4 Interrupt handler implementation
         //if "g"
 
         Delay_ms(100);
-        sprintf(buff, "x");
+        sprintf_(buff, "x");
         USART_PutString(buff);
 
         for (eeRreg = 0; eeRreg < configDataSize; eeRreg++)
         {
             data = ReadFromEEPROM(eeRreg);
             Delay_ms(1);
-            sprintf(buff, "%c", data);
+            sprintf_(buff, "%c", data);
             USART_PutString(buff);
         }
 
