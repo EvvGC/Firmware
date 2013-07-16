@@ -24,4 +24,6 @@ BUILDABLE, but UNTESTED
 20130712 - added the original sources for 0.3b and 0.3e (latest as of this date)
 
 20130716 - updated with new sprintf_ that is much smaller than original, changed Release build to optimize for size
-           added the USB FS Driver (none of the USB drivers are currently used           
+           added the USB FS Driver (none of the USB drivers are currently used   
+           
+20130716 - updated the import .cproject.orig in the setup directory to remove Release optimizations                   
