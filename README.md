@@ -1,6 +1,6 @@
 # EvvGC - Open Source 3 axis gimbal controller #
-======================
-### BUILDABLE, but UNTESTED ###
+
+#### NOTICE: BUILDABLE, BUT UNTESTED ####
 
 Port from initial Keil source to Eclipse of firmware for EvvGC 3/2axis Brushless Gimbal Controller
 
