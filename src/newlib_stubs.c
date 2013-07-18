@@ -194,18 +194,22 @@ int _read(int file, char *ptr, int len)
             for (n = 0; n < len; n++)
             {
 #if   STDIN_USART == 1
+
                 while ((USART1->SR & USART_FLAG_RXNE) == (uint16_t)RESET) {}
 
                 char c = (char)(USART1->DR & (uint16_t)0x01FF);
 #elif STDIN_USART == 2
+
                 while ((USART2->SR & USART_FLAG_RXNE) == (uint16_t) RESET) {}
 
                 char c = (char)(USART2->DR & (uint16_t) 0x01FF);
 #elif STDIN_USART == 3
+
                 while ((USART3->SR & USART_FLAG_RXNE) == (uint16_t)RESET) {}
 
                 char c = (char)(USART3->DR & (uint16_t)0x01FF);
 #elif STDIN_USART == 4
+
                 while ((UART4->SR & USART_FLAG_RXNE) == (uint16_t)RESET) {}
 
                 char c = (char)(UART4->DR & (uint16_t)0x01FF);
@@ -281,18 +285,22 @@ int _write(int file, char *ptr, int len)
             for (n = 0; n < len; n++)
             {
 #if STDOUT_USART == 1
+
                 while ((USART1->SR & USART_FLAG_TC) == (uint16_t)RESET) {}
 
                 USART1->DR = (*ptr++ & (uint16_t)0x01FF);
 #elif  STDOUT_USART == 2
+
                 while ((USART2->SR & USART_FLAG_TC) == (uint16_t) RESET) {}
 
                 USART2->DR = (*ptr++ & (uint16_t) 0x01FF);
 #elif  STDOUT_USART == 3
+
                 while ((USART3->SR & USART_FLAG_TC) == (uint16_t)RESET) {}
 
                 USART3->DR = (*ptr++ & (uint16_t)0x01FF);
 #elif  STDOUT_USART == 4
+
                 while ((UART4->SR & USART_FLAG_TC) == (uint16_t)RESET) {}
 
                 UART4->DR = (*ptr++ & (uint16_t)0x01FF);
@@ -305,18 +313,22 @@ int _write(int file, char *ptr, int len)
             for (n = 0; n < len; n++)
             {
 #if STDERR_USART == 1
+
                 while ((USART1->SR & USART_FLAG_TC) == (uint16_t)RESET) {}
 
                 USART1->DR = (*ptr++ & (uint16_t)0x01FF);
 #elif  STDERR_USART == 2
+
                 while ((USART2->SR & USART_FLAG_TC) == (uint16_t) RESET) {}
 
                 USART2->DR = (*ptr++ & (uint16_t) 0x01FF);
 #elif  STDERR_USART == 3
+
                 while ((USART3->SR & USART_FLAG_TC) == (uint16_t)RESET) {}
 
                 USART3->DR = (*ptr++ & (uint16_t)0x01FF);
 #elif  STDERR_USART == 4
+
                 while ((UART4->SR & USART_FLAG_TC) == (uint16_t)RESET) {}
 
                 UART4->DR = (*ptr++ & (uint16_t)0x01FF);

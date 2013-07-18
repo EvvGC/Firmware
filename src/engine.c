@@ -169,30 +169,30 @@ void engineProcess(void)
     rc4_avg = ((rc4_avg * 499.00) + (rc4)) / 500.00;	//Averaging RC4 values
     pitch_angle = pitch_angle_true - rc4_avg / 57.3;//Adding angle
 
-    pitch_angle_correction = pitch_angle * 150.0;
+    pitch_angle_correction = pitch_angle * 50.0;
 
-    if (pitch_angle_correction > 2.0)
+    if (pitch_angle_correction > 1.0)
     {
-        pitch_angle_correction = 2.0;
+        pitch_angle_correction = 1.0;
     }
 
-    if (pitch_angle_correction < -2.0)
+    if (pitch_angle_correction < -1.0)
     {
-        pitch_angle_correction = -2.0;
+        pitch_angle_correction = -1.0;
     }
 
     pitch_setpoint = pitch_setpoint + pitch_angle_correction;//Pitch return to zero after collision
 
-    roll_angle_correction = roll_angle * 150.0;
+    roll_angle_correction = roll_angle * 50.0;
 
-    if (roll_angle_correction > 2.0)
+    if (roll_angle_correction > 1.0)
     {
-        roll_angle_correction = 2.0;
+        roll_angle_correction = 1.0;
     }
 
-    if (roll_angle_correction < -2.0)
+    if (roll_angle_correction < -1.0)
     {
-        roll_angle_correction = -2.0;
+        roll_angle_correction = -1.0;
     }
 
     roll_setpoint = roll_setpoint + roll_angle_correction;//Roll return to zero after collision

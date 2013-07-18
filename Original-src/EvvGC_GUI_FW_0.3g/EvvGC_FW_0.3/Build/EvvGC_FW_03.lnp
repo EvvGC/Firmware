@@ -1,0 +1,4 @@
+--cpu Cortex-M3 ".\build\stm32f10x.o" ".\build\stm32f10x_usart.o" ".\build\main.o" ".\build\misc.o" ".\build\system_stm32f10x.o" ".\build\stm32f10x_adc.o" ".\build\stm32f10x_dma.o" ".\build\stm32f10x_exti.o" ".\build\stm32f10x_gpio.o" ".\build\stm32f10x_rcc.o" ".\build\stm32f10x_sdio.o" ".\build\stm32f10x_tim.o" ".\build\config.o" ".\build\pins.o" ".\build\utils.o" ".\build\adc.o" ".\build\timers.o" ".\build\i2c.o" ".\build\eeprom.o" ".\build\gyro.o" ".\build\engine.o" ".\build\usart.o" --strict --scatter ".\Build\EvvGC_FW_03.sct" 
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\EvvGC_FW_03.map" -o .\Build\EvvGC_FW_03.axf

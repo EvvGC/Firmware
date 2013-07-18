@@ -26,4 +26,6 @@ BUILDABLE, but UNTESTED
 20130716 - updated with new sprintf_ that is much smaller than original, changed Release build to optimize for size
            added the USB FS Driver (none of the USB drivers are currently used   
            
-20130716 - updated the import .cproject.orig in the setup directory to remove Release optimizations                   
+20130716 - updated the import .cproject.orig in the setup directory to remove Release optimizations
+
+20130718 - updated with the EvvGC 0.3g sources, built but not tested

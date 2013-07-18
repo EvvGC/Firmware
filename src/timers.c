@@ -37,7 +37,7 @@ void Timer1_Config(void)//Pitch Timer configuration
     //Timer1 Config
 
     //Time Base configuration
-    TIM_TimeBaseInitStructure.TIM_Prescaler = 5; // Period*Prescaler=24'000'000Hz  //2400 1s
+    TIM_TimeBaseInitStructure.TIM_Prescaler = 3; // Period*Prescaler=24'000'000Hz  //2400 1s
     TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
     TIM_TimeBaseInitStructure.TIM_Period = 1000; //20000(presc=24)=50hz(servo signal)
     TIM_TimeBaseInitStructure.TIM_ClockDivision = 0;
@@ -82,7 +82,7 @@ void Timer8_Config(void)//Roll Timer configuration
     //Timer8 Config
 
     //Time Base configuration
-    TIM_TimeBaseInitStructure.TIM_Prescaler = 5; // Period*Prescaler=24'000'000Hz  //2400 1s
+    TIM_TimeBaseInitStructure.TIM_Prescaler = 3; // Period*Prescaler=24'000'000Hz  //2400 1s
     TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
     TIM_TimeBaseInitStructure.TIM_Period = 1000; //20000(presc=24)=50hz(servo signal)
     TIM_TimeBaseInitStructure.TIM_ClockDivision = 0;
@@ -139,7 +139,7 @@ void Timer5_Config(void)//Pitch Timer configuration
     TIM_OCInitTypeDef       	TIM_OCInitStructure;
     //Timer5 Config
 
-    TIM_TimeBaseInitStructure.TIM_Prescaler = 5; // Period*Prescaler=24'000'000Hz  //2400 1s
+    TIM_TimeBaseInitStructure.TIM_Prescaler = 3; // Period*Prescaler=24'000'000Hz  //2400 1s
     TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
     TIM_TimeBaseInitStructure.TIM_Period = 1000; //20000(presc=24)=50hz(servo signal)
     TIM_TimeBaseInitStructure.TIM_ClockDivision = TIM_CKD_DIV4;
@@ -171,7 +171,7 @@ void Timer4_Config(void)//Pitch Timer configuration
     TIM_OCInitTypeDef       	TIM_OCInitStructure;
     //Timer4 Config
 
-    TIM_TimeBaseInitStructure.TIM_Prescaler = 5; // Period*Prescaler=24'000'000Hz  //2400 1s
+    TIM_TimeBaseInitStructure.TIM_Prescaler = 3; // Period*Prescaler=24'000'000Hz  //2400 1s
     TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
     TIM_TimeBaseInitStructure.TIM_Period = 1000; //20000(presc=24)=50hz(servo signal)
     TIM_TimeBaseInitStructure.TIM_ClockDivision = TIM_CKD_DIV4;

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<ProjectOpt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_opt.xsd">
+
+  <SchemaVersion>1.0</SchemaVersion>
+
+  <Header>### uVision Project, (C) Keil Software</Header>
+
+  <Extensions>
+    <cExt>*.c</cExt>
+    <aExt>*.s*; *.src; *.a*</aExt>
+    <oExt>*.obj</oExt>
+    <lExt>*.lib</lExt>
+    <tExt>*.txt; *.h; *.inc</tExt>
+    <pExt>*.plm</pExt>
+    <CppX>*.cpp</CppX>
+  </Extensions>
+
+  <DaveTm>
+    <dwLowDateTime>0</dwLowDateTime>
+    <dwHighDateTime>0</dwHighDateTime>
+  </DaveTm>
+
+  <Target>
+    <TargetName>Target 1</TargetName>
+    <ToolsetNumber>0xffff</ToolsetNumber>
+    <ToolsetName>&lt;unspecified&gt;</ToolsetName>
+  </Target>
+
+  <Group>
+    <GroupName>Source Group 1</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+  </Group>
+
+</ProjectOpt>
