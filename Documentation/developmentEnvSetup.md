@@ -15,7 +15,6 @@
 	3.	On next screen check box to "Select required packages"
 	4.	Wait for install to finish (insert long coffee/beer break here!)
 3.	Download [Eclipse Standard](http://www.eclipse.org/downloads/)
-
 	*	32 and 64 bit version are available
 	*	You may need to install a Java [JRE](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (*make sure you select the JRE to download*)
 	*	This does not need to be installed just run the exe (I prefer to extract to C:\Program Files\eclipse)
