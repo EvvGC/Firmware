@@ -29,3 +29,7 @@ BUILDABLE, but UNTESTED
 20130716 - updated the import .cproject.orig in the setup directory to remove Release optimizations
 
 20130718 - updated with the EvvGC 0.3g sources, built but not tested
+
+20130721 - added a minimal set of bin utililies in the setup/minutils.zip file.
+           copy these files (rm.exe, cs-rm.exe, make.exe and cs-make.exe to the same location
+           as the bin utilities for the compiler that you installed.)
