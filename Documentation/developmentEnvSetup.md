@@ -5,8 +5,8 @@
 1. 	Download [GNU Tools for ARM Embedded Processors](https://launchpad.net/gcc-arm-embedded) 
 	1.	**Save Windows Zip Package (gcc-arm-non...4-win32.zip) to computer**
 	1.	Unzip package
-	1.	Copy "GNU Tools ARM Embedded" folder out of zip
-		*	Assumed copy location for tutorial **C:\Program Files (x86)\GNU Tools ARM Embedded**
+	1.	Copy "GNU Tools ARM Embedded" folder out of zip archive
+		*	Assumed copy location for tutorial **C:\Program Files (x86)\GNU Tools ARM Embedded\**
 2. 	Download [Cygwin](http://cygwin.com/install.html)
 	1.	Download setup.exe and run
 		* 	Assuming install location of **C:\cygwin** for this tutorial
@@ -18,7 +18,7 @@
 	*	32 and 64 bit version are available
 	*	You may need to install a Java [JRE](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (*make sure you select the JRE to download*)
 	*	This does not need to be installed just run the exe (I prefer to extract to C:\Program Files\eclipse)
-	*	**You must run application now to setup workspace (take note of location) for later steps**
+	*	**You must run eclipse now to setup workspace (take note of location) for later steps**
 4.	Make copies of necessary .exe files for eclipese
 	1.	Open Cygwin
 	2.	Navigate to **/cygdrive/c/cygwin/bin**
@@ -77,8 +77,9 @@
 	2.	Select Clean...
 	3.	Select Clean All Projects and then OK
 8.	Build Project
-	1.	Select Project
+	1.	Select Project from the menu bar
 	2.	Select Build All
+	3.	Verify success by seeing "Finished building: EvvGC.hex" as the third to last line of the Console output on the lower right of eclipse.
 	
 	
 ## DONE
