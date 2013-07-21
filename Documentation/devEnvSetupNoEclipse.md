@@ -19,11 +19,6 @@
 	3.	Select default install location **C:\Program Files (x86)\GnuWin32**
 	4.	Under Select Components select either "Full Installation" or "Compact Installation" as both contain binaries needed
 	5.	Select defaults for the rest of the installer and finish installation
-3.	Download [Eclipse Standard](http://www.eclipse.org/downloads/)
-	*	32 and 64 bit version are available
-	*	You may need to install a Java [JRE](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (*make sure you select the JRE to download*)
-	*	This does not need to be installed just run the exe (I prefer to extract to C:\Program Files\eclipse)
-	*	**You must run eclipse now to setup workspace (take note of location) for later steps**
 4.	Make copies of necessary .exe files for eclipse
 	1.	Open **C:\Program Files (x86)\GnuWin32\bin** in Windows Explorer
 	2.	Rename make.exe to cs-make.exe
@@ -50,8 +45,13 @@
 	1.	Download [Firmware Source Code](https://github.com/EvvGC/Firmware/archive/master.zip)
 	2.	Extract zip to Eclipse Workspace
 		*	Directory Structure will look something like C:\Users\{Username}\workspace\Firmware-master once extracted
-6.	Setup Eclipse
-	1.	Move template .cproject file so eclipse will see it for importing
+6.	Download [Eclipse Standard](http://www.eclipse.org/downloads/)
+	*	32 and 64 bit version are available
+	*	You may need to install a Java [JRE](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (*make sure you select the JRE to download*)
+	*	This does not need to be installed just run the exe (I prefer to extract to C:\Program Files\eclipse)
+	*	**You must run eclipse now to setup workspace (take note of location) for later steps**
+7.	Setup Eclipse
+	1.	Move template .cproject file so Eclipse will see it for importing
 		1.	Open Command Prompt and navigate to git repository directory from last step
 			*	Click Start
 			*	type "cmd" in search box to open DOS prompt
@@ -81,11 +81,11 @@
 				*	GCCPATH will probably need '4.7 2013q2' updated to newer version as this was the version at time of writing
 				*	GCCVERSION will probably need to be updated as 4.7.4 was current at time of writing
 			7.	Close Properties Panel
-7.	Clean Project
+8.	Clean Project
 	1. 	Select Project from menu bar
 	2.	Select Clean...
 	3.	Select Clean All Projects and then OK
-8.	Build Project
+9.	Build Project
 	1.	Select Project from the menu bar
 	2.	Select Build All
 	3.	Verify success by seeing "Finished building: EvvGC.hex" as the third to last line of the Console output on the lower right of eclipse.
@@ -93,7 +93,7 @@
 	
 ## DONE
 
-9.	If you are getting build error because of the USB source. Exclude unneeded source. For "Libraries>STM32\_USB\_Library", "Libraries>STM32\_OTG\_Driver"
+10.	If you are getting build error because of the USB source. Exclude unneeded source. For "Libraries>STM32\_USB\_Library", "Libraries>STM32\_OTG\_Driver"
 	1.	Right click on the directory in the project explorer
 	2.  Select Resource Configuration > Exclude from Build...
 	3.  Select Debug and Release
