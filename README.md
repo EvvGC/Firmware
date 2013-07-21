@@ -11,5 +11,5 @@ tutorial Documentation/devEnvSetupEclipse.md
 
 #### OR ####
 
-You may setup your development environment in a more simple manner by following the 
-tutorial Documentation/devEnvSetupNoEclipse.md
+You may setup your development environment in a more simple manner, not needing the full Cygwin by
+following the tutorial Documentation/devEnvSetupNoCygwin.md
