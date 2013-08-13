@@ -116,3 +116,5 @@
 	
 20130813
 	- increased the I2C delay to be on the safe side
+	- revised gyro convertion to use gyroScaleFactor and corrected the math and value
+	  to match the actual gyro setup

@@ -4,6 +4,7 @@
  *	Created on: Jun 26, 2013
  *		Author: Denis aka caat
  */
+#include <math.h>
 #include "gyro.h"
 #include "i2c.h"
 #include "utils.h"
@@ -226,15 +227,15 @@ void MPU6050_Gyro_get(void)
 
     if (I2Cerror == 0)
     {
-		float gyroResolution = 8192.0;
+		float gyroScaleFactor = 131.0F/2.0F * 180.0F/M_PI;
         gyroADC_ROLL  = (((GYROread[0] << 8) | GYROread[1]));
-        gyroADC_x = ((float)gyroADC_ROLL - gyroADC_ROLL_offset) / gyroResolution;
+        gyroADC_x = ((float)gyroADC_ROLL - gyroADC_ROLL_offset) / gyroScaleFactor;
 
         gyroADC_PITCH = (((GYROread[2] << 8) | GYROread[3]));
-        gyroADC_y = ((float)gyroADC_PITCH - gyroADC_PITCH_offset) / gyroResolution;
+        gyroADC_y = ((float)gyroADC_PITCH - gyroADC_PITCH_offset) / gyroScaleFactor;
 
         gyroADC_YAW   = (((GYROread[4] << 8) | GYROread[5]));
-        gyroADC_z = ((float)gyroADC_YAW - gyroADC_YAW_offset) / gyroResolution;
+        gyroADC_z = ((float)gyroADC_YAW - gyroADC_YAW_offset) / gyroScaleFactor;
     }
 }
 
