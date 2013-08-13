@@ -31,3 +31,6 @@
 20130721 - added a minimal set of bin utililies in the setup/minutils.zip file.
            copy these files (rm.exe, cs-rm.exe, make.exe and cs-make.exe to the same location
            as the bin utilities for the compiler that you installed.)
+           
+20130801 - replaced system_stmf10x.c with 3.6.1 version
+          
