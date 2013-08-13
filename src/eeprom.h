@@ -10,6 +10,6 @@
 #include <stdint.h>
 
 void WriteToEEPROM(uint8_t addressToWrite, uint8_t DataToWrite);
-uint8_t ReadFromEEPROM(uint8_t readAddr);
+int ReadFromEEPROM(uint8_t readAddr);
 
 #endif /* EEPROM_H_ */

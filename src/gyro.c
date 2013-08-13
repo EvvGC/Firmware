@@ -9,9 +9,12 @@
 #include "utils.h"
 #include "pins.h"
 
-//struct gyro_data Gyro;
 uint8_t ACCread[6], GYROread[6];
-void MPU6050_Init(void)
+float gyroADC_ROLL_offset, gyroADC_PITCH_offset, gyroADC_YAW_offset;
+float accADC_x, accADC_y, accADC_z, gyroADC_x, gyroADC_y, gyroADC_z;
+short int gyroADC_PITCH, gyroADC_ROLL, gyroADC_YAW, accADC_ROLL, accADC_PITCH, accADC_YAW;
+
+int MPU6050_Init(void)
 {
     uint8_t mpu_adr;
 
@@ -33,9 +36,9 @@ void MPU6050_Init(void)
     I2C1_NoAck();
     I2C1_Stop();
 
-    while (mpu_adr != 0x68) //? infinite loop;
+    if (mpu_adr != 0x68)
     {
-        Blink();
+		return -1;
     }
 
     Delay_ms(5);
@@ -116,6 +119,8 @@ void MPU6050_Init(void)
     I2C1_Stop();
 
     Delay_ms(5);
+	
+	return 0;
 }
 
 void MPU6050_ACC_get(void)
@@ -221,45 +226,35 @@ void MPU6050_Gyro_get(void)
 
     if (I2Cerror == 0)
     {
-        //if((int)GYROread[0]<60 && (int)GYROread[0]>30){
+		float gyroResolution = 8192.0;
         gyroADC_ROLL  = (((GYROread[0] << 8) | GYROread[1]));
-        gyroADC_x = ((float)gyroADC_ROLL - gyroADC_ROLL_offset) / 8000.00; //}
-        /*if((gyroADC_x_last+0.3)>=gyroADC_x && (gyroADC_x_last-0.3)<=gyroADC_x){gyroADC_x=gyroADC_x;}
-        else {gyroADC_x=gyroADC_x_last;}
-        gyroADC_x_last=gyroADC_x;*/
+        gyroADC_x = ((float)gyroADC_ROLL - gyroADC_ROLL_offset) / gyroResolution;
 
-
-        //if((int)GYROread[2]<60 && (int)GYROread[2]>30){
         gyroADC_PITCH = (((GYROread[2] << 8) | GYROread[3]));
-        gyroADC_y = ((float)gyroADC_PITCH - gyroADC_PITCH_offset) / 8000.00; //}
-        /*if((gyroADC_y_last+0.3)>=gyroADC_y && (gyroADC_y_last-0.3)<=gyroADC_y){gyroADC_y=gyroADC_y;}
-        else {gyroADC_y=gyroADC_y_last;}
-        gyroADC_y_last=gyroADC_y;*/
+        gyroADC_y = ((float)gyroADC_PITCH - gyroADC_PITCH_offset) / gyroResolution;
 
-        //if((int)GYROread[4]<60 && (int)GYROread[4]>30){
         gyroADC_YAW   = (((GYROread[4] << 8) | GYROread[5]));
-        gyroADC_z = ((float)gyroADC_YAW - gyroADC_YAW_offset) / 8000.00; //}
+        gyroADC_z = ((float)gyroADC_YAW - gyroADC_YAW_offset) / gyroResolution;
     }
 }
 
 void MPU6050_Gyro_calibration(void)
 {
     uint8_t i;
-
-    for (i = 0; i < 100; i++)
+	int loops = 100;
+    for (i = 0; i < loops; i++)
     {
         MPU6050_Gyro_get();
 
-        gyroADC_ROLL_offset = gyroADC_ROLL_offset + gyroADC_ROLL;
-        gyroADC_PITCH_offset = gyroADC_PITCH_offset + gyroADC_PITCH;
-        gyroADC_YAW_offset = gyroADC_YAW_offset + gyroADC_YAW;
+        gyroADC_ROLL_offset  += gyroADC_ROLL;
+        gyroADC_PITCH_offset += gyroADC_PITCH;
+        gyroADC_YAW_offset   += gyroADC_YAW;
         Delay_ms(2);
     }
 
-
-    gyroADC_ROLL_offset = gyroADC_ROLL_offset / 100.00;
-    gyroADC_PITCH_offset = gyroADC_PITCH_offset / 100.00;
-    gyroADC_YAW_offset = gyroADC_YAW_offset / 100.00;
+    gyroADC_ROLL_offset  /= loops;
+    gyroADC_PITCH_offset /= loops;
+    gyroADC_YAW_offset   /= loops;
 
     Delay_ms(5);
 }

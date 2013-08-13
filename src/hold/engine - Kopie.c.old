@@ -16,7 +16,6 @@
 #include "comio.h"
 #include "systick.h"
 #include "stopwatch.h"
-#include "I2C.h"
 
 int   debugPrint=0;
 int   debugPerf=0;
@@ -84,29 +83,29 @@ float constrain(float value, float low, float high)
 
 void engineProcess(float dt)
 {
-	static int loopCounter;
 	static float acc_pitch_angle_vid = 0.0;
 	static float acc_roll_angle_vid  = 0.0;
 	tStopWatch sw;
 	
-	loopCounter++;
     LEDon();
     DEBUG_LEDoff();
 
-	StopWatchInit(&sw);
+	unsigned long tStart = StopWatchInit(&sw);
     MPU6050_ACC_get(); //Getting Accelerometer data
-	unsigned long tAccGet = StopWatchLap(&sw);
+	unsigned long t2 = micros();
+	unsigned long tAccGet = t2-tStart;
 
-	int aux3 = GetAUX3();
 	int aux4 = GetAUX4();
 	int rc4Deg =  aux4 * 90 / 1000;
 	
-    float acc_roll_angle  = -(atan2f(accADC_x, accADC_z)) + (configData[11] - 50.00) * 0.0035; //Calculating pitch ACC angle+callibration
-    float acc_pitch_angle = +(atan2f(accADC_y, accADC_z));   //Calculating roll ACC angle
-	unsigned long tAccAngle = StopWatchLap(&sw);;
+    float acc_roll_angle  = -(atan2(accADC_x, accADC_z)) + (configData[11] - 50.00) * 0.0035; //Calculating pitch ACC angle+callibration
+    float acc_pitch_angle = +(atan2(accADC_y, accADC_z));   //Calculating roll ACC angle
+	unsigned long t3 = micros();
+	unsigned long tAccAngle = t3 - t2;
 
     MPU6050_Gyro_get(); //Getting Gyroscope data
-	unsigned long tGyroGet = StopWatchLap(&sw);;
+	unsigned long t4 = micros();
+	unsigned long tGyroGet = t4-t3;
 
     acc_roll_angle_vid  = ((acc_roll_angle_vid * 99.00)  + acc_roll_angle)  / 100.00; //Averaging pitch ACC values
     acc_pitch_angle_vid = ((acc_pitch_angle_vid * 99.00) + acc_pitch_angle) / 100.00; //Averaging roll  ACC values
@@ -128,8 +127,8 @@ void engineProcess(float dt)
     ADC1Ch1_vid = ((ADC1Ch1_vid * 99.00) + (readADC1(1) / 4000.00)) / 100.00;	//Averaging ADC values
     ADC1Ch1_vid = 0.00;
 
-    rc4_avg = ((rc4_avg * 499.00) + rc4Deg) / 500.00;	//Averaging RC4 values
-    pitch_angle = pitch_angle_true - rc4_avg; //Adding angle
+    rc4_avg = ((rc4_avg * 499.00) + (rc4Deg)) / 500.00;	//Averaging RC4 values
+    pitch_angle = pitch_angle_true - rc4_avg / 57.3; //Adding angle
 
     pitch_angle_correction = constrain(pitch_angle * 50.0, -1.0, 1.0);
     pitch_setpoint += pitch_angle_correction; //Pitch return to zero after collision
@@ -149,17 +148,19 @@ void engineProcess(float dt)
     yaw_angle_correction = constrain(yaw_angle * 50.0, -1.0, 1.0);
     yaw_setpoint = yaw_setpoint + yaw_angle_correction; //Yaw return to zero after collision
 
-	unsigned long tCalc = StopWatchLap(&sw);
+	unsigned long t5 = micros();
+	unsigned long tCalc = t5-t4;
 	
-    pitch_PID();
-    roll_PID();
-    yaw_PID();
+    pitch_PID(); //Pitch axis pid
+    roll_PID();  //Roll axis pid
+    yaw_PID();   //Yaw axis pid
 
-	unsigned long tPID = StopWatchLap(&sw);
-	unsigned long tAll = StopWatchTotal(&sw);
+	unsigned long t6 = micros();
+	unsigned long tPID = t6-t5;
+	unsigned long tAll = t6-tStart;
 
     printcounter++;
-    if (printcounter >= 500 || dt > 0.0021)
+    if (printcounter >= 250)
     {
         //print("gyro pitch %3d, ", gyroADC_PITCH);
         //print("acc %6.0f %6.0f %6.0f, ", accADC_x, accADC_y, accADC_z);
@@ -167,15 +168,12 @@ void engineProcess(float dt)
 		//	acc_roll_angle_vid*57.3,  acc_pitch_angle_vid *57.3, pitch_angle*57.3, rotation*57.3, I2Cerrorcount);
 			
 		if(debugPrint) {
-			print("loop %6d: dt %f, aux3 %4d, aux4 %4d, I2Cerr %4d, angles: roll %6.1f, pitch %6.1f, yaw %6.1f\r\n", 
-				  loopCounter, dt, aux3, aux4, I2Cerrorcount, Rad2Deg(roll_angle), Rad2Deg(pitch_angle), Rad2Deg(yaw_angle));
+			print ("roll_angle %6.1f, pitch_angle %6.1f, yaw_angle %6.1f\r\n", roll_angle*57.3, pitch_angle*57.3, yaw_angle*57.3);
 		}
-		
 		if(debugPerf) {
 			print("time[µs]: overall %4d, IMU acc %4d, gyro %4d, angle %4d, calc %4d, PID %4d\r\n", tAll, tAccGet, tGyroGet, tAccAngle, tCalc, tPID); 
 		}
-        
-		printcounter = 0;
+        printcounter = 0;
     }
 
     LEDoff();

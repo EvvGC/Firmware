@@ -7,9 +7,16 @@
 
 #include "i2c.h"
 #include "pins.h"
+#include "utils.h"
 
+int I2Cerror, I2Cerrorcount;
 
 void I2C_delay(void)
+{
+    Delay_us(1);
+}
+
+/*void I2C_delay(void)
 {
     //   uint8_t i = 10;  //3 for 400khz
     //
@@ -21,6 +28,7 @@ void I2C_delay(void)
 
     for (i = 10; i > 0; i--);
 }
+*/
 
 void I2C1_Start(void)
 {
@@ -182,7 +190,7 @@ void I2C1_WaitAck(void)
     if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) == 1)
     {
         I2Cerror = 1;
-        DEBUG_LEDon;
+        DEBUG_LEDon();
         I2Cerrorcount++;
     }
 
@@ -205,7 +213,7 @@ uint8_t I2C1_CheckAck(void)
 	if(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) == 1)
 	{
 		ack = 1;
-		DEBUG_LEDon;
+		DEBUG_LEDon();
 		I2Cerrorcount++;
 	}
 	SCLL;

@@ -12,7 +12,12 @@ void GPIO_Config(void)  //Configures GPIO
 {
     GPIO_InitTypeDef	GPIO_InitStructure;
     //TIMER1 pin config//////////////////////////////////////////////////////////
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10;
+    //
+#ifdef DISABLE_PA10
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9; // protect RX line on F1 dev test board
+#else
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10; 
+#endif	
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
@@ -72,14 +77,4 @@ void GPIO_Config(void)  //Configures GPIO
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
-}
-
-void Blink(void)
-{
-
-    LEDon;			//blinking led
-    Delay_ms(200);
-    LEDoff;
-    Delay_ms(200);
-
 }
