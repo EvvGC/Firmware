@@ -118,3 +118,23 @@
 	- increased the I2C delay to be on the safe side
 	- revised gyro convertion to use gyroScaleFactor and corrected the math and value
 	  to match the actual gyro setup
+	  
+20130819
+	PWM handling
+	- added profiling to measure when and how often the CCR registers are changed
+	  Log message is toggled with 'c'.
+	- fixed bug causing yaw channel update every cycle without any need
+	  This bug just wasted time.
+	- fixed bug that prevented CCR shadow register update at the planned moment
+	  The IRQ handler were added before to update the CCR registers early in the cycle.
+	  They were fired directly because of pending timer overruns, which caused non syncronous 
+	  updates when the update occured at the end of the cycle.
+	- added protection to prevent late CCR register updates in case the interrupt was blocked
+	- increased priority of these interrupts
+	- added phase delay between the three motor axis. Not sure if that helps, but it does not hurt
+	
+	- added idle time calculation, printed out in the performance log you get with 'p'
+	- added USB-VCP support. Input and output runs in parallel to UART4.
+	
+	- changed start up messages, which can be seen on USB-VCP if you connect a terminal program fast enough
+	- moved command handler to separate files

@@ -43,6 +43,7 @@ CXX_DEFS = -DSTM32F10X_HD
 # C definitions
 C_DEFS = -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER
 #C_DEFS += -DDISABLE_PA10
+#C_DEFS += -DUSB_DISC_DEV=GPIOD -DUSB_DISC_PIN=GPIO_Pin_11 -DUSB_DISC_RCC=RCC_APB2Periph_GPIOA
 
 # ASM definitions
 AS_DEFS =
@@ -52,7 +53,9 @@ AS_DEFS =
 INC_DIRS = src Libraries \
 	Libraries/CMSIS/Include \
 	Libraries/CMSIS/Device/ST/STM32F10x/Include \
-	Libraries/STM32F10x_StdPeriph_Driver/inc 
+	Libraries/STM32F10x_StdPeriph_Driver/inc \
+	Libraries/STM32_USB-FS-Device_Driver/inc \
+	src/VCP/inc
 
 # library directories (absolute or relative paths to additional folders with
 # libraries)
@@ -64,7 +67,9 @@ LIBS =
 
 # additional directories with source files (absolute or relative paths to
 # folders with source files, current folder is always included)
-SRCS_DIRS = Libraries/STM32F10x_StdPeriph_Driver/src src src/startup src/sys
+SRCS_DIRS = Libraries/STM32F10x_StdPeriph_Driver/src src src/startup src/sys \
+	Libraries/STM32_USB-FS-Device_Driver/src \
+	src/VCP/src
 
 # extension of C++ files
 CXX_EXT = cpp
@@ -193,7 +198,7 @@ GENERATED = $(wildcard $(patsubst %, $(OUT_DIR_F)*.%, bin d dmp elf hex lss lst 
 all : make_output_dir $(ELF) $(LSS) $(DMP) $(HEX) $(BIN) print_size
 
 # make object files dependent on Makefile
-$(OBJS) : Makefile
+#$(OBJS) : Makefile
 # make .elf file dependent on linker script
 $(ELF) : $(LD_SCRIPT)
 

@@ -11,15 +11,15 @@
 #include "eeprom.h"
 #include "comio.h"
 
-char configData[configDataSize] = {10, 10, 10, 50, 50, 50, 50, 50, 50, '1', '1', 50};
+char configData[CONFIGDATASIZE] = {10, 10, 10, 50, 50, 50, 50, 50, 50, '1', '1', 50};
 
 void configLoad(void)
 {
     //reads configuration from eeprom
-    for (int i = 0; i < configDataSize; i++)
+    for (int i = 0; i < CONFIGDATASIZE; i++)
     {
         int data = ReadFromEEPROM(i);
-		if(data >= 0) {
+		if(data >= 0 && data <= 100) {
 			configData[i] = data;
 		}
         Delay_ms(5);
@@ -29,15 +29,17 @@ void configLoad(void)
 void configSave(void)
 {
     uint8_t i;
-	DEBUG_PutChar('C');
 
     LEDon();
 
-    for (i = 0; i < configDataSize; i++)
+    for (i = 0; i < CONFIGDATASIZE; i++)
     {
         //read data from eeprom,
         //check, if it has changed, only then rewrite;
-        WriteToEEPROM(i, configData[i]);
+		int data = ReadFromEEPROM(i);
+		if(data != -1 && data != configData[i]) {
+			WriteToEEPROM(i, configData[i]);
+		}
         Delay_ms(5);
     }
 

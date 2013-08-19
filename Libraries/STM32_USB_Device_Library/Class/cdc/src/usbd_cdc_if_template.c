@@ -102,6 +102,8 @@ static uint16_t TEMPLATE_DeInit(void)
   */
 static uint16_t TEMPLATE_Ctrl (uint32_t Cmd, uint8_t* Buf, uint32_t Len)
 { 
+  Buf = Buf; // ala42
+  Len = Len; // ala42
   switch (Cmd)
   {
   case SEND_ENCAPSULATED_COMMAND:
@@ -157,6 +159,8 @@ static uint16_t TEMPLATE_Ctrl (uint32_t Cmd, uint8_t* Buf, uint32_t Len)
   */
 static uint16_t TEMPLATE_DataTx (uint8_t* Buf, uint32_t Len)
 {
+  uint32_t i; // ala42
+  Buf = Buf; // ala42
 
   /* Get the data to be sent */
   for (i = 0; i < Len; i++)
@@ -193,6 +197,7 @@ static uint16_t TEMPLATE_DataTx (uint8_t* Buf, uint32_t Len)
   */
 static uint16_t TEMPLATE_DataRx (uint8_t* Buf, uint32_t Len)
 {
+  Buf = Buf; // ala42
   uint32_t i;
   
   /* Send the received buffer */

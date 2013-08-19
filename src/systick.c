@@ -75,4 +75,5 @@ void InitSysTick(void)
 {
 	sysTickPerUs = SystemCoreClock / 1000000;
     SysTick_Config(SystemCoreClock / 1000);
+	//NVIC_SetPriority(SysTick_IRQn, 0);//set systick interrupt priority, 0 is the highest for all
 }

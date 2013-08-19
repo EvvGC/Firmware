@@ -12,7 +12,7 @@
 
 static tRingBuffer RingBufferUART4TX;
 static tRingBuffer RingBufferUART4RX;
-
+unsigned int IrqCntUart4;
 
 void InitUart4Buffer(void);
 
@@ -69,6 +69,12 @@ int USART_Available(void)
 	return RingBufferFillLevel(&RingBufferUART4RX);
 }
 
+void USART_Flush(void)
+{
+	while(RingBufferFillLevel(&RingBufferUART4TX) != 0)
+		;
+}
+
 void USART_PutCharDirect(uint8_t ch)
 {
     while (!(UART4->SR & USART_SR_TXE));
@@ -111,6 +117,7 @@ void UART4EnableTxInterrupt(void)
 void UART4_IRQHandler(void) //UART4 Interrupt handler implementation
 {
 	int sr = UART4->SR;
+	IrqCntUart4++;
 	
 	if(sr & USART_FLAG_TXE) {
 		tRingBuffer *rb = &RingBufferUART4TX;

@@ -800,7 +800,7 @@ void USBD_ParseSetupRequest( USB_OTG_CORE_HANDLE  *pdev,
 void USBD_CtlError( USB_OTG_CORE_HANDLE  *pdev,
                             USB_SETUP_REQ *req)
 {
-  
+  req = req; // ala42
   DCD_EP_Stall(pdev , 0x80);
   DCD_EP_Stall(pdev , 0);
   USB_OTG_EP0_OutStart(pdev);  
@@ -815,6 +815,7 @@ void USBD_CtlError( USB_OTG_CORE_HANDLE  *pdev,
   * @param  len : descriptor length
   * @retval None
   */
+
 void USBD_GetString(uint8_t *desc, uint8_t *unicode, uint16_t *len)
 {
   uint8_t idx = 0;

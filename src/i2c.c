@@ -13,22 +13,8 @@ int I2Cerror, I2Cerrorcount;
 
 void I2C_delay(void)
 {
-    Delay_us(1);
+	Delay_us(1);	
 }
-
-/*void I2C_delay(void)
-{
-    //   uint8_t i = 10;  //3 for 400khz
-    //
-    //   while(i)
-    //   {
-    //		i--;
-    //   }
-    int8_t i;
-
-    for (i = 10; i > 0; i--);
-}
-*/
 
 void I2C1_Start(void)
 {

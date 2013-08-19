@@ -9,9 +9,8 @@
 #define CONFIG_H_
 #include <stdint.h>
 
-#define configDataSize 12  // Config data array size
-//uint8_t configData[configDataSize]={'1','1','1','1','1','1','1','1','1','1','1','1'};
-extern char configData[];
+#define CONFIGDATASIZE 12  // Config data array size
+extern char configData[CONFIGDATASIZE];
 void configLoad(void);
 void configSave(void);
 

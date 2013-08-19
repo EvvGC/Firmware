@@ -5,6 +5,7 @@
  *		Author: ala42
  */
 #include "ringbuffer.h"
+#include <string.h>
 
 void RingBufferInit(tRingBuffer *rb, void (*callback)(void))
 {
@@ -45,6 +46,42 @@ void RingBufferPut(tRingBuffer *rb, unsigned char c, int block)
 		rb->Write = 0;
 	} else {
 		rb->Write++;
+	}
+	
+	if(rb->CallBack) {
+		rb->CallBack();	
+	}
+}
+
+void RingBufferPutBlock(tRingBuffer *rb, unsigned char *data, int dataLen, int block)
+{
+	if(block) {
+		while(RingBufferFillLevel(rb) + dataLen >= RingBufferSize(rb)) {
+			// wait
+		}		
+	} else {
+		if(RingBufferFillLevel(rb) + dataLen >= RingBufferSize(rb)) {
+			rb->Overrun += dataLen;
+	if(rb->CallBack) {
+		rb->CallBack();	
+	}
+			return;
+		}
+	}
+	
+	int free1 = RingBufferSize(rb) - rb->Write;
+	if(dataLen <= free1) {
+		memcpy(rb->Buffer + rb->Write, data, dataLen);
+		if(rb->Write+dataLen == RingBufferSize(rb)) {
+			rb->Write = 0;
+		} else {
+			rb->Write += dataLen;
+		}
+	} else {
+		memcpy(rb->Buffer + rb->Write, data, free1);
+		int len2 = dataLen - free1;
+		memcpy(rb->Buffer, data + free1, len2);
+		rb->Write = len2;
 	}
 	
 	if(rb->CallBack) {

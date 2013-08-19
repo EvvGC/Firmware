@@ -1,20 +1,17 @@
-#include "config.h"
-#include "pins.h"
-#include "usart.h"
-#include "utils.h"
 #include "adc.h"
-#include "eeprom.h"
+#include "comio.h"
+#include "commhandler.h"
+#include "config.h"
+#include "fasttrig.h"
 #include "engine.h"
 #include "gyro.h"
 #include "pwm.h"
-#include "systick.h"
+#include "pins.h"
 #include "rc.h"
-#include "comio.h"
-#include "fasttrig.h"
+#include "systick.h"
+#include "utils.h"
+#include "hw_config.h"
 
-//#include "sys/printf.h"
-
-static int ConfigMode;
 static volatile int WatchDogCounter;
 
 void Periph_clock_enable(void)
@@ -38,10 +35,11 @@ void NVIC_Configuration(void)
     NVIC_InitTypeDef NVIC_InitStructure;
 
     /* Configure the NVIC Preemption Priority Bits */
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 
     /* Enable the USARTy Interrupt */
     NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;//Preemption Priority
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
@@ -62,73 +60,14 @@ void WatchDog(void)
 }
 
 
-void CommHandler(void) //UART4 Interrupt handler implementation
+static float idlePerf;
+float GetIdlePerf(void)
 {
-    int c = GetChar();
-	if(c >= 0) {
-		//ConfigMode = 1;
-		LEDon();
-		//print("got char %02X\r\n", c);
-		
-		switch(c) {
-			case 'g':
-				Delay_ms(100);
-				PutChar('x');
-
-				for (int i = 0; i < configDataSize; i++)	{
-					uint8_t data = ReadFromEEPROM(i);
-					data = configData[i]; // ala42
-					Delay_ms(1);
-					PutChar(data);
-				}
-				break;
-			case 'G':
-				print("configDataSize %d\r\n", configDataSize);
-
-				for (int i = 0; i < configDataSize; i++)	{
-					uint8_t data = ReadFromEEPROM(i);
-					data = configData[i]; // ala42
-					print("  %2d  %02X %3d\r\n", i, data, data);
-				}
-				break;
-			case 'h':
-				if (CharAvailable() >= configDataSize) {
-					for(int i=0; i<configDataSize; i++) {
-						configData[i] = GetChar();						
-					}
-					configSave();
-				} else {
-					UnGetChar(c); // try again in next loop
-				}
-				break;
-			case 'i':
-				ConfigMode = 1;
-				break;
-			case 'j':
-				ConfigMode = 0;
-				break;
-			case '+':
-				testPhase += 1.0;
-				print("test phase output %5.1f\r\n", testPhase);
-				break;
-			case '-':
-				testPhase -= 1.0;
-				print("test phase output %5.1f\r\n", testPhase);
-				break;
-			case 'd':
-				debugPrint ^= 1;
-				print("debug messages %s\r\n", debugPrint ? "on" : "off");
-				break;
-			case 'p':
-				debugPerf ^= 1;
-				print("performance messages %s\r\n", debugPerf ? "on" : "off");
-				break;
-		}
-    }
+	return idlePerf;
 }
 
 
-int main(void)
+void setup(void)
 {
 	InitSysTick();
 	
@@ -140,61 +79,107 @@ int main(void)
     LEDoff();
     Delay_ms(50);
 
-    Usart4Init();
-	DEBUG_PutString("EvvGC firmware starting up...\r\n");
+	ComInit();
+	print("\r\n\r\nEvvGC firmware starting up...\r\n");
 
-	DEBUG_PutString("init NVIC...\r\n");
+	print("init NVIC...\r\n");
     NVIC_Configuration();
-	
+
+	print("init motor PWM...\r\n");
+	PWMConfig();
+
+	Delay_ms(2000);
+	if(GetVCPConnectMode() != eVCPConnectReset) {
+		print("\r\nUSB startup delay...\r\n");
+		Delay_ms(3000);
+		if(GetVCPConnectMode() == eVCPConnectData) {
+			print("\r\n\r\nEvvGC firmware starting up, USB connected...\r\n");
+		}
+	}
 	if ((RCC->CR & RCC_CR_HSERDY) != RESET) {
 		print("running on external HSE clock, clock rate is %dMHz\r\n", SystemCoreClock/1000000);
 	} else {
 		print("ERROR: running on internal HSI clock, clock rate is %dMHz\r\n", SystemCoreClock/1000000);
 	}
 	
-	DEBUG_PutString("init ADC...\r\n");
+	print("init ADC...\r\n");
 	ADC_Config();
 	
-	DEBUG_PutString("init MPU6050...\r\n");
+	print("init MPU6050...\r\n");
     while (MPU6050_Init()) {
-		DEBUG_PutString("init MPU6050 failed, retrying...\r\n");
+		print("init MPU6050 failed, retrying...\r\n");
 		Blink();
 	}
 
-	DEBUG_PutString("loading config...\r\n");
+	print("loading config...\r\n");
     configLoad();
 	
-	DEBUG_PutString("calibrating MPU6050...\r\n");
+	print("calibrating MPU6050...\r\n");
     MPU6050_Gyro_calibration();
 	
-	DEBUG_PutString("init RC...\r\n");
+	print("init RC...\r\n");
     RC_Config();
 
-	DEBUG_PutString("init motor PWM...\r\n");
-	PWMConfig();
 	
 	InitSinArray();
-	DEBUG_PutString("entering main loop...\r\n");
+
+	print("entering main loop...\r\n");
 
 	SysTickAttachCallback(WatchDog);
-	
+}
+
+
+static int GetIdleMax(void)
+{
+	unsigned int t0 = millis();
+	while(millis() == t0)
+		;
+
 	unsigned int lastTime = micros();
-    while (1)
-    {
+	int idleLoops=0;
+	__disable_irq();
+    while(1) {
+		idleLoops++;
+		unsigned int currentTime = micros();
+		unsigned int timePassed = currentTime - lastTime;
+		if(timePassed >= 500U) {			
+			break;
+		}		
+    }
+	__enable_irq();
+	int idleMax = 2*idleLoops; // loops/ms
+	idleLoops = 0;
+	
+	return idleMax;
+}
+
+
+int main(void)
+{
+    setup();	
+	int idleMax = GetIdleMax();
+
+	int idleLoops=0;
+	unsigned int lastTime = micros();
+    while(1) {
+		idleLoops++;
 		unsigned int currentTime = micros();
 		unsigned int timePassed = currentTime - lastTime;
 		if(timePassed >= 2000) {
+			idlePerf = idleLoops * 100.0 * 1000/timePassed /idleMax; // perf in percent
+			idleLoops = 0;
+
 			if(ConfigMode == 0) {
 				engineProcess(timePassed/1000000.0);
 			} else {
 				PWMOff();
 				Blink();
 			}
-			lastTime = currentTime;
+			
 			WatchDogCounter = 0;
-		}
-		
-		CommHandler();
+			CommHandler();			
+			lastTime = currentTime;
+		}		
     }
 }
 

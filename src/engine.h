@@ -10,6 +10,7 @@
 
 extern int debugPrint;
 extern int debugPerf;
+extern int debugCnt;
 void engineProcess(float dt);
 
 #endif /* ENGINE_H_ */

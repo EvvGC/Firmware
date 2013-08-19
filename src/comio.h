@@ -15,9 +15,11 @@ void DEBUG_PutString(char *str);
 
 void print(const char * fmt, ...);
 void printDirect(const char * fmt, ...);
+void printUSART(const char * fmt, ...);
 
 int  GetChar(void);
 void UnGetChar(unsigned char c);
 int  CharAvailable(void);
 void PutChar(unsigned char c);
+void ComInit(void);
 #endif /* COMIO_H_ */

@@ -22,10 +22,10 @@ void InitSinArray(void)
 float fastSin(float x)
 {
 	if(x >= 0) {
-		int ix = ((int)(x/M_TWOPI*1024.0F)) % 1024;
-		return sinDataI16[ix]/32767.0F;
+		int ix = ((int)(x/M_TWOPI*(float)SINARRAYSIZE)) % SINARRAYSIZE;
+		return sinDataI16[ix]/(float)SINARRAYSCALE;
 	} else {
-		int ix = ((int)(-x/M_TWOPI*1024.0F)) % 1024;
-		return -sinDataI16[ix]/32767.0F;
+		int ix = ((int)(-x/M_TWOPI*(float)SINARRAYSIZE)) % SINARRAYSIZE;
+		return -sinDataI16[ix]/(float)SINARRAYSCALE;
 	}
 }

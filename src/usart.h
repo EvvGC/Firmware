@@ -9,12 +9,13 @@
 #define USART_H_
 
 #include <stdint.h>
-
+extern unsigned int IrqCntUart4;
 void Usart4Init(void);
 void USART_PutChar(uint8_t ch);
 void USART_PutString(uint8_t *str);
 void USART_PutCharDirect(uint8_t ch);
 void USART_PutStringDirect(uint8_t *str);
+void USART_Flush(void);
 
 int USART_GetChar(void);
 int USART_PeekChar(void);

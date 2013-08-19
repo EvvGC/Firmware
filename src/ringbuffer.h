@@ -20,6 +20,7 @@ void RingBufferInit(tRingBuffer *rb, void (*callback)(void));
 int RingBufferSize(tRingBuffer *rb);
 int RingBufferFillLevel(tRingBuffer *rb);
 void RingBufferPut(tRingBuffer *rb, unsigned char c, int block);
+void RingBufferPutBlock(tRingBuffer *rb, unsigned char *data, int dataLen, int block);
 int RingBufferGet(tRingBuffer *rb);
 int RingBufferPeek(tRingBuffer *rb);
 

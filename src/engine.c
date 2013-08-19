@@ -17,9 +17,12 @@
 #include "systick.h"
 #include "stopwatch.h"
 #include "I2C.h"
+#include "usb.h"
 
-int   debugPrint=0;
-int   debugPerf=0;
+int   debugPrint = 0;
+int   debugPerf  = 0;
+int   debugCnt   = 0;
+
 float pitch_angle_true;
 float pitch, Gyro_Pitch_angle, pitch_setpoint = 0, pitch_Error_last, pitch_angle = 0, pitch_angle_correction;
 float roll,  Gyro_Roll_angle,  roll_setpoint = 0,  roll_Error_last,  roll_angle = 0,  roll_angle_correction;
@@ -114,8 +117,8 @@ void engineProcess(float dt)
     float sinus   = sinusas[rc4Deg];      //Calculating sinus
     float cosinus = sinusas[90 - rc4Deg]; //Calculating cosinus
 
-    float ROLL = - gyroADC_z * sinus + gyroADC_y * cosinus;
-    roll_angle = (roll_angle + ROLL * dt)    + 0.0002 * (acc_roll_angle_vid - roll_angle); //Roll Horizon
+    float roll = - gyroADC_z * sinus + gyroADC_y * cosinus;
+    roll_angle = (roll_angle + roll * dt)    + 0.0002 * (acc_roll_angle_vid - roll_angle); //Roll Horizon
     roll_angle_correction = constrain(roll_angle * 50.0, -1.0, 1.0);
     roll_setpoint += roll_angle_correction; //Roll return to zero after collision
 
@@ -141,8 +144,7 @@ void engineProcess(float dt)
     if (configData[10] == '0') //Yaw AutoPan
     {
         yaw_angle = (yaw_angle + gyroADC_z * dt) + 0.01 * (ADC1Ch13_vid - yaw_angle);
-    } else if (configData[10] == '1') //Yaw RCPan
-    {
+    } else if (configData[10] == '1') { //Yaw RCPan
         yaw_angle = (yaw_angle + gyroADC_z * dt);
     } 
 
@@ -159,22 +161,27 @@ void engineProcess(float dt)
 	unsigned long tAll = StopWatchTotal(&sw);
 
     printcounter++;
-    if (printcounter >= 500 || dt > 0.0021)
-    {
-        //print("gyro pitch %3d, ", gyroADC_PITCH);
-        //print("acc %6.0f %6.0f %6.0f, ", accADC_x, accADC_y, accADC_z);
-        //print("acc roll %6.1f, pitch %6.1f, pitch angle %6.1f, rot %6.1f, I2C err %d\r\n", 
-		//	acc_roll_angle_vid*57.3,  acc_pitch_angle_vid *57.3, pitch_angle*57.3, rotation*57.3, I2Cerrorcount);
-			
+    //if (printcounter >= 500 || dt > 0.0021) {		
+    if (printcounter >= 500) {		
 		if(debugPrint) {
 			print("loop %6d: dt %f, aux3 %4d, aux4 %4d, I2Cerr %4d, angles: roll %6.1f, pitch %6.1f, yaw %6.1f\r\n", 
 				  loopCounter, dt, aux3, aux4, I2Cerrorcount, Rad2Deg(roll_angle), Rad2Deg(pitch_angle), Rad2Deg(yaw_angle));
 		}
 		
 		if(debugPerf) {
-			print("time[µs]: overall %4d, IMU acc %4d, gyro %4d, angle %4d, calc %4d, PID %4d\r\n", tAll, tAccGet, tGyroGet, tAccAngle, tCalc, tPID); 
+			extern float GetIdlePerf(void);
+			print("idle %5.2f%%, time[µs]: engine %4d, IMU acc %4d, gyro %4d, angle %4d, calc %4d, PID %4d\r\n", 
+				GetIdlePerf(), tAll, tAccGet, tGyroGet, tAccAngle, tCalc, tPID);
 		}
         
+		if(debugCnt) {
+			print("Counter min %3d, %3d, %3d,  max %4d, %4d, %4d, count %3d, %3d, %3d, usbOverrun %4d\r\n", 
+				MinCnt[ROLL], MinCnt[PITCH], MinCnt[YAW], 
+				MaxCnt[ROLL], MaxCnt[PITCH], MaxCnt[YAW], 
+				IrqCnt[ROLL], IrqCnt[PITCH], IrqCnt[YAW],
+				usbOverrun()); 
+		}
+		//MaxCntClear();
 		printcounter = 0;
     }
 

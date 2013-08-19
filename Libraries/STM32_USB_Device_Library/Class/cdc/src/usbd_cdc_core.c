@@ -430,6 +430,7 @@ static uint8_t  usbd_cdc_Init (void  *pdev,
                                uint8_t cfgidx)
 {
   uint8_t *pbuf;
+  cfgidx = cfgidx;
 
   /* Open EP IN */
   DCD_EP_Open(pdev,
@@ -475,6 +476,8 @@ static uint8_t  usbd_cdc_Init (void  *pdev,
 static uint8_t  usbd_cdc_DeInit (void  *pdev, 
                                  uint8_t cfgidx)
 {
+  cfgidx = cfgidx; // ala42
+
   /* Open EP IN */
   DCD_EP_Close(pdev,
               CDC_IN_EP);
@@ -602,6 +605,7 @@ static uint8_t  usbd_cdc_Setup (void  *pdev,
   */
 static uint8_t  usbd_cdc_EP0_RxReady (void  *pdev)
 { 
+  pdev = pdev; // ala42
   if (cdcCmd != NO_CMD)
   {
     /* Process the data */
@@ -623,7 +627,7 @@ static uint8_t  usbd_cdc_EP0_RxReady (void  *pdev)
   */
 static uint8_t  usbd_cdc_DataIn (void *pdev, uint8_t epnum)
 {
-  uint16_t USB_Tx_ptr;
+  uint16_t USB_Tx_ptr=0; // ala42
   uint16_t USB_Tx_length;
 
   if (USB_Tx_State == 1)
@@ -790,6 +794,7 @@ static void Handle_USBAsynchXfer (void *pdev)
   */
 static uint8_t  *USBD_cdc_GetCfgDesc (uint8_t speed, uint16_t *length)
 {
+  speed = speed; // ala42
   *length = sizeof (usbd_cdc_CfgDesc);
   return usbd_cdc_CfgDesc;
 }
