@@ -9,6 +9,7 @@
 /Debug
 /Release
 /.settings
+/out
 
 .cproject
 .cproject.backup

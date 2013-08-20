@@ -138,3 +138,7 @@
 	
 	- changed start up messages, which can be seen on USB-VCP if you connect a terminal program fast enough
 	- moved command handler to separate files
+
+20130820
+    - added built-versions directory with just the hex files of the various verions
+      including the experimental version (both FW and GUI)
