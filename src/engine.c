@@ -74,7 +74,7 @@ void yaw_PID(void)
 
     yaw_Error_last = Error_current;
 
-	SetYawMotor(P + D, configData[5]);
+	SetYawMotor(P + D, configData[8]);
 }
 
 

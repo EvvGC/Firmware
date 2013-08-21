@@ -144,3 +144,6 @@
       including the experimental version (both FW and GUI)
     - various usb VCP tweaks,
     - change to the command interpreter to resolve an error when writing values from the GUI
+    
+20130821
+    - fixed array offset in engine.c for yaw power setting
