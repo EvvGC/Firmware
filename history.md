@@ -142,3 +142,5 @@
 20130820
     - added built-versions directory with just the hex files of the various verions
       including the experimental version (both FW and GUI)
+    - various usb VCP tweaks,
+    - change to the command interpreter to resolve an error when writing values from the GUI

@@ -14,6 +14,7 @@
 #include "pwm.h"
 #include "systick.h"
 #include "comio.h"
+#include "hw_config.h"
 
 int ConfigMode;
 
@@ -43,17 +44,15 @@ void CommHandler(void) //UART4 Interrupt handler implementation
 				}
 				break;
 			case 'h':
-				if (CharAvailable() >= CONFIGDATASIZE) {
-					for(int i=0; i<CONFIGDATASIZE; i++) {
-						uint8_t data = GetChar();
-						if(data <= 100) {
-							configData[i] = data;
-						}
+				for(int i=0; i < CONFIGDATASIZE; i++) {
+					int data;
+					while((data = GetChar()) < 0)
+						;
+					if(data <= 100) {
+						configData[i] = data;
 					}
-					configSave();
-				} else {
-					UnGetChar(c); // try again in next loop
 				}
+				configSave();
 				break;
 			case 'i':
 				ConfigMode = 1;

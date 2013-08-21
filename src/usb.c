@@ -118,16 +118,12 @@ uint32_t usbSendBytes2(const uint8_t* sendBuf, uint32_t len) {
 #endif
 
 uint32_t usbSendBytes(const uint8_t* sendBuf, uint32_t len) {
-	if(usbIsConnected()) {
-		if(USBCallBackCalled == 0) {
-			packetSent=0;
-		}
-		RingBufferPutBlock(&RingBufferUSBTX, (uint8_t*)sendBuf, len, 0);
-	}
-	
-	return len;
-}
+    if(usbIsConnected()) {
+        RingBufferPutBlock(&RingBufferUSBTX, (uint8_t*)sendBuf, len, 0);
+    }
 
+    return len;
+}
 
 void usbEnableBlockingTx(void) {
 	//VCP_SetUSBTxBlocking(1);
