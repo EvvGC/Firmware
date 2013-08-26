@@ -21,8 +21,8 @@
 	5.	Select defaults for the rest of the installer and finish installation
 4.	Make copies of necessary .exe files for eclipse
 	1.	Open **C:\Program Files (x86)\GnuWin32\bin** in Windows Explorer
-	2.	Rename make.exe to cs-make.exe
-	3.	Rename rm.exe to cs-rm.exe
+	2.	copy make.exe to cs-make.exe
+	3.	copy rm.exe to cs-rm.exe
 	
 	**NOTE: you may not see the .exe in your window if you have extensions hidden (default)**
 5.	Update PATH Variable
