@@ -64,7 +64,7 @@
 				
 		1.	Move setup/.cproject.org to .cproject
 		
-			`> mv setup/.cproject.orig .cproject`
+			`> copy setup/.cproject.orig .cproject`
 	2.	Open Eclipse
 	3.	Close Welcome screen
 	3.	Install GNU Arm Plugin
