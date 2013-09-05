@@ -345,7 +345,7 @@ int _write(int file, char *ptr, int len)
     return len;
 }
 
-void _init(void) __attribute__ ((weak));
+void _init(void) __attribute__((weak));
 void _init(void)
 {
 }

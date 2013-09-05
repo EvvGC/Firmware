@@ -20,9 +20,9 @@ void usbDsbISR(void);
 void usbEnbISR(void);
 
 void   usbBlockingSendByte(char ch);
-uint32_t usbSendBytes(const uint8_t* sendBuf,uint32_t len);
+uint32_t usbSendBytes(const uint8_t *sendBuf, uint32_t len);
 uint32_t usbBytesAvailable(void);
-uint32_t usbReceiveBytes(uint8_t* recvBuf, uint32_t len);
+uint32_t usbReceiveBytes(uint8_t *recvBuf, uint32_t len);
 uint8_t usbGetDTR(void);
 uint8_t usbGetRTS(void);
 uint8_t usbIsConnected(void);

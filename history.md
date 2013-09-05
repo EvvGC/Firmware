@@ -147,3 +147,46 @@
     
 20130821
     - fixed array offset in engine.c for yaw power setting
+
+20130901
+    -  USB boot loader support by ala42, using a modified maple boot loader	
+       Bootloader is flashed once to 0x08000000, main program to 0x08004000
+       You need the dfu-util package from http://dfu-util.gnumonks.org to flash the main program
+       over a USB connection.
+       Binary package available at http://dfu-util.gnumonks.org/releases/dfu-util-0.7-binaries.7z
+       Bootloader is tested with win32-mingw32\dfu-util-static.exe
+       The windows version of dfu-util uses libusb-1.0. The driver can be installed with zadig.exe,
+       see http://www.libusb.org/wiki/windows_backend.
+       The USB bootloader identifies as Maple 003 with USB ID 1EAF:0003.
+	
+    - maple USB bootloader changes, 
+	- added basic evvgc board support
+	- added mechanism to reset CPU before starting main program to avoid USB setup problems
+	- added shared memory communication with main program using backup ram area
+	- added "stay in bootloader mode" triggered by main program
+	- added "fast reset mode" triggered by main program
+	- boot loader does not block RAM from main program usage anymore
+	- reduced flash timeouts for 8x faster flashing
+	- added some volatile definitions to use -O2 code
+	- removed many compiler warnings
+    
+    - main program changes for boot loader support
+	- moved code base to 0x08004000 for USB boot loader support
+	- changed program base address in FlashV2.bat from 0x08000000 to 0x08004000
+	- added command 'r' to reset CPU
+	- added command 'b' to reset CPU and stay in bootloader until program is uploaded
+	- added mechanism to enter bootloader by talking to VCP handler with dfu-util
+	- added FlashDFUse.bat batch file which uses dfu-util to upload program
+	
+    - other changes
+	- added printout of gcc version and firmware build date, looks like
+          gcc version 4.7.4 20130613 (release) [ARM/embedded-4_7-branch revision 200083]
+          EvvGC firmware V1.01, build date Sep  1 2013 01:08:53
+    - added pin definitions for LED and I2C pins to pins.h, changed code to use them
+    
+20130903
+    - updated the attitude estimation code to support external RX control of both Pitch
+      and YAW... AUX3 - Pitch, AUX4 - YAW
+    - added support for a roll offset that can be programmed via the GUI
+    - added support for AutoPan on the YAW axis
+    - other general formatting changes to the code    

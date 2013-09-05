@@ -1,10 +1,10 @@
 /*
- * 	eeprom.c
+ *  eeprom.c
  *
- *	Created on: Jun 25, 2013
- *		Author: Denis aka caat
+ *  Created on: Jun 25, 2013
+ *      Author: Denis aka caat
  */
-
+#include "stdint.h"
 #include "eeprom.h"
 #include "utils.h"
 #include "i2c.h"
@@ -30,8 +30,8 @@ int ReadFromEEPROM(uint8_t readAddr)
     uint8_t data;
     Delay_ms(1);
 
-	I2Cerror = 0;
-	
+    I2Cerror = 0;
+
     I2C1_Start();
     I2C1_SendByte((0xAF & 0xFE));//fe-0(Write)
     I2C1_WaitAck();
@@ -49,10 +49,14 @@ int ReadFromEEPROM(uint8_t readAddr)
     I2C1_Stop();
 
     Delay_ms(1);
-	if(I2Cerror != 0) {
-		return -1;
-	} else {
-		return data;
-	}
+
+    if (I2Cerror != 0)
+    {
+        return -1;
+    }
+    else
+    {
+        return data;
+    }
 }
 

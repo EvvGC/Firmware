@@ -16,8 +16,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -43,7 +43,7 @@
 #include "stm32f10x_flash.h"
 #include "stm32f10x_fsmc.h"
 #include "stm32f10x_gpio.h"
-#include "stm32f10x_i2c.h" 
+#include "stm32f10x_i2c.h"
 #include "stm32f10x_iwdg.h"
 #include "stm32f10x_pwr.h"
 #include "stm32f10x_rcc.h"
@@ -57,7 +57,7 @@
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-/* Uncomment the line below to expanse the "assert_param" macro in the 
+/* Uncomment the line below to expanse the "assert_param" macro in the
    Standard Peripheral Library drivers code */
 /* #define USE_FULL_ASSERT    1 */
 
@@ -69,15 +69,15 @@
 * Description    : The assert_param macro is used for function's parameters check.
 * Input          : - expr: If expr is false, it calls assert_failed function
 *                    which reports the name of the source file and the source
-*                    line number of the call that failed. 
+*                    line number of the call that failed.
 *                    If expr is true, it returns no value.
 * Return         : None
-*******************************************************************************/ 
-  #define assert_param(expr) ((expr) ? (void)0 : assert_failed((uint8_t *)__FILE__, __LINE__))
+*******************************************************************************/
+#define assert_param(expr) ((expr) ? (void)0 : assert_failed((uint8_t *)__FILE__, __LINE__))
 /* Exported functions ------------------------------------------------------- */
-  void assert_failed(uint8_t* file, uint32_t line);
+void assert_failed(uint8_t *file, uint32_t line);
 #else
-  #define assert_param(expr) ((void)0)
+#define assert_param(expr) ((void)0)
 #endif /* USE_FULL_ASSERT */
 
 #endif /* __STM32F10x_CONF_H */

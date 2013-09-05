@@ -1,10 +1,9 @@
 /*
- * 	systick.h
+ *  systick.h
  *
- *	Created on: Aug 1, 2013
- *		Author: ala42
+ *  Created on: Aug 1, 2013
+ *      Author: ala42
  */
-
 
 #ifndef SYSTICK_H_
 #define SYSTICK_H_

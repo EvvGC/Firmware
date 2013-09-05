@@ -1,12 +1,12 @@
 /*
- * 	engine.c
+ *  engine.c
  *
- *	Created on: Jun 26, 2013
- *		Author: Denis aka caat
+ *  Created on: Jun 26, 2013
+ *      Author: Denis aka caat
  */
-
-#include "engine.h"
+#include <stdint.h>
 #include <math.h>
+#include "engine.h"
 #include "adc.h"
 #include "gyro.h"
 #include "utils.h"
@@ -17,172 +17,258 @@
 #include "systick.h"
 #include "stopwatch.h"
 #include "I2C.h"
+#include "definitions.h"
 #include "usb.h"
+#include "main.h"
 
 int   debugPrint = 0;
-int   debugPerf  = 0;
-int   debugCnt   = 0;
+int   debugPerf = 0;
+int   debugSense = 0;
+int   debugCnt = 0;
+int   debugRC = 0;
+int   debugOrient = 0;
 
-float pitch_angle_true;
-float pitch, Gyro_Pitch_angle, pitch_setpoint = 0, pitch_Error_last, pitch_angle = 0, pitch_angle_correction;
-float roll,  Gyro_Roll_angle,  roll_setpoint = 0,  roll_Error_last,  roll_angle = 0,  roll_angle_correction;
-float yaw,   Gyro_Yaw_angle,   yaw_setpoint = 0,   yaw_Error_last,   yaw_angle = 0,   yaw_angle_correction;
-float sinusas[91] =
-{
-    0.000, 0.017, 0.035, 0.052, 0.070, 0.087, 0.105, 0.122, 0.139, 0.156,
-    0.174, 0.191, 0.208, 0.225, 0.242, 0.259, 0.276, 0.292, 0.309, 0.326,
-    0.342, 0.358, 0.375, 0.391, 0.407, 0.423, 0.438, 0.454, 0.469, 0.485,
-    0.500, 0.515, 0.530, 0.545, 0.559, 0.574, 0.588, 0.602, 0.616, 0.629,
-    0.643, 0.656, 0.669, 0.682, 0.695, 0.707, 0.719, 0.731, 0.743, 0.755,
-    0.766, 0.777, 0.788, 0.799, 0.809, 0.819, 0.829, 0.839, 0.848, 0.857,
-    0.866, 0.875, 0.883, 0.891, 0.899, 0.906, 0.914, 0.920, 0.927, 0.934,
-    0.940, 0.945, 0.951, 0.956, 0.961, 0.966, 0.970, 0.974, 0.978, 0.982,
-    0.985, 0.988, 0.990, 0.993, 0.995, 0.996, 0.998, 0.999, 0.999, 1.000,
-    1.000
-};
+float pitch, Gyro_Pitch_angle, pitch_setpoint = 0.0, pitch_Error_last,  pitch_angle_correction;
+float roll,  Gyro_Roll_angle,  roll_setpoint = 0.0,  roll_Error_last,    roll_angle_correction;
+float yaw,   Gyro_Yaw_angle,   yaw_setpoint = 0.0,   yaw_Error_last,      yaw_angle_correction;
 
-float ADC1Ch1_vid, ADC1Ch13_vid, rc4_avg, rotation;
+float ADC1Ch13_yaw;
+
+static float rollRCOffset = 0.0, pitchRCOffset = 0.0, yawRCOffset = 0.0;
+
 static int printcounter;
+
+float CameraOrient[EULAR];
+float AccAngleSmooth[EULAR];
+
+float AccData[NUMAXIS] = {0.0, 0.0, 0.0};
+float GyroData[NUMAXIS] = {0.0, 0.0, 0.0};
+
+float Step[NUMAXIS] = {0.0, 0.0, 0.0};
+float RCSmooth[NUMAXIS] = {0.0, 0.0, 0.0};
 
 void roll_PID(void)
 {
-    float Error_current = roll_setpoint + roll_angle * 1000;
-    float P = Error_current * (float)configData[1] / 100;
-    float D = (float)configData[4] / 100 * (Error_current - roll_Error_last);
+    float Error_current = roll_setpoint + CameraOrient[ROLL] * 1000;
+    float KP = Error_current * (float)configData[1] / 1000;
+    float KD = (float)configData[4] / 100 * (Error_current - roll_Error_last);
 
     roll_Error_last = Error_current;
 
-	SetRollMotor(P + D, configData[7]);
+    SetRollMotor(KP + KD, configData[7]);
 }
 
 void pitch_PID(void)
 {
-    float Error_current = pitch_setpoint + pitch_angle * 1000;
-    float P = Error_current * (float)configData[0] / 100;
-    float D = (float)configData[3] / 100 * (Error_current - pitch_Error_last);
+    float Error_current = pitch_setpoint + CameraOrient[PITCH] * 1000;
+    float KP = Error_current * (float)configData[0] / 1000;
+    float KD = (float)configData[3] / 100 * (Error_current - pitch_Error_last);
 
     pitch_Error_last = Error_current;
-		
-	SetPitchMotor(P + D, configData[6]);
+
+    //print("error:%3.2f\n\r",Error_current);
+
+    SetPitchMotor(KP + KD, configData[6]);
 }
 
 void yaw_PID(void)
 {
-    float Error_current = yaw_setpoint + yaw_angle * 1000;
-    float P = Error_current * (float)configData[2] / 100;
-    float D = (float)configData[5] / 100 * (Error_current - yaw_Error_last);
+    float Error_current = yaw_setpoint + CameraOrient[YAW] * 1000;
+    float KP = Error_current * (float)configData[2] / 1000;
+    float KD = (float)configData[5] / 100 * (Error_current - yaw_Error_last);
 
     yaw_Error_last = Error_current;
 
-	SetYawMotor(P + D, configData[8]);
+    SetYawMotor(KP + KD, configData[8]);
 }
-
 
 float constrain(float value, float low, float high)
 {
-	if(value < low)  return low;
-	if(value > high) return high;
-	return value;
+    if (value < low)
+        return low;
+
+    if (value > high)
+        return high;
+
+    return value;
+}
+
+/*
+  Limits the Pitch angle
+*/
+float Limit_Pitch(float step, float pitch)
+{
+    if (pitch < PITCH_UP_LIMIT && step > 0)
+    {
+        step = 0.0;
+    }
+
+    if (pitch > PITCH_DOWN_LIMIT && step < 0)
+    {
+        step = 0.0;
+    }
+
+    return step;
+}
+
+void Init_Orientation()
+{
+
+    int init_loops = 150;
+    float AccAngle[NUMAXIS];
+    int i;
+
+    for (i = 0; i <= init_loops; i++)
+    {
+        MPU6050_ACC_get(AccData); //Getting Accelerometer data
+        AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], AccData[Z_AXIS]));   //Calculating pitch ACC angle+callibration
+        AccAngle[PITCH] = +(atan2f(AccData[Y_AXIS], AccData[Z_AXIS]));   //Calculating roll ACC angle
+
+        AccAngleSmooth[ROLL]  = ((AccAngleSmooth[ROLL] * 99.00)  + AccAngle[ROLL])  / 100.00; //Averaging pitch ACC values
+        AccAngleSmooth[PITCH] = ((AccAngleSmooth[PITCH] * 99.00) + AccAngle[PITCH]) / 100.00; //Averaging roll  ACC values
+        Delay_us(5);
+    }
+
+    CameraOrient[PITCH] = AccAngleSmooth[PITCH];
+    CameraOrient[ROLL] = AccAngleSmooth[ROLL];
+    CameraOrient[YAW] = 0;
+}
+
+void Get_Orientation(float *SmoothAcc, float *Orient, float *AccData, float *GyroData, float dt)
+{
+    float AccAngle[EULAR];
+    float GyroRate[EULAR];
+
+    AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], AccData[Z_AXIS]));   //Calculating pitch ACC angle+callibration
+    AccAngle[PITCH] = +(atan2f(AccData[Y_AXIS], AccData[Z_AXIS]));   //Calculating roll ACC angle
+    SmoothAcc[ROLL]  = ((SmoothAcc[ROLL] * 99.00)  + AccAngle[ROLL])  / 100.00; //Averaging pitch ACC values
+    SmoothAcc[PITCH] = ((SmoothAcc[PITCH] * 99.00) + AccAngle[PITCH]) / 100.00; //Averaging roll  ACC values
+
+    GyroRate[PITCH] =  GyroData[X_AXIS];
+    Orient[PITCH] = ((Orient[PITCH]  + GyroRate[PITCH] * dt) + 0.0002 * (SmoothAcc[PITCH] - Orient[PITCH])); //Pitch Horizon
+
+    GyroRate[ROLL] = -GyroData[Z_AXIS] * sinf(((Orient[PITCH]))) + GyroData[Y_AXIS] * cosf(fabs(Orient[PITCH]));
+    Orient[ROLL] = (Orient[ROLL] + GyroRate[ROLL] * dt)    + 0.0002 * (SmoothAcc[ROLL] - Orient[ROLL]); //Roll Horizon
+
+    GyroRate[YAW]  = -GyroData[Z_AXIS] * cosf((fabsf(Orient[PITCH]))) - GyroData[Y_AXIS] * sinf(((Orient[PITCH]))); //presuming Roll is horizontal
+    Orient[YAW] = (Orient[YAW] + GyroRate[YAW] * dt); //Yaw
+    //print("%3.3f\r\n",Orient[PITCH]);
 }
 
 void engineProcess(float dt)
 {
-	static int loopCounter;
-	static float acc_pitch_angle_vid = 0.0;
-	static float acc_roll_angle_vid  = 0.0;
-	tStopWatch sw;
-	
-	loopCounter++;
+    static int loopCounter;
+    tStopWatch sw;
+
+    loopCounter++;
     LEDon();
     DEBUG_LEDoff();
 
-	StopWatchInit(&sw);
-    MPU6050_ACC_get(); //Getting Accelerometer data
-	unsigned long tAccGet = StopWatchLap(&sw);
+    StopWatchInit(&sw);
+    MPU6050_ACC_get(AccData); // Getting Accelerometer data
+    unsigned long tAccGet = StopWatchLap(&sw);
 
-	int aux3 = GetAUX3();
-	int aux4 = GetAUX4();
-	int rc4Deg =  aux4 * 90 / 1000;
-	
-    float acc_roll_angle  = -(atan2f(accADC_x, accADC_z)) + (configData[11] - 50.00) * 0.0035; //Calculating pitch ACC angle+callibration
-    float acc_pitch_angle = +(atan2f(accADC_y, accADC_z));   //Calculating roll ACC angle
-	unsigned long tAccAngle = StopWatchLap(&sw);;
+    MPU6050_Gyro_get(GyroData); // Getting Gyroscope data
+    unsigned long tGyroGet = StopWatchLap(&sw);
 
-    MPU6050_Gyro_get(); //Getting Gyroscope data
-	unsigned long tGyroGet = StopWatchLap(&sw);;
+    Get_Orientation(AccAngleSmooth, CameraOrient, AccData, GyroData, dt);
+    unsigned long tAccAngle = StopWatchLap(&sw);
 
-    acc_roll_angle_vid  = ((acc_roll_angle_vid * 99.00)  + acc_roll_angle)  / 100.00; //Averaging pitch ACC values
-    acc_pitch_angle_vid = ((acc_pitch_angle_vid * 99.00) + acc_pitch_angle) / 100.00; //Averaging roll  ACC values
+    // if we enable RC control
+    if (configData[9] == '1')
+    {
+        // Get the RX values and Averages
+        Get_RC_Step(Step, RCSmooth); // Get RC movement on all three AXIS
+        Step[PITCH] = Limit_Pitch(Step[PITCH], CameraOrient[PITCH]); // limit pitch to defined limits in header
+    }
 
-    float sinus   = sinusas[rc4Deg];      //Calculating sinus
-    float cosinus = sinusas[90 - rc4Deg]; //Calculating cosinus
+    // Pitch adjustments
+    pitch_setpoint += Step[PITCH];
+    pitchRCOffset += Step[PITCH] / 1000;
 
-    float roll = - gyroADC_z * sinus + gyroADC_y * cosinus;
-    roll_angle = (roll_angle + roll * dt)    + 0.0002 * (acc_roll_angle_vid - roll_angle); //Roll Horizon
-    roll_angle_correction = constrain(roll_angle * 50.0, -1.0, 1.0);
+    pitch_angle_correction = constrain((CameraOrient[PITCH] + pitchRCOffset) * 50.0, -1.0, 1.0);
+    pitch_setpoint += pitch_angle_correction; // Pitch return to zero after collision
+
+    // Roll Adjustments
+    roll_setpoint += Step[ROLL];
+    rollRCOffset += Step[ROLL] / 1000;
+
+    roll_angle_correction = constrain((CameraOrient[ROLL] + rollRCOffset + (((configData[11] - 100) / 10.0) / R2D)) * 50.0, -1.0, 1.0);
     roll_setpoint += roll_angle_correction; //Roll return to zero after collision
 
-	
-    yaw_angle = (yaw_angle + gyroADC_z * dt); //Yaw
-
-	
-    pitch_angle_true = ((pitch_angle_true  + gyroADC_x * dt) + 0.0002 * (acc_pitch_angle_vid - pitch_angle_true)); //Pitch Horizon
-    rotation += gyroADC_x * dt;
-    ADC1Ch1_vid = ((ADC1Ch1_vid * 99.00) + (readADC1(1) / 4000.00)) / 100.00;	//Averaging ADC values
-    ADC1Ch1_vid = 0.00;
-
-    rc4_avg = ((rc4_avg * 499.00) + rc4Deg) / 500.00;	//Averaging RC4 values
-    pitch_angle = pitch_angle_true - rc4_avg; //Adding angle
-
-    pitch_angle_correction = constrain(pitch_angle * 50.0, -1.0, 1.0);
-    pitch_setpoint += pitch_angle_correction; //Pitch return to zero after collision
-
-
-
-    ADC1Ch13_vid = ((ADC1Ch13_vid * 99.00) + ((float)(readADC1(13) - 2000) / 4000.00)) / 100.00;	//Averaging ADC values
-
-    if (configData[10] == '0') //Yaw AutoPan
+    // if we enabled AutoPan on Yaw
+    if (configData[10] == '0')
     {
-        yaw_angle = (yaw_angle + gyroADC_z * dt) + 0.01 * (ADC1Ch13_vid - yaw_angle);
-    } else if (configData[10] == '1') { //Yaw RCPan
-        yaw_angle = (yaw_angle + gyroADC_z * dt);
-    } 
+        ADC1Ch13_yaw = ((ADC1Ch13_yaw * 99.0) + ((float)(readADC1(13) - 2000) / 4000.0)) / 100.0;  // Average ADC value
+    }
 
-    yaw_angle_correction = constrain(yaw_angle * 50.0, -1.0, 1.0);
-    yaw_setpoint = yaw_setpoint + yaw_angle_correction; //Yaw return to zero after collision
+    // Yaw Adjustments
+    yaw_setpoint += Step[YAW];
+    yawRCOffset += Step[YAW] / 1000;
 
-	unsigned long tCalc = StopWatchLap(&sw);
-	
+    // if AutoPan is enabled
+    if (configData[10] == '0')
+    {
+        CameraOrient[YAW] = CameraOrient[YAW] + 0.01 * (ADC1Ch13_yaw - CameraOrient[YAW]);
+    }
+
+    yaw_angle_correction = constrain((CameraOrient[YAW] + yawRCOffset) * 50.0, -1.0, 1.0);
+    yaw_setpoint += yaw_angle_correction; // Yaw return to zero after collision
+
+    unsigned long tCalc = StopWatchLap(&sw);
+
     pitch_PID();
     roll_PID();
     yaw_PID();
 
-	unsigned long tPID = StopWatchLap(&sw);
-	unsigned long tAll = StopWatchTotal(&sw);
+    unsigned long tPID = StopWatchLap(&sw);
+    unsigned long tAll = StopWatchTotal(&sw);
 
     printcounter++;
-    //if (printcounter >= 500 || dt > 0.0021) {		
-    if (printcounter >= 500) {		
-		if(debugPrint) {
-			print("loop %6d: dt %f, aux3 %4d, aux4 %4d, I2Cerr %4d, angles: roll %6.1f, pitch %6.1f, yaw %6.1f\r\n", 
-				  loopCounter, dt, aux3, aux4, I2Cerrorcount, Rad2Deg(roll_angle), Rad2Deg(pitch_angle), Rad2Deg(yaw_angle));
-		}
-		
-		if(debugPerf) {
-			extern float GetIdlePerf(void);
-			print("idle %5.2f%%, time[µs]: engine %4d, IMU acc %4d, gyro %4d, angle %4d, calc %4d, PID %4d\r\n", 
-				GetIdlePerf(), tAll, tAccGet, tGyroGet, tAccAngle, tCalc, tPID);
-		}
-        
-		if(debugCnt) {
-			print("Counter min %3d, %3d, %3d,  max %4d, %4d, %4d, count %3d, %3d, %3d, usbOverrun %4d\r\n", 
-				MinCnt[ROLL], MinCnt[PITCH], MinCnt[YAW], 
-				MaxCnt[ROLL], MaxCnt[PITCH], MaxCnt[YAW], 
-				IrqCnt[ROLL], IrqCnt[PITCH], IrqCnt[YAW],
-				usbOverrun()); 
-		}
-		//MaxCntClear();
-		printcounter = 0;
+
+    //if (printcounter >= 500 || dt > 0.0021)
+    if (printcounter >= 500)
+    {
+        if (debugPrint)
+        {
+            print("Loop: %7d, I2CErrors: %d, angles: roll %7.2f, pitch %7.2f, yaw %7.2f, rollSP: %3.2f, pitchSP: %3.2f\r\n",
+                  loopCounter, I2Cerrorcount, Rad2Deg(CameraOrient[ROLL]), Rad2Deg(CameraOrient[PITCH]), Rad2Deg(CameraOrient[YAW]),
+                  Rad2Deg(roll_setpoint) / 1000, Rad2Deg(pitch_setpoint) / 1000);
+        }
+
+        if (debugSense)
+        {
+            print(" dt %f, AccData: %6.0f | %6.0f | %6.0f, GyroData %7.3f | %7.3f | %7.3f \r\n",
+                  dt, AccData[X_AXIS], AccData[Y_AXIS], AccData[Z_AXIS], GyroData[X_AXIS], GyroData[Y_AXIS], GyroData[Z_AXIS]);
+        }
+
+        if (debugPerf)
+        {
+            print("idle: %5.2f%%, time[µs]: attitude est. %4d, IMU acc %4d, gyro %4d, angle %4d, calc %4d, PID %4d\r\n",
+                  GetIdlePerf(), tAll, tAccGet, tGyroGet, tAccAngle, tCalc, tPID);
+        }
+
+        if (debugRC)
+        {
+            print(" RC4avg: %7.2f |  RC2avg: %7.2f |  RC3avg: %7.2f | PStep:%7.3f  YStep: %7.3f  RStep: %7.3f\r\n",
+                  RCSmooth[PITCH], RCSmooth[ROLL], RCSmooth[YAW], Step[PITCH], Step[YAW], Step[ROLL]);
+        }
+
+        if (debugOrient)
+        {
+            print("Pitch_setpoint:%12.4f | Roll_setpoint:%12.4f\r\n", Rad2Deg(pitch_setpoint) / 1000, Rad2Deg(roll_setpoint) / 1000);
+        }
+
+        if (debugCnt)
+        {
+            print("Counter min %3d, %3d, %3d,  max %4d, %4d, %4d, count %3d, %3d, %3d, usbOverrun %4d\r\n",
+                  MinCnt[ROLL], MinCnt[PITCH], MinCnt[YAW],
+                  MaxCnt[ROLL], MaxCnt[PITCH], MaxCnt[YAW],
+                  IrqCnt[ROLL], IrqCnt[PITCH], IrqCnt[YAW],
+                  usbOverrun());
+        }
+
+        printcounter = 0;
     }
 
     LEDoff();

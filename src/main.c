@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include "adc.h"
 #include "comio.h"
 #include "commhandler.h"
@@ -11,6 +12,7 @@
 #include "systick.h"
 #include "utils.h"
 #include "hw_config.h"
+#include "stm32f10x_tim.h"
 
 static volatile int WatchDogCounter;
 
@@ -29,25 +31,6 @@ void Periph_clock_enable(void)
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,  ENABLE);
 }
 
-
-void NVIC_Configuration(void)
-{
-    NVIC_InitTypeDef NVIC_InitStructure;
-
-    /* Configure the NVIC Preemption Priority Bits */
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-
-    /* Enable the USARTy Interrupt */
-    NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;//Preemption Priority
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_Init(&NVIC_InitStructure);
-}
-
-#include "stm32f10x_tim.h"
-
-
 void WatchDog(void)
 {
     if (WatchDogCounter++ > 1000)
@@ -59,13 +42,12 @@ void WatchDog(void)
     }
 }
 
-
 static float idlePerf;
+
 float GetIdlePerf(void)
 {
     return idlePerf;
 }
-
 
 void setup(void)
 {
@@ -74,21 +56,20 @@ void setup(void)
     Periph_clock_enable();
     GPIO_Config();
 
-    LEDon();
-    Delay_ms(10); //short blink
-    LEDoff();
-    Delay_ms(50);
+    __enable_irq();
 
     ComInit();
     print("\r\n\r\nEvvGC firmware starting up...\r\n");
 
-    print("init NVIC...\r\n");
-    NVIC_Configuration();
-
     print("init motor PWM...\r\n");
     PWMConfig();
 
-    Delay_ms(2000);
+    for (int i = 0; i < 20; i++)
+    {
+        LEDtoggle();
+        DEBUG_LEDtoggle();
+        Delay_ms(100); //short blink
+    }
 
     if (GetVCPConnectMode() != eVCPConnectReset)
     {
@@ -100,6 +81,15 @@ void setup(void)
             print("\r\n\r\nEvvGC firmware starting up, USB connected...\r\n");
         }
     }
+    else
+    {
+        Delay_ms(3000);
+    }
+
+#ifdef __VERSION__
+    print("gcc version " __VERSION__ "\r\n");
+    print("EvvGC firmware V1.01, build date " __DATE__ " "__TIME__" \r\n");
+#endif
 
     if ((RCC->CR & RCC_CR_HSERDY) != RESET)
     {
@@ -124,20 +114,34 @@ void setup(void)
     print("loading config...\r\n");
     configLoad();
 
-    print("calibrating MPU6050...\r\n");
+    print("calibrating MPU6050 at %ums...\r\n", millis());
     MPU6050_Gyro_calibration();
 
     print("init RC...\r\n");
     RC_Config();
 
+    print("Init Orientation\n\r");
+    Init_Orientation();
 
     InitSinArray();
+
+    int pendingCharacters = ComFlushInput();
+    if (pendingCharacters > 0)
+    {
+        print("removed %d pending characters from communications input\r\n");
+    }
+
+#if 0
+    int c;
+    while((c=GetChar()) >= 0) {
+        print("removed pending character %02X from communications input\r\n", c);
+    }
+#endif
 
     print("entering main loop...\r\n");
 
     SysTickAttachCallback(WatchDog);
 }
-
 
 static int GetIdleMax(void)
 {
@@ -148,6 +152,7 @@ static int GetIdleMax(void)
 
     unsigned int lastTime = micros();
     int idleLoops = 0;
+
     __disable_irq();
 
     while (1)
@@ -168,7 +173,6 @@ static int GetIdleMax(void)
 
     return idleMax;
 }
-
 
 int main(void)
 {
@@ -205,4 +209,3 @@ int main(void)
         }
     }
 }
-

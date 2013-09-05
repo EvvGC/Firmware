@@ -1,19 +1,21 @@
 /*
- * 	pwm.h
+ *  pwm.h
  *
- *	Created on: Aug 1, 2013
- *		Author: ala42
+ *  Created on: Aug 1, 2013
+ *      Author: ala42
  */
 
 #ifndef PWM_H_
 #define PWM_H_
 
 #define PWM_PERIODE 1000
-typedef enum {
-	ROLL,
-	PITCH,
-	YAW,
-	NUMAXIS
+
+typedef enum
+{
+    ROLL,
+    PITCH,
+    YAW,
+    NUMAXIS
 } tAxis;
 
 extern int MaxCnt[NUMAXIS];

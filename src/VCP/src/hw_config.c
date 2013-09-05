@@ -29,6 +29,7 @@
 
 #include "stm32_it.h"
 //#include "board.h"         // HJI
+#include "utils.h"
 #include "usb_lib.h"
 #include "usb_prop.h"
 #include "usb_desc.h"
@@ -371,10 +372,13 @@ void ERR_Callback(void)
     SetVCPConnectMode(eVCPConnectReset);
 }
 
+#include "ringbuffer.h"
+//extern tRingBuffer RingBufferUSBTX;
 void SetVCPConnectMode(tVCPConnectMode mode)
 {
 	if(VCPconnectMode != mode) {
-		//printUSART("\r\nVCPConnectMode changed from %d to %d at time %u\r\n", VCPconnectMode, mode, micros());
+		//printUSART("\r\nVCPConnectMode changed from %d to %d at time %u, rbw %d rbr %d\r\n", 
+		//	VCPconnectMode, mode, micros(), RingBufferUSBTX.Write, RingBufferUSBTX.Read);
 	}
 	VCPconnectMode = mode;
 	

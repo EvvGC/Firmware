@@ -34,7 +34,8 @@
 #include "usb_pwr.h"
 #include "hw_config.h"
 
-#define printUSART(x)
+#define printUSART(x) // ala42
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -349,8 +350,13 @@ uint8_t *Virtual_Com_Port_GetDeviceDescriptor(uint16_t Length)
 *******************************************************************************/
 uint8_t *Virtual_Com_Port_GetConfigDescriptor(uint16_t Length)
 {
-  printUSART("\r\n Virtual_Com_Port_GetConfigDescriptor"); // ala42
+  printUSART("\r\n Virtual_Com_Port_GetConfigDescriptor");
+  //printUSART("\r\n Virtual_Com_Port_GetConfigDescriptor len %d", (int)Length); // ala42
 
+  if(Length == 9) {
+    extern void bootloader(void);
+	bootloader(); // ala42
+  }
   return Standard_GetDescriptorData(Length, &Config_Descriptor);
 }
 
