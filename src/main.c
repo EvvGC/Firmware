@@ -83,7 +83,9 @@ void setup(void)
     }
     else
     {
+        print("\r\nDelaying for usb/serial driver to settle\r\n");
         Delay_ms(3000);
+        print("\r\n\r\nEvvGC firmware starting up, serial active...\r\n");
     }
 
 #ifdef __VERSION__

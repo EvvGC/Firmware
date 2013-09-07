@@ -66,8 +66,6 @@ void pitch_PID(void)
 
     pitch_Error_last = Error_current;
 
-    //print("error:%3.2f\n\r",Error_current);
-
     SetPitchMotor(KP + KD, configData[6]);
 }
 
@@ -139,8 +137,9 @@ void Get_Orientation(float *SmoothAcc, float *Orient, float *AccData, float *Gyr
     float AccAngle[EULAR];
     float GyroRate[EULAR];
 
-    AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], AccData[Z_AXIS]));   //Calculating pitch ACC angle+callibration
+    AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], AccData[Z_AXIS]));   //Calculating pitch ACC angle
     AccAngle[PITCH] = +(atan2f(AccData[Y_AXIS], AccData[Z_AXIS]));   //Calculating roll ACC angle
+
     SmoothAcc[ROLL]  = ((SmoothAcc[ROLL] * 99.00)  + AccAngle[ROLL])  / 100.00; //Averaging pitch ACC values
     SmoothAcc[PITCH] = ((SmoothAcc[PITCH] * 99.00) + AccAngle[PITCH]) / 100.00; //Averaging roll  ACC values
 
@@ -152,7 +151,6 @@ void Get_Orientation(float *SmoothAcc, float *Orient, float *AccData, float *Gyr
 
     GyroRate[YAW]  = -GyroData[Z_AXIS] * cosf((fabsf(Orient[PITCH]))) - GyroData[Y_AXIS] * sinf(((Orient[PITCH]))); //presuming Roll is horizontal
     Orient[YAW] = (Orient[YAW] + GyroRate[YAW] * dt); //Yaw
-    //print("%3.3f\r\n",Orient[PITCH]);
 }
 
 void engineProcess(float dt)

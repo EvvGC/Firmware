@@ -9,6 +9,7 @@
 #define CONFIG_H_
 
 #define CONFIGDATASIZE 12  // Config data array size
+#define LARGEST_CONFIGDATA 254
 extern char configData[CONFIGDATASIZE];
 
 void configLoad(void);

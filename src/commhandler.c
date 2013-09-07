@@ -73,7 +73,7 @@ void CommHandler(void) //UART4 Interrupt handler implementation
                     {
                         uint8_t data = GetChar();
 
-                        if (data <= 254)
+                        if (data <= LARGEST_CONFIGDATA)
                         {
                             configData[i] = data;
                         }
@@ -97,7 +97,7 @@ void CommHandler(void) //UART4 Interrupt handler implementation
                     while ((data = GetChar()) < 0)
                         ;
 
-                    if (data <= 254)
+                    if (data <= LARGEST_CONFIGDATA)
                     {
                         configData[i] = data;
                     }

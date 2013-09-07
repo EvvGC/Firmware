@@ -20,7 +20,7 @@ void configLoad(void)
     {
         int data = ReadFromEEPROM(i);
 
-        if (data >= 0 && data <= 100)
+        if (data >= 0 && data <= LARGEST_CONFIGDATA)
         {
             configData[i] = data;
         }
