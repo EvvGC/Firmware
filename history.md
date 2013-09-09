@@ -173,3 +173,7 @@
     - added support for a roll offset that can be programmed via the GUI
     - added support for AutoPan on the YAW axis
     - other general formatting changes to the code    
+
+20130908
+    - more cleanup in the attitude estimation engine
+    - fixes for tuning the yaw motor

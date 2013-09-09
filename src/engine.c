@@ -49,9 +49,9 @@ float RCSmooth[NUMAXIS] = {0.0, 0.0, 0.0};
 
 void roll_PID(void)
 {
-    float Error_current = roll_setpoint + CameraOrient[ROLL] * 1000;
-    float KP = Error_current * (float)configData[1] / 1000;
-    float KD = (float)configData[4] / 100 * (Error_current - roll_Error_last);
+    float Error_current = roll_setpoint + CameraOrient[ROLL] * 1000.0;
+    float KP = Error_current * (float)configData[1] / 1000.0;
+    float KD = (float)configData[4] / 100.0 * (Error_current - roll_Error_last);
 
     roll_Error_last = Error_current;
 
@@ -60,9 +60,9 @@ void roll_PID(void)
 
 void pitch_PID(void)
 {
-    float Error_current = pitch_setpoint + CameraOrient[PITCH] * 1000;
-    float KP = Error_current * (float)configData[0] / 1000;
-    float KD = (float)configData[3] / 100 * (Error_current - pitch_Error_last);
+    float Error_current = pitch_setpoint + CameraOrient[PITCH] * 1000.0;
+    float KP = Error_current * (float)configData[0] / 1000.0;
+    float KD = (float)configData[3] / 100.0 * (Error_current - pitch_Error_last);
 
     pitch_Error_last = Error_current;
 
@@ -71,9 +71,9 @@ void pitch_PID(void)
 
 void yaw_PID(void)
 {
-    float Error_current = yaw_setpoint + CameraOrient[YAW] * 1000;
-    float KP = Error_current * (float)configData[2] / 1000;
-    float KD = (float)configData[5] / 100 * (Error_current - yaw_Error_last);
+    float Error_current = yaw_setpoint + CameraOrient[YAW] * 1000.0;
+    float KP = Error_current * (float)configData[2] / 1000.0;
+    float KD = (float)configData[5] / 100.0 * (Error_current - yaw_Error_last);
 
     yaw_Error_last = Error_current;
 
@@ -119,17 +119,18 @@ void Init_Orientation()
     for (i = 0; i <= init_loops; i++)
     {
         MPU6050_ACC_get(AccData); //Getting Accelerometer data
-        AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], AccData[Z_AXIS]));   //Calculating pitch ACC angle+callibration
+
+        AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], AccData[Z_AXIS]));   //Calculating pitch ACC angle
         AccAngle[PITCH] = +(atan2f(AccData[Y_AXIS], AccData[Z_AXIS]));   //Calculating roll ACC angle
 
-        AccAngleSmooth[ROLL]  = ((AccAngleSmooth[ROLL] * 99.00)  + AccAngle[ROLL])  / 100.00; //Averaging pitch ACC values
-        AccAngleSmooth[PITCH] = ((AccAngleSmooth[PITCH] * 99.00) + AccAngle[PITCH]) / 100.00; //Averaging roll  ACC values
+        AccAngleSmooth[ROLL]  = ((AccAngleSmooth[ROLL] * 99.0)  + AccAngle[ROLL])  / 100.0; //Averaging pitch ACC values
+        AccAngleSmooth[PITCH] = ((AccAngleSmooth[PITCH] * 99.0) + AccAngle[PITCH]) / 100.0; //Averaging roll  ACC values
         Delay_us(5);
     }
 
     CameraOrient[PITCH] = AccAngleSmooth[PITCH];
     CameraOrient[ROLL] = AccAngleSmooth[ROLL];
-    CameraOrient[YAW] = 0;
+    CameraOrient[YAW] = 0.0;
 }
 
 void Get_Orientation(float *SmoothAcc, float *Orient, float *AccData, float *GyroData, float dt)
@@ -140,16 +141,16 @@ void Get_Orientation(float *SmoothAcc, float *Orient, float *AccData, float *Gyr
     AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], AccData[Z_AXIS]));   //Calculating pitch ACC angle
     AccAngle[PITCH] = +(atan2f(AccData[Y_AXIS], AccData[Z_AXIS]));   //Calculating roll ACC angle
 
-    SmoothAcc[ROLL]  = ((SmoothAcc[ROLL] * 99.00)  + AccAngle[ROLL])  / 100.00; //Averaging pitch ACC values
-    SmoothAcc[PITCH] = ((SmoothAcc[PITCH] * 99.00) + AccAngle[PITCH]) / 100.00; //Averaging roll  ACC values
+    SmoothAcc[ROLL]  = ((SmoothAcc[ROLL] * 99.0)  + AccAngle[ROLL])  / 100.0; //Averaging pitch ACC values
+    SmoothAcc[PITCH] = ((SmoothAcc[PITCH] * 99.0) + AccAngle[PITCH]) / 100.0; //Averaging roll  ACC values
 
     GyroRate[PITCH] =  GyroData[X_AXIS];
     Orient[PITCH] = ((Orient[PITCH]  + GyroRate[PITCH] * dt) + 0.0002 * (SmoothAcc[PITCH] - Orient[PITCH])); //Pitch Horizon
 
-    GyroRate[ROLL] = -GyroData[Z_AXIS] * sinf(((Orient[PITCH]))) + GyroData[Y_AXIS] * cosf(fabs(Orient[PITCH]));
+    GyroRate[ROLL] = -GyroData[Z_AXIS] * sinf(Orient[PITCH]) + GyroData[Y_AXIS] * cosf(fabsf(Orient[PITCH]));
     Orient[ROLL] = (Orient[ROLL] + GyroRate[ROLL] * dt)    + 0.0002 * (SmoothAcc[ROLL] - Orient[ROLL]); //Roll Horizon
 
-    GyroRate[YAW]  = -GyroData[Z_AXIS] * cosf((fabsf(Orient[PITCH]))) - GyroData[Y_AXIS] * sinf(((Orient[PITCH]))); //presuming Roll is horizontal
+    GyroRate[YAW]  = -GyroData[Z_AXIS] * cosf(fabsf(Orient[PITCH])) - GyroData[Y_AXIS] * sinf(Orient[PITCH]); //presuming Roll is horizontal
     Orient[YAW] = (Orient[YAW] + GyroRate[YAW] * dt); //Yaw
 }
 
@@ -182,16 +183,17 @@ void engineProcess(float dt)
 
     // Pitch adjustments
     pitch_setpoint += Step[PITCH];
-    pitchRCOffset += Step[PITCH] / 1000;
+    pitchRCOffset += Step[PITCH] / 1000.0;
 
-    pitch_angle_correction = constrain((CameraOrient[PITCH] + pitchRCOffset) * 50.0, -1.0, 1.0);
+    pitch_angle_correction = constrain((Rad2Deg(CameraOrient[PITCH] + pitchRCOffset)), -1.0, 1.0);
     pitch_setpoint += pitch_angle_correction; // Pitch return to zero after collision
 
     // Roll Adjustments
     roll_setpoint += Step[ROLL];
-    rollRCOffset += Step[ROLL] / 1000;
+    rollRCOffset += Step[ROLL] / 1000.0;
 
-    roll_angle_correction = constrain((CameraOrient[ROLL] + rollRCOffset + (((configData[11] - 100) / 10.0) / R2D)) * 50.0, -1.0, 1.0);
+    // include the config roll offset which is scaled to 0 = -10.0 degrees, 100 = 0.0 degrees, and 200 = 10.0 degrees
+    roll_angle_correction = constrain((Rad2Deg(CameraOrient[ROLL] + rollRCOffset + (((configData[11] - 100) / 10.0) / R2D))), -1.0, 1.0);
     roll_setpoint += roll_angle_correction; //Roll return to zero after collision
 
     // if we enabled AutoPan on Yaw
@@ -202,7 +204,7 @@ void engineProcess(float dt)
 
     // Yaw Adjustments
     yaw_setpoint += Step[YAW];
-    yawRCOffset += Step[YAW] / 1000;
+    yawRCOffset += Step[YAW] / 1000.0;
 
     // if AutoPan is enabled
     if (configData[10] == '0')
@@ -210,8 +212,10 @@ void engineProcess(float dt)
         CameraOrient[YAW] = CameraOrient[YAW] + 0.01 * (ADC1Ch13_yaw - CameraOrient[YAW]);
     }
 
-    yaw_angle_correction = constrain((CameraOrient[YAW] + yawRCOffset) * 50.0, -1.0, 1.0);
+#if 0
+    yaw_angle_correction = constrain((Rad2Deg(CameraOrient[YAW] + yawRCOffset)), -1.0, 1.0);
     yaw_setpoint += yaw_angle_correction; // Yaw return to zero after collision
+#endif
 
     unsigned long tCalc = StopWatchLap(&sw);
 
@@ -229,9 +233,8 @@ void engineProcess(float dt)
     {
         if (debugPrint)
         {
-            print("Loop: %7d, I2CErrors: %d, angles: roll %7.2f, pitch %7.2f, yaw %7.2f, rollSP: %3.2f, pitchSP: %3.2f\r\n",
-                  loopCounter, I2Cerrorcount, Rad2Deg(CameraOrient[ROLL]), Rad2Deg(CameraOrient[PITCH]), Rad2Deg(CameraOrient[YAW]),
-                  Rad2Deg(roll_setpoint) / 1000, Rad2Deg(pitch_setpoint) / 1000);
+            print("Loop: %7d, I2CErrors: %d, angles: roll %7.2f, pitch %7.2f, yaw %7.2f\r\n",
+                  loopCounter, I2Cerrorcount, Rad2Deg(CameraOrient[ROLL]), Rad2Deg(CameraOrient[PITCH]), Rad2Deg(CameraOrient[YAW]));
         }
 
         if (debugSense)
@@ -254,7 +257,7 @@ void engineProcess(float dt)
 
         if (debugOrient)
         {
-            print("Pitch_setpoint:%12.4f | Roll_setpoint:%12.4f\r\n", Rad2Deg(pitch_setpoint) / 1000, Rad2Deg(roll_setpoint) / 1000);
+            print("Pitch_setpoint:%12.4f | Roll_setpoint:%12.4f | Yaw_setpoint:%12.4f\r\n", Rad2Deg(pitch_setpoint) / 1000.0, Rad2Deg(roll_setpoint) / 1000.0, Rad2Deg(yaw_setpoint) / 1000.0);
         }
 
         if (debugCnt)
