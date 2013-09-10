@@ -177,3 +177,7 @@
 20130908
     - more cleanup in the attitude estimation engine
     - fixes for tuning the yaw motor
+ 
+20130910
+    - initial release of the 0.4 firmware
+    

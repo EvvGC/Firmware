@@ -90,7 +90,7 @@ void setup(void)
 
 #ifdef __VERSION__
     print("gcc version " __VERSION__ "\r\n");
-    print("EvvGC firmware V1.01, build date " __DATE__ " "__TIME__" \r\n");
+    print("EvvGC firmware V0.4, build date " __DATE__ " "__TIME__" \r\n");
 #endif
 
     if ((RCC->CR & RCC_CR_HSERDY) != RESET)

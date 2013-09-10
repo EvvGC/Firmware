@@ -4,12 +4,12 @@
 
 Port from initial Keil source to Eclipse of firmware for EvvGC 3/2axis Brushless Gimbal Controller
 
-## Experimental branch requires the use of GUI 0.4 #
+## Master branch, firmware v0.4 requires the use of GUI 0.4 #
 See GUI directory for latest version
 
 #### GUI instructions ####
-In order to convert some eeprom values to support this version
-you need to accomplish the following
+In order to convert from the 0.3x firmware to the 0.4 firmware some eeprom values
+have to be changed to support this version and you need to accomplish the following
 
 - disconnect motors
 - Load the new firmware via UART1 (remember NO LIPO power!!!)
