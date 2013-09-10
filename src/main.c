@@ -1,249 +1,213 @@
-#include <stdio.h>
-
-#include "stm32f10x.h"
-#include "stm32f10x_rcc.h"
-#include "stm32f10x_gpio.h"
-#include "stm32f10x_usart.h"
-#include "config.h"
-#include "pins.h"
-#include "usart.h"
-#include "utils.h"
+#include <stdint.h>
 #include "adc.h"
-#include "timers.h"
-#include "eeprom.h"
-#include "i2c.h"
+#include "comio.h"
+#include "commhandler.h"
+#include "config.h"
+#include "fasttrig.h"
 #include "engine.h"
 #include "gyro.h"
+#include "pwm.h"
+#include "pins.h"
+#include "rc.h"
+#include "systick.h"
+#include "utils.h"
+#include "hw_config.h"
+#include "stm32f10x_tim.h"
 
-#include "sys/printf.h"
-
-EXTI_InitTypeDef        	EXTI_InitStructure;
-
-void Periph_clock_enable(void); //Enabling clocks for peripheral
-void NVIC_Configuration(void);
-void UART4_IRQHandler();
-void EXTI_Config(void);
-
-int stop = 0, EepromData, UART4_DATA, rc3a, rc3b, rc3, rc4a, rc4b, rc4, ConfigMode, w, enable_writing, watchcounter, I2Cerror, I2Cerrorcount;
-short int gyroADC_PITCH, gyroADC_ROLL, gyroADC_YAW, accADC_ROLL, accADC_PITCH, accADC_YAW;
-char buff[10], configData[configDataSize] = {'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'};
-
-
-
-int main(void)
-{
-    Periph_clock_enable();
-    GPIO_Config();
-
-    LEDon;
-    Delay_ms(10); //short blink
-    LEDoff;
-    Delay_ms(50);
-
-    Usart4Init();
-    ADC_Config();
-    MPU6050_Init();
-    Timer2_Config();
-    Timer3_Config();//RC control timer
-    NVIC_Configuration();
-    EXTI_Config();
-
-
-    //engineInit();	///????to initialize all variables;
-    configLoad();
-
-    MPU6050_Gyro_calibration();
-
-    while (1)
-    {
-        engineProcess();
-
-        while (stop == 0) {} //Closed loop waits for interrupt
-    }
-}
+static volatile int WatchDogCounter;
 
 void Periph_clock_enable(void)
 {
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB |
                            RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD |
                            RCC_APB2Periph_GPIOE | RCC_APB2Periph_AFIO |
-                           RCC_APB2Periph_ADC1	| RCC_APB2Periph_TIM1 |
+                           RCC_APB2Periph_ADC1  | RCC_APB2Periph_TIM1 |
                            RCC_APB2Periph_TIM8, ENABLE);
+
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5  | RCC_APB1Periph_TIM2 |
                            RCC_APB1Periph_UART4 | RCC_APB1Periph_TIM3 |
                            RCC_APB1Periph_TIM4, ENABLE);
+
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,  ENABLE);
 }
 
-void UART4_IRQHandler()//UART4 Interrupt handler implementation
+void WatchDog(void)
 {
-    int eeRreg;
-    uint8_t data;
-    ConfigMode = 1;
-
-    while (USART_GetFlagStatus(UART4, USART_FLAG_RXNE) == RESET);
-
-    UART4_DATA = USART_ReceiveData(UART4);
-    LEDon;
-
-    if (UART4_DATA == 103)
+    if (WatchDogCounter++ > 1000)
     {
-        //if "g"
-
-        Delay_ms(100);
-        sprintf_(buff, "x");
-        USART_PutString(buff);
-
-        for (eeRreg = 0; eeRreg < configDataSize; eeRreg++)
-        {
-            data = ReadFromEEPROM(eeRreg);
-            Delay_ms(1);
-            sprintf_(buff, "%c", data);
-            USART_PutString(buff);
-        }
-
-    }
-
-    if (enable_writing == 1)
-    {
-        configData[w] = (int)UART4_DATA;
-        w++;
-
-        if (w >= configDataSize)
-        {
-            w = 0;
-            enable_writing = 0;
-            //saveData();
-            configSave();
-        }
-    }
-
-
-    if (UART4_DATA == 104)
-    {
-        // if h (write to eeprom)
-        enable_writing = 1;
-    }
-
-
-    if (UART4_DATA == 105)
-    {
-        ConfigMode = 1;
-    }
-
-    if (UART4_DATA == 106)
-    {
-        ConfigMode = 0;
+        LEDtoggle();
+        PWMOff();
+        DEBUG_PutChar('W');
+        WatchDogCounter = 0;
     }
 }
 
-void NVIC_Configuration(void)
+static float idlePerf;
+
+float GetIdlePerf(void)
 {
-    NVIC_InitTypeDef NVIC_InitStructure;
-
-    /* Configure the NVIC Preemption Priority Bits */
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
-
-    /* Enable the USARTy Interrupt */
-    NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_Init(&NVIC_InitStructure);
-
+    return idlePerf;
 }
 
-void EXTI_Config(void)
+void setup(void)
 {
-    GPIO_InitTypeDef	GPIO_InitStructure;
+    InitSysTick();
 
-    //EXTI IN GPIO Config
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4; //PB3-Pitch   PB4-Yaw
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;  //Set to Inpit
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;      //GPIO Speed
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
+    Periph_clock_enable();
+    GPIO_Config();
 
+    __enable_irq();
 
-    GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource3);
-    GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource4);
+    ComInit();
+    print("\r\n\r\nEvvGC firmware starting up...\r\n");
 
+    print("init motor PWM...\r\n");
+    PWMConfig();
 
-    EXTI_InitStructure.EXTI_Line = EXTI_Line3 | EXTI_Line4;
-    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
-    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-    EXTI_Init(&EXTI_InitStructure);
-
-    EXTI_GenerateSWInterrupt(EXTI_Line3 | EXTI_Line4);
-    EXTI_ClearITPendingBit(EXTI_Line3 | EXTI_Line4);
-
-    NVIC_EnableIRQ(EXTI3_IRQn); // Enable interrupt
-    NVIC_EnableIRQ(EXTI4_IRQn); // Enable interrupt
-}
-
-void EXTI3_IRQHandler(void)//EXTernal interrupt routine PB3-Pitch
-{
-    if (EXTI->PR & (1 << 3))
+    for (int i = 0; i < 20; i++)
     {
-        // EXTI3 interrupt pending?
-        EXTI->PR |= (1 << 3); // clear pending interrupt
+        LEDtoggle();
+        DEBUG_LEDtoggle();
+        Delay_ms(100); //short blink
+    }
 
-        if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_3) == 1)
-        {
-            rc3a = TIM3->CNT;
-        }
+    if (GetVCPConnectMode() != eVCPConnectReset)
+    {
+        print("\r\nUSB startup delay...\r\n");
+        Delay_ms(3000);
 
-        if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_3) == 0)
+        if (GetVCPConnectMode() == eVCPConnectData)
         {
-            rc3b = TIM3->CNT;
-        }
-
-        if (((rc3b - rc3a) > 100) && ((rc3b - rc3a) < 200))
-        {
-            rc3 = rc3b - rc3a - 100;
+            print("\r\n\r\nEvvGC firmware starting up, USB connected...\r\n");
         }
     }
+    else
+    {
+        print("\r\nDelaying for usb/serial driver to settle\r\n");
+        Delay_ms(3000);
+        print("\r\n\r\nEvvGC firmware starting up, serial active...\r\n");
+    }
+
+#ifdef __VERSION__
+    print("gcc version " __VERSION__ "\r\n");
+    print("EvvGC firmware V1.01, build date " __DATE__ " "__TIME__" \r\n");
+#endif
+
+    if ((RCC->CR & RCC_CR_HSERDY) != RESET)
+    {
+        print("running on external HSE clock, clock rate is %dMHz\r\n", SystemCoreClock / 1000000);
+    }
+    else
+    {
+        print("ERROR: running on internal HSI clock, clock rate is %dMHz\r\n", SystemCoreClock / 1000000);
+    }
+
+    print("init ADC...\r\n");
+    ADC_Config();
+
+    print("init MPU6050...\r\n");
+
+    while (MPU6050_Init())
+    {
+        print("init MPU6050 failed, retrying...\r\n");
+        Blink();
+    }
+
+    print("loading config...\r\n");
+    configLoad();
+
+    print("calibrating MPU6050 at %ums...\r\n", millis());
+    MPU6050_Gyro_calibration();
+
+    print("init RC...\r\n");
+    RC_Config();
+
+    print("Init Orientation\n\r");
+    Init_Orientation();
+
+    InitSinArray();
+
+    int pendingCharacters = ComFlushInput();
+    if (pendingCharacters > 0)
+    {
+        print("removed %d pending characters from communications input\r\n");
+    }
+
+#if 0
+    int c;
+    while((c=GetChar()) >= 0) {
+        print("removed pending character %02X from communications input\r\n", c);
+    }
+#endif
+
+    print("entering main loop...\r\n");
+
+    SysTickAttachCallback(WatchDog);
 }
 
-void EXTI4_IRQHandler(void)//EXTernal interrupt routine PB4-Yaw
+static int GetIdleMax(void)
 {
-    if (EXTI->PR & (1 << 4))
+    unsigned int t0 = millis();
+
+    while (millis() == t0)
+        ;
+
+    unsigned int lastTime = micros();
+    int idleLoops = 0;
+
+    __disable_irq();
+
+    while (1)
     {
-        // EXTI3 interrupt pending?
-        EXTI->PR |= (1 << 4);                         // clear pending interrupt
+        idleLoops++;
+        unsigned int currentTime = micros();
+        unsigned int timePassed = currentTime - lastTime;
 
-
-        if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_4) == 1)
+        if (timePassed >= 500U)
         {
-            rc4a = TIM3->CNT;
-        }
-
-        if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_4) == 0)
-        {
-            rc4b = TIM3->CNT;
-        }
-
-        if (((rc4b - rc4a) > 100) && ((rc4b - rc4a) < 200))
-        {
-            rc4 = rc4b - rc4a - 100;
+            break;
         }
     }
+
+    __enable_irq();
+    int idleMax = 2 * idleLoops; // loops/ms
+    idleLoops = 0;
+
+    return idleMax;
 }
 
-void TIM2_IRQHandler(void)
+int main(void)
 {
-    if (TIM2->SR & TIM_SR_UIF) // if UIF flag is set
+    setup();
+    int idleMax = GetIdleMax();
+
+    int idleLoops = 0;
+    unsigned int lastTime = micros();
+
+    while (1)
     {
-        TIM2->SR &= ~TIM_SR_UIF; // clear UIF flag
-        stop = 1;
+        idleLoops++;
+        unsigned int currentTime = micros();
+        unsigned int timePassed = currentTime - lastTime;
 
-        if (ConfigMode == 0)
+        if (timePassed >= 2000)
         {
-            watchcounter++;
-        }
+            idlePerf = idleLoops * 100.0 * 1000 / timePassed / idleMax; // perf in percent
+            idleLoops = 0;
 
-        if (watchcounter > 250)
-        {
-            TimerOff();
+            if (ConfigMode == 0)
+            {
+                engineProcess(timePassed / 1000000.0);
+            }
+            else
+            {
+                PWMOff();
+                Blink();
+            }
+
+            WatchDogCounter = 0;
+            CommHandler();
+            lastTime = currentTime;
         }
     }
 }

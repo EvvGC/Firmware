@@ -28,7 +28,10 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
+#include "hw_config.h"
 #include "stm32_it.h"
+#include "usb_lib.h"
+#include "usb_istr.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -60,10 +63,10 @@ void NMI_Handler(void)
 *******************************************************************************/
 void HardFault_Handler(void)
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while (1)
+    {
+    }
 }
 
 /*******************************************************************************
@@ -75,10 +78,10 @@ void HardFault_Handler(void)
 *******************************************************************************/
 void MemManage_Handler(void)
 {
-  /* Go to infinite loop when Memory Manage exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Memory Manage exception occurs */
+    while (1)
+    {
+    }
 }
 
 /*******************************************************************************
@@ -90,10 +93,10 @@ void MemManage_Handler(void)
 *******************************************************************************/
 void BusFault_Handler(void)
 {
-  /* Go to infinite loop when Bus Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Bus Fault exception occurs */
+    while (1)
+    {
+    }
 }
 
 /*******************************************************************************
@@ -105,10 +108,10 @@ void BusFault_Handler(void)
 *******************************************************************************/
 void UsageFault_Handler(void)
 {
-  /* Go to infinite loop when Usage Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Usage Fault exception occurs */
+    while (1)
+    {
+    }
 }
 
 /*******************************************************************************
@@ -151,9 +154,9 @@ void PendSV_Handler(void)
 * Output         : None
 * Return         : None
 *******************************************************************************/
-// HJI void SysTick_Handler(void)
-// HJI {
-// HJI }
+//void SysTick_Handler(void)
+//{
+//}
 
 /*******************************************************************************
 * Function Name  : USB_IRQHandler
@@ -163,14 +166,14 @@ void PendSV_Handler(void)
 * Output         : None
 * Return         : None
 *******************************************************************************/
-// HJI #if defined(STM32L1XX_MD) || defined(STM32L1XX_HD)|| defined(STM32L1XX_MD_PLUS)|| defined (STM32F37X)
-// HJI void USB_LP_IRQHandler(void)
-// HJI #else
-// HJI void USB_LP_CAN1_RX0_IRQHandler(void)
-// HJI #endif
-// HJI {
-// HJI   USB_Istr();
-// HJI }
+#if defined(STM32L1XX_MD) || defined(STM32L1XX_HD)|| defined(STM32L1XX_MD_PLUS)|| defined (STM32F37X)
+void USB_LP_IRQHandler(void)
+#else
+void USB_LP_CAN1_RX0_IRQHandler(void)
+#endif
+{
+    USB_Istr();
+}
 
 /*******************************************************************************
 * Function Name  : USB_FS_WKUP_IRQHandler
@@ -180,14 +183,14 @@ void PendSV_Handler(void)
 * Return         : None
 *******************************************************************************/
 
-// HJI #if defined(STM32L1XX_MD) || defined(STM32L1XX_HD)|| defined(STM32L1XX_MD_PLUS)
-// HJI void USB_FS_WKUP_IRQHandler(void)
-// HJI #else
-// HJI void USBWakeUp_IRQHandler(void)
-// HJI #endif
-// HJI {
-// HJI     EXTI_ClearITPendingBit(EXTI_Line18);
-// HJI }
+#if defined(STM32L1XX_MD) || defined(STM32L1XX_HD)|| defined(STM32L1XX_MD_PLUS)
+void USB_FS_WKUP_IRQHandler(void)
+#else
+void USBWakeUp_IRQHandler(void)
+#endif
+{
+    EXTI_ClearITPendingBit(EXTI_Line18);
+}
 
 /******************************************************************************/
 /*                 STM32 Peripherals Interrupt Handlers                   */

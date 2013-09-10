@@ -1,16 +1,17 @@
 /*
- * 	adc.c
+ *  adc.c
  *
- *	Created on: Jun 25, 2013
- *		Author: Denis aka caat
+ *  Created on: Jun 25, 2013
+ *      Author: Denis aka caat
  */
+#include <stdint.h>
 #include "adc.h"
 #include "stm32f10x_adc.h"
 #include "stm32f10x_gpio.h"
 
 void ADC_Config(void)
 {
-    GPIO_InitTypeDef	GPIO_InitStructure;
+    GPIO_InitTypeDef    GPIO_InitStructure;
     ADC_InitTypeDef  ADC_InitStructure;
     // Configure ADC on ADC123_IN13    pin PC3
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;

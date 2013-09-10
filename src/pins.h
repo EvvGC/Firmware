@@ -1,22 +1,25 @@
 /*
- * 	pins.h
+ *  pins.h
  *
- *	Created on: Jun 25, 2013
- *		Author: Denis caat
+ *  Created on: Jun 25, 2013
+ *      Author: Denis caat
  */
 
 #ifndef PINS_H_
 #define PINS_H_
 
-#include "stm32f10x_gpio.h"
+#define LED1_PIN        GPIO_Pin_12
+#define LED1_PORT       GPIOB
 
-#define LEDon  GPIO_WriteBit(GPIOB, GPIO_Pin_12,   Bit_SET) //LED on
-#define LEDoff GPIO_WriteBit(GPIOB, GPIO_Pin_12, Bit_RESET) //LED off
+#define LED2_PIN        GPIO_Pin_3
+#define LED2_PORT       GPIOA
 
-#define DEBUG_LEDon  GPIO_WriteBit(GPIOB, GPIO_Pin_5,   Bit_SET) //LED on
-#define DEBUG_LEDoff GPIO_WriteBit(GPIOB, GPIO_Pin_5, Bit_RESET) //LED off
+#define I2C_SDA_PIN     GPIO_Pin_11
+#define I2C_SDA_PORT    GPIOB
+
+#define I2C_SCL_PIN     GPIO_Pin_10
+#define I2C_SCL_PORT    GPIOB
 
 void GPIO_Config(void);
-void Blink(void);
 
 #endif /* PINS_H_ */

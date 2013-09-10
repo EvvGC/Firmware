@@ -1,73 +1,68 @@
 /*
- * 	i2c.c
+ *  i2c.c
  *
- *	Created on: Jun 25, 2013
- *		Author: Denis aka caat
+ *  Created on: Jun 25, 2013
+ *      Author: Denis aka caat
  */
-
+#include <stdint.h>
 #include "i2c.h"
 #include "pins.h"
+#include "utils.h"
+#include "stm32f10x_gpio.h"
 
+int I2Cerror, I2Cerrorcount;
 
 void I2C_delay(void)
 {
-    //   uint8_t i = 10;  //3 for 400khz
-    //
-    //   while(i)
-    //   {
-    //		i--;
-    //   }
-    int8_t i;
-
-    for (i = 10; i > 0; i--);
+    Delay_us(1);
 }
 
 void I2C1_Start(void)
 {
-    SDAH;
-    SCLH;
+    SDAH();
+    SCLH();
     I2C_delay();
-    SDAL;
+    SDAL();
     I2C_delay();
-    SCLL;
+    SCLL();
     I2C_delay();
 
 }
 
 void I2C1_Stop(void)
 {
-    SCLL;
+    SCLL();
     I2C_delay();
-    SDAL;
+    SDAL();
     I2C_delay();
-    SCLH;
+    SCLH();
     I2C_delay();
-    SDAH;
+    SDAH();
     I2C_delay();
 }
 
 void I2C1_Ack(void)
 {
-    SCLL;
+    SCLL();
     I2C_delay();
-    SDAL;
+    SDAL();
     I2C_delay();
-    SCLH;
+    SCLH();
     I2C_delay();
-    SCLL;
+    SCLL();
     I2C_delay();
 }
 
 
 void I2C1_NoAck(void)
 {
-    SCLL;
+    SCLL();
     I2C_delay();
-    SDAH;
+    SDAH();
     I2C_delay();
-    SCLH;
+    SCLH();
     I2C_delay();
-    SCLL;
+    SCLL();
     I2C_delay();
 }
 
@@ -77,33 +72,33 @@ void I2C1_SendByte(unsigned char SendByte)
     unsigned char i = 8;
 
     while (i--)
-        //	for(; i > 0; i--)
+        //  for(; i > 0; i--)
     {
-        SCLL;
+        SCLL();
         I2C_delay();
 
         if (SendByte & 0x80)
         {
-            SDAH;
+            SDAH();
         }
 
         if (!(SendByte & 0x80))
         {
-            SDAL;
+            SDAL();
         }
 
         SendByte <<= 1;
         I2C_delay();
-        SCLH;
+        SCLH();
         I2C_delay();
     }
 
-    SCLL;
+    SCLL();
 }
 
 uint8_t I2C1_ReceiveByte(void)
 {
-    //	int InputLevel[9];
+    //  int InputLevel[9];
     /*  unsigned char i=8;
       unsigned char ReceiveByte=0;
 
@@ -129,14 +124,14 @@ uint8_t I2C1_ReceiveByte(void)
     uint8_t t;
     uint8_t data;
 
-    SDAH;
+    SDAH();
 
     while (i--)
     {
         ReceiveByte <<= 1;
-        SCLL;
+        SCLL();
         I2C_delay();
-        SCLH;
+        SCLH();
         /*
         InputLevel[0]=GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11);
         InputLevel[1]=GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11);
@@ -149,7 +144,7 @@ uint8_t I2C1_ReceiveByte(void)
         InputLevel[8]=GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11);
         if((InputLevel[0]+InputLevel[1]+InputLevel[2]+InputLevel[3]+InputLevel[4]+InputLevel[5]+InputLevel[6]+InputLevel[7]+InputLevel[8])>=4)
         {
-        	ReceiveByte|=0x01;
+            ReceiveByte|=0x01;
         }
         */
         data = 0;
@@ -166,27 +161,27 @@ uint8_t I2C1_ReceiveByte(void)
 
     }
 
-    SCLL;
+    SCLL();
     return ReceiveByte;
 }
 
 void I2C1_WaitAck(void)
 {
-    SCLL;
+    SCLL();
     I2C_delay();
-    SDAH;
+    SDAH();
     I2C_delay();
-    SCLH;
+    SCLH();
     I2C_delay();
 
     if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) == 1)
     {
         I2Cerror = 1;
-        DEBUG_LEDon;
+        DEBUG_LEDon();
         I2Cerrorcount++;
     }
 
-    SCLL;
+    SCLL();
 
 }
 
@@ -194,23 +189,23 @@ void I2C1_WaitAck(void)
 //retrun values: 1 - ok; 1 - error;
 uint8_t I2C1_CheckAck(void)
 {
-	uint8_t ack = 0;
+    uint8_t ack = 0;
 
-	SCLL;
-	I2C_delay();
-	SDAH;
-	I2C_delay();
-	SCLH;
-	I2C_delay();
-	if(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) == 1)
-	{
-		ack = 1;
-		DEBUG_LEDon;
-		I2Cerrorcount++;
-	}
-	SCLL;
+      SCLL();
+      I2C_delay();
+      SDAH();
+      I2C_delay();
+      SCLH();
+      I2C_delay();
+      if(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) == 1)
+      {
+          ack = 1;
+          DEBUG_LEDon();
+          I2Cerrorcount++;
+      }
+      SCLL();
 
-	return ack;
+    return ack;
 }
 */
 
