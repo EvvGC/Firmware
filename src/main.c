@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "main.h"
 #include "adc.h"
 #include "comio.h"
 #include "commhandler.h"
@@ -90,7 +91,7 @@ void setup(void)
 
 #ifdef __VERSION__
     print("gcc version " __VERSION__ "\r\n");
-    print("EvvGC firmware V1.01, build date " __DATE__ " "__TIME__" \r\n");
+    print("EvvGC firmware V%s, build date " __DATE__ " "__TIME__" \r\n", __EV_VERSION);
 #endif
 
     if ((RCC->CR & RCC_CR_HSERDY) != RESET)
@@ -128,6 +129,7 @@ void setup(void)
     InitSinArray();
 
     int pendingCharacters = ComFlushInput();
+
     if (pendingCharacters > 0)
     {
         print("removed %d pending characters from communications input\r\n");
@@ -135,9 +137,12 @@ void setup(void)
 
 #if 0
     int c;
-    while((c=GetChar()) >= 0) {
+
+    while ((c = GetChar()) >= 0)
+    {
         print("removed pending character %02X from communications input\r\n", c);
     }
+
 #endif
 
     print("entering main loop...\r\n");

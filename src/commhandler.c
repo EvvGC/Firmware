@@ -7,6 +7,7 @@
  *  extracted code from main.c
  */
 #include <stdint.h>
+#include "main.h"
 #include "config.h"
 #include "utils.h"
 #include "eeprom.h"
@@ -146,6 +147,10 @@ void CommHandler(void) //UART4 Interrupt handler implementation
                 printUSART("\r\nYY bDeviceState %3d  VCPConnectMode %d\r\n", bDeviceState, GetVCPConnectMode());
                 break;
             }
+
+            case 'v':
+                print("Version: %s\r\n", __EV_VERSION);
+                break;
 
             case '+':
                 testPhase += 0.1;
