@@ -181,3 +181,6 @@
 20130913
     - usb VCP fix for Windows XP
     - added version command to cli
+    
+20130917
+    - incremental changes to the attitude engine and replacement of other *magic* numbers    
