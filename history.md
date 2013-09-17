@@ -187,3 +187,4 @@
 
 20130917
     - incremental changes to the attitude engine and replacement of other *magic* numbers
+    - release of 0.4.1 firmware
