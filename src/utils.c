@@ -78,7 +78,12 @@ void Delay_ms(unsigned int ms)
 
 float Rad2Deg(float x)
 {
-    return x * 180.0F / M_PI;
+    return x * (180.0F / M_PI);
+}
+
+float Deg2Rad(float x)
+{
+    return x * (M_PI / 180.0F);
 }
 
 float Round(float x)

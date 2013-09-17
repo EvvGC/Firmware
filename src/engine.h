@@ -10,6 +10,7 @@
 
 #define PITCH_UP_LIMIT (-50 * D2R)
 #define PITCH_DOWN_LIMIT (90 * D2R)
+#define CORRECTION_STEP 1.0F
 
 extern int debugPrint;
 extern int debugPerf;
