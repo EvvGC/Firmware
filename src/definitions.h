@@ -18,6 +18,6 @@ enum
 #define EULAR 3
 
 #define R2D 57.3F
-#define D2R 0.0174
+#define D2R 0.01745329
 
 #endif /* DEFINITIONS_H_ */

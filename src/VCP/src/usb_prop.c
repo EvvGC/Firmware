@@ -35,6 +35,8 @@
 #include "hw_config.h"
 
 #define printUSART(x) // ala42
+static unsigned int vcpBootBlockTime;
+extern unsigned int millis(void);
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -148,6 +150,7 @@ void Virtual_Com_Port_init(void)
 void Virtual_Com_Port_Reset(void)
 {
   printUSART("\r\nVirtual_Com_Port_Reset"); // ala42
+  vcpBootBlockTime = millis();
 
   /* Set Virtual_Com_Port DEVICE as not configured */
   pInformation->Current_Configuration = 0;
@@ -353,7 +356,9 @@ uint8_t *Virtual_Com_Port_GetConfigDescriptor(uint16_t Length)
   printUSART("\r\n Virtual_Com_Port_GetConfigDescriptor");
   //printUSART("\r\n Virtual_Com_Port_GetConfigDescriptor len %d", (int)Length); // ala42
 
-  if(Length == 9) {
+  if(millis() - vcpBootBlockTime > 1000) {
+    printUSART("\r\n Virtual_Com_Port_GetConfigDescriptor entering bootloader...");
+	//Delay_ms(1000);
     extern void bootloader(void);
 	bootloader(); // ala42
   }

@@ -68,6 +68,14 @@ void BKPTest(void)
 
 void bootloader(void)
 {
+    extern uint32_t g_pfnVectors;
+
+    if ((uint32_t)&g_pfnVectors == 0x08000000)
+    {
+        // there is no bootloader at the bottom of flash memory
+        return;
+    }
+
     BKPInit();
     BKPWrite(STAY_IN_BOOTLOADER_MAGIC);
     reboot();

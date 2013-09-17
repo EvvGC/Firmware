@@ -8,6 +8,9 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
+// software version number
+#define __EV_VERSION "0.4.1"
+
 float GetIdlePerf(void);
 
 #endif /* MAIN_H_ */
