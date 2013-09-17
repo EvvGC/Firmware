@@ -178,9 +178,13 @@
     - more cleanup in the attitude estimation engine
     - fixes for tuning the yaw motor
 
+20130910
+    - initial release of the 0.4 firmware
+
 20130913
     - usb VCP fix for Windows XP
     - added version command to cli
     
 20130917
-    - incremental changes to the attitude engine and replacement of other *magic* numbers    
+    - incremental changes to the attitude engine and replacement of other *magic* numbers
+    - release of 0.4.1 firmware
