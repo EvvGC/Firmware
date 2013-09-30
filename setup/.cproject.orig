@@ -36,7 +36,7 @@
 								<option id="org.eclipse.cdt.cross.arm.gnu.assembler.option.warnings.allwarn.553743335" name="All warnings (-Wall)" superClass="org.eclipse.cdt.cross.arm.gnu.assembler.option.warnings.allwarn" value="false" valueType="boolean"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.assembler.option.warnings.extrawarn.1030436502" name="Extra warnings (-Wextra)" superClass="org.eclipse.cdt.cross.arm.gnu.assembler.option.warnings.extrawarn" value="false" valueType="boolean"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.assembler.option.other.other.1807108682" name="Other flags" superClass="org.eclipse.cdt.cross.arm.gnu.assembler.option.other.other" value="-c" valueType="string"/>
-								<option id="org.eclipse.cdt.cross.arm.gnu.assembler.option.include.paths.1216212262" name="Include paths (-I)" superClass="org.eclipse.cdt.cross.arm.gnu.assembler.option.include.paths" valueType="includePath"/>
+								<option id="org.eclipse.cdt.cross.arm.gnu.assembler.option.include.paths.1216212262" name="Include paths (-I)" superClass="org.eclipse.cdt.cross.arm.gnu.assembler.option.include.paths"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.assembler.option.preprocessor.def.1078053878" name="Defined symbols (-D)" superClass="org.eclipse.cdt.cross.arm.gnu.assembler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STM32F10X_HD"/>
 									<listOptionValue builtIn="false" value="USE_STDPERIPH_DRIVER"/>
@@ -60,7 +60,7 @@
 									<listOptionValue builtIn="false" value="STM32F10X_HD"/>
 									<listOptionValue builtIn="false" value="USE_STDPERIPH_DRIVER"/>
 								</option>
-								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.other.otherflags.592325868" name="Other flags" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.other.otherflags" value="-c -fsingle-precision-constant" valueType="string"/>
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.other.otherflags.592325868" name="Other flags" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.other.otherflags" value="-c -fsingle-precision-constant -Wstrict-prototypes -fverbose-asm" valueType="string"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.std.54257660" name="Language Standard" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.std" value="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.std.gnu99" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.signedchar.1035232568" name="'char' is signed (-fsigned-char)" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.signedchar" value="false" valueType="boolean"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.warnings.extrawarn.795749045" name="Extra warnings (-Wextra)" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.warnings.extrawarn" value="true" valueType="boolean"/>
@@ -143,7 +143,7 @@
 									<listOptionValue builtIn="false" value="USE_STDPERIPH_DRIVER"/>
 								</option>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.std.377324321" name="Language Standard" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.std" value="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.std.gnu99" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.other.otherflags.1207814757" name="Other flags" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.other.otherflags" value="-c -fsingle-precision-constant" valueType="string"/>
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.other.otherflags.1207814757" name="Other flags" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.other.otherflags" value="-c -fsingle-precision-constant -Wstrict-prototypes -fverbose-asm" valueType="string"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.signedchar.1028043126" name="'char' is signed (-fsigned-char)" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.signedchar" value="false" valueType="boolean"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.functionsections.311148370" name="Function sections (-ffunction-sections)" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.functionsections" value="true" valueType="boolean"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.datasections.475132017" name="Data sections (-fdata-sections)" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.datasections" value="true" valueType="boolean"/>

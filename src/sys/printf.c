@@ -14,12 +14,12 @@
 * prefix: (none)
 *
 * available global functions:
-* 	int printf_(const char *format, ...)
-* 	int sprintf_(char *buffer, const char *format, ...)
+*   int printf_(const char *format, ...)
+*   int sprintf_(char *buffer, const char *format, ...)
 *
 * available local functions:
-* 	int __fputc_(int character, printf_file_t *stream)
-* 	int __vfprintf_(printf_file_t *stream, const char *format, va_list arg)
+*   int __fputc_(int character, printf_file_t *stream)
+*   int __vfprintf_(printf_file_t *stream, const char *format, va_list arg)
 *
 * available interrupt handlers:
 ******************************************************************************/
@@ -45,11 +45,13 @@
 
 #if PRINTF_HAVE_PRINTF == 1
 
-printf_file_t stdout_file = {
+printf_file_t stdout_file =
+{
 #if PRINTF_HAVE_PRINTF_SPRINTF == 1
-		NULL,
+    NULL,
 #endif
-		&usart_put_char, 0};	///< stdout file handle - usart_put_char() by default
+    &usart_put_char, 0
+};    ///< stdout file handle - usart_put_char() by default
 
 #endif
 /*
@@ -81,14 +83,14 @@ static int __vfprintf_(printf_file_t *stream, const char *format, va_list arg);
 
 int printf_(const char *format, ...)
 {
-	va_list arg;
-	int count;
+    va_list arg;
+    int count;
 
-	va_start(arg, format);
-	count = __vfprintf_(stdout_, format, arg);
-	va_end(arg);
+    va_start(arg, format);
+    count = __vfprintf_(stdout_, format, arg);
+    va_end(arg);
 
-	return count;
+    return count;
 }
 
 #endif
@@ -108,23 +110,23 @@ int printf_(const char *format, ...)
 
 int sprintf_(char *buffer, const char *format, ...)
 {
-	printf_file_t stream;
-	va_list arg;
-	int count;
+    printf_file_t stream;
+    va_list arg;
+    int count;
 
-	stream.buffer = buffer;
+    stream.buffer = buffer;
 
 #if PRINTF_HAVE_PRINTF == 1
-	stream.put = NULL;
+    stream.put = NULL;
 #endif
 
-	va_start(arg, format);
-	count = __vfprintf_(&stream, format, arg);
-	va_end(arg);
+    va_start(arg, format);
+    count = __vfprintf_(&stream, format, arg);
+    va_end(arg);
 
-	buffer[count]='\0';
+    buffer[count] = '\0';
 
-	return count;
+    return count;
 }
 
 #endif
@@ -148,24 +150,27 @@ int sprintf_(char *buffer, const char *format, ...)
 static int __fputc_(int character, printf_file_t *stream)
 {
 #if PRINTF_HAVE_PRINTF_SPRINTF == 1
-	if (stream->buffer != NULL)					// is buffer pointer valid?
+
+    if (stream->buffer != NULL)                 // is buffer pointer valid?
 #endif
 
 #if PRINTF_HAVE_SPRINTF == 1
-		*stream->buffer++ = (char)character;	// yes - just add the character to it
+        *stream->buffer++ = (char)character;    // yes - just add the character to it
+
 #endif
 
 #if PRINTF_HAVE_PRINTF_SPRINTF == 1
-	else if (stream->put != NULL)				// is put() function pointer valid?
+    else if (stream->put != NULL)               // is put() function pointer valid?
 #endif
 
 #if PRINTF_HAVE_PRINTF == 1
-		(*stream->put)((char)character);		// yes - use it to add one character to stream
+        (*stream->put)((char)character);        // yes - use it to add one character to stream
+
 #endif
 
-	stream->length++;							// increment the length of stream
+    stream->length++;                           // increment the length of stream
 
-	return character;
+    return character;
 }
 
 /*------------------------------------------------------------------------*//**
@@ -182,49 +187,51 @@ static int __fputc_(int character, printf_file_t *stream)
 
 static int __vfprintf_(printf_file_t *stream, const char *format, va_list arg)
 {
-	char character;
+    char character;
 
-	stream->length=0;						// clear the current length of stream
+    stream->length = 0;                     // clear the current length of stream
 
-	while ((character = *format++) != '\0')	// loop until termination character '\0'
-	{
-		if (character != '%')				// specifier found?
-			__fputc_(character, stream);	// no - just print the character
-		else								// yes
-		{
-			character=*format++;			// get the character after the specifier
+    while ((character = *format++) != '\0') // loop until termination character '\0'
+    {
+        if (character != '%')               // specifier found?
+            __fputc_(character, stream);    // no - just print the character
+        else                                // yes
+        {
+            character = *format++;          // get the character after the specifier
 
-			if (character == '%' || character == 'c')	// %% - print '%' or %c - print single char
-			{
-				if (character == 'c')		// was that %c?
-					character = va_arg(arg, int);	// get the char from va_list
-				__fputc_(character, stream);
-				continue;
-			}
+            if (character == '%' || character == 'c')   // %% - print '%' or %c - print single char
+            {
+                if (character == 'c')       // was that %c?
+                    character = va_arg(arg, int);   // get the char from va_list
 
-			// %s, %d and %x - these require a string to be copied to stream
-			if (character == 's' || character == 'd' || character == 'x')
-			{
-				char buffer[11];
-				char* buffer_ptr;
+                __fputc_(character, stream);
+                continue;
+            }
 
-				if (character == 's')		// %s - get the pointer to string
-					buffer_ptr=va_arg(arg, char*);
-				else						// %d or %x - convert the number to string
-				{
-					int base = (character == 'd' ? 10 : 16);
+            // %s, %d and %x - these require a string to be copied to stream
+            if (character == 's' || character == 'd' || character == 'x')
+            {
+                char buffer[11];
+                char *buffer_ptr;
 
-					buffer_ptr = itoa(va_arg(arg, int), buffer, base);
-				}
+                if (character == 's')       // %s - get the pointer to string
+                    buffer_ptr = va_arg(arg, char *);
+                else                        // %d or %x - convert the number to string
+                {
+                    int base = (character == 'd' ? 10 : 16);
 
-				while ((character = *buffer_ptr++))	// copy the string to stream
-					__fputc_(character, stream);
-				continue;
-			}
-		}
-	}
+                    buffer_ptr = itoa(va_arg(arg, int), buffer, base);
+                }
 
-	return stream->length;
+                while ((character = *buffer_ptr++)) // copy the string to stream
+                    __fputc_(character, stream);
+
+                continue;
+            }
+        }
+    }
+
+    return stream->length;
 }
 
 /*
