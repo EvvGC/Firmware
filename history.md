@@ -188,3 +188,9 @@
 20130917
     - incremental changes to the attitude engine and replacement of other *magic* numbers
     - release of 0.4.1 firmware
+
+20130929
+    - Fixed a stray interrupt problem that was occuring on 1.3 boards only due to the USB pin
+      mis configuration
+    - correct gyro configuration
+    - release of 0.4.2 firmware

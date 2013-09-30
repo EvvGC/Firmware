@@ -19,12 +19,12 @@
 +=============================================================================+
 */
 
-#define PRINTF_HAVE_PRINTF					0				///< selects whether to compile printf_()
-#define PRINTF_HAVE_SPRINTF					1				///< selects whether to compile sprintf_()
-#define PRINTF_HAVE_PRINTF_SPRINTF			(PRINTF_HAVE_PRINTF && PRINTF_HAVE_SPRINTF)
+#define PRINTF_HAVE_PRINTF                  0               ///< selects whether to compile printf_()
+#define PRINTF_HAVE_SPRINTF                 1               ///< selects whether to compile sprintf_()
+#define PRINTF_HAVE_PRINTF_SPRINTF          (PRINTF_HAVE_PRINTF && PRINTF_HAVE_SPRINTF)
 
 
-#define stdout_								&stdout_file	///< stdout_ used by printf
+#define stdout_                             &stdout_file    ///< stdout_ used by printf
 
 /*
 +=============================================================================+
@@ -36,14 +36,14 @@
 typedef struct printf_file_s
 {
 #if PRINTF_HAVE_SPRINTF == 1
-	char *buffer;							///< pointer to buffer for data
+    char *buffer;                           ///< pointer to buffer for data
 #endif
 
 #if PRINTF_HAVE_PRINTF == 1
-	void (*put)(char);						///< put() function for writing data
+    void (*put)(char);                      ///< put() function for writing data
 #endif
 
-	int length;								///< user's variable for current length
+    int length;                             ///< user's variable for current length
 } printf_file_t;
 
 /*
