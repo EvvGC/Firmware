@@ -1,17 +1,3 @@
-/*
-#include "config.h"
-#include "pins.h"
-#include "usart.h"
-#include "utils.h"
-#include "adc.h"
-#include "timers.h"
-#include "eeprom.h"
-#include "engine.h"
-#include "gyro.h"
-#include "pwm.h"
-#include "systick.h"
-*/
-
 #include "rc.h"
 #include "stm32f10x_tim.h"
 #include "utils.h"
@@ -36,17 +22,23 @@ void RC_Config(void)
 {
     GPIO_InitTypeDef    GPIO_InitStructure;
 
+	__disable_irq();
+
     GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable , ENABLE);
 
+	// PA15 must be initialized after PA15/PB3 are made available with GPIO_Remap_SWJ_JTAGDisable
+    GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_15;				// PA15
+    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IN_FLOATING;  	// Set to Input
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;   		// GPIO Speed
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+
     //EXTI IN GPIO Config
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4; // PB3-Pitch, PB4-Roll
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;  //Set to Input
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;      //GPIO Speed
+    GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_3 | GPIO_Pin_4;	// PB3-Pitch, PB4-Roll
+    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IPD;  			// Set to Input Pull Down
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;    	  	// GPIO Speed
     GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2; // PC2-Yaw
-    //GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;  //Set to Input
-    //GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;      //GPIO Speed
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2; 					// PC2-Yaw
     GPIO_Init(GPIOC, &GPIO_InitStructure);
 
     GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource3);
@@ -55,8 +47,8 @@ void RC_Config(void)
 
     EXTI_InitTypeDef EXTI_InitStructure;
 
-    EXTI_InitStructure.EXTI_Line = EXTI_Line3 | EXTI_Line4 | EXTI_Line2;
-    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStructure.EXTI_Line    = EXTI_Line3 | EXTI_Line4 | EXTI_Line2;
+    EXTI_InitStructure.EXTI_Mode    = EXTI_Mode_Interrupt;
     EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
     EXTI_InitStructure.EXTI_LineCmd = ENABLE;
     EXTI_Init(&EXTI_InitStructure);
@@ -68,7 +60,9 @@ void RC_Config(void)
     NVIC_EnableIRQ(EXTI4_IRQn); // Enable interrupt
     NVIC_EnableIRQ(EXTI2_IRQn); // Enable interrupt
 
-    Timer3_Config();//RC control timer
+    Timer3_Config(); //RC control timer
+	
+	__enable_irq();
 }
 
 static int rc3;
@@ -78,7 +72,7 @@ int GetAUX3(void)
     return rc3;
 }
 
-void EXTI3_IRQHandler(void)//EXTernal interrupt routine PB3-Pitch
+void EXTI3_IRQHandler(void) //EXTernal interrupt routine PB3-Pitch
 {
     static unsigned short rc3a, rc3b;
 
@@ -119,7 +113,7 @@ int GetAUX2(void)
     return rc2;
 }
 
-void EXTI2_IRQHandler(void)//EXTernal interrupt routine PB3-Pitch
+void EXTI2_IRQHandler(void) //EXTernal interrupt routine PC2-Pitch
 {
     static unsigned short rc2a, rc2b;
 
@@ -159,7 +153,7 @@ int GetAUX4(void)
     return rc4;
 }
 
-void EXTI4_IRQHandler(void)//EXTernal interrupt routine PB4-Yaw
+void EXTI4_IRQHandler(void) //EXTernal interrupt routine PB4-Yaw
 {
     static unsigned short rc4a, rc4b;
 
