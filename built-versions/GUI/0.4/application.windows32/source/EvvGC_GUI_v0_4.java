@@ -44,8 +44,10 @@ int xRPWR        = 375;
 int yRPWR        = 150;
 int xYPWR        = 375;
 int yYPWR        = 200;
-int xRollCal     = 500;
+int xRollCal     = 480;
 int yRollCal     = 200;
+int xRollZero    = 540;
+int yRollZero    = 200;
 
 // Constants
 int Y_AXIS = 1;
@@ -64,6 +66,7 @@ Numberbox RollPWR;
 Numberbox YawPWR;
 Numberbox RollCal;
 Button buttonREAD,buttonWRITE, buttonCONFon, buttonCONFoff, buttonP0, buttonP1, buttonP2, buttonRCOff, buttonRCOn, buttonYawRC, buttonYawAut;
+Button buttonZeroRoll;
 int m=10, i, commListMax;
 
 int green_ = color(0, 120, 170), gray_ = color(60, 60, 60); ///30 120 30
@@ -74,6 +77,7 @@ boolean portopen = false;
 char RCcontrol = '0'; 
 char YawRCon = '0'; 
 String readStatus = "";
+String Version = "0.4.1";
 
 public controlP5.Controller hideLabel(controlP5.Controller c) {
   c.setLabel("");
@@ -90,7 +94,7 @@ public void setup()
   
   textSize(28);
   fill(0, 120, 170);//blue
-  text("EvvGC GUI",20,50);
+  text("EvvGC GUI",20,50); text(Version, 170,50);
  
  
   // Define colors
@@ -146,6 +150,7 @@ public void setup()
   /******************************Calibration cells*************************************************************/
   RollCal = (controlP5.Numberbox) hideLabel(controlP5.addNumberbox("RollCal",0,xRollCal,yRollCal,40,16));
   RollCal.setColorBackground(gray_);RollCal.setMin(-10);RollCal.setDirection(Controller.HORIZONTAL);RollCal.setDecimalPrecision(1);RollCal.setMultiplier(0.2f);RollCal.setMax(10);
+  buttonZeroRoll =      controlP5.addButton("ZERO",1,535,200,40,16); buttonZeroRoll.setColorBackground(gray_);
 
 
   /****************************Buttons*********************************************************************/
@@ -411,6 +416,12 @@ public void Yaw_Auto_Pan() {
   YawRCon = '0';
 }
 
+public void ZERO() {
+  RollCal.setValue(0.0f);
+  println (RollCal.value());
+  println (PApplet.parseInt (RollCal.value()*10+100));
+
+}
 
 
 
