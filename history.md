@@ -195,3 +195,6 @@
     - correct gyro configuration
     - release of 0.4.2 firmware
 
+20131008
+    - added usb bootloader and associated scripts.  See wiki for details on use
+
