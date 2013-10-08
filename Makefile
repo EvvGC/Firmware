@@ -212,8 +212,8 @@ GENERATED = $(wildcard $(patsubst %, $(OUT_DIR_F)*.%, bin d dmp elf hex lss lst 
 #=============================================================================#
 
 #all : make_output_dir $(ELF) $(LSS) $(DMP) $(HEX) $(BIN) print_size
-all: make_output_dir $(ELF) $(LSS) $(DMP) $(HEX) $(BIN) print_size \
-					$(USBELF) $(USBLSS) $(USBBIN)
+all: make_output_dir $(ELF) $(LSS) $(DMP) $(HEX) $(BIN) $(USBELF) $(USBLSS) $(USBBIN) print_size \
+#					$(USBELF) $(USBLSS) $(USBBIN
 
 # make object files dependent on Makefile
 #$(OBJS) : Makefile
@@ -234,10 +234,10 @@ $(ELF) : $(OBJS)  $(LD_SCRIPT)
 # linking - objects -> elf, USB version
 #-----------------------------------------------------------------------------#
 
-$(USBELF) : $(ELF) $(OBJS)
+$(USBELF) : $(ELF) $(OBJS) $(LD_USB_SCRIPT)
 	@echo 'Linking target: $(USBELF)'
 	$(CXX) $(LD_USB_FLAGS_F) $(OBJS) $(LIBS) -o $@
-	@echo ' 
+	@echo ' '
 	
 #-----------------------------------------------------------------------------#
 # compiling - C++ source -> objects
