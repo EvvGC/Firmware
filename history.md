@@ -197,4 +197,6 @@
 
 20131008
     - added usb bootloader and associated scripts.  See wiki for details on use
+    - corrected RC control double add of RC values
+    - release of 0.4.3 firmware
 

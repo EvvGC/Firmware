@@ -182,14 +182,14 @@ void engineProcess(float dt)
     }
 
     // Pitch adjustments
-    pitch_setpoint += Step[PITCH];
+    //pitch_setpoint += Step[PITCH];
     pitchRCOffset += Step[PITCH] / 1000.0;
 
     pitch_angle_correction = constrain((CameraOrient[PITCH] + pitchRCOffset) * 50.0, -CORRECTION_STEP, CORRECTION_STEP);
     pitch_setpoint += pitch_angle_correction; // Pitch return to zero after collision
 
     // Roll Adjustments
-    roll_setpoint += Step[ROLL];
+    //roll_setpoint += Step[ROLL];
     rollRCOffset += Step[ROLL] / 1000.0;
 
     // include the config roll offset which is scaled to 0 = -10.0 degrees, 100 = 0.0 degrees, and 200 = 10.0 degrees
