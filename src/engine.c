@@ -16,7 +16,7 @@
 #include "comio.h"
 #include "systick.h"
 #include "stopwatch.h"
-#include "I2C.h"
+#include "i2c.h"
 #include "definitions.h"
 #include "usb.h"
 #include "main.h"
@@ -241,7 +241,7 @@ void engineProcess(float dt)
 
         if (debugPerf)
         {
-            print("idle: %5.2f%%, time[µs]: attitude est. %4d, IMU acc %4d, gyro %4d, angle %4d, calc %4d, PID %4d\r\n",
+            print("idle: %5.2f%%, time[ï¿½s]: attitude est. %4d, IMU acc %4d, gyro %4d, angle %4d, calc %4d, PID %4d\r\n",
                   GetIdlePerf(), tAll, tAccGet, tGyroGet, tAccAngle, tCalc, tPID);
         }
 
