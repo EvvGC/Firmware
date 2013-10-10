@@ -33,6 +33,11 @@ void CommHandler(void) //UART4 Interrupt handler implementation
 
         switch (c)
         {
+            case 'a':
+                debugAutoPan ^= 1;
+                print("Autopan messages %s\r\n", debugOrient ? "on" : "off");
+                break;
+
             case 'b':
                 print("rebooting into boot loader ...\r\n");
                 Delay_ms(1000);

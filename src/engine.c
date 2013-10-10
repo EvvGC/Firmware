@@ -27,6 +27,7 @@ int debugSense  = 0;
 int debugCnt    = 0;
 int debugRC     = 0;
 int debugOrient = 0;
+int debugAutoPan = 0;
 
 float /*pitch, Gyro_Pitch_angle,*/ pitch_setpoint = 0.0f, pitch_Error_last,  pitch_angle_correction;
 float /*roll,  Gyro_Roll_angle,*/  roll_setpoint = 0.0f,  roll_Error_last,    roll_angle_correction;
@@ -37,6 +38,8 @@ float ADC1Ch13_yaw;
 static float rollRCOffset = 0.0f, pitchRCOffset = 0.0f, yawRCOffset = 0.0f;
 
 static int printcounter = 0;
+
+float Output[EULAR];
 
 float CameraOrient[EULAR];
 float AccAngleSmooth[EULAR];
@@ -54,7 +57,7 @@ void roll_PID(void)
     float KD = (float)configData[4] / 100.0 * (Error_current - roll_Error_last);
 
     roll_Error_last = Error_current;
-
+    Output[ROLL] = KD + KP;
     SetRollMotor(KP + KD, configData[7]);
 }
 
@@ -66,6 +69,7 @@ void pitch_PID(void)
 
     pitch_Error_last = Error_current;
 
+    Output[PITCH] = KD + KP;
     SetPitchMotor(KP + KD, configData[6]);
 }
 
@@ -76,7 +80,7 @@ void yaw_PID(void)
     float KD = (float)configData[5] / 100.0 * (Error_current - yaw_Error_last);
 
     yaw_Error_last = Error_current;
-
+    Output[YAW] = KD + KP;
     SetYawMotor(KP + KD, configData[8]);
 }
 
@@ -130,7 +134,7 @@ void Init_Orientation()
 
     CameraOrient[PITCH] = AccAngleSmooth[PITCH];
     CameraOrient[ROLL] = AccAngleSmooth[ROLL];
-    CameraOrient[YAW] = 0.0;
+    CameraOrient[YAW] = 0.0f;
 }
 
 void Get_Orientation(float *SmoothAcc, float *Orient, float *AccData, float *GyroData, float dt)
@@ -141,19 +145,53 @@ void Get_Orientation(float *SmoothAcc, float *Orient, float *AccData, float *Gyr
     AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], AccData[Z_AXIS]));   //Calculating pitch ACC angle
     AccAngle[PITCH] = +(atan2f(AccData[Y_AXIS], AccData[Z_AXIS]));   //Calculating roll ACC angle
 
-    SmoothAcc[ROLL]  = ((SmoothAcc[ROLL] * 99.0)  + AccAngle[ROLL])  / 100.0; //Averaging pitch ACC values
-    SmoothAcc[PITCH] = ((SmoothAcc[PITCH] * 99.0) + AccAngle[PITCH]) / 100.0; //Averaging roll  ACC values
+    SmoothAcc[ROLL]  = ((SmoothAcc[ROLL] * 99.0f)  + AccAngle[ROLL])  / 100.0f; //Averaging pitch ACC values
+    SmoothAcc[PITCH] = ((SmoothAcc[PITCH] * 99.0f) + AccAngle[PITCH]) / 100.0f; //Averaging roll  ACC values
 
     GyroRate[PITCH] =  GyroData[X_AXIS];
-    Orient[PITCH]   = (Orient[PITCH] + GyroRate[PITCH] * dt) + 0.0002 * (SmoothAcc[PITCH] - Orient[PITCH]);  //Pitch Horizon
+    Orient[PITCH]   = (Orient[PITCH] + GyroRate[PITCH] * dt) + 0.0002f * (SmoothAcc[PITCH] - Orient[PITCH]);  //Pitch Horizon
 
     GyroRate[ROLL] = -GyroData[Z_AXIS] * sinf(Orient[PITCH]) + GyroData[Y_AXIS] * cosf(fabsf(Orient[PITCH]));
-    Orient[ROLL]   = (Orient[ROLL] + GyroRate[ROLL] * dt)    + 0.0002 * (SmoothAcc[ROLL] - Orient[ROLL]); //Roll Horizon
+    Orient[ROLL]   = (Orient[ROLL] + GyroRate[ROLL] * dt)    + 0.0002f * (SmoothAcc[ROLL] - Orient[ROLL]); //Roll Horizon
 
     GyroRate[YAW] = -GyroData[Z_AXIS] * cosf(fabsf(Orient[PITCH])) - GyroData[Y_AXIS] * sinf(Orient[PITCH]); //presuming Roll is horizontal
     Orient[YAW]   = (Orient[YAW] + GyroRate[YAW] * dt); //Yaw
 }
 
+//---------------------YAW autopan----------------------//
+//#define ANGLE2SETPOINT -1000
+#define DEADBAND 2.0f //in radians with respect to one motor pole (actual angle is (DEADBAND / numberPoles) * R2D)
+#define MOTORPOS2SETPNT 0.35f //scaling factor for how fast it should move
+#define AUTOPANSMOOTH 40.0f
+//#define LPFTIMECONSTANT 20 //change this to adjust sensitivity
+
+//float yawAngleLPF=0;
+float centerPoint = 0.0f;
+float stepSmooth  = 0.0f;
+float step        = 0.0f;
+
+float autoPan(float motorPos, float setpoint)
+{
+
+    if (motorPos < centerPoint - DEADBAND)
+    {
+        centerPoint = (+DEADBAND);
+        step = MOTORPOS2SETPNT * motorPos; //dampening
+    }
+    else if (motorPos > centerPoint + DEADBAND)
+    {
+        centerPoint = (-DEADBAND);
+        step = MOTORPOS2SETPNT * motorPos; //dampening
+    }
+    else
+    {
+        step = 0.0f;
+        centerPoint = 0.0f;
+    }
+    stepSmooth = (stepSmooth * (AUTOPANSMOOTH - 1.0f) + step) / AUTOPANSMOOTH;
+    return (setpoint -= stepSmooth);
+}
+//--------------------Engine Process-----------------------------//
 void engineProcess(float dt)
 {
     static int loopCounter;
@@ -199,13 +237,16 @@ void engineProcess(float dt)
     // if we enabled AutoPan on Yaw
     if (configData[10] == '0')
     {
-        ADC1Ch13_yaw = ((ADC1Ch13_yaw * 99.0) + ((float)(readADC1(13) - 2000) / 4000.0)) / 100.0;  // Average ADC value
-        CameraOrient[YAW] = CameraOrient[YAW] + 0.01 * (ADC1Ch13_yaw - CameraOrient[YAW]);
+        //ADC1Ch13_yaw = ((ADC1Ch13_yaw * 99.0) + ((float)(readADC1(13) - 2000) / 4000.0)) / 100.0;  // Average ADC value
+        //CameraOrient[YAW] = CameraOrient[YAW] + 0.01 * (ADC1Ch13_yaw - CameraOrient[YAW]);
+        yaw_setpoint = autoPan(Output[YAW], yaw_setpoint);
     }
-
-    // Yaw Adjustments
-    yaw_setpoint += Step[YAW];
-    yawRCOffset += Step[YAW] / 1000.0;
+    else
+    {
+        // Yaw Adjustments
+        yaw_setpoint += Step[YAW];
+        yawRCOffset += Step[YAW] / 1000.0;
+    }
 
 #if 0
     yaw_angle_correction = constrain((CameraOrient[YAW] + yawRCOffset) * 50.0, -CORRECTION_STEP, CORRECTION_STEP);
@@ -264,6 +305,15 @@ void engineProcess(float dt)
                   MaxCnt[ROLL], MaxCnt[PITCH], MaxCnt[YAW],
                   IrqCnt[ROLL], IrqCnt[PITCH], IrqCnt[YAW],
                   usbOverrun());
+        }
+
+        if (debugAutoPan)
+        {
+            print("Pitch_output:%3.2f | Roll_output:%3.2f | Yaw_output:%3.2f | centerpoint:%4.4f\n\r",
+                  Output[PITCH],
+                  Output[ROLL],
+                  Output[YAW],
+                  centerPoint);
         }
 
         printcounter = 0;

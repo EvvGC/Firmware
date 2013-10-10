@@ -9,7 +9,7 @@
 #define MAIN_H_
 
 // software version number
-#define __EV_VERSION "0.4.3"
+#define __EV_VERSION "0.4.3x"
 
 float GetIdlePerf(void);
 

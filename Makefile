@@ -352,4 +352,4 @@ endif
 .SECONDARY:
 
 # include dependancy files
-#-include $(DEPS)
+-include $(DEPS)
