@@ -195,3 +195,9 @@
     - correct gyro configuration
     - release of 0.4.2 firmware
 
+20131010
+    - added usb bootloader and associated scripts.  See wiki for details on use
+    - corrected RC control double add of RC values
+    - included Autopan on Yaw in software
+    - release of 0.4.3 firmware
+
