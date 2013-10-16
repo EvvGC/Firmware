@@ -90,6 +90,7 @@ void setup()
 
 
 
+  commListMax = -1;
   for(int i=0;i<Serial.list().length;i++) {
     commListMax = i;
   }  
