@@ -21,17 +21,17 @@
 #include "usb.h"
 #include "main.h"
 
-int debugPrint  = 0;
-int debugPerf   = 0;
-int debugSense  = 0;
-int debugCnt    = 0;
-int debugRC     = 0;
-int debugOrient = 0;
+int debugPrint   = 0;
+int debugPerf    = 0;
+int debugSense   = 0;
+int debugCnt     = 0;
+int debugRC      = 0;
+int debugOrient  = 0;
 int debugAutoPan = 0;
 
-float /*pitch, Gyro_Pitch_angle,*/ pitch_setpoint = 0.0f, pitch_Error_last,  pitch_angle_correction;
-float /*roll,  Gyro_Roll_angle,*/  roll_setpoint = 0.0f,  roll_Error_last,    roll_angle_correction;
-float /*yaw,   Gyro_Yaw_angle,*/   yaw_setpoint = 0.0f,   yaw_Error_last,      yaw_angle_correction;
+float /*pitch, Gyro_Pitch_angle,*/ pitch_setpoint = 0.0f, pitch_Error_last = 0.0f,  pitch_angle_correction;
+float /*roll,  Gyro_Roll_angle,*/  roll_setpoint  = 0.0f,  roll_Error_last = 0.0f,   roll_angle_correction;
+float /*yaw,   Gyro_Yaw_angle,*/   yaw_setpoint   = 0.0f,   yaw_Error_last = 0.0f,    yaw_angle_correction;
 
 float ADC1Ch13_yaw;
 
@@ -53,10 +53,11 @@ float RCSmooth[NUMAXIS] = {0.0f, 0.0f, 0.0f};
 void roll_PID(void)
 {
     float Error_current = roll_setpoint + CameraOrient[ROLL] * 1000.0;
-    float KP = Error_current * (float)configData[1] / 1000.0;
-    float KD = (float)configData[4] / 100.0 * (Error_current - roll_Error_last);
+    float KP = Error_current * ((float)configData[1] / 1000.0);
+    float KD = ((float)configData[4] / 100.0) * (Error_current - roll_Error_last);
 
     roll_Error_last = Error_current;
+
     Output[ROLL] = KD + KP;
     SetRollMotor(KP + KD, configData[7]);
 }
@@ -64,8 +65,8 @@ void roll_PID(void)
 void pitch_PID(void)
 {
     float Error_current = pitch_setpoint + CameraOrient[PITCH] * 1000.0;
-    float KP = Error_current * (float)configData[0] / 1000.0;
-    float KD = (float)configData[3] / 100.0 * (Error_current - pitch_Error_last);
+    float KP = Error_current * ((float)configData[0] / 1000.0);
+    float KD = ((float)configData[3] / 100.0) * (Error_current - pitch_Error_last);
 
     pitch_Error_last = Error_current;
 
@@ -76,10 +77,11 @@ void pitch_PID(void)
 void yaw_PID(void)
 {
     float Error_current = yaw_setpoint + CameraOrient[YAW] * 1000.0;
-    float KP = Error_current * (float)configData[2] / 1000.0;
-    float KD = (float)configData[5] / 100.0 * (Error_current - yaw_Error_last);
+    float KP = Error_current * ((float)configData[2] / 1000.0);
+    float KD = ((float)configData[5] / 100.0) * (Error_current - yaw_Error_last);
 
     yaw_Error_last = Error_current;
+
     Output[YAW] = KD + KP;
     SetYawMotor(KP + KD, configData[8]);
 }
