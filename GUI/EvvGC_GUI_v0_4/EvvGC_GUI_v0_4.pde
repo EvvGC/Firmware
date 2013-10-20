@@ -57,7 +57,7 @@ boolean portopen = false;
 char RCcontrol = '0'; 
 char YawRCon = '0'; 
 String readStatus = "";
-String Version = "0.4.1";
+String Version = "0.4.1.1";
 
 controlP5.Controller hideLabel(controlP5.Controller c) {
   c.setLabel("");
