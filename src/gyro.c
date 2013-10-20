@@ -21,7 +21,16 @@ int MPU6050_Init(void)
 {
     uint8_t mpu_adr;
 
-    Delay_ms(1);
+    I2C1_Start();
+    I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
+    I2C1_WaitAck();
+    I2C1_SendByte(0x6B); // Force a reset
+    I2C1_WaitAck();
+    I2C1_SendByte(0x80);
+    I2C1_WaitAck();
+    I2C1_Stop();
+
+    Delay_ms(150);
 
     I2C1_Start();
     I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
@@ -64,7 +73,7 @@ int MPU6050_Init(void)
     I2C1_WaitAck();
     I2C1_SendByte(0x1A);
     I2C1_WaitAck();
-    I2C1_SendByte(0x02);//low pass 98hz
+    I2C1_SendByte(0x02);    //low pass 98hz
     I2C1_WaitAck();
     I2C1_Stop();
 
@@ -130,7 +139,7 @@ int MPU6050_Init(void)
     I2C1_WaitAck();
     I2C1_SendByte(0x6B);
     I2C1_WaitAck();
-    I2C1_SendByte(0x00); // power management
+    I2C1_SendByte(0x03); // clock source AKA - changed from 0x00 (internal clock)
     I2C1_WaitAck();
     I2C1_Stop();
 

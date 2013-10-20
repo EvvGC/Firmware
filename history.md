@@ -201,3 +201,7 @@
     - included Autopan on Yaw in software
     - release of 0.4.3 firmware
 
+20131019
+    - updated gyro.c to setup the mpu6050 the correct way, added the z axis clock as the imu clock
+    - other minor formatting changes
+
