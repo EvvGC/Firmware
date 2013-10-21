@@ -16,7 +16,7 @@
 #include "comio.h"
 #include "systick.h"
 #include "stopwatch.h"
-#include "I2C.h"
+#include "i2c.h"
 #include "definitions.h"
 #include "usb.h"
 #include "main.h"
@@ -225,7 +225,7 @@ void engineProcess(float dt)
     //pitch_setpoint += Step[PITCH];
     pitchRCOffset += Step[PITCH] / 1000.0;
 
-    pitch_angle_correction = constrain((CameraOrient[PITCH] + pitchRCOffset) * 50.0, -CORRECTION_STEP, CORRECTION_STEP);
+    pitch_angle_correction = constrain((CameraOrient[PITCH] + pitchRCOffset) * R2D, -CORRECTION_STEP, CORRECTION_STEP);
     pitch_setpoint += pitch_angle_correction; // Pitch return to zero after collision
 
     // Roll Adjustments
@@ -233,7 +233,7 @@ void engineProcess(float dt)
     rollRCOffset += Step[ROLL] / 1000.0;
 
     // include the config roll offset which is scaled to 0 = -10.0 degrees, 100 = 0.0 degrees, and 200 = 10.0 degrees
-    roll_angle_correction = constrain((CameraOrient[ROLL] + rollRCOffset + Deg2Rad((configData[11] - 100) / 10.0)) * 50.0, -CORRECTION_STEP, CORRECTION_STEP);
+    roll_angle_correction = constrain((CameraOrient[ROLL] + rollRCOffset + Deg2Rad((configData[11] - 100) / 10.0)) * R2D, -CORRECTION_STEP, CORRECTION_STEP);
     roll_setpoint += roll_angle_correction; //Roll return to zero after collision
 
     // if we enabled AutoPan on Yaw
@@ -251,7 +251,7 @@ void engineProcess(float dt)
     }
 
 #if 0
-    yaw_angle_correction = constrain((CameraOrient[YAW] + yawRCOffset) * 50.0, -CORRECTION_STEP, CORRECTION_STEP);
+    yaw_angle_correction = constrain((CameraOrient[YAW] + yawRCOffset) * R2D, -CORRECTION_STEP, CORRECTION_STEP);
     yaw_setpoint += yaw_angle_correction; // Yaw return to zero after collision
 #endif
 
