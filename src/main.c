@@ -17,6 +17,7 @@
 #include "reboot.h"
 
 // echo b > /dev/ttyACM0 && sudo ./dfu-util -v -a 1 -d 1eaf:0003 -D out/STM32Gimbal.USB.bin
+// echo b > /dev/cu.usbmodemfa1341 && dfu-util -v -a 1 -d 1eaf:0003 -D STM32Gimbal.USB.bin
 
 static volatile int WatchDogCounter;
 
