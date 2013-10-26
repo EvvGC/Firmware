@@ -10,13 +10,6 @@
 #ifndef GYRO_H_
 #define GYRO_H_
 
-//#define MPU_DROTEK_10DOF
-#ifdef MPU_DROTEK_10DOF
-#define MPU6050_ADDR	(0xD2+1)
-#else
-#define MPU6050_ADDR	(0xD0+1)
-#endif
-
 #define MPU6050_I2C I2C2 //MPU6050 Bus
 
 int MPU6050_Init(void);

@@ -14,6 +14,9 @@
 #include "utils.h"
 #include "hw_config.h"
 #include "stm32f10x_tim.h"
+#include "reboot.h"
+
+// echo b > /dev/ttyACM0 && sudo ./dfu-util -v -a 1 -d 1eaf:0003 -D out/STM32Gimbal.USB.bin
 
 static volatile int WatchDogCounter;
 
@@ -110,7 +113,13 @@ void setup(void)
 
     while (MPU6050_Init())
     {
-        print("init MPU6050 failed, retrying...\r\n");
+        print("init MPU6050 failed - press 'b' to enter bootloader, retrying...\r\n");
+        int c = GetChar();
+        if(c=='b'){
+        	print("rebooting into boot loader ...\r\n");
+            Delay_ms(1000);
+            bootloader();
+        }
         Blink();
     }
 
@@ -189,6 +198,7 @@ int main(void)
     int idleLoops = 0;
     unsigned int lastTime = micros();
 
+    print("Press '?' for CLI documentation\r\n");
     while (1)
     {
         idleLoops++;

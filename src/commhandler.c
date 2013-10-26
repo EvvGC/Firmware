@@ -24,6 +24,7 @@ int ConfigMode;
 void CommHandler(void) //UART4 Interrupt handler implementation
 {
     int c = GetChar();
+    extern int bDeviceState;
 
     if (c >= 0)
     {
@@ -35,7 +36,7 @@ void CommHandler(void) //UART4 Interrupt handler implementation
         {
             case 'a':
                 debugAutoPan ^= 1;
-                print("Autopan messages %s\r\n", debugOrient ? "on" : "off");
+                print("Autopan messages %s\r\n", debugAutoPan ? "on" : "off");
                 break;
 
             case 'b':
@@ -166,6 +167,28 @@ void CommHandler(void) //UART4 Interrupt handler implementation
                 testPhase -= 0.1;
                 print("test phase output %5.1f\r\n", testPhase);
                 break;
+
+            case '?':
+                print("CLI documentation\r\n");
+                print("\t'+' test phase output increase (now %5.1f)\r\n", testPhase);
+                print("\t'-' test phase output decrease (now %5.1f)\r\n", testPhase);
+                print("\t'a' autopan messages display (now %s)\r\n", debugAutoPan ? "on" : "off");
+                print("\t'b' reboot into bootloader\r\n");
+                print("\t'c' counter messages display (now %s)\r\n", debugCnt ? "on" : "off");
+                print("\t'd' debug messages display (now %s)\r\n", debugPrint ? "on" : "off");
+                print("\t'g' dump configuration (binary)\r\n");
+                print("\t'G' dump configuration (hexadecimal)\r\n");
+                print("\t'h' write and save config array\r\n");
+                print("\t'i' enter config mode (now %s)\r\n", ConfigMode ? "on" : "off");
+                print("\t'j' leave config mode (now %s)\r\n", ConfigMode ? "on" : "off");
+                print("\t'o' orientation messages display (now %s)\r\n", debugOrient ? "on" : "off");
+                print("\t'p' performance messages display (now %s)\r\n", debugPerf ? "on" : "off");
+                print("\t'r' RC messages display (now %s)\r\n", debugRC ? "on" : "off");
+                print("\t'R' reboot\r\n");
+                print("\t's' toggle sensor messages display (now %s)\r\n", debugSense ? "on" : "off");
+                print("\t'u' print USB state (bDeviceState %3d  VCPConnectMode %d)\r\n", bDeviceState, GetVCPConnectMode());
+                print("\t'v' print version (%s)\r\n", __EV_VERSION);
+            	break;
 
             default:
                 // TODO
