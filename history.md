@@ -194,3 +194,19 @@
       mis configuration
     - correct gyro configuration
     - release of 0.4.2 firmware
+
+20131010
+    - added usb bootloader and associated scripts.  See wiki for details on use
+    - corrected RC control double add of RC values
+    - included Autopan on Yaw in software
+    - release of 0.4.3 firmware
+
+20131019
+    - updated gyro.c to setup the mpu6050 the correct way, added the z axis clock as the imu clock
+    - other minor formatting changes
+
+20131021
+    - revised gyro.c initialization completely after finding a major issue with the original version
+      Gyro is initialized with Z Axis clock, 8khz sample rate on the gyro, 1khz on the accel, NO LPF enabled, 250 deg/sec on the gyro and +/-2G on the accel
+    - The gyro scale has been corrected to be the right value for a 250d/sec gyro setup
+    - engine.c was corrected to maintain all values in Radians

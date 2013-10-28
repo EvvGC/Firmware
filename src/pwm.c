@@ -100,9 +100,9 @@ void SetPWMOrg(int *pwm, float output, int level)
         output = testPhase;
     }
 
-    pwm[0] = (sin(output)        * 5 * level) + 500;
-    pwm[1] = (sin(output + 2.09) * 5 * level) + 500;
-    pwm[2] = (sin(output + 4.19) * 5 * level) + 500;
+    pwm[0] = (sin(output)        * 5 * level) + (PWM_PERIODE / 2);
+    pwm[1] = (sin(output + 2.09) * 5 * level) + (PWM_PERIODE / 2);
+    pwm[2] = (sin(output + 4.19) * 5 * level) + (PWM_PERIODE / 2);
 }
 
 void SetPWMOrgFaster(int *pwm, float phi, int power)
@@ -115,9 +115,9 @@ void SetPWMOrgFaster(int *pwm, float phi, int power)
     float fPower = 5 * power;
 
     phi = fmodf(phi, M_TWOPI); // sinf gets slow if phi >201
-    pwm[0] = (int)(sinf(phi)                * fPower + 0.5F) + 500;
-    pwm[1] = (int)(sinf(phi + 2.0 / 3.0 * M_PI) * fPower + 0.5F) + 500;
-    pwm[2] = (int)(sinf(phi + 4.0 / 3.0 * M_PI) * fPower + 0.5F) + 500;
+    pwm[0] = (int)(sinf(phi)                * fPower + 0.5F) + (PWM_PERIODE / 2);
+    pwm[1] = (int)(sinf(phi + 2.0 / 3.0 * M_PI) * fPower + 0.5F) + (PWM_PERIODE / 2);
+    pwm[2] = (int)(sinf(phi + 4.0 / 3.0 * M_PI) * fPower + 0.5F) + (PWM_PERIODE / 2);
 }
 
 void SetPWMFastTable(int *pwm, float phi, int power)
@@ -136,9 +136,9 @@ void SetPWMFastTable(int *pwm, float phi, int power)
     }
 
     int iPower = 5 * power;
-    pwm[0] = (sinDataI16[phiInt                          % SINARRAYSIZE] * iPower + SINARRAYSCALE / 2) / SINARRAYSCALE + 500;
-    pwm[1] = (sinDataI16[(phiInt + 1 * SINARRAYSIZE / 3)     % SINARRAYSIZE] * iPower + SINARRAYSCALE / 2) / SINARRAYSCALE + 500;
-    pwm[2] = (sinDataI16[(phiInt + (2 * SINARRAYSIZE + 1) / 3) % SINARRAYSIZE] * iPower + SINARRAYSCALE / 2) / SINARRAYSCALE + 500;
+    pwm[0] = (sinDataI16[phiInt                          % SINARRAYSIZE] * iPower + SINARRAYSCALE / 2) / SINARRAYSCALE + (PWM_PERIODE / 2);
+    pwm[1] = (sinDataI16[(phiInt + 1 * SINARRAYSIZE / 3)     % SINARRAYSIZE] * iPower + SINARRAYSCALE / 2) / SINARRAYSCALE + (PWM_PERIODE / 2);
+    pwm[2] = (sinDataI16[(phiInt + (2 * SINARRAYSIZE + 1) / 3) % SINARRAYSIZE] * iPower + SINARRAYSCALE / 2) / SINARRAYSCALE + (PWM_PERIODE / 2);
 }
 
 void SetPWM(int *pwm, float phi, int power)
@@ -208,7 +208,7 @@ inline void UpdateCounter(tAxis channel, int value)
     }
 }
 
-#define MAX_CNT (PWM_PERIODE*8/10)
+#define MAX_CNT (PWM_PERIODE * 8 / 10)
 
 void TIM5_IRQHandler(void) // yaw axis
 {

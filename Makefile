@@ -27,12 +27,14 @@ RM = rm -f
 
 # project name
 PROJECT = STM32Gimbal
+PROJECT_USB = $(PROJECT).USB
 
 # core type
 CORE = cortex-m3
 
 # linker script
 LD_SCRIPT = stm32_flash.ld
+LD_USB_SCRIPT = stm32_flash_usb.ld
 
 # output folder (absolute or relative path, leave empty for in-tree compilation)
 OUT_DIR = out
@@ -151,10 +153,12 @@ AS_FLAGS = -Wa,-amhls=$(OUT_DIR_F)$(notdir $(<:.$(AS_EXT)=.lst))
 
 # flags for linker
 LD_FLAGS = -T$(LD_SCRIPT) -g -Wl,-Map=$(OUT_DIR_F)$(PROJECT).map,--cref,--no-warn-mismatch
+LD_USB_FLAGS = -T$(LD_USB_SCRIPT) -g -Wl,-Map=$(OUT_DIR_F)$(PROJECT_USB).map,--cref,--no-warn-mismatch
 
 # process option for removing unused code
 ifeq ($(REMOVE_UNUSED), 1)
 	LD_FLAGS += -Wl,--gc-sections
+	LD_USB_FLAGS += -Wl,--gc-sections
 	OPTIMIZATION += -ffunction-sections -fdata-sections
 endif
 
@@ -165,6 +169,7 @@ ifeq ($(USES_CXX), 1)
 	AS_DEFS += -D__USES_CXX
 else
 	LD_FLAGS += -nostartfiles
+	LD_USB_FLAGS += -nostartfiles
 endif
 
 #=============================================================================#
@@ -185,11 +190,19 @@ BIN = $(OUT_DIR_F)$(PROJECT).bin
 LSS = $(OUT_DIR_F)$(PROJECT).lss
 DMP = $(OUT_DIR_F)$(PROJECT).dmp
 
+USBELF = $(OUT_DIR_F)$(PROJECT_USB).elf
+USBHEX = $(OUT_DIR_F)$(PROJECT_USB).hex
+USBBIN = $(OUT_DIR_F)$(PROJECT_USB).bin
+USBLSS = $(OUT_DIR_F)$(PROJECT_USB).lss
+USBDMP = $(OUT_DIR_F)$(PROJECT_USB).dmp
+
+
 # format final flags for tools, request dependancies for C++, C and asm
 CXX_FLAGS_F = $(CORE_FLAGS) $(OPTIMIZATION) $(CXX_WARNINGS) $(CXX_FLAGS)  $(CXX_DEFS) -MD -MP -MF $(OUT_DIR_F)$(@F:.o=.d) $(INC_DIRS_F)
 C_FLAGS_F = $(CORE_FLAGS) $(OPTIMIZATION) $(C_WARNINGS) $(C_FLAGS) $(C_DEFS) -MD -MP -MF $(OUT_DIR_F)$(@F:.o=.d) $(INC_DIRS_F)
 AS_FLAGS_F = $(CORE_FLAGS) $(AS_FLAGS) $(AS_DEFS) -MD -MP -MF $(OUT_DIR_F)$(@F:.o=.d) $(INC_DIRS_F)
 LD_FLAGS_F = $(CORE_FLAGS) $(LD_FLAGS) $(LIB_DIRS_F)
+LD_USB_FLAGS_F = $(CORE_FLAGS) $(LD_USB_FLAGS) $(LIB_DIRS_F)
 
 #contents of output directory
 GENERATED = $(wildcard $(patsubst %, $(OUT_DIR_F)*.%, bin d dmp elf hex lss lst map o))
@@ -198,22 +211,34 @@ GENERATED = $(wildcard $(patsubst %, $(OUT_DIR_F)*.%, bin d dmp elf hex lss lst 
 # make all
 #=============================================================================#
 
-all : make_output_dir $(ELF) $(LSS) $(DMP) $(HEX) $(BIN) print_size
+#all : make_output_dir $(ELF) $(LSS) $(DMP) $(HEX) $(BIN) print_size
+all: make_output_dir $(ELF) $(LSS) $(DMP) $(HEX) $(BIN) $(USBELF) $(USBLSS) $(USBBIN) print_size \
+#					$(USBELF) $(USBLSS) $(USBBIN
 
 # make object files dependent on Makefile
 #$(OBJS) : Makefile
 # make .elf file dependent on linker script
 $(ELF) : $(LD_SCRIPT)
+$(USBELF) : $(LD_USB_SCRIPT)
 
 #-----------------------------------------------------------------------------#
 # linking - objects -> elf
 #-----------------------------------------------------------------------------#
 
-$(ELF) : $(OBJS)
+$(ELF) : $(OBJS)  $(LD_SCRIPT)
 	@echo 'Linking target: $(ELF)'
 	$(CXX) $(LD_FLAGS_F) $(OBJS) $(LIBS) -o $@
 	@echo ' '
 
+#-----------------------------------------------------------------------------#
+# linking - objects -> elf, USB version
+#-----------------------------------------------------------------------------#
+
+$(USBELF) : $(ELF) $(OBJS) $(LD_USB_SCRIPT)
+	@echo 'Linking target: $(USBELF)'
+	$(CXX) $(LD_USB_FLAGS_F) $(OBJS) $(LIBS) -o $@
+	@echo ' '
+	
 #-----------------------------------------------------------------------------#
 # compiling - C++ source -> objects
 #-----------------------------------------------------------------------------#
@@ -254,6 +279,11 @@ $(BIN) : $(ELF)
 	@echo 'Creating binary image: $(BIN)'
 	$(OBJCOPY) -O binary $< $@
 	@echo ' '
+	
+$(USBBIN) : $(USBELF)
+	@echo 'Creating binary image: $(USBBIN)'
+	$(OBJCOPY) -O binary $< $@
+	@echo ' '	
 
 #-----------------------------------------------------------------------------#
 # memory dump - elf -> dmp
@@ -273,11 +303,16 @@ $(LSS) : $(ELF)
 	$(OBJDUMP) -S $< > $@
 	@echo ' '
 
+	
+$(USBLSS) : $(USBELF)
+	@echo 'Creating extended listing: $(USBLSS)'
+	$(OBJDUMP) -S $< > $@
+	@echo ' '	
 #-----------------------------------------------------------------------------#
 # print the size of the objects and the .elf file
 #-----------------------------------------------------------------------------#
 
-print_size :
+print_size: $(OBJS) $(ELF)
 	-#@echo 'Size of modules:'
 	-#$(SIZE) -B -t --common $(OBJS) $(USER_OBJS)
 	-#@echo ' '

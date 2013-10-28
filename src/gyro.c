@@ -21,8 +21,8 @@ int MPU6050_Init(void)
 {
     uint8_t mpu_adr;
 
-    Delay_ms(1);
-
+    // Check to make sure there is a device out there and its on the
+    // correct address
     I2C1_Start();
     I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
     I2C1_WaitAck();
@@ -41,6 +41,7 @@ int MPU6050_Init(void)
     I2C1_NoAck();
     I2C1_Stop();
 
+    // if wrong address or no device then bail out with an error
     if (mpu_adr != 0x68)
     {
         return -1;
@@ -48,6 +49,43 @@ int MPU6050_Init(void)
 
     Delay_ms(5);
 
+    // force a device reset
+    I2C1_Start();
+    I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
+    I2C1_WaitAck();
+    I2C1_SendByte(0x6B); // Force a reset
+    I2C1_WaitAck();
+    I2C1_SendByte(0x80);
+    I2C1_WaitAck();
+    I2C1_Stop();
+
+    Delay_ms(150);
+
+    // set the internal clock to be the Z AXIS gyro
+    I2C1_Start();
+    I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
+    I2C1_WaitAck();
+    I2C1_SendByte(0x6B);
+    I2C1_WaitAck();
+    I2C1_SendByte(0x03); // clock source AKA - changed from 0x00 (internal clock)
+    I2C1_WaitAck();
+    I2C1_Stop();
+
+    Delay_ms(5);
+
+    //  turn off all sleep modes
+    I2C1_Start();
+    I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
+    I2C1_WaitAck();
+    I2C1_SendByte(0x6C);
+    I2C1_WaitAck();
+    I2C1_SendByte(0x00); // wake up ctrl
+    I2C1_WaitAck();
+    I2C1_Stop();
+
+    Delay_ms(5);
+
+    //  Set the sample rate on the accel and refresh rate on the gyro
     I2C1_Start();
     I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
     I2C1_WaitAck();
@@ -59,39 +97,43 @@ int MPU6050_Init(void)
 
     Delay_ms(5);
 
+    // turn on the built in LPF
     I2C1_Start();
     I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
     I2C1_WaitAck();
     I2C1_SendByte(0x1A);
     I2C1_WaitAck();
-    I2C1_SendByte(0x02);//low pass 98hz
+    I2C1_SendByte(0x00);    //low pass disable AKA - was 0x02 for 98hz
     I2C1_WaitAck();
     I2C1_Stop();
 
     Delay_ms(5);
 
+    // set the gyro scale
     I2C1_Start();
     I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
     I2C1_WaitAck();
     I2C1_SendByte(0x1B);
     I2C1_WaitAck();
-    I2C1_SendByte(0x08); //set to 500LSB/Deg/s
+    I2C1_SendByte(0x00); //set to 250LSB/Deg/s
     I2C1_WaitAck();
     I2C1_Stop();
 
     Delay_ms(5);
 
+    // set the accel scale
     I2C1_Start();
     I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
     I2C1_WaitAck();
     I2C1_SendByte(0x1C);
     I2C1_WaitAck();
-    I2C1_SendByte(0x08); //set to accel to +/-4g scale
+    I2C1_SendByte(0x00); //set to accel to +/-2g scale AKA - was 0x08 for +/-4g
     I2C1_WaitAck();
     I2C1_Stop();
 
     Delay_ms(5);
 
+    //  configure the interrupt(s) pin because we don't use it
     I2C1_Start();
     I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
     I2C1_WaitAck();
@@ -103,6 +145,7 @@ int MPU6050_Init(void)
 
     Delay_ms(5);
 
+    // disable the interrupt pin(s)
     I2C1_Start();
     I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
     I2C1_WaitAck();
@@ -114,6 +157,8 @@ int MPU6050_Init(void)
 
     Delay_ms(5);
 
+/*
+    // this was bad code and was removed
     I2C1_Start();
     I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
     I2C1_WaitAck();
@@ -124,28 +169,7 @@ int MPU6050_Init(void)
     I2C1_Stop();
 
     Delay_ms(5);
-
-    I2C1_Start();
-    I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
-    I2C1_WaitAck();
-    I2C1_SendByte(0x6B);
-    I2C1_WaitAck();
-    I2C1_SendByte(0x00); // power management
-    I2C1_WaitAck();
-    I2C1_Stop();
-
-    Delay_ms(5);
-
-    I2C1_Start();
-    I2C1_SendByte((0xD1 & 0xFE));//fe-0(Write)
-    I2C1_WaitAck();
-    I2C1_SendByte(0x6C);
-    I2C1_WaitAck();
-    I2C1_SendByte(0x00); // wake up ctrl
-    I2C1_WaitAck();
-    I2C1_Stop();
-
-    Delay_ms(5);
+*/
 
     return 0;
 }
@@ -212,7 +236,7 @@ void MPU6050_Gyro_get(float *GyroData)
 
     if (I2Cerror == 0)
     {
-        float gyroScaleFactor = 8000.0f;//     2.0F/131.0F * M_PI/180.0F;
+        float gyroScaleFactor = 7505.747116f;// 8000.0f;//     2.0F/131.0F * M_PI/180.0F;
 
         gyroADC_ROLL  = (short)((read[0] << 8) | read[1]);
         GyroData[X_AXIS] = ((float)gyroADC_ROLL - gyroADC_ROLL_offset) / gyroScaleFactor;
