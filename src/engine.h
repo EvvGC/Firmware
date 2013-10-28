@@ -18,7 +18,7 @@ extern int debugSense;
 extern int debugCnt;
 extern int debugRC;
 extern int debugOrient;
-extern int debugCam;
+extern int debugAutoPan;
 
 void Init_Orientation(void);
 void engineProcess(float dt);

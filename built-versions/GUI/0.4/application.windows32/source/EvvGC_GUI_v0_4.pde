@@ -54,10 +54,10 @@ boolean writeEnable = false;
 boolean readEnable = false;
 boolean printlist = true;
 boolean portopen = false;
-char RCcontrol = '0'; 
-char YawRCon = '0'; 
+char RCcontrol = '0';
+char YawRCon = '0';
 String readStatus = "";
-String Version = "0.4.1";
+String Version = "0.4.1.1";
 
 controlP5.Controller hideLabel(controlP5.Controller c) {
   c.setLabel("");
@@ -68,21 +68,21 @@ controlP5.Controller hideLabel(controlP5.Controller c) {
 
 void setup()
 {
-  
+
   size(600, 280);
   background(75);
-  
+
   textSize(28);
   fill(0, 120, 170);//blue
   text("EvvGC GUI",20,50); text(Version, 170,50);
- 
- 
+
+
   // Define colors
   b1 = color(80);
   b2 = color(60);
   c1 = color(80, 80, 80);
   c2 = color(60, 61, 59);
-  
+
   controlP5 = new ControlP5(this); // initialize the GUI controls
 
   //List all the available serial ports:
@@ -90,10 +90,11 @@ void setup()
 
 
 
+  commListMax = -1;
   for(int i=0;i<Serial.list().length;i++) {
     commListMax = i;
-  }  
-  
+  }
+
 
 
   /******************************PID cells*************************************************************/
@@ -136,20 +137,20 @@ void setup()
   /****************************Buttons*********************************************************************/
    buttonWRITE =     controlP5.addButton("WRITE",1,500,248,60,20);buttonWRITE.setColorBackground(gray_);
    buttonREAD =     controlP5.addButton("READ",1,40,248,60,20);buttonREAD.setColorBackground(gray_);
-   
+
    buttonCONFon =     controlP5.addButton("CONFIGon",1,400,10,60,60);buttonCONFon.setColorBackground(gray_);
    buttonCONFoff =     controlP5.addButton("CONFIGoff",1,330,10,60,60);buttonCONFoff.setColorBackground(gray_);
-   
+
    buttonP0 =     controlP5.addButton("P0",1,490, 5,20,20);buttonP0.setColorBackground(gray_);
    buttonP1 =     controlP5.addButton("P1",1,490,30,20,20);buttonP1.setColorBackground(gray_);
    buttonP2 =     controlP5.addButton("P2",1,490,55,20,20);buttonP2.setColorBackground(gray_);
-   
+
    buttonRCOff  =     controlP5.addButton("RC_OFF",1,450,122,65,20);buttonRCOff.setColorBackground(gray_);
    buttonRCOn   =     controlP5.addButton("RC_ON",1,450,100,65,20);buttonRCOn.setColorBackground(gray_);
-   
+
    buttonYawRC  =     controlP5.addButton("Yaw_RC_Pan",1,520,100,75,20);buttonYawRC.setColorBackground(gray_);
    buttonYawAut =     controlP5.addButton("Yaw_Auto_Pan",1,520,122,75,20);buttonYawAut.setColorBackground(gray_);
-   
+
    buttonCONFoff.setColorBackground(green_);
 
 }
@@ -158,56 +159,56 @@ void draw() {
   //String Serial.list()[];
   //size(600, 280);
   //background(80);
- 
+
   fill(70); strokeWeight(0);stroke(35); //75
   rect(0, 80, 600, 155, 0);
-  
+
   fill(70); strokeWeight(0);stroke(35);
   rect(440, 80, 600, 155, 0);
-  
+
   fill(75); strokeWeight(0);stroke(80);
   rect(0, 240, 600, 100, 0);
 
-  
+
   fill(255);
-  
+
   // Background
  // setGradient(0, 0, width, 80, c2, c1, Y_AXIS);
 
 
-  
+
   textSize(12);
   text("Pitch P:",35,112);
   textSize(12);
   text("Pitch D:",155,112);
-  
+
   textSize(12);
   text("Roll P:",38,162);
   textSize(12);
   text("Roll D:",158,162);
-  
+
   textSize(12);
   text("Yaw P:",38,211);
   textSize(12);
   text("Yaw D:",158,211);
-  
-  
+
+
   textSize(12);
   text("Pitch Power:             %",301,112);
   textSize(12);
   text("Roll Power:             %",307,162);
   textSize(12);
   text("Yaw Power:             %",305,212);
-  
+
   textSize(12);
   text("Roll Calibration (degr.)",460,190);
-  
+
    textSize(16);
   //fill(0, 102, 153, 204);
  // text("Connected to:",400,45); text(Serial.list()[0],515,45);
  // text("Connected to:",400,45); text(Serial.list()[1],515,65);
   //text("Connected to:",400,45); text(Serial.list()[2],515,65);
-  
+
 
     if(printlist==true){
       for(int i=0;i<=commListMax;i++) {
@@ -218,36 +219,36 @@ void draw() {
 
     textSize(12);
     text(readStatus,110,263);
-    
-    
-    
-    
+
+
+
+
     if(PitchP.value()==0)PitchP.setValue(0.01);
     if(RollP.value()==0)RollP.setValue(0.01);
     if(YawP.value()==0)YawP.setValue(0.01);
-    
+
     if(PitchD.value()==0)PitchD.setValue(0.01);
     if(RollD.value()==0)RollD.setValue(0.01);
     if(YawD.value()==0)YawD.setValue(0.01);
-    
+
     if(PitchPWR.value()==0)PitchPWR.setValue(1);
     if(RollPWR.value()==0)RollPWR.setValue(1);
     if(YawPWR.value()==0)YawPWR.setValue(1);
-    
+
     //if(RollCal.value()==-9.9)RollCal.setValue(-9.9);
- 
+
 }
 
 
 public void WRITE() {
   if(writeEnable == false) return;
 
-  myPort.write("h"); 
-  
+  myPort.write("h");
+
   myPort.write (int (PitchP.value()*100));
   myPort.write (int (RollP.value()*100));
   myPort.write (int (YawP.value()*100));
-  
+
   myPort.write (int (PitchD.value()*100));
   myPort.write (int (RollD.value()*100));
   myPort.write (int (YawD.value()*100));
@@ -255,14 +256,14 @@ public void WRITE() {
   myPort.write (int (PitchPWR.value()));
   myPort.write (int (RollPWR.value()));
   myPort.write (int (YawPWR.value()));
-  
+
   myPort.write (RCcontrol);
   myPort.write (YawRCon);
-  
+
   myPort.write (int (RollCal.value()*10+100));
   //println (RollCal.value());
   //println (int (RollCal.value()*10+100));
- 
+
  readStatus = "Write OK";
 
 }
@@ -283,7 +284,7 @@ if(myPort.read()=='x'){
 PitchP.setValue(myPort.read()/100.00);
 RollP.setValue(myPort.read()/100.00);
 YawP.setValue(myPort.read()/100.00);
-  
+
 PitchD.setValue(myPort.read()/100.00);
 RollD.setValue(myPort.read()/100.00);
 YawD.setValue(myPort.read()/100.00);
@@ -335,7 +336,7 @@ public void CONFIGoff() {
 }
 
 public void P0() {
-  
+
   buttonP0.setColorBackground(green_);
   buttonP1.setColorBackground(gray_);
   buttonP2.setColorBackground(gray_);
@@ -406,6 +407,6 @@ public void ZERO() {
 
 
 
-  
+
 
 
