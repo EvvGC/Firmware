@@ -1,5 +1,26 @@
+/*
+    Original work Copyright (c) 2012 [Evaldis - RCG user name]
+    Modified work Copyright 2012 Alan K. Adamson
+
+    This file is part of EvvGC.
+
+    EvvGC is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    EvvGC is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with EvvGC.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
 #include "rc.h"
-#include "stm32f10x_tim.h"
+#include "stm32f10x.h"
 #include "utils.h"
 #include "comio.h"
 #include "definitions.h"
@@ -22,11 +43,11 @@ void RC_Config(void)
 {
     GPIO_InitTypeDef    GPIO_InitStructure;
 
-	__disable_irq();
+  __disable_irq();
 
     GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable , ENABLE);
 
-	// PA15 must be initialized after PA15/PB3 are made available with GPIO_Remap_SWJ_JTAGDisable
+  // PA15 must be initialized after PA15/PB3 are made available with GPIO_Remap_SWJ_JTAGDisable
     GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_15;				// PA15
     GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IN_FLOATING;  	// Set to Input
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;   		// GPIO Speed
@@ -61,10 +82,12 @@ void RC_Config(void)
     NVIC_EnableIRQ(EXTI2_IRQn); // Enable interrupt
 
     Timer3_Config(); //RC control timer
-	
-	__enable_irq();
+
+  __enable_irq();
 }
 
+/*-----------------Read RC on AUX 3--------------------------*/
+// Pitch
 static int rc3;
 
 int GetAUX3(void)
@@ -74,13 +97,13 @@ int GetAUX3(void)
 
 void EXTI3_IRQHandler(void) //EXTernal interrupt routine PB3-Pitch
 {
-    static unsigned short rc3a, rc3b;
+    static unsigned short rc3a = 0, rc3b = 0;
 
-    if (EXTI->PR & (1 << 3))
+    if (EXTI_GetITStatus(EXTI_Line3) != RESET)
     {
         DEBUG_PutChar('3');
         // EXTI3 interrupt pending?
-        EXTI->PR |= (1 << 3); // clear pending interrupt
+        //EXTI->PR |= (1 << 3); // clear pending interrupt
 
         if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_3) == 1)
         {
@@ -100,12 +123,16 @@ void EXTI3_IRQHandler(void) //EXTernal interrupt routine PB3-Pitch
         }
         else
         {
-            rc3 = 0;
+            //rc3 = 0;
         }
+
+        EXTI_ClearITPendingBit(EXTI_Line3); // clear pending interrupt
+
     }
 }
 
 /*-----------------Read RC on AUX 2--------------------------*/
+// Roll
 static int rc2;
 
 int GetAUX2(void)
@@ -115,13 +142,13 @@ int GetAUX2(void)
 
 void EXTI2_IRQHandler(void) //EXTernal interrupt routine PC2-Pitch
 {
-    static unsigned short rc2a, rc2b;
+    static unsigned short rc2a = 0, rc2b = 0;
 
-    if (EXTI->PR & (1 << 2))
+    if (EXTI_GetITStatus(EXTI_Line2) != RESET)
     {
         DEBUG_PutChar('2');
         // EXTI2 interrupt pending?
-        EXTI->PR |= (1 << 2); // clear pending interrupt
+        //EXTI->PR |= (1 << 2); // clear pending interrupt
 
         if (GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_2) == 1)
         {
@@ -141,11 +168,16 @@ void EXTI2_IRQHandler(void) //EXTernal interrupt routine PC2-Pitch
         }
         else
         {
-            rc2 = 0;
+            //rc2 = 0;
         }
+
+        EXTI_ClearITPendingBit(EXTI_Line2); // clear pending interrupt
+
     }
 }
 
+/*-----------------Read RC on AUX 4--------------------------*/
+// Yaw
 static int rc4;
 
 int GetAUX4(void)
@@ -155,14 +187,14 @@ int GetAUX4(void)
 
 void EXTI4_IRQHandler(void) //EXTernal interrupt routine PB4-Yaw
 {
-    static unsigned short rc4a, rc4b;
+    static unsigned short rc4a = 0, rc4b = 0;
 
-    if (EXTI->PR & (1 << 4))
+    if (EXTI_GetITStatus(EXTI_Line4) != RESET)
     {
         DEBUG_PutChar('4');
 
         // EXTI3 interrupt pending?
-        EXTI->PR |= (1 << 4);                         // clear pending interrupt
+        //EXTI->PR |= (1 << 4);                         // clear pending interrupt
 
 
         if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_4) == 1)
@@ -183,8 +215,11 @@ void EXTI4_IRQHandler(void) //EXTernal interrupt routine PB4-Yaw
         }
         else
         {
-            rc4 = 0;
+            //rc4 = 0;
         }
+
+        EXTI_ClearITPendingBit(EXTI_Line4); // clear pending interrupt
+
     }
 }
 
@@ -196,9 +231,11 @@ void EXTI4_IRQHandler(void) //EXTernal interrupt routine PB4-Yaw
 void Get_RC_Step(float *Step, float *RCSmooth)
 {
 
-    // Get Step PITCH
-    int aux3 = GetAUX3();
+    int aux3 = GetAUX3(); //PITCH
+    int aux2 = GetAUX2(); //ROLL
+    int aux4 = GetAUX4(); //YAW
 
+    // Pitch
     if (aux3 != 0) //check there is a rc input
     {
         RCSmooth[PITCH] = ((RCSmooth[PITCH] * 199) + (aux3 - RC_CENTER_VAL)) / 200;
@@ -217,9 +254,7 @@ void Get_RC_Step(float *Step, float *RCSmooth)
         Step[PITCH] = 0;
     }
 
-    // Get Step Roll
-    int aux2 = GetAUX2();
-
+    // Roll
     if (aux2 != 0) //check there is a rc input
     {
         RCSmooth[ROLL] = ((RCSmooth[ROLL] * 199) + (aux2 - RC_CENTER_VAL)) / 200;
@@ -238,9 +273,7 @@ void Get_RC_Step(float *Step, float *RCSmooth)
         Step[ROLL] = 0;
     }
 
-    // Get Step YAW
-    int aux4 = GetAUX4();
-
+    // YAW
     if (aux4 != 0) //check there is a rc input
     {
         RCSmooth[YAW] = ((RCSmooth[YAW] * 199) + (aux4 - RC_CENTER_VAL)) / 200;

@@ -211,4 +211,7 @@
     - The gyro scale has been corrected to be the right value for a 250d/sec gyro setup
     - engine.c was corrected to maintain all values in Radians
 
-
+20131028
+    - added GPL license to sources
+    - fixed pitch axis when angle is greater than 50 degrees, allows corrected angles to be 90 degrees of greater
+    - added I to the PD routines and include a limiting feature
