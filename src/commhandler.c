@@ -57,7 +57,7 @@ void CommHandler(void) //UART4 Interrupt handler implementation
         {
             case 'a':
                 debugAutoPan ^= 1;
-                print("Autopan messages %s\r\n", debugOrient ? "on" : "off");
+                print("Autopan messages %s\r\n", debugAutoPan ? "on" : "off");
                 break;
 
             case 'b':
