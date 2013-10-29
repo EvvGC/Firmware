@@ -4,10 +4,31 @@
  *  Created on: Jun 25, 2013
  *      Author: Denis aka caat
  */
+
+/*
+    Original work Copyright (c) 2012 [Evaldis - RCG user name]
+    Modified work Copyright 2012 Alan K. Adamson
+
+    This file is part of EvvGC.
+
+    EvvGC is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    EvvGC is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with EvvGC.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
 #include <stdint.h>
 #include "adc.h"
-#include "stm32f10x_adc.h"
-#include "stm32f10x_gpio.h"
+#include "stm32f10x.h"
 
 void ADC_Config(void)
 {
@@ -33,9 +54,9 @@ void ADC_Config(void)
     ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
     /* Disable the scan conversion so we do one at a time */
     ADC_InitStructure.ADC_ScanConvMode = DISABLE;
-    /* Don't do contimuous conversions - do them on demand */
+    /* Don't do continuous conversions - do them on demand */
     ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
-    /* Start conversin by software, not an external trigger */
+    /* Start conversion by software, not an external trigger */
     ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
     /* Conversions are 12 bit - put them in the lower 12 bits of the result */
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
@@ -47,13 +68,13 @@ void ADC_Config(void)
     /* Enable ADC1 */
     ADC_Cmd(ADC1, ENABLE);
 
-    /* Enable ADC1 reset calibaration register */
+    /* Enable ADC1 reset calibration register */
     ADC_ResetCalibration(ADC1);
 
     /* Check the end of ADC1 reset calibration register */
     while (ADC_GetResetCalibrationStatus(ADC1));
 
-    /* Start ADC1 calibaration */
+    /* Start ADC1 calibration */
     ADC_StartCalibration(ADC1);
 
     /* Check the end of ADC1 calibration */
