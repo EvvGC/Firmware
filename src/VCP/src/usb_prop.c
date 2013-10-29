@@ -33,6 +33,7 @@
 #include "usb_desc.h"
 #include "usb_pwr.h"
 #include "hw_config.h"
+#include "utils.h"
 
 #define printUSART(x) // ala42
 static unsigned int vcpBootBlockTime;
@@ -103,12 +104,13 @@ ONE_DESCRIPTOR Config_Descriptor =
     VIRTUAL_COM_PORT_SIZ_CONFIG_DESC
   };
 
-ONE_DESCRIPTOR String_Descriptor[4] =
+ONE_DESCRIPTOR String_Descriptor[] =
   {
     {(uint8_t*)Virtual_Com_Port_StringLangID, VIRTUAL_COM_PORT_SIZ_STRING_LANGID},
     {(uint8_t*)Virtual_Com_Port_StringVendor, VIRTUAL_COM_PORT_SIZ_STRING_VENDOR},
     {(uint8_t*)Virtual_Com_Port_StringProduct, VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT},
-    {(uint8_t*)Virtual_Com_Port_StringSerial, VIRTUAL_COM_PORT_SIZ_STRING_SERIAL}
+    {(uint8_t*)Virtual_Com_Port_StringSerial, VIRTUAL_COM_PORT_SIZ_STRING_SERIAL},
+    {(uint8_t*)Trace_Interface_String, TRACE_SIZ_STRING_INTERFACE},
   };
 
 /* Extern variables ----------------------------------------------------------*/
@@ -377,7 +379,7 @@ uint8_t *Virtual_Com_Port_GetStringDescriptor(uint16_t Length)
   printUSART("\r\n Virtual_Com_Port_GetStringDescriptor"); // ala42
 
   uint8_t wValue0 = pInformation->USBwValue0;
-  if (wValue0 > 4)
+  if (wValue0 > ARRAY_SIZE(String_Descriptor))
   {
     return NULL;
   }

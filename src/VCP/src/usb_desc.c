@@ -50,17 +50,22 @@ const uint8_t Virtual_Com_Port_DeviceDescriptor[] =
     1,              /* Index of string descriptor describing manufacturer */
     2,              /* Index of string descriptor describing product */
     3,              /* Index of string descriptor describing the device's serial number */
-    0x01    /* bNumConfigurations */
+    0x02    /* bNumConfigurations */
   };
+
+#define CONFDESC_LEN	(VIRTUAL_COM_PORT_SIZ_CONFIG_DESC)
+#define MSB(x)			(((x) >> 8) & 0xFF)
+#define LSB(x)			(((x) >> 0) & 0xFF)
+
 
 const uint8_t Virtual_Com_Port_ConfigDescriptor[] =
   {
     /*Configuration Descriptor*/
     0x09,   /* bLength: Configuration Descriptor size */
     USB_CONFIGURATION_DESCRIPTOR_TYPE,      /* bDescriptorType: Configuration */
-    VIRTUAL_COM_PORT_SIZ_CONFIG_DESC,       /* wTotalLength:no of returned bytes */
-    0x00,
-    0x02,   /* bNumInterfaces: 2 interface */
+    LSB(CONFDESC_LEN),       /* wTotalLength:no of returned bytes */
+    MSB(CONFDESC_LEN),
+    0x03,   /* bNumInterfaces: 3 interfaces */
     0x01,   /* bConfigurationValue: Configuration value */
     0x00,   /* iConfiguration: Index of string descriptor describing the configuration */
     0xC0,   /* bmAttributes: self powered */
@@ -132,7 +137,33 @@ const uint8_t Virtual_Com_Port_ConfigDescriptor[] =
     0x02,   /* bmAttributes: Bulk */
     VIRTUAL_COM_PORT_DATA_SIZE,             /* wMaxPacketSize: */
     0x00,
-    0x00    /* bInterval */
+    0x00,   /* bInterval */
+    /*Trace class interface descriptor*/
+    0x09,   /* bLength: Endpoint Descriptor size */
+    USB_INTERFACE_DESCRIPTOR_TYPE,  /* bDescriptorType: */
+    0x02,   /* bInterfaceNumber: Number of Interface */
+    0x00,   /* bAlternateSetting: Alternate setting */
+    0x02,   /* bNumEndpoints: Two endpoints used */
+    0xFF,   /* bInterfaceClass: Vendor specific */
+    0x00,   /* bInterfaceSubClass: */
+    0x00,   /* bInterfaceProtocol: */
+    0x04,   /* iInterface: */
+    /*Endpoint 4 Descriptor*/
+    0x07,   /* bLength: Endpoint Descriptor size */
+    USB_ENDPOINT_DESCRIPTOR_TYPE,   /* bDescriptorType: Endpoint */
+    0x04,   /* bEndpointAddress: (OUT4) */
+    0x02,   /* bmAttributes: Bulk */
+    64,             /* wMaxPacketSize: */
+    0x00,
+    0x00,   /* bInterval: ignore for Bulk transfer */
+    /*Endpoint 2 Descriptor*/
+    0x07,   /* bLength: Endpoint Descriptor size */
+    USB_ENDPOINT_DESCRIPTOR_TYPE,   /* bDescriptorType: Endpoint */
+    0x82,   /* bEndpointAddress: (IN2) */
+    0x02,   /* bmAttributes: Bulk */
+    64,             /* wMaxPacketSize: */
+    0x00,
+    0x00,   /* bInterval */
   };
 
 /* USB String Descriptors */
@@ -171,4 +202,15 @@ uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL] =
     'S', 0, 'T', 0, 'M', 0, '3', 0, '2', 0
   };
 
+
+const uint8_t Trace_Interface_String[TRACE_SIZ_STRING_INTERFACE] =
+  {
+    VIRTUAL_COM_PORT_SIZ_STRING_SERIAL,           /* bLength */
+    USB_STRING_DESCRIPTOR_TYPE,                   /* bDescriptorType */
+    'E', 0, 'v', 0, 'v', 0, 'G', 0, 'C', 0, ' ', 0, 'T', 0, 'r', 0, 'a', 0, 'c', 0, 'e', 0, 0, 0
+  };
+
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+
+

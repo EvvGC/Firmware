@@ -20,6 +20,7 @@
 #include "definitions.h"
 #include "usb.h"
 #include "main.h"
+#include "usb_lib.h"
 
 int debugPrint   = 0;
 int debugPerf    = 0;
@@ -28,6 +29,9 @@ int debugCnt     = 0;
 int debugRC      = 0;
 int debugOrient  = 0;
 int debugAutoPan = 0;
+
+struct sTraceBuffer g_TraceBuffer;
+int g_bTraceBufferReady = 0;
 
 float /*pitch, Gyro_Pitch_angle,*/ pitch_setpoint = 0.0f, pitch_Error_last = 0.0f,  pitch_angle_correction;
 float /*roll,  Gyro_Roll_angle,*/  roll_setpoint  = 0.0f,  roll_Error_last = 0.0f,   roll_angle_correction;
@@ -137,6 +141,9 @@ void Init_Orientation()
     CameraOrient[PITCH] = AccAngleSmooth[PITCH];
     CameraOrient[ROLL] = AccAngleSmooth[ROLL];
     CameraOrient[YAW] = 0.0f;
+
+    g_bTraceBufferReady = 0;
+    g_TraceBuffer.ui32Counter = 0;
 }
 
 void Get_Orientation(float *SmoothAcc, float *Orient, float *AccData, float *GyroData, float dt)
@@ -266,9 +273,26 @@ void engineProcess(float dt)
 
     printcounter++;
 
+    g_TraceBuffer.ui32Counter++;
+    g_TraceBuffer.fAccX = AccData[X_AXIS];
+    g_TraceBuffer.fAccY = 42 + AccData[Y_AXIS];
+    g_TraceBuffer.fAccZ = AccData[Z_AXIS];
+    g_bTraceBufferReady = 1;
+//	if(g_bTraceBufferReady){			// TODO: check if data has been sent
+	if(GetTxStallStatus(0x82)){			// TODO: check if data has been sent
+		int sendLength = sizeof(g_TraceBuffer);
+	    UserToPMABufferCopy((uint8_t *)&g_TraceBuffer, ENDP2_TXADDR, sendLength);
+	    SetEPTxCount(ENDP2, sendLength);
+	    SetEPTxValid(ENDP2);
+		g_bTraceBufferReady = 0;
+	}
+
     //if (printcounter >= 500 || dt > 0.0021)
     if (printcounter >= 500)
     {
+        if (debugPrint){
+        	print(">>%d, %d\n", g_TraceBuffer.ui32Counter, g_bTraceBufferReady);
+        }
         if (debugPrint)
         {
             print("Loop: %7d, I2CErrors: %d, angles: roll %7.2f, pitch %7.2f, yaw %7.2f\r\n",
@@ -284,7 +308,7 @@ void engineProcess(float dt)
 
         if (debugPerf)
         {
-            print("idle: %5.2f%%, time[µs]: attitude est. %4d, IMU acc %4d, gyro %4d, angle %4d, calc %4d, PID %4d\r\n",
+            print("idle: %5.2f%%, time[ï¿½s]: attitude est. %4d, IMU acc %4d, gyro %4d, angle %4d, calc %4d, PID %4d\r\n",
                   GetIdlePerf(), tAll, tAccGet, tGyroGet, tAccAngle, tCalc, tPID);
         }
 
