@@ -40,6 +40,7 @@
 #include "comio.h"
 #include "hw_config.h"
 #include "reboot.h"
+#include "usb_lib.h"
 
 int ConfigMode;
 
@@ -173,6 +174,12 @@ void CommHandler(void) //UART4 Interrupt handler implementation
             {
                 extern int bDeviceState;
                 printUSART("\r\nYY bDeviceState %3d  VCPConnectMode %d\r\n", bDeviceState, GetVCPConnectMode());
+                print("\r\n");
+                int cnt;
+                for(cnt=0;cnt<8;cnt++){
+                	print("EP%d IN @0x%04x #%4d OUT @0x%04x #%4d USB_EP%dR:0x%04x\r\n", cnt, (uint32_t)_GetEPTxAddr(cnt), (uint32_t)_GetEPTxCount(cnt), (uint32_t)_GetEPRxAddr(cnt), (uint32_t)_GetEPRxCount(cnt), cnt, _GetENDPOINT(cnt));
+                }
+//                print("RxFIFOdepth: %5d\r\n", OTG_FS_GRXFSIZ);
                 break;
             }
 

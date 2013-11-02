@@ -52,6 +52,9 @@
 #define VIRTUAL_COM_PORT_SIZ_STRING_SERIAL      26
 #define TRACE_SIZ_STRING_INTERFACE				26
 
+#define TRACE_PORT_CTRL_DATA_SIZE				64
+#define TRACE_PORT_DATA_SIZE					64
+
 #define STANDARD_ENDPOINT_DESC_SIZE             0x09
 
 /* Exported functions ------------------------------------------------------- */

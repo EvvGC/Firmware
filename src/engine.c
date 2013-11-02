@@ -367,11 +367,14 @@ void engineProcess(float dt)
     g_TraceBuffer.fAccZ = AccData[Z_AXIS];
     g_bTraceBufferReady = 1;
 //	if(g_bTraceBufferReady){			// TODO: check if data has been sent
-	if(GetTxStallStatus(0x82)){			// TODO: check if data has been sent
+//	if(GetTxStallStatus(0x82)){			// TODO: check if data has been sent
+    if((_GetEPTxStatus(ENDP5)&EP_TX_VALID)!=EP_TX_VALID){
+//	if(_GetENDPOINT(ENDP5)&EP_CTR_TX){		// TODO: check if data has been sent
+	    ClearEP_CTR_TX(ENDP5);				// Will be set again automatically by hardware when the transfer completes?
 		int sendLength = sizeof(g_TraceBuffer);
-	    UserToPMABufferCopy((uint8_t *)&g_TraceBuffer, ENDP2_TXADDR, sendLength);
-	    SetEPTxCount(ENDP2, sendLength);
-	    SetEPTxValid(ENDP2);
+	    UserToPMABufferCopy((uint8_t *)&g_TraceBuffer, ENDP5_TXADDR, sendLength);
+	    SetEPTxCount(ENDP5, sendLength);
+	    SetEPTxValid(ENDP5);
 		g_bTraceBufferReady = 0;
 	}
 
