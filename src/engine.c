@@ -363,19 +363,34 @@ void engineProcess(float dt)
 
     g_TraceBuffer.ui32Counter++;
     g_TraceBuffer.fAccX = AccData[X_AXIS];
-    g_TraceBuffer.fAccY = 42 + AccData[Y_AXIS];
+    g_TraceBuffer.fAccY = AccData[Y_AXIS];		//3.14159;		//
     g_TraceBuffer.fAccZ = AccData[Z_AXIS];
+    g_TraceBuffer.fGyrX = GyroData[X_AXIS];
+    g_TraceBuffer.fGyrY = GyroData[Y_AXIS];
+    g_TraceBuffer.fGyrZ = GyroData[Z_AXIS];
+
+    uint8_t pu8TraceBuf[sizeof(g_TraceBuffer)];
+    uint32_t * pu32TrcBufDst = (uint32_t *)pu8TraceBuf;
+    uint32_t * pu32TrcBufSrc = (uint32_t *)&g_TraceBuffer;
+    unsigned int cnt;
+    for(cnt=0;cnt<sizeof(g_TraceBuffer)/4;cnt++){
+    	*pu32TrcBufDst++ = __builtin_bswap32(*pu32TrcBufSrc++);
+    }
     g_bTraceBufferReady = 1;
 //	if(g_bTraceBufferReady){			// TODO: check if data has been sent
 //	if(GetTxStallStatus(0x82)){			// TODO: check if data has been sent
-    if((_GetEPTxStatus(ENDP5)&EP_TX_VALID)!=EP_TX_VALID){
-//	if(_GetENDPOINT(ENDP5)&EP_CTR_TX){		// TODO: check if data has been sent
-	    ClearEP_CTR_TX(ENDP5);				// Will be set again automatically by hardware when the transfer completes?
-		int sendLength = sizeof(g_TraceBuffer);
-	    UserToPMABufferCopy((uint8_t *)&g_TraceBuffer, ENDP5_TXADDR, sendLength);
-	    SetEPTxCount(ENDP5, sendLength);
-	    SetEPTxValid(ENDP5);
-		g_bTraceBufferReady = 0;
+//    if(!(printcounter % 10)){
+    if(1){
+    	if((_GetEPTxStatus(ENDP5)&EP_TX_VALID)!=EP_TX_VALID){
+////		if(_GetENDPOINT(ENDP5)&EP_CTR_TX){		// TODO: check if data has been sent
+    		ClearEP_CTR_TX(ENDP5);				// Will be set again automatically by hardware when the transfer completes?
+    		int sendLength = sizeof(g_TraceBuffer);
+//		    UserToPMABufferCopy((uint8_t *)&g_TraceBuffer, ENDP5_TXADDR, sendLength);
+    		UserToPMABufferCopy(pu8TraceBuf, ENDP5_TXADDR, sendLength);
+		    SetEPTxCount(ENDP5, sendLength);
+		    SetEPTxValid(ENDP5);
+		    g_bTraceBufferReady = 0;
+    	}
 	}
 
     //if (printcounter >= 500 || dt > 0.0021)

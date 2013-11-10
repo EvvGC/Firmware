@@ -51,6 +51,9 @@ struct sTraceBuffer
     float		fAccX;
     float		fAccY;
     float		fAccZ;
+    float		fGyrX;
+    float		fGyrY;
+    float		fGyrZ;
 } __attribute__ ((__packed__)) ;
 extern int g_bTraceBufferReady;
 
