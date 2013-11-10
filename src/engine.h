@@ -44,6 +44,21 @@ extern int debugAutoPan;
 void Init_Orientation(void);
 void engineProcess(float dt);
 void Get_Orientation(float *AccAngleSmooth, float *Orient, float *AccData, float *GyroData, float dt);
+
+struct sTraceBuffer
+{
+	uint32_t	ui32Counter;
+    float		fAccX;
+    float		fAccY;
+    float		fAccZ;
+    float		fGyrX;
+    float		fGyrY;
+    float		fGyrZ;
+} __attribute__ ((__packed__)) ;
+extern int g_bTraceBufferReady;
+
+extern struct sTraceBuffer g_TraceBuffer;
+
 #endif /* ENGINE_H_ */
 
 

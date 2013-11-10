@@ -45,11 +45,15 @@
 #define VIRTUAL_COM_PORT_INT_SIZE               8
 
 #define VIRTUAL_COM_PORT_SIZ_DEVICE_DESC        18
-#define VIRTUAL_COM_PORT_SIZ_CONFIG_DESC        67
+#define VIRTUAL_COM_PORT_SIZ_CONFIG_DESC        (67+23)
 #define VIRTUAL_COM_PORT_SIZ_STRING_LANGID      4
 #define VIRTUAL_COM_PORT_SIZ_STRING_VENDOR      38
 #define VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT     50
 #define VIRTUAL_COM_PORT_SIZ_STRING_SERIAL      26
+#define TRACE_SIZ_STRING_INTERFACE				26
+
+#define TRACE_PORT_CTRL_DATA_SIZE				64
+#define TRACE_PORT_DATA_SIZE					64
 
 #define STANDARD_ENDPOINT_DESC_SIZE             0x09
 
@@ -61,6 +65,7 @@ extern const uint8_t Virtual_Com_Port_StringLangID[VIRTUAL_COM_PORT_SIZ_STRING_L
 extern const uint8_t Virtual_Com_Port_StringVendor[VIRTUAL_COM_PORT_SIZ_STRING_VENDOR];
 extern const uint8_t Virtual_Com_Port_StringProduct[VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT];
 extern uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL];
+extern const uint8_t Trace_Interface_String[TRACE_SIZ_STRING_INTERFACE];
 
 #endif /* __USB_DESC_H */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

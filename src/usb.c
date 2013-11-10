@@ -28,6 +28,7 @@
 #include "systick.h"
 #include "ringbuffer.h"
 #include "hw_config.h"
+#include "engine.h"
 
 tRingBuffer RingBufferUSBTX;
 static int USBCallBackCalled = 0;
@@ -75,6 +76,17 @@ void EP1_IN_Callback(void)
     packetSent = 0;
     lastCallbackTime = millis();
     USBPushTXData();
+}
+
+void EP2_IN_Callback(void)
+{
+//	if(g_bTraceBufferReady){
+//		int sendLength = sizeof(g_bTraceBufferReady);
+//	    UserToPMABufferCopy((uint8_t *)&g_bTraceBufferReady, ENDP2_TXADDR, sendLength);
+//	    SetEPTxCount(ENDP2, sendLength);
+//	    SetEPTxValid(ENDP2);
+//		g_bTraceBufferReady = 0;
+//	}
 }
 
 void setupUSB(void)

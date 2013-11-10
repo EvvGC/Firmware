@@ -45,4 +45,7 @@ void Delay_us(unsigned int us);
 float Rad2Deg(float x);
 float Deg2Rad(float x);
 float Round(float x);
+
+#define ARRAY_SIZE(x)			(sizeof(x)/sizeof(*(x)))
+
 #endif /* UTILS_H_ */

@@ -35,6 +35,13 @@
 #include "systick.h"
 #include "utils.h"
 #include "hw_config.h"
+#include "reboot.h"
+#include "usb_lib.h"
+#include "usb_desc.h"
+
+// echo b > /dev/ttyACM0 && sudo ./dfu-util -v -a 1 -d 1eaf:0003 -D out/STM32Gimbal.USB.bin
+// echo b > /dev/cu.usbmodemfa1341 && dfu-util -v -a 1 -d 1eaf:0003 -D STM32Gimbal.USB.bin
+// (echo b > /dev/cu.usbmodemfa1321 && sleep 2) || sleep 0  && dfu-util -v -a 1 -d 1eaf:0003 -D STM32Gimbal.USB.bin
 
 static volatile int WatchDogCounter;
 
@@ -81,6 +88,22 @@ void setup(void)
     __enable_irq();
 
     ComInit();
+// Init Trace
+    /* Initialize Endpoint 4 for control */
+    SetEPAddress(ENDP4, 4);
+    SetEPType(ENDP4, EP_BULK);
+    SetEPRxAddr(ENDP4, ENDP4_RXADDR);
+    SetEPRxCount(ENDP4, TRACE_PORT_CTRL_DATA_SIZE);
+    SetEPRxStatus(ENDP4, EP_RX_NAK);
+    SetEPTxStatus(ENDP4, EP_TX_DIS);
+    /* Initialize Endpoint 5 for data transfer */
+    SetEPAddress(ENDP5, 5);
+    SetEPType(ENDP5, EP_BULK);
+    SetEPTxAddr(ENDP5, ENDP5_TXADDR);
+    SetEPTxCount(ENDP5, TRACE_PORT_DATA_SIZE);
+    SetEPRxStatus(ENDP5, EP_RX_NAK);
+    SetEPTxStatus(ENDP5, EP_TX_DIS);
+
     print("\r\n\r\nEvvGC firmware starting up...\r\n");
 
     print("init motor PWM...\r\n");
@@ -131,7 +154,13 @@ void setup(void)
 
     while (MPU6050_Init())
     {
-        print("init MPU6050 failed, retrying...\r\n");
+        print("init MPU6050 failed - press 'b' to enter bootloader, retrying...\r\n");
+        int c = GetChar();
+        if(c=='b'){
+        	print("rebooting into boot loader ...\r\n");
+            Delay_ms(1000);
+            bootloader();
+        }
         Blink();
     }
 
@@ -167,6 +196,17 @@ void setup(void)
 #endif
 
     print("entering main loop...\r\n");
+
+// Send first packet, so to activate pump
+    g_TraceBuffer.ui32Counter = 0;
+    g_TraceBuffer.fAccX = 0;
+    g_TraceBuffer.fAccY = 0;
+    g_TraceBuffer.fAccZ = 0;
+
+	int sendLength = sizeof(g_TraceBuffer);
+    UserToPMABufferCopy((uint8_t *)&g_TraceBuffer, ENDP5_TXADDR, sendLength);
+    SetEPTxCount(ENDP5, sendLength);
+    SetEPTxValid(ENDP5);
 
     SysTickAttachCallback(WatchDog);
 }
@@ -210,6 +250,7 @@ int main(void)
     int idleLoops = 0;
     unsigned int lastTime = micros();
 
+    print("Press '?' for CLI documentation\r\n");
     while (1)
     {
         idleLoops++;

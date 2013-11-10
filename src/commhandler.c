@@ -40,12 +40,14 @@
 #include "comio.h"
 #include "hw_config.h"
 #include "reboot.h"
+#include "usb_lib.h"
 
 int ConfigMode;
 
 void CommHandler(void) //UART4 Interrupt handler implementation
 {
     int c = GetChar();
+    extern int bDeviceState;
 
     if (c >= 0)
     {
@@ -172,6 +174,12 @@ void CommHandler(void) //UART4 Interrupt handler implementation
             {
                 extern int bDeviceState;
                 printUSART("\r\nYY bDeviceState %3d  VCPConnectMode %d\r\n", bDeviceState, GetVCPConnectMode());
+                print("\r\n");
+                int cnt;
+                for(cnt=0;cnt<8;cnt++){
+                	print("EP%d IN @0x%04x #%4d OUT @0x%04x #%4d USB_EP%dR:0x%04x\r\n", cnt, (uint32_t)_GetEPTxAddr(cnt), (uint32_t)_GetEPTxCount(cnt), (uint32_t)_GetEPRxAddr(cnt), (uint32_t)_GetEPRxCount(cnt), cnt, _GetENDPOINT(cnt));
+                }
+//                print("RxFIFOdepth: %5d\r\n", OTG_FS_GRXFSIZ);
                 break;
             }
 
@@ -188,6 +196,28 @@ void CommHandler(void) //UART4 Interrupt handler implementation
                 testPhase -= 0.1;
                 print("test phase output %5.1f\r\n", testPhase);
                 break;
+
+            case '?':
+                print("CLI documentation\r\n");
+                print("\t'+' test phase output increase (now %5.1f)\r\n", testPhase);
+                print("\t'-' test phase output decrease (now %5.1f)\r\n", testPhase);
+                print("\t'a' autopan messages display (now %s)\r\n", debugAutoPan ? "on" : "off");
+                print("\t'b' reboot into bootloader\r\n");
+                print("\t'c' counter messages display (now %s)\r\n", debugCnt ? "on" : "off");
+                print("\t'd' debug messages display (now %s)\r\n", debugPrint ? "on" : "off");
+                print("\t'g' dump configuration (binary)\r\n");
+                print("\t'G' dump configuration (hexadecimal)\r\n");
+                print("\t'h' write and save config array\r\n");
+                print("\t'i' enter config mode (now %s)\r\n", ConfigMode ? "on" : "off");
+                print("\t'j' leave config mode (now %s)\r\n", ConfigMode ? "on" : "off");
+                print("\t'o' orientation messages display (now %s)\r\n", debugOrient ? "on" : "off");
+                print("\t'p' performance messages display (now %s)\r\n", debugPerf ? "on" : "off");
+                print("\t'r' RC messages display (now %s)\r\n", debugRC ? "on" : "off");
+                print("\t'R' reboot\r\n");
+                print("\t's' toggle sensor messages display (now %s)\r\n", debugSense ? "on" : "off");
+                print("\t'u' print USB state (bDeviceState %3d  VCPConnectMode %d)\r\n", bDeviceState, GetVCPConnectMode());
+                print("\t'v' print version (%s)\r\n", __EV_VERSION);
+            	break;
 
             default:
                 // TODO
