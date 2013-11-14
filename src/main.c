@@ -16,6 +16,7 @@
 #include "stm32f10x_tim.h"
 
 static volatile int WatchDogCounter;
+static volatile int got_imu;
 
 void Periph_clock_enable(void)
 {
@@ -108,23 +109,28 @@ void setup(void)
 
     print("init MPU6050...\r\n");
 
-    while (MPU6050_Init())
+	int imu_retries = 10;
+    while ((imu_retries > 0) && MPU6050_Init())
     {
-        print("init MPU6050 failed, retrying...\r\n");
+        print("init MPU6050 failed, retries left: %d...\r\n", --imu_retries);
         Blink();
     }
 
     print("loading config...\r\n");
     configLoad();
+	
+	got_imu = imu_retries ? 1 : 0;
 
-    print("calibrating MPU6050 at %ums...\r\n", millis());
-    MPU6050_Gyro_calibration();
+	if (got_imu) {
+		print("calibrating MPU6050 at %ums...\r\n", millis());
+		MPU6050_Gyro_calibration();
 
-    print("init RC...\r\n");
-    RC_Config();
+		print("init RC...\r\n");
+		RC_Config();
 
-    print("Init Orientation\n\r");
-    Init_Orientation();
+		print("Init Orientation\n\r");
+		Init_Orientation();
+	}
 
     InitSinArray();
 
@@ -202,7 +208,9 @@ int main(void)
 
             if (ConfigMode == 0)
             {
-                engineProcess(timePassed / 1000000.0);
+				if (got_imu) {
+					engineProcess(timePassed / 1000000.0);
+				}
             }
             else
             {
