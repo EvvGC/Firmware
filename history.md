@@ -217,3 +217,7 @@
     - updated attitude with paulphil changes for pitch greater than 45 degrees
     - updated rc pwm detect for futaba receievers
     - Released 0.4.4
+
+20131115
+    - added delay to startup to allow gimbal to settle
+    - Released 0.4.5

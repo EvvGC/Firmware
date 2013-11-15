@@ -15,6 +15,8 @@
 #include "hw_config.h"
 #include "stm32f10x_tim.h"
 
+#define SETTLE_PAUSE 20
+
 static volatile int WatchDogCounter;
 static volatile int gotIMU = 0;
 
@@ -126,6 +128,13 @@ void setup(void)
 
     if (gotIMU)
     {
+        print("pausing for the gimbal to settle...\r\n");
+
+        for (int i = 0; i < SETTLE_PAUSE; i++)
+        {
+            Delay_ms(1000);
+        }
+
         print("calibrating MPU6050 at %ums...\r\n", millis());
         MPU6050_Gyro_calibration();
 
