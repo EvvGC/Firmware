@@ -210,3 +210,10 @@
       Gyro is initialized with Z Axis clock, 8khz sample rate on the gyro, 1khz on the accel, NO LPF enabled, 250 deg/sec on the gyro and +/-2G on the accel
     - The gyro scale has been corrected to be the right value for a 250d/sec gyro setup
     - engine.c was corrected to maintain all values in Radians
+
+20131114
+    - added define for IMU address
+    - added acc007 changes for debug/desk config of board when no IMU is present
+    - updated attitude with paulphil changes for pitch greater than 45 degrees
+    - updated rc pwm detect for futaba receievers
+    - Released 0.4.4
