@@ -57,7 +57,7 @@ boolean portopen = false;
 char RCcontrol = '0';
 char YawRCon = '0';
 String readStatus = "";
-String Version = "0.4.1.1";
+String Version = "0.4.1.2";
 
 controlP5.Controller hideLabel(controlP5.Controller c) {
   c.setLabel("");
@@ -169,13 +169,10 @@ void draw() {
   fill(75); strokeWeight(0);stroke(80);
   rect(0, 240, 600, 100, 0);
 
-
   fill(255);
 
   // Background
  // setGradient(0, 0, width, 80, c2, c1, Y_AXIS);
-
-
 
   textSize(12);
   text("Pitch P:",35,112);
@@ -191,7 +188,6 @@ void draw() {
   text("Yaw P:",38,211);
   textSize(12);
   text("Yaw D:",158,211);
-
 
   textSize(12);
   text("Pitch Power:             %",301,112);
@@ -219,9 +215,6 @@ void draw() {
 
     textSize(12);
     text(readStatus,110,263);
-
-
-
 
     if(PitchP.value()==0)PitchP.setValue(0.01);
     if(RollP.value()==0)RollP.setValue(0.01);
@@ -312,7 +305,6 @@ readStatus="Read OK";
 
 public void CONFIGon() {
 
-
   myPort.write("i"); //enter config command
   buttonWRITE.setColorBackground(green_);
   buttonREAD.setColorBackground(green_);
@@ -324,7 +316,6 @@ public void CONFIGon() {
 }
 
 public void CONFIGoff() {
-
 
   myPort.write("j"); //exit config command
   buttonWRITE.setColorBackground(gray_);
@@ -377,7 +368,6 @@ public void RC_OFF() {
   RCcontrol = '0';
 }
 
-
 public void RC_ON() {
   buttonRCOff.setColorBackground(gray_);
   buttonRCOn.setColorBackground(green_);
@@ -390,7 +380,6 @@ public void Yaw_RC_Pan() {
   YawRCon = '1';
 }
 
-
 public void Yaw_Auto_Pan() {
   buttonYawRC.setColorBackground(gray_);
   buttonYawAut.setColorBackground(green_);
@@ -399,8 +388,8 @@ public void Yaw_Auto_Pan() {
 
 public void ZERO() {
   RollCal.setValue(0.0);
-  println (RollCal.value());
-  println (int (RollCal.value()*10+100));
+  //println (RollCal.value());
+  //println (int (RollCal.value()*10+100));
 
 }
 

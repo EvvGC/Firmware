@@ -14,7 +14,6 @@
 #include "pwm.h"
 #include "rc.h"
 #include "comio.h"
-#include "systick.h"
 #include "stopwatch.h"
 #include "i2c.h"
 #include "definitions.h"
@@ -33,7 +32,7 @@ float /*pitch, Gyro_Pitch_angle,*/ pitch_setpoint = 0.0f, pitch_Error_last = 0.0
 float /*roll,  Gyro_Roll_angle,*/  roll_setpoint  = 0.0f,  roll_Error_last = 0.0f,   roll_angle_correction;
 float /*yaw,   Gyro_Yaw_angle,*/   yaw_setpoint   = 0.0f,   yaw_Error_last = 0.0f,    yaw_angle_correction;
 
-float ADC1Ch13_yaw;
+//float ADC1Ch13_yaw;
 
 static float rollRCOffset = 0.0f, pitchRCOffset = 0.0f, yawRCOffset = 0.0f;
 
@@ -126,17 +125,17 @@ void Init_Orientation()
     {
         MPU6050_ACC_get(AccData); //Getting Accelerometer data
 
-        AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], AccData[Z_AXIS]));   //Calculating pitch ACC angle
-        AccAngle[PITCH] = +(atan2f(AccData[Y_AXIS], AccData[Z_AXIS]));   //Calculating roll ACC angle
+        AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], AccData[Z_AXIS]));   //Calculating roll ACC angle
+        AccAngle[PITCH] = +(atan2f(AccData[Y_AXIS], AccData[Z_AXIS]));   //Calculating pitch ACC angle
 
-        AccAngleSmooth[ROLL]  = ((AccAngleSmooth[ROLL] * (float)(init_loops - 1))  + AccAngle[ROLL])  / (float)init_loops; //Averaging pitch ACC values
-        AccAngleSmooth[PITCH] = ((AccAngleSmooth[PITCH] * (float)(init_loops - 1)) + AccAngle[PITCH]) / (float)init_loops; //Averaging roll  ACC values
+        AccAngleSmooth[ROLL]  = ((AccAngleSmooth[ROLL] * (float)(init_loops - 1))  + AccAngle[ROLL])  / (float)init_loops; //Averaging roll ACC values
+        AccAngleSmooth[PITCH] = ((AccAngleSmooth[PITCH] * (float)(init_loops - 1)) + AccAngle[PITCH]) / (float)init_loops; //Averaging pitch  ACC values
         Delay_ms(1);
     }
 
     CameraOrient[PITCH] = AccAngleSmooth[PITCH];
-    CameraOrient[ROLL] = AccAngleSmooth[ROLL];
-    CameraOrient[YAW] = 0.0f;
+    CameraOrient[ROLL]  = AccAngleSmooth[ROLL];
+    CameraOrient[YAW]   = 0.0f;
 }
 
 void Get_Orientation(float *SmoothAcc, float *Orient, float *AccData, float *GyroData, float dt)
@@ -144,11 +143,12 @@ void Get_Orientation(float *SmoothAcc, float *Orient, float *AccData, float *Gyr
     float AccAngle[EULAR];
     float GyroRate[EULAR];
 
-    AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], AccData[Z_AXIS]));   //Calculating pitch ACC angle
-    AccAngle[PITCH] = +(atan2f(AccData[Y_AXIS], AccData[Z_AXIS]));   //Calculating roll ACC angle
+    //AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], AccData[Z_AXIS]));   //Calculating roll ACC angle
+    AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], sqrtf( AccData[Z_AXIS] * AccData[Z_AXIS] + AccData[Y_AXIS] * AccData[Y_AXIS])));   //Calculating roll ACC angle
+    AccAngle[PITCH] = +(atan2f(AccData[Y_AXIS], AccData[Z_AXIS]));   //Calculating pitch ACC angle
 
-    SmoothAcc[ROLL]  = ((SmoothAcc[ROLL] * 99.0f)  + AccAngle[ROLL])  / 100.0f; //Averaging pitch ACC values
-    SmoothAcc[PITCH] = ((SmoothAcc[PITCH] * 99.0f) + AccAngle[PITCH]) / 100.0f; //Averaging roll  ACC values
+    SmoothAcc[ROLL]  = ((SmoothAcc[ROLL] * 99.0f)  + AccAngle[ROLL])  / 100.0f; //Averaging roll ACC values
+    SmoothAcc[PITCH] = ((SmoothAcc[PITCH] * 99.0f) + AccAngle[PITCH]) / 100.0f; //Averaging pitch  ACC values
 
     GyroRate[PITCH] =  GyroData[X_AXIS];
     Orient[PITCH]   = (Orient[PITCH] + GyroRate[PITCH] * dt) + 0.0002f * (SmoothAcc[PITCH] - Orient[PITCH]);  //Pitch Horizon
@@ -156,14 +156,14 @@ void Get_Orientation(float *SmoothAcc, float *Orient, float *AccData, float *Gyr
     GyroRate[ROLL] = -GyroData[Z_AXIS] * sinf(Orient[PITCH]) + GyroData[Y_AXIS] * cosf(fabsf(Orient[PITCH]));
     Orient[ROLL]   = (Orient[ROLL] + GyroRate[ROLL] * dt)    + 0.0002f * (SmoothAcc[ROLL] - Orient[ROLL]); //Roll Horizon
 
-    GyroRate[YAW] = -GyroData[Z_AXIS] * cosf(fabsf(Orient[PITCH])) - GyroData[Y_AXIS] * sinf(Orient[PITCH]); //presuming Roll is horizontal
-    Orient[YAW]   = (Orient[YAW] + GyroRate[YAW] * dt); //Yaw
+    GyroRate[YAW]  = -GyroData[Z_AXIS] * cosf(fabsf(Orient[PITCH])) - GyroData[Y_AXIS] * sinf(Orient[PITCH]); //presuming Roll is horizontal
+    Orient[YAW]    = (Orient[YAW] + GyroRate[YAW] * dt); //Yaw
 }
 
 //---------------------YAW autopan----------------------//
 //#define ANGLE2SETPOINT -1000
 #define DEADBAND 2.0f //in radians with respect to one motor pole (actual angle is (DEADBAND / numberPoles) * R2D)
-#define MOTORPOS2SETPNT 0.35f //scaling factor for how fast it should move
+#define MOTORPOS2SETPNT 0.45f //scaling factor for how fast it should move
 #define AUTOPANSMOOTH 40.0f
 //#define LPFTIMECONSTANT 20 //change this to adjust sensitivity
 
@@ -193,6 +193,7 @@ float autoPan(float motorPos, float setpoint)
     stepSmooth = (stepSmooth * (AUTOPANSMOOTH - 1.0f) + step) / AUTOPANSMOOTH;
     return (setpoint -= stepSmooth);
 }
+
 //--------------------Engine Process-----------------------------//
 void engineProcess(float dt)
 {
@@ -284,13 +285,13 @@ void engineProcess(float dt)
 
         if (debugPerf)
         {
-            print("idle: %5.2f%%, time[�s]: attitude est. %4d, IMU acc %4d, gyro %4d, angle %4d, calc %4d, PID %4d\r\n",
+            print("idle: %5.2f%%, time[µs]: attitude est. %4d, IMU acc %4d, gyro %4d, angle %4d, calc %4d, PID %4d\r\n",
                   GetIdlePerf(), tAll, tAccGet, tGyroGet, tAccAngle, tCalc, tPID);
         }
 
         if (debugRC)
         {
-            print(" RC2avg: %7.2f |  RC4avg: %7.2f |  RC3avg: %7.2f | RStep:%7.3f  PStep: %7.3f  YStep: %7.3f\r\n",
+            print(" RC2avg: %7.2f |  RC3avg: %7.2f |  RC4avg: %7.2f | RStep:%7.3f  PStep: %7.3f  YStep: %7.3f\r\n",
                   RCSmooth[ROLL], RCSmooth[PITCH], RCSmooth[YAW], Step[ROLL], Step[PITCH], Step[YAW]);
         }
 
