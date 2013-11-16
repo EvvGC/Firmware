@@ -15,7 +15,7 @@
 #include "hw_config.h"
 #include "stm32f10x_tim.h"
 
-#define SETTLE_PAUSE 20
+#define SETTLE_PAUSE 13
 
 static volatile int WatchDogCounter;
 static volatile int gotIMU = 0;
@@ -75,6 +75,8 @@ void setup(void)
         Delay_ms(100); //short blink
     }
 
+    LEDoff();
+
     if (GetVCPConnectMode() != eVCPConnectReset)
     {
         print("\r\nUSB startup delay...\r\n");
@@ -132,6 +134,7 @@ void setup(void)
 
         for (int i = 0; i < SETTLE_PAUSE; i++)
         {
+            LEDtoggle();
             Delay_ms(1000);
         }
 
