@@ -65,7 +65,7 @@ LIB_DIRS =
 
 # libraries (additional libraries for linking, e.g. "-lm -lsome_name" to link
 # math library libm.a and libsome_name.a)
-LIBS =
+LIBS = -lm
 
 # additional directories with source files (absolute or relative paths to
 # folders with source files, current folder is always included)
@@ -152,13 +152,13 @@ C_FLAGS += -fsingle-precision-constant
 AS_FLAGS = -Wa,-amhls=$(OUT_DIR_F)$(notdir $(<:.$(AS_EXT)=.lst))
 
 # flags for linker
-LD_FLAGS = -T$(LD_SCRIPT) -g -Wl,-Map=$(OUT_DIR_F)$(PROJECT).map,--cref,--no-warn-mismatch
-LD_USB_FLAGS = -T$(LD_USB_SCRIPT) -g -Wl,-Map=$(OUT_DIR_F)$(PROJECT_USB).map,--cref,--no-warn-mismatch
+LD_FLAGS = -T$(LD_SCRIPT) -Wl,-Map=$(OUT_DIR_F)$(PROJECT).map,--cref,--no-warn-mismatch
+LD_USB_FLAGS = -T$(LD_USB_SCRIPT) -Wl,-Map=$(OUT_DIR_F)$(PROJECT_USB).map,--cref,--no-warn-mismatch
 
 # process option for removing unused code
 ifeq ($(REMOVE_UNUSED), 1)
-	LD_FLAGS += -Wl,--gc-sections
-	LD_USB_FLAGS += -Wl,--gc-sections
+	LD_FLAGS += -Xlinker --gc-sections
+	LD_USB_FLAGS += -Xlinker --gc-sections
 	OPTIMIZATION += -ffunction-sections -fdata-sections
 endif
 
