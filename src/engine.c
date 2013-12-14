@@ -144,7 +144,7 @@ void Get_Orientation(float *SmoothAcc, float *Orient, float *AccData, float *Gyr
     float GyroRate[EULAR];
 
     //AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], AccData[Z_AXIS]));   //Calculating roll ACC angle
-    AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], sqrtf( AccData[Z_AXIS] * AccData[Z_AXIS] + AccData[Y_AXIS] * AccData[Y_AXIS])));   //Calculating roll ACC angle
+    AccAngle[ROLL]  = -(atan2f(AccData[X_AXIS], sqrtf(AccData[Z_AXIS] * AccData[Z_AXIS] + AccData[Y_AXIS] * AccData[Y_AXIS])));   //Calculating roll ACC angle
     AccAngle[PITCH] = +(atan2f(AccData[Y_AXIS], AccData[Z_AXIS]));   //Calculating pitch ACC angle
 
     SmoothAcc[ROLL]  = ((SmoothAcc[ROLL] * 99.0f)  + AccAngle[ROLL])  / 100.0f; //Averaging roll ACC values
@@ -163,7 +163,7 @@ void Get_Orientation(float *SmoothAcc, float *Orient, float *AccData, float *Gyr
 //---------------------YAW autopan----------------------//
 //#define ANGLE2SETPOINT -1000
 #define DEADBAND 2.0f //in radians with respect to one motor pole (actual angle is (DEADBAND / numberPoles) * R2D)
-#define MOTORPOS2SETPNT 0.45f //scaling factor for how fast it should move
+#define MOTORPOS2SETPNT 0.55f //scaling factor for how fast it should move
 #define AUTOPANSMOOTH 40.0f
 //#define LPFTIMECONSTANT 20 //change this to adjust sensitivity
 

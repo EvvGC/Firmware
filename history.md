@@ -225,3 +225,7 @@
 20131116
     - tweaking startup delay and added slow flashing LED
     - Release 0.4.5.1 firmware
+
+20131214
+    - small updates with a more typical gopro default PIDS
+    - Release 0.4.5.2 firmware

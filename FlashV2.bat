@@ -5,7 +5,7 @@ set flasher="%ProgramFiles(x86)%\STMicroelectronics\STM32 ST-LINK Utility\ST-LIN
 
 :flash
 set filename=%1%
-if "%filename%" == "" set filename=out\STM32Gimbal.bin
+if "%filename%" == "" set filename=out\STM32Gimbal.USB.bin
 
 %flasher% -c SWD -P %filename% 0x08004000 -V -Rst
 pause
