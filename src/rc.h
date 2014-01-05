@@ -10,7 +10,7 @@
 #ifndef RC_H_
 #define RC_H_
 
-#define DEAD_ZONE 20.0F
+#define DEAD_ZONE 20.0F //was 20
 #define RC_CENTER_VAL 500.0F
 #define RC2STEP 0.002
 

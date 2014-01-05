@@ -219,12 +219,13 @@ void engineProcess(float dt)
     {
         // Get the RX values and Averages
         Get_RC_Step(Step, RCSmooth); // Get RC movement on all three AXIS
-        Step[PITCH] = Limit_Pitch(Step[PITCH], CameraOrient[PITCH]); // limit pitch to defined limits in header
+        //Step[PITCH] = Limit_Pitch(Step[PITCH], CameraOrient[PITCH]); // limit pitch to defined limits in header
     }
 
     // Pitch adjustments
     //pitch_setpoint += Step[PITCH];
-    pitchRCOffset += Step[PITCH] / 1000.0;
+    //the below line has been edited to set the angle offset from level (makes more sense when using a pot instead of stick input)
+    pitchRCOffset = Step[PITCH] * 2; //was pitchRCOffset += Step[PITCH] / 1000.0;
 
     pitch_angle_correction = constrain((CameraOrient[PITCH] + pitchRCOffset) * R2D, -CORRECTION_STEP, CORRECTION_STEP);
     pitch_setpoint += pitch_angle_correction; // Pitch return to zero after collision
@@ -275,6 +276,9 @@ void engineProcess(float dt)
             print("Loop: %7d, I2CErrors: %d, angles: roll %7.2f, pitch %7.2f, yaw %7.2f\r\n",
                   loopCounter, I2Cerrorcount, Rad2Deg(CameraOrient[ROLL]),
                   Rad2Deg(CameraOrient[PITCH]), Rad2Deg(CameraOrient[YAW]));
+            print("Step[PITCH]: %f \r\n",Step[PITCH]);
+            print("pitchRCOffset: %f \r\n",pitchRCOffset);
+            print("------------------- \r\n");
         }
 
         if (debugSense)

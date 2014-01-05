@@ -8,9 +8,9 @@
 #ifndef ENGiNE_H_
 #define ENGINE_H_
 
-#define PITCH_UP_LIMIT (-50 * D2R)
-#define PITCH_DOWN_LIMIT (90 * D2R)
-#define CORRECTION_STEP 1.0F
+#define PITCH_UP_LIMIT (-50 * D2R) //was -50
+#define PITCH_DOWN_LIMIT (90 * D2R) //was 90
+#define CORRECTION_STEP 1.0F //was 1F
 
 extern int debugPrint;
 extern int debugPerf;
