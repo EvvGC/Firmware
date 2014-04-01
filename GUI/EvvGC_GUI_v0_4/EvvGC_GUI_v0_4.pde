@@ -45,9 +45,10 @@ Numberbox PitchPWR;
 Numberbox RollPWR;
 Numberbox YawPWR;
 Numberbox RollCal;
-Button buttonREAD,buttonWRITE, buttonCONFon, buttonCONFoff, buttonP0, buttonP1, buttonP2, buttonRCOff, buttonRCOn, buttonYawRC, buttonYawAut;
+DropdownList dropdownSerialPort;
+Button buttonREAD,buttonWRITE, buttonCONFon, buttonCONFoff, buttonRCOff, buttonRCOn, buttonYawRC, buttonYawAut;
 Button buttonZeroRoll;
-int m=10, i, commListMax;
+int m=10, i;
 
 color green_ = color(0, 120, 170), gray_ = color(60, 60, 60); ///30 120 30
 boolean writeEnable = false;
@@ -57,7 +58,7 @@ boolean portopen = false;
 char RCcontrol = '0';
 char YawRCon = '0';
 String readStatus = "";
-String Version = "0.4.1.2";
+String Version = "0.4.1.3";
 
 controlP5.Controller hideLabel(controlP5.Controller c) {
   c.setLabel("");
@@ -68,15 +69,9 @@ controlP5.Controller hideLabel(controlP5.Controller c) {
 
 void setup()
 {
-
-  size(600, 280);
+  size(800, 280);
   background(75);
-
-  textSize(28);
-  fill(0, 120, 170);//blue
-  text("EvvGC GUI",20,50); text(Version, 170,50);
-
-
+  
   // Define colors
   b1 = color(80);
   b2 = color(60);
@@ -88,13 +83,11 @@ void setup()
   //List all the available serial ports:
   println(Serial.list());
 
+  dropdownSerialPort = controlP5.addDropdownList("SerialPort",490,20,200,60);dropdownSerialPort.setColorBackground(gray_);
 
-
-  commListMax = -1;
   for(int i=0;i<Serial.list().length;i++) {
-    commListMax = i;
+  dropdownSerialPort.addItem(Serial.list()[i], i);
   }
-
 
 
   /******************************PID cells*************************************************************/
@@ -141,10 +134,6 @@ void setup()
    buttonCONFon =     controlP5.addButton("CONFIGon",1,400,10,60,60);buttonCONFon.setColorBackground(gray_);
    buttonCONFoff =     controlP5.addButton("CONFIGoff",1,330,10,60,60);buttonCONFoff.setColorBackground(gray_);
 
-   buttonP0 =     controlP5.addButton("P0",1,490, 5,20,20);buttonP0.setColorBackground(gray_);
-   buttonP1 =     controlP5.addButton("P1",1,490,30,20,20);buttonP1.setColorBackground(gray_);
-   buttonP2 =     controlP5.addButton("P2",1,490,55,20,20);buttonP2.setColorBackground(gray_);
-
    buttonRCOff  =     controlP5.addButton("RC_OFF",1,450,122,65,20);buttonRCOff.setColorBackground(gray_);
    buttonRCOn   =     controlP5.addButton("RC_ON",1,450,100,65,20);buttonRCOn.setColorBackground(gray_);
 
@@ -152,13 +141,16 @@ void setup()
    buttonYawAut =     controlP5.addButton("Yaw_Auto_Pan",1,520,122,75,20);buttonYawAut.setColorBackground(gray_);
 
    buttonCONFoff.setColorBackground(green_);
-
 }
 
 void draw() {
-  //String Serial.list()[];
-  //size(600, 280);
-  //background(80);
+
+  size(800, 280);
+  background(75);
+
+  textSize(28);
+  fill(0, 120, 170);//blue
+  text("EvvGC GUI",20,50); text(Version, 170,50);
 
   fill(70); strokeWeight(0);stroke(35); //75
   rect(0, 80, 600, 155, 0);
@@ -204,14 +196,6 @@ void draw() {
  // text("Connected to:",400,45); text(Serial.list()[0],515,45);
  // text("Connected to:",400,45); text(Serial.list()[1],515,65);
   //text("Connected to:",400,45); text(Serial.list()[2],515,65);
-
-
-    if(printlist==true){
-      for(int i=0;i<=commListMax;i++) {
-      text(Serial.list()[i],515,21+i*25);
-      }
-      printlist=false;
-    }
 
     textSize(12);
     text(readStatus,110,263);
@@ -326,40 +310,13 @@ public void CONFIGoff() {
   readEnable = false;
 }
 
-public void P0() {
-
-  buttonP0.setColorBackground(green_);
-  buttonP1.setColorBackground(gray_);
-  buttonP2.setColorBackground(gray_);
-  // Open the port you are using at the rate you want:
-  if(portopen==true){ myPort.stop();}
-  myPort = new Serial(this, Serial.list()[0], 9600);
-  portopen=true;
-
-}
-
-public void P1() {
-
-  buttonP0.setColorBackground(gray_);
-  buttonP1.setColorBackground(green_);
-  buttonP2.setColorBackground(gray_);
-  // Open the port you are using at the rate you want:
-  if(portopen==true){ myPort.stop();}
-  myPort = new Serial(this, Serial.list()[1], 9600);
-  portopen=true;
-
-}
-
-public void P2() {
-
-  buttonP0.setColorBackground(gray_);
-  buttonP1.setColorBackground(gray_);
-  buttonP2.setColorBackground(green_);
-  // Open the port you are using at the rate you want:
-  if(portopen==true){ myPort.stop();}
-  myPort = new Serial(this, Serial.list()[2], 9600);
-  portopen=true;
-
+void controlEvent(ControlEvent theEvent) {
+  if (theEvent.isGroup() && theEvent.getGroup().getName() == "SerialPort") {
+    // Open the port you are using at the rate you want:
+    if (portopen == true){ myPort.stop();}
+    myPort = new Serial(this, Serial.list()[int(theEvent.getGroup().getValue())], 9600);
+    portopen = true;
+  } 
 }
 
 public void RC_OFF() {
@@ -392,10 +349,3 @@ public void ZERO() {
   //println (int (RollCal.value()*10+100));
 
 }
-
-
-
-
-
-
-
