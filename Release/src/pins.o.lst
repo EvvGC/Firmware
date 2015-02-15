@@ -1,0 +1,176 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"pins.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/pins.d -MF src/pins.d -MP -MT src/pins.d -D__USES_INITFINI__
+  31              	@ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER ../src/pins.c -mcpu=cortex-m3
+  32              	@ -mthumb -auxbase-strip src/pins.o -O2 -Wall -Wextra -Wstrict-prototypes
+  33              	@ -std=gnu99 -ffunction-sections -fdata-sections
+  34              	@ -fsingle-precision-constant -fverbose-asm
+  35              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  36              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  37              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  38              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  39              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  40              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  41              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  42              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  43              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  44              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  45              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  46              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  47              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  48              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  49              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  50              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  51              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  52              	@ -freorder-functions -frerun-cse-after-loop
+  53              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  54              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  55              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  56              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  57              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  58              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  59              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  60              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  61              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  62              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  63              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  64              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  65              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  66              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  67              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  68              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  69              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  70              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  71              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  72              	@ -munaligned-access -mvectorize-with-neon-quad
+  73              	
+  74              		.section	.text.GPIO_Config,"ax",%progbits
+  75              		.align	2
+  76              		.global	GPIO_Config
+  77              		.thumb
+  78              		.thumb_func
+  80              	GPIO_Config:
+  81              		@ args = 0, pretend = 0, frame = 8
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}	@
+  84 0004 DFF80081 		ldr	r8, .L2+8	@ tmp116,
+  85 0008 83B0     		sub	sp, sp, #12	@,,
+  86 000a 3D4E     		ldr	r6, .L2	@ tmp124,
+  87 000c 1825     		movs	r5, #24	@ tmp112,
+  88 000e 0224     		movs	r4, #2	@ tmp114,
+  89 0010 4046     		mov	r0, r8	@, tmp116
+  90 0012 01A9     		add	r1, sp, #4	@,,
+  91 0014 4FF4E063 		mov	r3, #1792	@ tmp111,
+  92 0018 ADF80430 		strh	r3, [sp, #4]	@ movhi	@ tmp111, GPIO_InitStructure.GPIO_Pin
+  93 001c 8DF80640 		strb	r4, [sp, #6]	@ tmp114, GPIO_InitStructure.GPIO_Speed
+  94 0020 8DF80750 		strb	r5, [sp, #7]	@ tmp112, GPIO_InitStructure.GPIO_Mode
+  95 0024 FFF7FEFF 		bl	GPIO_Init	@
+  96 0028 4FF46043 		mov	r3, #57344	@ tmp119,
+  97 002c 01A9     		add	r1, sp, #4	@,,
+  98 002e 3046     		mov	r0, r6	@, tmp124
+  99 0030 ADF80430 		strh	r3, [sp, #4]	@ movhi	@ tmp119, GPIO_InitStructure.GPIO_Pin
+ 100 0034 8DF80640 		strb	r4, [sp, #6]	@ tmp114, GPIO_InitStructure.GPIO_Speed
+ 101 0038 4FF4E079 		mov	r9, #448	@ tmp127,
+ 102 003c 8DF80750 		strb	r5, [sp, #7]	@ tmp112, GPIO_InitStructure.GPIO_Mode
+ 103 0040 FFF7FEFF 		bl	GPIO_Init	@
+ 104 0044 01A9     		add	r1, sp, #4	@,,
+ 105 0046 2F48     		ldr	r0, .L2+4	@,
+ 106 0048 8DF80640 		strb	r4, [sp, #6]	@ tmp114, GPIO_InitStructure.GPIO_Speed
+ 107 004c 8DF80750 		strb	r5, [sp, #7]	@ tmp112, GPIO_InitStructure.GPIO_Mode
+ 108 0050 ADF80490 		strh	r9, [sp, #4]	@ movhi	@ tmp127, GPIO_InitStructure.GPIO_Pin
+ 109 0054 FFF7FEFF 		bl	GPIO_Init	@
+ 110 0058 8023     		movs	r3, #128	@ tmp135,
+ 111 005a 4046     		mov	r0, r8	@, tmp116
+ 112 005c 01A9     		add	r1, sp, #4	@,,
+ 113 005e 0327     		movs	r7, #3	@ tmp143,
+ 114 0060 ADF80430 		strh	r3, [sp, #4]	@ movhi	@ tmp135, GPIO_InitStructure.GPIO_Pin
+ 115 0064 8DF80640 		strb	r4, [sp, #6]	@ tmp114, GPIO_InitStructure.GPIO_Speed
+ 116 0068 8DF80750 		strb	r5, [sp, #7]	@ tmp112, GPIO_InitStructure.GPIO_Mode
+ 117 006c FFF7FEFF 		bl	GPIO_Init	@
+ 118 0070 3046     		mov	r0, r6	@, tmp124
+ 119 0072 01A9     		add	r1, sp, #4	@,,
+ 120 0074 8DF80640 		strb	r4, [sp, #6]	@ tmp114, GPIO_InitStructure.GPIO_Speed
+ 121 0078 8DF80750 		strb	r5, [sp, #7]	@ tmp112, GPIO_InitStructure.GPIO_Mode
+ 122 007c ADF80470 		strh	r7, [sp, #4]	@ movhi	@ tmp143, GPIO_InitStructure.GPIO_Pin
+ 123 0080 FFF7FEFF 		bl	GPIO_Init	@
+ 124 0084 0723     		movs	r3, #7	@ tmp151,
+ 125 0086 4046     		mov	r0, r8	@, tmp116
+ 126 0088 01A9     		add	r1, sp, #4	@,,
+ 127 008a ADF80430 		strh	r3, [sp, #4]	@ movhi	@ tmp151, GPIO_InitStructure.GPIO_Pin
+ 128 008e 8DF80640 		strb	r4, [sp, #6]	@ tmp114, GPIO_InitStructure.GPIO_Speed
+ 129 0092 8DF80750 		strb	r5, [sp, #7]	@ tmp112, GPIO_InitStructure.GPIO_Mode
+ 130 0096 FFF7FEFF 		bl	GPIO_Init	@
+ 131 009a 3046     		mov	r0, r6	@, tmp124
+ 132 009c 01A9     		add	r1, sp, #4	@,,
+ 133 009e 8DF80640 		strb	r4, [sp, #6]	@ tmp114, GPIO_InitStructure.GPIO_Speed
+ 134 00a2 ADF80490 		strh	r9, [sp, #4]	@ movhi	@ tmp127, GPIO_InitStructure.GPIO_Pin
+ 135 00a6 1024     		movs	r4, #16	@ tmp168,
+ 136 00a8 8DF80750 		strb	r5, [sp, #7]	@ tmp112, GPIO_InitStructure.GPIO_Mode
+ 137 00ac FFF7FEFF 		bl	GPIO_Init	@
+ 138 00b0 3046     		mov	r0, r6	@, tmp124
+ 139 00b2 01A9     		add	r1, sp, #4	@,,
+ 140 00b4 4FF48053 		mov	r3, #4096	@ tmp167,
+ 141 00b8 ADF80430 		strh	r3, [sp, #4]	@ movhi	@ tmp167, GPIO_InitStructure.GPIO_Pin
+ 142 00bc 8DF80670 		strb	r7, [sp, #6]	@ tmp143, GPIO_InitStructure.GPIO_Speed
+ 143 00c0 8DF80740 		strb	r4, [sp, #7]	@ tmp168, GPIO_InitStructure.GPIO_Mode
+ 144 00c4 FFF7FEFF 		bl	GPIO_Init	@
+ 145 00c8 4046     		mov	r0, r8	@, tmp116
+ 146 00ca 01A9     		add	r1, sp, #4	@,,
+ 147 00cc 0823     		movs	r3, #8	@ tmp175,
+ 148 00ce ADF80430 		strh	r3, [sp, #4]	@ movhi	@ tmp175, GPIO_InitStructure.GPIO_Pin
+ 149 00d2 8DF80740 		strb	r4, [sp, #7]	@ tmp168, GPIO_InitStructure.GPIO_Mode
+ 150 00d6 8DF80670 		strb	r7, [sp, #6]	@ tmp143, GPIO_InitStructure.GPIO_Speed
+ 151 00da FFF7FEFF 		bl	GPIO_Init	@
+ 152 00de 4FF44062 		mov	r2, #3072	@ tmp183,
+ 153 00e2 1423     		movs	r3, #20	@ tmp184,
+ 154 00e4 3046     		mov	r0, r6	@, tmp124
+ 155 00e6 01A9     		add	r1, sp, #4	@,,
+ 156 00e8 8DF80670 		strb	r7, [sp, #6]	@ tmp143, GPIO_InitStructure.GPIO_Speed
+ 157 00ec ADF80420 		strh	r2, [sp, #4]	@ movhi	@ tmp183, GPIO_InitStructure.GPIO_Pin
+ 158 00f0 8DF80730 		strb	r3, [sp, #7]	@ tmp184, GPIO_InitStructure.GPIO_Mode
+ 159 00f4 FFF7FEFF 		bl	GPIO_Init	@
+ 160 00f8 03B0     		add	sp, sp, #12	@,,
+ 161              		@ sp needed	@
+ 162 00fa BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}	@
+ 163              	.L3:
+ 164 00fe 00BF     		.align	2
+ 165              	.L2:
+ 166 0100 000C0140 		.word	1073810432
+ 167 0104 00100140 		.word	1073811456
+ 168 0108 00080140 		.word	1073809408
+ 170              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 pins.c
+C:\Users\Chris\AppData\Local\Temp\ccxxzscZ.s:75     .text.GPIO_Config:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccxxzscZ.s:80     .text.GPIO_Config:00000000 GPIO_Config
+C:\Users\Chris\AppData\Local\Temp\ccxxzscZ.s:166    .text.GPIO_Config:00000100 $d
+
+UNDEFINED SYMBOLS
+GPIO_Init

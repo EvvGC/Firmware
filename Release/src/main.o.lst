@@ -1,0 +1,653 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"main.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/main.d -MF src/main.d -MP -MT src/main.d -D__USES_INITFINI__
+  31              	@ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER ../src/main.c -mcpu=cortex-m3
+  32              	@ -mthumb -auxbase-strip src/main.o -O2 -Wall -Wextra -Wstrict-prototypes
+  33              	@ -std=gnu99 -ffunction-sections -fdata-sections
+  34              	@ -fsingle-precision-constant -fverbose-asm
+  35              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  36              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  37              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  38              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  39              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  40              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  41              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  42              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  43              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  44              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  45              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  46              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  47              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  48              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  49              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  50              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  51              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  52              	@ -freorder-functions -frerun-cse-after-loop
+  53              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  54              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  55              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  56              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  57              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  58              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  59              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  60              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  61              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  62              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  63              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  64              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  65              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  66              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  67              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  68              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  69              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  70              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  71              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  72              	@ -munaligned-access -mvectorize-with-neon-quad
+  73              	
+  74              		.section	.text.WatchDog,"ax",%progbits
+  75              		.align	2
+  76              		.global	WatchDog
+  77              		.thumb
+  78              		.thumb_func
+  80              	WatchDog:
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83 0000 10B5     		push	{r4, lr}	@
+  84 0002 084C     		ldr	r4, .L4	@ tmp112,
+  85 0004 2368     		ldr	r3, [r4]	@ WatchDogCounter.0, WatchDogCounter
+  86 0006 5A1C     		adds	r2, r3, #1	@ WatchDogCounter.2, WatchDogCounter.0,
+  87 0008 B3F57A7F 		cmp	r3, #1000	@ WatchDogCounter.0,
+  88 000c 2260     		str	r2, [r4]	@ WatchDogCounter.2, WatchDogCounter
+  89 000e 08DD     		ble	.L1	@,
+  90 0010 FFF7FEFF 		bl	LEDtoggle	@
+  91 0014 FFF7FEFF 		bl	PWMOff	@
+  92 0018 5720     		movs	r0, #87	@,
+  93 001a FFF7FEFF 		bl	DEBUG_PutChar	@
+  94 001e 0023     		movs	r3, #0	@ tmp115,
+  95 0020 2360     		str	r3, [r4]	@ tmp115, WatchDogCounter
+  96              	.L1:
+  97 0022 10BD     		pop	{r4, pc}	@
+  98              	.L5:
+  99              		.align	2
+ 100              	.L4:
+ 101 0024 00000000 		.word	.LANCHOR0
+ 103              		.section	.text.Periph_clock_enable,"ax",%progbits
+ 104              		.align	2
+ 105              		.global	Periph_clock_enable
+ 106              		.thumb
+ 107              		.thumb_func
+ 109              	Periph_clock_enable:
+ 110              		@ args = 0, pretend = 0, frame = 0
+ 111              		@ frame_needed = 0, uses_anonymous_args = 0
+ 112 0000 08B5     		push	{r3, lr}	@
+ 113 0002 42F67D20 		movw	r0, #10877	@,
+ 114 0006 0121     		movs	r1, #1	@,
+ 115 0008 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd	@
+ 116 000c 0448     		ldr	r0, .L7	@,
+ 117 000e 0121     		movs	r1, #1	@,
+ 118 0010 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd	@
+ 119 0014 BDE80840 		pop	{r3, lr}	@
+ 120 0018 0120     		movs	r0, #1	@,
+ 121 001a 0146     		mov	r1, r0	@,
+ 122 001c FFF7FEBF 		b	RCC_AHBPeriphClockCmd	@
+ 123              	.L8:
+ 124              		.align	2
+ 125              	.L7:
+ 126 0020 0F000800 		.word	524303
+ 128              		.section	.text.GetIdlePerf,"ax",%progbits
+ 129              		.align	2
+ 130              		.global	GetIdlePerf
+ 131              		.thumb
+ 132              		.thumb_func
+ 134              	GetIdlePerf:
+ 135              		@ args = 0, pretend = 0, frame = 0
+ 136              		@ frame_needed = 0, uses_anonymous_args = 0
+ 137              		@ link register save eliminated.
+ 138 0000 014B     		ldr	r3, .L10	@ tmp113,
+ 139 0002 1868     		ldr	r0, [r3]	@ float	@, idlePerf
+ 140 0004 7047     		bx	lr	@
+ 141              	.L11:
+ 142 0006 00BF     		.align	2
+ 143              	.L10:
+ 144 0008 00000000 		.word	.LANCHOR1
+ 146              		.section	.text.setup,"ax",%progbits
+ 147              		.align	2
+ 148              		.global	setup
+ 149              		.thumb
+ 150              		.thumb_func
+ 152              	setup:
+ 153              		@ args = 0, pretend = 0, frame = 0
+ 154              		@ frame_needed = 0, uses_anonymous_args = 0
+ 155 0000 38B5     		push	{r3, r4, r5, lr}	@
+ 156 0002 FFF7FEFF 		bl	InitSysTick	@
+ 157 0006 FFF7FEFF 		bl	Periph_clock_enable	@
+ 158 000a FFF7FEFF 		bl	GPIO_Config	@
+ 159              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 160 000e 62B6     		cpsie i
+ 161              	@ 0 "" 2
+ 162              		.thumb
+ 163 0010 FFF7FEFF 		bl	ComInit	@
+ 164 0014 4F48     		ldr	r0, .L33	@,
+ 165 0016 FFF7FEFF 		bl	print	@
+ 166 001a 4F48     		ldr	r0, .L33+4	@,
+ 167 001c FFF7FEFF 		bl	print	@
+ 168 0020 FFF7FEFF 		bl	PWMConfig	@
+ 169 0024 1424     		movs	r4, #20	@ D.6895,
+ 170              	.L14:
+ 171 0026 FFF7FEFF 		bl	LEDtoggle	@
+ 172 002a FFF7FEFF 		bl	DEBUG_LEDtoggle	@
+ 173 002e 6420     		movs	r0, #100	@,
+ 174 0030 FFF7FEFF 		bl	Delay_ms	@
+ 175 0034 013C     		subs	r4, r4, #1	@ D.6895, D.6895,
+ 176 0036 F6D1     		bne	.L14	@,
+ 177 0038 FFF7FEFF 		bl	LEDoff	@
+ 178 003c FFF7FEFF 		bl	GetVCPConnectMode	@
+ 179 0040 0028     		cmp	r0, #0	@
+ 180 0042 59D0     		beq	.L15	@
+ 181 0044 4548     		ldr	r0, .L33+8	@,
+ 182 0046 FFF7FEFF 		bl	print	@
+ 183 004a 40F6B830 		movw	r0, #3000	@,
+ 184 004e FFF7FEFF 		bl	Delay_ms	@
+ 185 0052 FFF7FEFF 		bl	GetVCPConnectMode	@
+ 186 0056 0128     		cmp	r0, #1	@,
+ 187 0058 77D0     		beq	.L30	@,
+ 188              	.L16:
+ 189 005a 4148     		ldr	r0, .L33+12	@,
+ 190 005c FFF7FEFF 		bl	print	@
+ 191 0060 4048     		ldr	r0, .L33+16	@,
+ 192 0062 4149     		ldr	r1, .L33+20	@,
+ 193 0064 FFF7FEFF 		bl	print	@
+ 194 0068 404B     		ldr	r3, .L33+24	@ tmp136,
+ 195 006a 414A     		ldr	r2, .L33+28	@ tmp139,
+ 196 006c 1B68     		ldr	r3, [r3]	@ D.6897, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 197 006e 1168     		ldr	r1, [r2]	@ SystemCoreClock, SystemCoreClock
+ 198 0070 13F4003F 		tst	r3, #131072	@ D.6897,
+ 199 0074 3F4B     		ldr	r3, .L33+32	@ tmp143,
+ 200 0076 18BF     		it	ne
+ 201 0078 3F48     		ldrne	r0, .L33+36	@,
+ 202 007a A3FB0121 		umull	r2, r1, r3, r1	@, tmp148, tmp149, SystemCoreClock
+ 203 007e 08BF     		it	eq
+ 204 0080 3E48     		ldreq	r0, .L33+40	@,
+ 205 0082 890C     		lsrs	r1, r1, #18	@, tmp148,
+ 206 0084 FFF7FEFF 		bl	print	@
+ 207 0088 3D48     		ldr	r0, .L33+44	@,
+ 208 008a FFF7FEFF 		bl	print	@
+ 209 008e FFF7FEFF 		bl	ADC_Config	@
+ 210 0092 3C48     		ldr	r0, .L33+48	@,
+ 211 0094 FFF7FEFF 		bl	print	@
+ 212 0098 0A24     		movs	r4, #10	@ imuRetries,
+ 213              	.L19:
+ 214 009a FFF7FEFF 		bl	MPU6050_Init	@
+ 215 009e 013C     		subs	r4, r4, #1	@ imuRetries, imuRetries,
+ 216 00a0 2146     		mov	r1, r4	@, imuRetries
+ 217 00a2 0028     		cmp	r0, #0	@
+ 218 00a4 33D0     		beq	.L31	@
+ 219 00a6 3848     		ldr	r0, .L33+52	@,
+ 220 00a8 FFF7FEFF 		bl	print	@
+ 221 00ac FFF7FEFF 		bl	Blink	@
+ 222 00b0 002C     		cmp	r4, #0	@ imuRetries
+ 223 00b2 F2D1     		bne	.L19	@
+ 224 00b4 354D     		ldr	r5, .L33+56	@ tmp167,
+ 225 00b6 3648     		ldr	r0, .L33+60	@,
+ 226 00b8 2C60     		str	r4, [r5]	@ imuRetries, gotIMU
+ 227 00ba FFF7FEFF 		bl	print	@
+ 228              	.L26:
+ 229 00be 3548     		ldr	r0, .L33+64	@,
+ 230 00c0 FFF7FEFF 		bl	print	@
+ 231 00c4 FFF7FEFF 		bl	configLoad	@
+ 232 00c8 2B68     		ldr	r3, [r5]	@ gotIMU.6, gotIMU
+ 233 00ca 23BB     		cbnz	r3, .L32	@ gotIMU.6,
+ 234              	.L22:
+ 235 00cc 3248     		ldr	r0, .L33+68	@,
+ 236 00ce FFF7FEFF 		bl	print	@
+ 237 00d2 FFF7FEFF 		bl	RC_Config	@
+ 238 00d6 FFF7FEFF 		bl	InitSinArray	@
+ 239 00da FFF7FEFF 		bl	ComFlushInput	@
+ 240 00de 0028     		cmp	r0, #0	@,
+ 241 00e0 02DD     		ble	.L25	@,
+ 242 00e2 2E48     		ldr	r0, .L33+72	@,
+ 243 00e4 FFF7FEFF 		bl	print	@
+ 244              	.L25:
+ 245 00e8 2D48     		ldr	r0, .L33+76	@,
+ 246 00ea FFF7FEFF 		bl	print	@
+ 247 00ee BDE83840 		pop	{r3, r4, r5, lr}	@
+ 248 00f2 2C48     		ldr	r0, .L33+80	@,
+ 249 00f4 FFF7FEBF 		b	SysTickAttachCallback	@
+ 250              	.L15:
+ 251 00f8 2B48     		ldr	r0, .L33+84	@,
+ 252 00fa FFF7FEFF 		bl	print	@
+ 253 00fe 40F6B830 		movw	r0, #3000	@,
+ 254 0102 FFF7FEFF 		bl	Delay_ms	@
+ 255 0106 2948     		ldr	r0, .L33+88	@,
+ 256 0108 FFF7FEFF 		bl	print	@
+ 257 010c A5E7     		b	.L16	@
+ 258              	.L31:
+ 259 010e 1F4D     		ldr	r5, .L33+56	@ tmp167,
+ 260 0110 0123     		movs	r3, #1	@ tmp154,
+ 261 0112 2B60     		str	r3, [r5]	@ tmp154, gotIMU
+ 262 0114 D3E7     		b	.L26	@
+ 263              	.L32:
+ 264 0116 2648     		ldr	r0, .L33+92	@,
+ 265 0118 FFF7FEFF 		bl	print	@
+ 266 011c 0D24     		movs	r4, #13	@ D.6895,
+ 267              	.L24:
+ 268 011e FFF7FEFF 		bl	LEDtoggle	@
+ 269 0122 4FF47A70 		mov	r0, #1000	@,
+ 270 0126 FFF7FEFF 		bl	Delay_ms	@
+ 271 012a 013C     		subs	r4, r4, #1	@ D.6895, D.6895,
+ 272 012c F7D1     		bne	.L24	@,
+ 273 012e FFF7FEFF 		bl	millis	@
+ 274 0132 0146     		mov	r1, r0	@ D.6899,
+ 275 0134 1F48     		ldr	r0, .L33+96	@,
+ 276 0136 FFF7FEFF 		bl	print	@
+ 277 013a FFF7FEFF 		bl	MPU6050_Gyro_calibration	@
+ 278 013e 1E48     		ldr	r0, .L33+100	@,
+ 279 0140 FFF7FEFF 		bl	print	@
+ 280 0144 FFF7FEFF 		bl	Init_Orientation	@
+ 281 0148 C0E7     		b	.L22	@
+ 282              	.L30:
+ 283 014a 1C48     		ldr	r0, .L33+104	@,
+ 284 014c FFF7FEFF 		bl	print	@
+ 285 0150 83E7     		b	.L16	@
+ 286              	.L34:
+ 287 0152 00BF     		.align	2
+ 288              	.L33:
+ 289 0154 00000000 		.word	.LC0
+ 290 0158 24000000 		.word	.LC1
+ 291 015c 38000000 		.word	.LC2
+ 292 0160 EC000000 		.word	.LC6
+ 293 0164 40010000 		.word	.LC7
+ 294 0168 78010000 		.word	.LC8
+ 295 016c 00100240 		.word	1073876992
+ 296 0170 00000000 		.word	SystemCoreClock
+ 297 0174 83DE1B43 		.word	1125899907
+ 298 0178 80010000 		.word	.LC9
+ 299 017c B8010000 		.word	.LC10
+ 300 0180 F4010000 		.word	.LC11
+ 301 0184 04020000 		.word	.LC12
+ 302 0188 18020000 		.word	.LC13
+ 303 018c 00000000 		.word	.LANCHOR2
+ 304 0190 1C030000 		.word	.LC21
+ 305 0194 44020000 		.word	.LC14
+ 306 0198 B8020000 		.word	.LC18
+ 307 019c C8020000 		.word	.LC19
+ 308 01a0 04030000 		.word	.LC20
+ 309 01a4 00000000 		.word	WatchDog
+ 310 01a8 88000000 		.word	.LC4
+ 311 01ac B8000000 		.word	.LC5
+ 312 01b0 58020000 		.word	.LC15
+ 313 01b4 80020000 		.word	.LC16
+ 314 01b8 A4020000 		.word	.LC17
+ 315 01bc 54000000 		.word	.LC3
+ 317              		.global	__aeabi_ui2f
+ 318              		.global	__aeabi_i2f
+ 319              		.global	__aeabi_fmul
+ 320              		.global	__aeabi_fdiv
+ 321              		.section	.text.startup.main,"ax",%progbits
+ 322              		.align	2
+ 323              		.global	main
+ 324              		.thumb
+ 325              		.thumb_func
+ 327              	main:
+ 328              		@ args = 0, pretend = 0, frame = 0
+ 329              		@ frame_needed = 0, uses_anonymous_args = 0
+ 330 0000 2DE9F84F 		push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}	@
+ 331 0004 FFF7FEFF 		bl	setup	@
+ 332 0008 FFF7FEFF 		bl	millis	@
+ 333 000c 0446     		mov	r4, r0	@ t0,
+ 334              	.L37:
+ 335 000e FFF7FEFF 		bl	millis	@
+ 336 0012 8442     		cmp	r4, r0	@ t0,
+ 337 0014 FBD0     		beq	.L37	@,
+ 338 0016 FFF7FEFF 		bl	micros	@
+ 339 001a 0446     		mov	r4, r0	@ lastTime,
+ 340              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 341 001c 72B6     		cpsid i
+ 342              	@ 0 "" 2
+ 343              		.thumb
+ 344 001e 0027     		movs	r7, #0	@ idleLoops,
+ 345              	.L39:
+ 346 0020 FFF7FEFF 		bl	micros	@
+ 347 0024 001B     		subs	r0, r0, r4	@ timePassed,, lastTime
+ 348 0026 B0F5FA7F 		cmp	r0, #500	@ timePassed,
+ 349 002a 07F10107 		add	r7, r7, #1	@ idleLoops, idleLoops,
+ 350 002e F7D3     		bcc	.L39	@,
+ 351              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 352 0030 62B6     		cpsie i
+ 353              	@ 0 "" 2
+ 354              		.thumb
+ 355 0032 FFF7FEFF 		bl	micros	@
+ 356 0036 DFF894A0 		ldr	r10, .L49+12	@ tmp148,
+ 357 003a DFF89490 		ldr	r9, .L49+16	@ tmp146,
+ 358 003e DFF894B0 		ldr	fp, .L49+20	@ tmp149,
+ 359 0042 DFF89480 		ldr	r8, .L49+24	@ tmp147,
+ 360 0046 7F00     		lsls	r7, r7, #1	@ idleMax, idleLoops,
+ 361 0048 0646     		mov	r6, r0	@ lastTime,
+ 362              	.L44:
+ 363 004a 0024     		movs	r4, #0	@ idleLoops,
+ 364              	.L41:
+ 365 004c FFF7FEFF 		bl	micros	@
+ 366 0050 0546     		mov	r5, r0	@ lastTime,
+ 367 0052 801B     		subs	r0, r0, r6	@ timePassed, lastTime, lastTime
+ 368 0054 B0F5FA6F 		cmp	r0, #2000	@ timePassed,
+ 369 0058 04F10104 		add	r4, r4, #1	@ idleLoops, idleLoops,
+ 370 005c F6D3     		bcc	.L41	@,
+ 371 005e FFF7FEFF 		bl	__aeabi_ui2f	@
+ 372 0062 0646     		mov	r6, r0	@ D.6935,
+ 373 0064 2046     		mov	r0, r4	@, idleLoops
+ 374 0066 FFF7FEFF 		bl	__aeabi_i2f	@
+ 375 006a 1549     		ldr	r1, .L49	@,
+ 376 006c FFF7FEFF 		bl	__aeabi_fmul	@
+ 377 0070 1449     		ldr	r1, .L49+4	@,
+ 378 0072 FFF7FEFF 		bl	__aeabi_fmul	@
+ 379 0076 3146     		mov	r1, r6	@, D.6935
+ 380 0078 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 381 007c 0446     		mov	r4, r0	@ D.6935,
+ 382 007e 3846     		mov	r0, r7	@, idleMax
+ 383 0080 FFF7FEFF 		bl	__aeabi_i2f	@
+ 384 0084 0146     		mov	r1, r0	@ D.6935,
+ 385 0086 2046     		mov	r0, r4	@, D.6935
+ 386 0088 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 387 008c D9F80030 		ldr	r3, [r9]	@ ConfigMode, ConfigMode
+ 388 0090 CAF80000 		str	r0, [r10]	@ float	@, idlePerf
+ 389 0094 13B9     		cbnz	r3, .L42	@ ConfigMode,
+ 390 0096 DBF80030 		ldr	r3, [fp]	@ gotIMU.9, gotIMU
+ 391 009a 53B9     		cbnz	r3, .L48	@ gotIMU.9,
+ 392              	.L42:
+ 393 009c FFF7FEFF 		bl	PWMOff	@
+ 394 00a0 FFF7FEFF 		bl	Blink	@
+ 395              	.L43:
+ 396 00a4 0023     		movs	r3, #0	@ tmp145,
+ 397 00a6 2E46     		mov	r6, r5	@ lastTime, lastTime
+ 398 00a8 C8F80030 		str	r3, [r8]	@ tmp145, WatchDogCounter
+ 399 00ac FFF7FEFF 		bl	CommHandler	@
+ 400 00b0 CBE7     		b	.L44	@
+ 401              	.L48:
+ 402 00b2 0549     		ldr	r1, .L49+8	@,
+ 403 00b4 3046     		mov	r0, r6	@, D.6935
+ 404 00b6 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 405 00ba FFF7FEFF 		bl	engineProcess	@
+ 406 00be F1E7     		b	.L43	@
+ 407              	.L50:
+ 408              		.align	2
+ 409              	.L49:
+ 410 00c0 0000C842 		.word	1120403456
+ 411 00c4 00007A44 		.word	1148846080
+ 412 00c8 00247449 		.word	1232348160
+ 413 00cc 00000000 		.word	.LANCHOR1
+ 414 00d0 00000000 		.word	ConfigMode
+ 415 00d4 00000000 		.word	.LANCHOR2
+ 416 00d8 00000000 		.word	.LANCHOR0
+ 418              		.section	.bss.idlePerf,"aw",%nobits
+ 419              		.align	2
+ 420              		.set	.LANCHOR1,. + 0
+ 423              	idlePerf:
+ 424 0000 00000000 		.space	4
+ 425              		.section	.bss.WatchDogCounter,"aw",%nobits
+ 426              		.align	2
+ 427              		.set	.LANCHOR0,. + 0
+ 430              	WatchDogCounter:
+ 431 0000 00000000 		.space	4
+ 432              		.section	.bss.gotIMU,"aw",%nobits
+ 433              		.align	2
+ 434              		.set	.LANCHOR2,. + 0
+ 437              	gotIMU:
+ 438 0000 00000000 		.space	4
+ 439              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 440              		.align	2
+ 441              	.LC0:
+ 442 0000 0D0A0D0A 		.ascii	"\015\012\015\012EvvGC firmware starting up...\015\012"
+ 442      45767647 
+ 442      43206669 
+ 442      726D7761 
+ 442      72652073 
+ 443 0023 00       		.ascii	"\000"
+ 444              	.LC1:
+ 445 0024 696E6974 		.ascii	"init motor PWM...\015\012\000"
+ 445      206D6F74 
+ 445      6F722050 
+ 445      574D2E2E 
+ 445      2E0D0A00 
+ 446              	.LC2:
+ 447 0038 0D0A5553 		.ascii	"\015\012USB startup delay...\015\012\000"
+ 447      42207374 
+ 447      61727475 
+ 447      70206465 
+ 447      6C61792E 
+ 448 0051 000000   		.space	3
+ 449              	.LC3:
+ 450 0054 0D0A0D0A 		.ascii	"\015\012\015\012EvvGC firmware starting up, USB con"
+ 450      45767647 
+ 450      43206669 
+ 450      726D7761 
+ 450      72652073 
+ 451 007b 6E656374 		.ascii	"nected...\015\012\000"
+ 451      65642E2E 
+ 451      2E0D0A00 
+ 452 0087 00       		.space	1
+ 453              	.LC4:
+ 454 0088 0D0A4465 		.ascii	"\015\012Delaying for usb/serial driver to settle\015"
+ 454      6C617969 
+ 454      6E672066 
+ 454      6F722075 
+ 454      73622F73 
+ 455 00b3 0A00     		.ascii	"\012\000"
+ 456 00b5 000000   		.space	3
+ 457              	.LC5:
+ 458 00b8 0D0A0D0A 		.ascii	"\015\012\015\012EvvGC firmware starting up, serial "
+ 458      45767647 
+ 458      43206669 
+ 458      726D7761 
+ 458      72652073 
+ 459 00df 61637469 		.ascii	"active...\015\012\000"
+ 459      76652E2E 
+ 459      2E0D0A00 
+ 460 00eb 00       		.space	1
+ 461              	.LC6:
+ 462 00ec 67636320 		.ascii	"gcc version 4.8.3 20131129 (release) [ARM/embedded-"
+ 462      76657273 
+ 462      696F6E20 
+ 462      342E382E 
+ 462      33203230 
+ 463 011f 345F382D 		.ascii	"4_8-branch revision 205641]\015\012\000"
+ 463      6272616E 
+ 463      63682072 
+ 463      65766973 
+ 463      696F6E20 
+ 464 013d 000000   		.space	3
+ 465              	.LC7:
+ 466 0140 45767647 		.ascii	"EvvGC firmware V%s, build date Jan  1 2014 21:12:49"
+ 466      43206669 
+ 466      726D7761 
+ 466      72652056 
+ 466      25732C20 
+ 467 0173 200D0A00 		.ascii	" \015\012\000"
+ 468 0177 00       		.space	1
+ 469              	.LC8:
+ 470 0178 302E342E 		.ascii	"0.4.5.2\000"
+ 470      352E3200 
+ 471              	.LC9:
+ 472 0180 72756E6E 		.ascii	"running on external HSE clock, clock rate is %dMHz\015"
+ 472      696E6720 
+ 472      6F6E2065 
+ 472      78746572 
+ 472      6E616C20 
+ 473 01b3 0A00     		.ascii	"\012\000"
+ 474 01b5 000000   		.space	3
+ 475              	.LC10:
+ 476 01b8 4552524F 		.ascii	"ERROR: running on internal HSI clock, clock rate is"
+ 476      523A2072 
+ 476      756E6E69 
+ 476      6E67206F 
+ 476      6E20696E 
+ 477 01eb 2025644D 		.ascii	" %dMHz\015\012\000"
+ 477      487A0D0A 
+ 477      00
+ 478              	.LC11:
+ 479 01f4 696E6974 		.ascii	"init ADC...\015\012\000"
+ 479      20414443 
+ 479      2E2E2E0D 
+ 479      0A00
+ 480 0202 0000     		.space	2
+ 481              	.LC12:
+ 482 0204 696E6974 		.ascii	"init MPU6050...\015\012\000"
+ 482      204D5055 
+ 482      36303530 
+ 482      2E2E2E0D 
+ 482      0A00
+ 483 0216 0000     		.space	2
+ 484              	.LC13:
+ 485 0218 696E6974 		.ascii	"init MPU6050 failed, retries left: %d...\015\012\000"
+ 485      204D5055 
+ 485      36303530 
+ 485      20666169 
+ 485      6C65642C 
+ 486 0243 00       		.space	1
+ 487              	.LC14:
+ 488 0244 6C6F6164 		.ascii	"loading config...\015\012\000"
+ 488      696E6720 
+ 488      636F6E66 
+ 488      69672E2E 
+ 488      2E0D0A00 
+ 489              	.LC15:
+ 490 0258 70617573 		.ascii	"pausing for the gimbal to settle...\015\012\000"
+ 490      696E6720 
+ 490      666F7220 
+ 490      74686520 
+ 490      67696D62 
+ 491 027e 0000     		.space	2
+ 492              	.LC16:
+ 493 0280 63616C69 		.ascii	"calibrating MPU6050 at %ums...\015\012\000"
+ 493      62726174 
+ 493      696E6720 
+ 493      4D505536 
+ 493      30353020 
+ 494 02a1 000000   		.space	3
+ 495              	.LC17:
+ 496 02a4 496E6974 		.ascii	"Init Orientation\012\015\000"
+ 496      204F7269 
+ 496      656E7461 
+ 496      74696F6E 
+ 496      0A0D00
+ 497 02b7 00       		.space	1
+ 498              	.LC18:
+ 499 02b8 696E6974 		.ascii	"init RC...\015\012\000"
+ 499      2052432E 
+ 499      2E2E0D0A 
+ 499      00
+ 500 02c5 000000   		.space	3
+ 501              	.LC19:
+ 502 02c8 72656D6F 		.ascii	"removed %d pending characters from communications i"
+ 502      76656420 
+ 502      25642070 
+ 502      656E6469 
+ 502      6E672063 
+ 503 02fb 6E707574 		.ascii	"nput\015\012\000"
+ 503      0D0A00
+ 504 0302 0000     		.space	2
+ 505              	.LC20:
+ 506 0304 656E7465 		.ascii	"entering main loop...\015\012\000"
+ 506      72696E67 
+ 506      206D6169 
+ 506      6E206C6F 
+ 506      6F702E2E 
+ 507              	.LC21:
+ 508 031c 0D0A5741 		.ascii	"\015\012WARNING: MPU6050 init failed, entering conf"
+ 508      524E494E 
+ 508      473A204D 
+ 508      50553630 
+ 508      35302069 
+ 509 0349 69677261 		.ascii	"igration mode only...\015\012\015\012\000"
+ 509      74696F6E 
+ 509      206D6F64 
+ 509      65206F6E 
+ 509      6C792E2E 
+ 510 0363 00       		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:75     .text.WatchDog:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:80     .text.WatchDog:00000000 WatchDog
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:101    .text.WatchDog:00000024 $d
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:104    .text.Periph_clock_enable:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:109    .text.Periph_clock_enable:00000000 Periph_clock_enable
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:126    .text.Periph_clock_enable:00000020 $d
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:129    .text.GetIdlePerf:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:134    .text.GetIdlePerf:00000000 GetIdlePerf
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:144    .text.GetIdlePerf:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:147    .text.setup:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:152    .text.setup:00000000 setup
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:289    .text.setup:00000154 $d
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:322    .text.startup.main:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:327    .text.startup.main:00000000 main
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:410    .text.startup.main:000000c0 $d
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:419    .bss.idlePerf:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:423    .bss.idlePerf:00000000 idlePerf
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:426    .bss.WatchDogCounter:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:430    .bss.WatchDogCounter:00000000 WatchDogCounter
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:433    .bss.gotIMU:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:437    .bss.gotIMU:00000000 gotIMU
+C:\Users\Chris\AppData\Local\Temp\ccpD6cmu.s:440    .rodata.str1.4:00000000 $d
+
+UNDEFINED SYMBOLS
+LEDtoggle
+PWMOff
+DEBUG_PutChar
+RCC_APB2PeriphClockCmd
+RCC_APB1PeriphClockCmd
+RCC_AHBPeriphClockCmd
+InitSysTick
+GPIO_Config
+ComInit
+print
+PWMConfig
+DEBUG_LEDtoggle
+Delay_ms
+LEDoff
+GetVCPConnectMode
+ADC_Config
+MPU6050_Init
+Blink
+configLoad
+RC_Config
+InitSinArray
+ComFlushInput
+SysTickAttachCallback
+millis
+MPU6050_Gyro_calibration
+Init_Orientation
+SystemCoreClock
+__aeabi_ui2f
+__aeabi_i2f
+__aeabi_fmul
+__aeabi_fdiv
+micros
+CommHandler
+engineProcess
+ConfigMode

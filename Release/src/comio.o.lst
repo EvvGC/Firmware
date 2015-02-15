@@ -1,0 +1,371 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"comio.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/comio.d -MF src/comio.d -MP -MT src/comio.d -D__USES_INITFINI__
+  31              	@ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER ../src/comio.c -mcpu=cortex-m3
+  32              	@ -mthumb -auxbase-strip src/comio.o -O2 -Wall -Wextra -Wstrict-prototypes
+  33              	@ -std=gnu99 -ffunction-sections -fdata-sections
+  34              	@ -fsingle-precision-constant -fverbose-asm
+  35              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  36              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  37              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  38              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  39              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  40              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  41              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  42              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  43              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  44              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  45              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  46              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  47              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  48              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  49              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  50              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  51              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  52              	@ -freorder-functions -frerun-cse-after-loop
+  53              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  54              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  55              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  56              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  57              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  58              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  59              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  60              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  61              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  62              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  63              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  64              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  65              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  66              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  67              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  68              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  69              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  70              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  71              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  72              	@ -munaligned-access -mvectorize-with-neon-quad
+  73              	
+  74              		.section	.text.ComInit,"ax",%progbits
+  75              		.align	2
+  76              		.global	ComInit
+  77              		.thumb
+  78              		.thumb_func
+  80              	ComInit:
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83 0000 08B5     		push	{r3, lr}	@
+  84 0002 FFF7FEFF 		bl	Usart4Init	@
+  85 0006 0748     		ldr	r0, .L2	@,
+  86 0008 FFF7FEFF 		bl	USART_PutString	@
+  87 000c FFF7FEFF 		bl	USART_Flush	@
+  88 0010 FFF7FEFF 		bl	setupUSB	@
+  89 0014 0448     		ldr	r0, .L2+4	@,
+  90 0016 FFF7FEFF 		bl	USART_PutString	@
+  91 001a BDE80840 		pop	{r3, lr}	@
+  92 001e FFF7FEBF 		b	USART_Flush	@
+  93              	.L3:
+  94 0022 00BF     		.align	2
+  95              	.L2:
+  96 0024 00000000 		.word	.LC0
+  97 0028 10000000 		.word	.LC1
+  99              		.section	.text.print,"ax",%progbits
+ 100              		.align	2
+ 101              		.global	print
+ 102              		.thumb
+ 103              		.thumb_func
+ 105              	print:
+ 106              		@ args = 4, pretend = 16, frame = 264
+ 107              		@ frame_needed = 0, uses_anonymous_args = 1
+ 108 0000 0FB4     		push	{r0, r1, r2, r3}	@
+ 109 0002 10B5     		push	{r4, lr}	@
+ 110 0004 C2B0     		sub	sp, sp, #264	@,,
+ 111 0006 44AC     		add	r4, sp, #272	@ tmp112,,
+ 112 0008 54F8042B 		ldr	r2, [r4], #4	@ fmt, fmt
+ 113 000c FF21     		movs	r1, #255	@,
+ 114 000e 2346     		mov	r3, r4	@, tmp112
+ 115 0010 02A8     		add	r0, sp, #8	@,,
+ 116 0012 0194     		str	r4, [sp, #4]	@ tmp112, MEM[(struct  *)&vlist].__ap
+ 117 0014 FFF7FEFF 		bl	vsnprintf	@
+ 118 0018 02A8     		add	r0, sp, #8	@,,
+ 119 001a FFF7FEFF 		bl	USART_PutString	@
+ 120 001e 02A8     		add	r0, sp, #8	@,,
+ 121 0020 FFF7FEFF 		bl	strlen	@
+ 122 0024 0146     		mov	r1, r0	@ tmp121,
+ 123 0026 02A8     		add	r0, sp, #8	@,,
+ 124 0028 FFF7FEFF 		bl	usbSendBytes	@
+ 125 002c 42B0     		add	sp, sp, #264	@,,
+ 126              		@ sp needed	@
+ 127 002e BDE81040 		pop	{r4, lr}	@
+ 128 0032 04B0     		add	sp, sp, #16	@,,
+ 129 0034 7047     		bx	lr	@
+ 131 0036 00BF     		.section	.text.printUSART,"ax",%progbits
+ 132              		.align	2
+ 133              		.global	printUSART
+ 134              		.thumb
+ 135              		.thumb_func
+ 137              	printUSART:
+ 138              		@ args = 4, pretend = 16, frame = 264
+ 139              		@ frame_needed = 0, uses_anonymous_args = 1
+ 140 0000 0FB4     		push	{r0, r1, r2, r3}	@
+ 141 0002 10B5     		push	{r4, lr}	@
+ 142 0004 C2B0     		sub	sp, sp, #264	@,,
+ 143 0006 44AC     		add	r4, sp, #272	@ tmp111,,
+ 144 0008 54F8042B 		ldr	r2, [r4], #4	@ fmt, fmt
+ 145 000c FF21     		movs	r1, #255	@,
+ 146 000e 2346     		mov	r3, r4	@, tmp111
+ 147 0010 02A8     		add	r0, sp, #8	@,,
+ 148 0012 0194     		str	r4, [sp, #4]	@ tmp111, MEM[(struct  *)&vlist].__ap
+ 149 0014 FFF7FEFF 		bl	vsnprintf	@
+ 150 0018 02A8     		add	r0, sp, #8	@,,
+ 151 001a FFF7FEFF 		bl	USART_PutString	@
+ 152 001e 42B0     		add	sp, sp, #264	@,,
+ 153              		@ sp needed	@
+ 154 0020 BDE81040 		pop	{r4, lr}	@
+ 155 0024 04B0     		add	sp, sp, #16	@,,
+ 156 0026 7047     		bx	lr	@
+ 158              		.section	.text.printDirect,"ax",%progbits
+ 159              		.align	2
+ 160              		.global	printDirect
+ 161              		.thumb
+ 162              		.thumb_func
+ 164              	printDirect:
+ 165              		@ args = 4, pretend = 16, frame = 264
+ 166              		@ frame_needed = 0, uses_anonymous_args = 1
+ 167 0000 0FB4     		push	{r0, r1, r2, r3}	@
+ 168 0002 10B5     		push	{r4, lr}	@
+ 169 0004 C2B0     		sub	sp, sp, #264	@,,
+ 170 0006 44AC     		add	r4, sp, #272	@ tmp111,,
+ 171 0008 54F8042B 		ldr	r2, [r4], #4	@ fmt, fmt
+ 172 000c FF21     		movs	r1, #255	@,
+ 173 000e 2346     		mov	r3, r4	@, tmp111
+ 174 0010 02A8     		add	r0, sp, #8	@,,
+ 175 0012 0194     		str	r4, [sp, #4]	@ tmp111, MEM[(struct  *)&vlist].__ap
+ 176 0014 FFF7FEFF 		bl	vsnprintf	@
+ 177 0018 02A8     		add	r0, sp, #8	@,,
+ 178 001a FFF7FEFF 		bl	USART_PutStringDirect	@
+ 179 001e 42B0     		add	sp, sp, #264	@,,
+ 180              		@ sp needed	@
+ 181 0020 BDE81040 		pop	{r4, lr}	@
+ 182 0024 04B0     		add	sp, sp, #16	@,,
+ 183 0026 7047     		bx	lr	@
+ 185              		.section	.text.UnGetChar,"ax",%progbits
+ 186              		.align	2
+ 187              		.global	UnGetChar
+ 188              		.thumb
+ 189              		.thumb_func
+ 191              	UnGetChar:
+ 192              		@ args = 0, pretend = 0, frame = 0
+ 193              		@ frame_needed = 0, uses_anonymous_args = 0
+ 194              		@ link register save eliminated.
+ 195 0000 014B     		ldr	r3, .L8	@ tmp112,
+ 196 0002 1860     		str	r0, [r3]	@ c, lastChar
+ 197 0004 7047     		bx	lr	@
+ 198              	.L9:
+ 199 0006 00BF     		.align	2
+ 200              	.L8:
+ 201 0008 00000000 		.word	.LANCHOR0
+ 203              		.section	.text.GetChar,"ax",%progbits
+ 204              		.align	2
+ 205              		.global	GetChar
+ 206              		.thumb
+ 207              		.thumb_func
+ 209              	GetChar:
+ 210              		@ args = 0, pretend = 0, frame = 8
+ 211              		@ frame_needed = 0, uses_anonymous_args = 0
+ 212 0000 00B5     		push	{lr}	@
+ 213 0002 0C4B     		ldr	r3, .L16	@ tmp115,
+ 214 0004 83B0     		sub	sp, sp, #12	@,,
+ 215 0006 1868     		ldr	r0, [r3]	@ lastChar.1, lastChar
+ 216 0008 0028     		cmp	r0, #0	@ lastChar.1,
+ 217 000a 05DB     		blt	.L15	@,
+ 218 000c 4FF0FF32 		mov	r2, #-1	@ tmp118,
+ 219 0010 1A60     		str	r2, [r3]	@ tmp118, lastChar
+ 220              	.L13:
+ 221 0012 03B0     		add	sp, sp, #12	@,,
+ 222              		@ sp needed	@
+ 223 0014 5DF804FB 		ldr	pc, [sp], #4	@
+ 224              	.L15:
+ 225 0018 FFF7FEFF 		bl	usbBytesAvailable	@
+ 226 001c 38B1     		cbz	r0, .L12	@,
+ 227 001e 0DF10700 		add	r0, sp, #7	@,,
+ 228 0022 0121     		movs	r1, #1	@,
+ 229 0024 FFF7FEFF 		bl	usbReceiveBytes	@
+ 230 0028 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2	@ D.5355, c
+ 231 002c F1E7     		b	.L13	@
+ 232              	.L12:
+ 233 002e FFF7FEFF 		bl	USART_GetChar	@
+ 234 0032 EEE7     		b	.L13	@
+ 235              	.L17:
+ 236              		.align	2
+ 237              	.L16:
+ 238 0034 00000000 		.word	.LANCHOR0
+ 240              		.section	.text.ComFlushInput,"ax",%progbits
+ 241              		.align	2
+ 242              		.global	ComFlushInput
+ 243              		.thumb
+ 244              		.thumb_func
+ 246              	ComFlushInput:
+ 247              		@ args = 0, pretend = 0, frame = 0
+ 248              		@ frame_needed = 0, uses_anonymous_args = 0
+ 249 0000 10B5     		push	{r4, lr}	@
+ 250 0002 0024     		movs	r4, #0	@ loop,
+ 251 0004 02E0     		b	.L19	@
+ 252              	.L22:
+ 253 0006 642C     		cmp	r4, #100	@ loop,
+ 254 0008 04D0     		beq	.L20	@,
+ 255 000a 0134     		adds	r4, r4, #1	@ loop, loop,
+ 256              	.L19:
+ 257 000c FFF7FEFF 		bl	GetChar	@
+ 258 0010 0028     		cmp	r0, #0	@,
+ 259 0012 F8DA     		bge	.L22	@,
+ 260              	.L20:
+ 261 0014 2046     		mov	r0, r4	@, loop
+ 262 0016 10BD     		pop	{r4, pc}	@
+ 264              		.section	.text.CharAvailable,"ax",%progbits
+ 265              		.align	2
+ 266              		.global	CharAvailable
+ 267              		.thumb
+ 268              		.thumb_func
+ 270              	CharAvailable:
+ 271              		@ args = 0, pretend = 0, frame = 0
+ 272              		@ frame_needed = 0, uses_anonymous_args = 0
+ 273 0000 08B5     		push	{r3, lr}	@
+ 274 0002 FFF7FEFF 		bl	usbBytesAvailable	@
+ 275 0006 18B9     		cbnz	r0, .L25	@,
+ 276 0008 BDE80840 		pop	{r3, lr}	@
+ 277 000c FFF7FEBF 		b	USART_Available	@
+ 278              	.L25:
+ 279 0010 BDE80840 		pop	{r3, lr}	@
+ 280 0014 FFF7FEBF 		b	usbBytesAvailable	@
+ 282              		.section	.text.PutChar,"ax",%progbits
+ 283              		.align	2
+ 284              		.global	PutChar
+ 285              		.thumb
+ 286              		.thumb_func
+ 288              	PutChar:
+ 289              		@ args = 0, pretend = 0, frame = 8
+ 290              		@ frame_needed = 0, uses_anonymous_args = 0
+ 291 0000 10B5     		push	{r4, lr}	@
+ 292 0002 82B0     		sub	sp, sp, #8	@,,
+ 293 0004 02AC     		add	r4, sp, #8	@ tmp114,,
+ 294 0006 04F8010D 		strb	r0, [r4, #-1]!	@ c, c
+ 295 000a FFF7FEFF 		bl	USART_PutChar	@
+ 296 000e 2046     		mov	r0, r4	@, tmp114
+ 297 0010 0121     		movs	r1, #1	@,
+ 298 0012 FFF7FEFF 		bl	usbSendBytes	@
+ 299 0016 02B0     		add	sp, sp, #8	@,,
+ 300              		@ sp needed	@
+ 301 0018 10BD     		pop	{r4, pc}	@
+ 303 001a 00BF     		.section	.text.DEBUG_PutChar,"ax",%progbits
+ 304              		.align	2
+ 305              		.global	DEBUG_PutChar
+ 306              		.thumb
+ 307              		.thumb_func
+ 309              	DEBUG_PutChar:
+ 310              		@ args = 0, pretend = 0, frame = 0
+ 311              		@ frame_needed = 0, uses_anonymous_args = 0
+ 312              		@ link register save eliminated.
+ 313 0000 7047     		bx	lr	@
+ 315 0002 00BF     		.section	.text.DEBUG_PutString,"ax",%progbits
+ 316              		.align	2
+ 317              		.global	DEBUG_PutString
+ 318              		.thumb
+ 319              		.thumb_func
+ 321              	DEBUG_PutString:
+ 322              		@ args = 0, pretend = 0, frame = 0
+ 323              		@ frame_needed = 0, uses_anonymous_args = 0
+ 324 0000 08B5     		push	{r3, lr}	@
+ 325 0002 FFF7FEFF 		bl	USART_PutString	@
+ 326 0006 BDE80840 		pop	{r3, lr}	@
+ 327 000a FFF7FEBF 		b	USART_Flush	@
+ 329 000e 00BF     		.section	.rodata.str1.4,"aMS",%progbits,1
+ 330              		.align	2
+ 331              	.LC0:
+ 332 0000 73657475 		.ascii	"setup USB...\015\012\000"
+ 332      70205553 
+ 332      422E2E2E 
+ 332      0D0A00
+ 333 000f 00       		.space	1
+ 334              	.LC1:
+ 335 0010 73657475 		.ascii	"setup USB done\015\012\000"
+ 335      70205553 
+ 335      4220646F 
+ 335      6E650D0A 
+ 335      00
+ 336 0021 000000   		.section	.data.lastChar,"aw",%progbits
+ 337              		.align	2
+ 338              		.set	.LANCHOR0,. + 0
+ 341              	lastChar:
+ 342 0000 FFFFFFFF 		.word	-1
+ 343              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 comio.c
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:75     .text.ComInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:80     .text.ComInit:00000000 ComInit
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:96     .text.ComInit:00000024 $d
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:100    .text.print:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:105    .text.print:00000000 print
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:132    .text.printUSART:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:137    .text.printUSART:00000000 printUSART
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:159    .text.printDirect:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:164    .text.printDirect:00000000 printDirect
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:186    .text.UnGetChar:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:191    .text.UnGetChar:00000000 UnGetChar
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:201    .text.UnGetChar:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:204    .text.GetChar:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:209    .text.GetChar:00000000 GetChar
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:238    .text.GetChar:00000034 $d
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:241    .text.ComFlushInput:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:246    .text.ComFlushInput:00000000 ComFlushInput
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:265    .text.CharAvailable:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:270    .text.CharAvailable:00000000 CharAvailable
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:283    .text.PutChar:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:288    .text.PutChar:00000000 PutChar
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:304    .text.DEBUG_PutChar:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:309    .text.DEBUG_PutChar:00000000 DEBUG_PutChar
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:316    .text.DEBUG_PutString:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:321    .text.DEBUG_PutString:00000000 DEBUG_PutString
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:330    .rodata.str1.4:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:337    .data.lastChar:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccMBjAOz.s:341    .data.lastChar:00000000 lastChar
+
+UNDEFINED SYMBOLS
+Usart4Init
+USART_PutString
+USART_Flush
+setupUSB
+vsnprintf
+strlen
+usbSendBytes
+USART_PutStringDirect
+usbBytesAvailable
+usbReceiveBytes
+USART_GetChar
+USART_Available
+USART_PutChar

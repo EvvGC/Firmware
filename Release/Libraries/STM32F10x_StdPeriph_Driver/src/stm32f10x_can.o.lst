@@ -1,0 +1,1269 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"stm32f10x_can.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_can.d
+  31              	@ -MF Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_can.d -MP
+  32              	@ -MT Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_can.d
+  33              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_can.c
+  35              	@ -mcpu=cortex-m3 -mthumb
+  36              	@ -auxbase-strip Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_can.o
+  37              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  38              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  39              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  40              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  41              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  42              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  43              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  44              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  45              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  46              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  47              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  48              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  49              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  50              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  51              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  52              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  53              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  54              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  55              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  56              	@ -freorder-functions -frerun-cse-after-loop
+  57              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  58              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  59              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  60              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  61              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  62              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  63              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  64              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  65              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  66              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  67              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  68              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  69              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  70              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  71              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  72              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  73              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  74              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  75              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  76              	@ -munaligned-access -mvectorize-with-neon-quad
+  77              	
+  78              		.section	.text.CAN_DeInit,"ax",%progbits
+  79              		.align	2
+  80              		.global	CAN_DeInit
+  81              		.thumb
+  82              		.thumb_func
+  84              	CAN_DeInit:
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87 0000 08B5     		push	{r3, lr}	@
+  88 0002 0D4B     		ldr	r3, .L5	@ tmp111,
+  89 0004 9842     		cmp	r0, r3	@ CANx, tmp111
+  90 0006 0BD0     		beq	.L4	@,
+  91 0008 4FF08060 		mov	r0, #67108864	@,
+  92 000c 0121     		movs	r1, #1	@,
+  93 000e FFF7FEFF 		bl	RCC_APB1PeriphResetCmd	@
+  94 0012 BDE80840 		pop	{r3, lr}	@
+  95 0016 4FF08060 		mov	r0, #67108864	@,
+  96 001a 0021     		movs	r1, #0	@,
+  97 001c FFF7FEBF 		b	RCC_APB1PeriphResetCmd	@
+  98              	.L4:
+  99 0020 4FF00070 		mov	r0, #33554432	@,
+ 100 0024 0121     		movs	r1, #1	@,
+ 101 0026 FFF7FEFF 		bl	RCC_APB1PeriphResetCmd	@
+ 102 002a BDE80840 		pop	{r3, lr}	@
+ 103 002e 4FF00070 		mov	r0, #33554432	@,
+ 104 0032 0021     		movs	r1, #0	@,
+ 105 0034 FFF7FEBF 		b	RCC_APB1PeriphResetCmd	@
+ 106              	.L6:
+ 107              		.align	2
+ 108              	.L5:
+ 109 0038 00640040 		.word	1073767424
+ 111              		.section	.text.CAN_Init,"ax",%progbits
+ 112              		.align	2
+ 113              		.global	CAN_Init
+ 114              		.thumb
+ 115              		.thumb_func
+ 117              	CAN_Init:
+ 118              		@ args = 0, pretend = 0, frame = 0
+ 119              		@ frame_needed = 0, uses_anonymous_args = 0
+ 120              		@ link register save eliminated.
+ 121 0000 0368     		ldr	r3, [r0]	@ D.7386, CANx_12(D)->MCR
+ 122 0002 30B4     		push	{r4, r5}	@
+ 123 0004 23F00203 		bic	r3, r3, #2	@ D.7386, D.7386,
+ 124 0008 0360     		str	r3, [r0]	@ D.7386, CANx_12(D)->MCR
+ 125 000a 0368     		ldr	r3, [r0]	@ D.7386, CANx_12(D)->MCR
+ 126 000c 43F00103 		orr	r3, r3, #1	@ D.7386, D.7386,
+ 127 0010 0360     		str	r3, [r0]	@ D.7386, CANx_12(D)->MCR
+ 128 0012 4368     		ldr	r3, [r0, #4]	@ D.7386, CANx_12(D)->MSR
+ 129 0014 DD07     		lsls	r5, r3, #31	@, D.7386,
+ 130 0016 07D4     		bmi	.L8	@,
+ 131 0018 4FF6FF73 		movw	r3, #65535	@ D.7391,
+ 132 001c 01E0     		b	.L9	@
+ 133              	.L40:
+ 134 001e 013B     		subs	r3, r3, #1	@ D.7391, D.7391,
+ 135 0020 02D0     		beq	.L8	@,
+ 136              	.L9:
+ 137 0022 4268     		ldr	r2, [r0, #4]	@ D.7386, CANx_12(D)->MSR
+ 138 0024 D407     		lsls	r4, r2, #31	@, D.7386,
+ 139 0026 FAD5     		bpl	.L40	@,
+ 140              	.L8:
+ 141 0028 4368     		ldr	r3, [r0, #4]	@ D.7386, CANx_12(D)->MSR
+ 142 002a 13F00103 		ands	r3, r3, #1	@ D.7386, D.7386,
+ 143 002e 5AD0     		beq	.L25	@,
+ 144 0030 8B79     		ldrb	r3, [r1, #6]	@ zero_extendqisi2	@ CAN_InitStruct_24(D)->CAN_TTCM, CAN_InitStruct_24(D)->CAN_T
+ 145 0032 012B     		cmp	r3, #1	@ CAN_InitStruct_24(D)->CAN_TTCM,
+ 146 0034 0368     		ldr	r3, [r0]	@ D.7386,* CANx
+ 147 0036 0CBF     		ite	eq
+ 148 0038 43F08003 		orreq	r3, r3, #128	@ D.7386, D.7386,
+ 149 003c 23F08003 		bicne	r3, r3, #128	@ D.7386, D.7386,
+ 150 0040 0360     		str	r3, [r0]	@ D.7386,* CANx
+ 151 0042 CB79     		ldrb	r3, [r1, #7]	@ zero_extendqisi2	@ CAN_InitStruct_24(D)->CAN_ABOM, CAN_InitStruct_24(D)->CAN_A
+ 152 0044 012B     		cmp	r3, #1	@ CAN_InitStruct_24(D)->CAN_ABOM,
+ 153 0046 0368     		ldr	r3, [r0]	@ D.7386,* CANx
+ 154 0048 0CBF     		ite	eq
+ 155 004a 43F04003 		orreq	r3, r3, #64	@ D.7386, D.7386,
+ 156 004e 23F04003 		bicne	r3, r3, #64	@ D.7386, D.7386,
+ 157 0052 0360     		str	r3, [r0]	@ D.7386,* CANx
+ 158 0054 0B7A     		ldrb	r3, [r1, #8]	@ zero_extendqisi2	@ CAN_InitStruct_24(D)->CAN_AWUM, CAN_InitStruct_24(D)->CAN_A
+ 159 0056 012B     		cmp	r3, #1	@ CAN_InitStruct_24(D)->CAN_AWUM,
+ 160 0058 0368     		ldr	r3, [r0]	@ D.7386,* CANx
+ 161 005a 0CBF     		ite	eq
+ 162 005c 43F02003 		orreq	r3, r3, #32	@ D.7386, D.7386,
+ 163 0060 23F02003 		bicne	r3, r3, #32	@ D.7386, D.7386,
+ 164 0064 0360     		str	r3, [r0]	@ D.7386,* CANx
+ 165 0066 4B7A     		ldrb	r3, [r1, #9]	@ zero_extendqisi2	@ CAN_InitStruct_24(D)->CAN_NART, CAN_InitStruct_24(D)->CAN_N
+ 166 0068 012B     		cmp	r3, #1	@ CAN_InitStruct_24(D)->CAN_NART,
+ 167 006a 0368     		ldr	r3, [r0]	@ D.7386,* CANx
+ 168 006c 0CBF     		ite	eq
+ 169 006e 43F01003 		orreq	r3, r3, #16	@ D.7386, D.7386,
+ 170 0072 23F01003 		bicne	r3, r3, #16	@ D.7386, D.7386,
+ 171 0076 0360     		str	r3, [r0]	@ D.7386,* CANx
+ 172 0078 8B7A     		ldrb	r3, [r1, #10]	@ zero_extendqisi2	@ CAN_InitStruct_24(D)->CAN_RFLM, CAN_InitStruct_24(D)->CAN_
+ 173 007a 012B     		cmp	r3, #1	@ CAN_InitStruct_24(D)->CAN_RFLM,
+ 174 007c 0368     		ldr	r3, [r0]	@ D.7386,* CANx
+ 175 007e 0CBF     		ite	eq
+ 176 0080 43F00803 		orreq	r3, r3, #8	@ D.7386, D.7386,
+ 177 0084 23F00803 		bicne	r3, r3, #8	@ D.7386, D.7386,
+ 178 0088 0360     		str	r3, [r0]	@ D.7386,* CANx
+ 179 008a CB7A     		ldrb	r3, [r1, #11]	@ zero_extendqisi2	@ CAN_InitStruct_24(D)->CAN_TXFP, CAN_InitStruct_24(D)->CAN_
+ 180 008c 012B     		cmp	r3, #1	@ CAN_InitStruct_24(D)->CAN_TXFP,
+ 181 008e 0368     		ldr	r3, [r0]	@ D.7386,* CANx
+ 182 0090 0CBF     		ite	eq
+ 183 0092 43F00403 		orreq	r3, r3, #4	@ D.7386, D.7386,
+ 184 0096 23F00403 		bicne	r3, r3, #4	@ D.7386, D.7386,
+ 185 009a 0360     		str	r3, [r0]	@ D.7386,* CANx
+ 186 009c 8B78     		ldrb	r3, [r1, #2]	@ zero_extendqisi2	@ D.7386, CAN_InitStruct_24(D)->CAN_Mode
+ 187 009e CA78     		ldrb	r2, [r1, #3]	@ zero_extendqisi2	@ D.7386, CAN_InitStruct_24(D)->CAN_SJW
+ 188 00a0 0D79     		ldrb	r5, [r1, #4]	@ zero_extendqisi2	@ D.7386, CAN_InitStruct_24(D)->CAN_BS1
+ 189 00a2 9B07     		lsls	r3, r3, #30	@ D.7386, D.7386,
+ 190 00a4 4C79     		ldrb	r4, [r1, #5]	@ zero_extendqisi2	@ D.7386, CAN_InitStruct_24(D)->CAN_BS2
+ 191 00a6 43EA0262 		orr	r2, r3, r2, lsl #24	@, D.7386, D.7386, D.7386,
+ 192 00aa 0B88     		ldrh	r3, [r1]	@ D.7386, CAN_InitStruct_24(D)->CAN_Prescaler
+ 193 00ac 42EA0542 		orr	r2, r2, r5, lsl #16	@, D.7386, D.7386, D.7386,
+ 194 00b0 42EA0452 		orr	r2, r2, r4, lsl #20	@, D.7386, D.7386, D.7386,
+ 195 00b4 013B     		subs	r3, r3, #1	@ D.7386, D.7386,
+ 196 00b6 1343     		orrs	r3, r3, r2	@, D.7386, D.7386, D.7386
+ 197 00b8 C361     		str	r3, [r0, #28]	@ D.7386, CANx_12(D)->BTR
+ 198 00ba 0368     		ldr	r3, [r0]	@ D.7386, CANx_12(D)->MCR
+ 199 00bc 23F00103 		bic	r3, r3, #1	@ D.7386, D.7386,
+ 200 00c0 0360     		str	r3, [r0]	@ D.7386, CANx_12(D)->MCR
+ 201 00c2 4368     		ldr	r3, [r0, #4]	@ D.7386, CANx_12(D)->MSR
+ 202 00c4 D907     		lsls	r1, r3, #31	@, D.7386,
+ 203 00c6 07D5     		bpl	.L23	@,
+ 204 00c8 4FF6FF73 		movw	r3, #65535	@ D.7391,
+ 205 00cc 01E0     		b	.L24	@
+ 206              	.L41:
+ 207 00ce 013B     		subs	r3, r3, #1	@ D.7391, D.7391,
+ 208 00d0 02D0     		beq	.L23	@,
+ 209              	.L24:
+ 210 00d2 4268     		ldr	r2, [r0, #4]	@ D.7386, CANx_12(D)->MSR
+ 211 00d4 D207     		lsls	r2, r2, #31	@, D.7386,
+ 212 00d6 FAD4     		bmi	.L41	@,
+ 213              	.L23:
+ 214 00d8 4068     		ldr	r0, [r0, #4]	@ D.7386, CANx_12(D)->MSR
+ 215 00da 30BC     		pop	{r4, r5}	@
+ 216 00dc 00F00100 		and	r0, r0, #1	@ D.7386, D.7386,
+ 217 00e0 80F00100 		eor	r0, r0, #1	@ InitStatus, D.7386,
+ 218 00e4 7047     		bx	lr	@
+ 219              	.L25:
+ 220 00e6 1846     		mov	r0, r3	@ InitStatus, D.7386
+ 221 00e8 30BC     		pop	{r4, r5}	@
+ 222 00ea 7047     		bx	lr	@
+ 224              		.section	.text.CAN_FilterInit,"ax",%progbits
+ 225              		.align	2
+ 226              		.global	CAN_FilterInit
+ 227              		.thumb
+ 228              		.thumb_func
+ 230              	CAN_FilterInit:
+ 231              		@ args = 0, pretend = 0, frame = 0
+ 232              		@ frame_needed = 0, uses_anonymous_args = 0
+ 233              		@ link register save eliminated.
+ 234 0000 837A     		ldrb	r3, [r0, #10]	@ zero_extendqisi2	@ D.7396, CAN_FilterInitStruct_8(D)->CAN_FilterNumber
+ 235 0002 70B4     		push	{r4, r5, r6}	@
+ 236 0004 0124     		movs	r4, #1	@ tmp172,
+ 237 0006 9C40     		lsls	r4, r4, r3	@ filter_number_bit_pos, tmp172, D.7396
+ 238 0008 394B     		ldr	r3, .L51	@ tmp173,
+ 239 000a E243     		mvns	r2, r4	@ D.7397, filter_number_bit_pos
+ 240 000c D3F80012 		ldr	r1, [r3, #512]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FMR
+ 241 0010 41F00101 		orr	r1, r1, #1	@ D.7397, D.7397,
+ 242 0014 C3F80012 		str	r1, [r3, #512]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FMR
+ 243 0018 D3F81C12 		ldr	r1, [r3, #540]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FA1R
+ 244 001c 1140     		ands	r1, r1, r2	@, D.7397, D.7397, D.7397
+ 245 001e C3F81C12 		str	r1, [r3, #540]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FA1R
+ 246 0022 017B     		ldrb	r1, [r0, #12]	@ zero_extendqisi2	@ D.7394, CAN_FilterInitStruct_8(D)->CAN_FilterScale
+ 247 0024 B9B9     		cbnz	r1, .L43	@ D.7394,
+ 248 0026 D3F80C12 		ldr	r1, [r3, #524]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FS1R
+ 249 002a C688     		ldrh	r6, [r0, #6]	@ D.7397, CAN_FilterInitStruct_8(D)->CAN_FilterMaskIdLow
+ 250 002c 1140     		ands	r1, r1, r2	@, D.7397, D.7397, D.7397
+ 251 002e C3F80C12 		str	r1, [r3, #524]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FS1R
+ 252 0032 817A     		ldrb	r1, [r0, #10]	@ zero_extendqisi2	@ D.7396, CAN_FilterInitStruct_8(D)->CAN_FilterNumber
+ 253 0034 4588     		ldrh	r5, [r0, #2]	@ D.7397, CAN_FilterInitStruct_8(D)->CAN_FilterIdLow
+ 254 0036 4831     		adds	r1, r1, #72	@ tmp183, D.7396,
+ 255 0038 45EA0645 		orr	r5, r5, r6, lsl #16	@, D.7397, D.7397, D.7397,
+ 256 003c 43F83150 		str	r5, [r3, r1, lsl #3]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].sFilterRegister[_24].FR1
+ 257 0040 867A     		ldrb	r6, [r0, #10]	@ zero_extendqisi2	@ D.7396, CAN_FilterInitStruct_8(D)->CAN_FilterNumber
+ 258 0042 8588     		ldrh	r5, [r0, #4]	@ D.7397, CAN_FilterInitStruct_8(D)->CAN_FilterMaskIdHigh
+ 259 0044 0188     		ldrh	r1, [r0]	@ D.7397, CAN_FilterInitStruct_8(D)->CAN_FilterIdHigh
+ 260 0046 03F51073 		add	r3, r3, #576	@ tmp189, tmp189,
+ 261 004a F600     		lsls	r6, r6, #3	@ tmp190, D.7396,
+ 262 004c 41EA0541 		orr	r1, r1, r5, lsl #16	@, D.7397, D.7397, D.7397,
+ 263 0050 3344     		add	r3, r3, r6	@ tmp189, tmp190
+ 264 0052 5960     		str	r1, [r3, #4]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].sFilterRegister[_33].FR2
+ 265 0054 017B     		ldrb	r1, [r0, #12]	@ zero_extendqisi2	@ D.7394, CAN_FilterInitStruct_8(D)->CAN_FilterScale
+ 266              	.L43:
+ 267 0056 0129     		cmp	r1, #1	@ D.7394,
+ 268 0058 31D0     		beq	.L50	@,
+ 269              	.L44:
+ 270 005a C37A     		ldrb	r3, [r0, #11]	@ zero_extendqisi2	@ CAN_FilterInitStruct_8(D)->CAN_FilterMode, CAN_FilterInitS
+ 271 005c 43BB     		cbnz	r3, .L45	@ CAN_FilterInitStruct_8(D)->CAN_FilterMode,
+ 272 005e 244B     		ldr	r3, .L51	@ tmp206,
+ 273 0060 D3F80412 		ldr	r1, [r3, #516]	@ D.7397,
+ 274 0064 1140     		ands	r1, r1, r2	@, D.7397, D.7397, D.7397
+ 275 0066 C3F80412 		str	r1, [r3, #516]	@ D.7397,
+ 276              	.L46:
+ 277 006a 0389     		ldrh	r3, [r0, #8]	@ D.7398, CAN_FilterInitStruct_8(D)->CAN_FilterFIFOAssignment
+ 278 006c BBB9     		cbnz	r3, .L47	@ D.7398,
+ 279 006e 204B     		ldr	r3, .L51	@ tmp210,
+ 280 0070 D3F81412 		ldr	r1, [r3, #532]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FFA1R
+ 281 0074 0A40     		ands	r2, r2, r1	@, D.7397, D.7397, D.7397
+ 282 0076 C3F81422 		str	r2, [r3, #532]	@ D.7397,
+ 283              	.L48:
+ 284 007a 437B     		ldrb	r3, [r0, #13]	@ zero_extendqisi2	@ CAN_FilterInitStruct_8(D)->CAN_FilterActivation, CAN_Filte
+ 285 007c 012B     		cmp	r3, #1	@ CAN_FilterInitStruct_8(D)->CAN_FilterActivation,
+ 286 007e 05D1     		bne	.L49	@,
+ 287 0080 1B4B     		ldr	r3, .L51	@ tmp215,
+ 288 0082 D3F81C22 		ldr	r2, [r3, #540]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FA1R
+ 289 0086 1443     		orrs	r4, r4, r2	@, D.7397, filter_number_bit_pos, D.7397
+ 290 0088 C3F81C42 		str	r4, [r3, #540]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FA1R
+ 291              	.L49:
+ 292 008c 184B     		ldr	r3, .L51	@ tmp217,
+ 293 008e 70BC     		pop	{r4, r5, r6}	@
+ 294 0090 D3F80022 		ldr	r2, [r3, #512]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FMR
+ 295 0094 22F00102 		bic	r2, r2, #1	@ D.7397, D.7397,
+ 296 0098 C3F80022 		str	r2, [r3, #512]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FMR
+ 297 009c 7047     		bx	lr	@
+ 298              	.L47:
+ 299 009e 012B     		cmp	r3, #1	@ D.7398,
+ 300 00a0 EBD1     		bne	.L48	@,
+ 301 00a2 134B     		ldr	r3, .L51	@ tmp212,
+ 302 00a4 D3F81422 		ldr	r2, [r3, #532]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FFA1R
+ 303 00a8 2243     		orrs	r2, r2, r4	@, D.7397, D.7397, filter_number_bit_pos
+ 304 00aa C3F81422 		str	r2, [r3, #532]	@ D.7397,
+ 305 00ae E4E7     		b	.L48	@
+ 306              	.L45:
+ 307 00b0 0F4B     		ldr	r3, .L51	@ tmp208,
+ 308 00b2 D3F80412 		ldr	r1, [r3, #516]	@ D.7397,
+ 309 00b6 2143     		orrs	r1, r1, r4	@, D.7397, D.7397, filter_number_bit_pos
+ 310 00b8 C3F80412 		str	r1, [r3, #516]	@ D.7397,
+ 311 00bc D5E7     		b	.L46	@
+ 312              	.L50:
+ 313 00be 0C4B     		ldr	r3, .L51	@ tmp191,
+ 314 00c0 0688     		ldrh	r6, [r0]	@ D.7397, CAN_FilterInitStruct_8(D)->CAN_FilterIdHigh
+ 315 00c2 D3F80C12 		ldr	r1, [r3, #524]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FS1R
+ 316 00c6 4588     		ldrh	r5, [r0, #2]	@ D.7397, CAN_FilterInitStruct_8(D)->CAN_FilterIdLow
+ 317 00c8 2143     		orrs	r1, r1, r4	@, D.7397, D.7397, filter_number_bit_pos
+ 318 00ca C3F80C12 		str	r1, [r3, #524]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].FS1R
+ 319 00ce 817A     		ldrb	r1, [r0, #10]	@ zero_extendqisi2	@ D.7396, CAN_FilterInitStruct_8(D)->CAN_FilterNumber
+ 320 00d0 45EA0645 		orr	r5, r5, r6, lsl #16	@, D.7397, D.7397, D.7397,
+ 321 00d4 4831     		adds	r1, r1, #72	@ tmp197, D.7396,
+ 322 00d6 43F83150 		str	r5, [r3, r1, lsl #3]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].sFilterRegister[_46].FR1
+ 323 00da 867A     		ldrb	r6, [r0, #10]	@ zero_extendqisi2	@ D.7396, CAN_FilterInitStruct_8(D)->CAN_FilterNumber
+ 324 00dc 8588     		ldrh	r5, [r0, #4]	@ D.7397, CAN_FilterInitStruct_8(D)->CAN_FilterMaskIdHigh
+ 325 00de C188     		ldrh	r1, [r0, #6]	@ D.7397, CAN_FilterInitStruct_8(D)->CAN_FilterMaskIdLow
+ 326 00e0 03F51073 		add	r3, r3, #576	@ tmp203, tmp203,
+ 327 00e4 F600     		lsls	r6, r6, #3	@ tmp204, D.7396,
+ 328 00e6 3344     		add	r3, r3, r6	@ tmp203, tmp204
+ 329 00e8 41EA0541 		orr	r1, r1, r5, lsl #16	@, D.7397, D.7397, D.7397,
+ 330 00ec 5960     		str	r1, [r3, #4]	@ D.7397, MEM[(struct CAN_TypeDef *)1073767424B].sFilterRegister[_55].FR2
+ 331 00ee B4E7     		b	.L44	@
+ 332              	.L52:
+ 333              		.align	2
+ 334              	.L51:
+ 335 00f0 00640040 		.word	1073767424
+ 337              		.section	.text.CAN_StructInit,"ax",%progbits
+ 338              		.align	2
+ 339              		.global	CAN_StructInit
+ 340              		.thumb
+ 341              		.thumb_func
+ 343              	CAN_StructInit:
+ 344              		@ args = 0, pretend = 0, frame = 0
+ 345              		@ frame_needed = 0, uses_anonymous_args = 0
+ 346              		@ link register save eliminated.
+ 347 0000 0023     		movs	r3, #0	@ tmp111,
+ 348 0002 10B4     		push	{r4}	@
+ 349 0004 0221     		movs	r1, #2	@ tmp129,
+ 350 0006 0324     		movs	r4, #3	@ tmp127,
+ 351 0008 0122     		movs	r2, #1	@ tmp132,
+ 352 000a 0471     		strb	r4, [r0, #4]	@ tmp127, CAN_InitStruct_2(D)->CAN_BS1
+ 353 000c 4171     		strb	r1, [r0, #5]	@ tmp129, CAN_InitStruct_2(D)->CAN_BS2
+ 354 000e 0280     		strh	r2, [r0]	@ movhi	@ tmp132, CAN_InitStruct_2(D)->CAN_Prescaler
+ 355 0010 8371     		strb	r3, [r0, #6]	@ tmp111, CAN_InitStruct_2(D)->CAN_TTCM
+ 356 0012 C371     		strb	r3, [r0, #7]	@ tmp111, CAN_InitStruct_2(D)->CAN_ABOM
+ 357 0014 0372     		strb	r3, [r0, #8]	@ tmp111, CAN_InitStruct_2(D)->CAN_AWUM
+ 358 0016 4372     		strb	r3, [r0, #9]	@ tmp111, CAN_InitStruct_2(D)->CAN_NART
+ 359 0018 8372     		strb	r3, [r0, #10]	@ tmp111, CAN_InitStruct_2(D)->CAN_RFLM
+ 360 001a C372     		strb	r3, [r0, #11]	@ tmp111, CAN_InitStruct_2(D)->CAN_TXFP
+ 361 001c 8370     		strb	r3, [r0, #2]	@ tmp111, CAN_InitStruct_2(D)->CAN_Mode
+ 362 001e C370     		strb	r3, [r0, #3]	@ tmp111, CAN_InitStruct_2(D)->CAN_SJW
+ 363 0020 5DF8044B 		ldr	r4, [sp], #4	@,
+ 364 0024 7047     		bx	lr	@
+ 366 0026 00BF     		.section	.text.CAN_SlaveStartBank,"ax",%progbits
+ 367              		.align	2
+ 368              		.global	CAN_SlaveStartBank
+ 369              		.thumb
+ 370              		.thumb_func
+ 372              	CAN_SlaveStartBank:
+ 373              		@ args = 0, pretend = 0, frame = 0
+ 374              		@ frame_needed = 0, uses_anonymous_args = 0
+ 375              		@ link register save eliminated.
+ 376 0000 0D4B     		ldr	r3, .L55	@ tmp121,
+ 377 0002 D3F80022 		ldr	r2, [r3, #512]	@ D.7404, MEM[(struct CAN_TypeDef *)1073767424B].FMR
+ 378 0006 42F00102 		orr	r2, r2, #1	@ D.7404, D.7404,
+ 379 000a C3F80022 		str	r2, [r3, #512]	@ D.7404, MEM[(struct CAN_TypeDef *)1073767424B].FMR
+ 380 000e D3F80022 		ldr	r2, [r3, #512]	@ D.7404, MEM[(struct CAN_TypeDef *)1073767424B].FMR
+ 381 0012 22F47C52 		bic	r2, r2, #16128	@ D.7404, D.7404,
+ 382 0016 22F00E02 		bic	r2, r2, #14	@ D.7404, D.7404,
+ 383 001a C3F80022 		str	r2, [r3, #512]	@ D.7404, MEM[(struct CAN_TypeDef *)1073767424B].FMR
+ 384 001e D3F80022 		ldr	r2, [r3, #512]	@ D.7404, MEM[(struct CAN_TypeDef *)1073767424B].FMR
+ 385 0022 42EA0020 		orr	r0, r2, r0, lsl #8	@, D.7404, D.7404, CAN_BankNumber,
+ 386 0026 C3F80002 		str	r0, [r3, #512]	@ D.7404, MEM[(struct CAN_TypeDef *)1073767424B].FMR
+ 387 002a D3F80022 		ldr	r2, [r3, #512]	@ D.7404, MEM[(struct CAN_TypeDef *)1073767424B].FMR
+ 388 002e 22F00102 		bic	r2, r2, #1	@ D.7404, D.7404,
+ 389 0032 C3F80022 		str	r2, [r3, #512]	@ D.7404, MEM[(struct CAN_TypeDef *)1073767424B].FMR
+ 390 0036 7047     		bx	lr	@
+ 391              	.L56:
+ 392              		.align	2
+ 393              	.L55:
+ 394 0038 00640040 		.word	1073767424
+ 396              		.section	.text.CAN_DBGFreeze,"ax",%progbits
+ 397              		.align	2
+ 398              		.global	CAN_DBGFreeze
+ 399              		.thumb
+ 400              		.thumb_func
+ 402              	CAN_DBGFreeze:
+ 403              		@ args = 0, pretend = 0, frame = 0
+ 404              		@ frame_needed = 0, uses_anonymous_args = 0
+ 405              		@ link register save eliminated.
+ 406 0000 0368     		ldr	r3, [r0]	@ D.7407,* CANx
+ 407 0002 19B9     		cbnz	r1, .L60	@ NewState,
+ 408 0004 23F48033 		bic	r3, r3, #65536	@ D.7407, D.7407,
+ 409 0008 0360     		str	r3, [r0]	@ D.7407,* CANx
+ 410 000a 7047     		bx	lr	@
+ 411              	.L60:
+ 412 000c 43F48033 		orr	r3, r3, #65536	@ D.7407, D.7407,
+ 413 0010 0360     		str	r3, [r0]	@ D.7407,* CANx
+ 414 0012 7047     		bx	lr	@
+ 416              		.section	.text.CAN_TTComModeCmd,"ax",%progbits
+ 417              		.align	2
+ 418              		.global	CAN_TTComModeCmd
+ 419              		.thumb
+ 420              		.thumb_func
+ 422              	CAN_TTComModeCmd:
+ 423              		@ args = 0, pretend = 0, frame = 0
+ 424              		@ frame_needed = 0, uses_anonymous_args = 0
+ 425              		@ link register save eliminated.
+ 426 0000 0368     		ldr	r3, [r0]	@ D.7410,* CANx
+ 427 0002 A9B9     		cbnz	r1, .L64	@ NewState,
+ 428 0004 23F08003 		bic	r3, r3, #128	@ D.7410, D.7410,
+ 429 0008 0360     		str	r3, [r0]	@ D.7410, CANx_4(D)->MCR
+ 430 000a D0F88431 		ldr	r3, [r0, #388]	@ D.7410, CANx_4(D)->sTxMailBox[0].TDTR
+ 431 000e 23F48073 		bic	r3, r3, #256	@ D.7410, D.7410,
+ 432 0012 C0F88431 		str	r3, [r0, #388]	@ D.7410, CANx_4(D)->sTxMailBox[0].TDTR
+ 433 0016 D0F89431 		ldr	r3, [r0, #404]	@ D.7410, CANx_4(D)->sTxMailBox[1].TDTR
+ 434 001a 23F48073 		bic	r3, r3, #256	@ D.7410, D.7410,
+ 435 001e C0F89431 		str	r3, [r0, #404]	@ D.7410, CANx_4(D)->sTxMailBox[1].TDTR
+ 436 0022 D0F8A431 		ldr	r3, [r0, #420]	@ D.7410, CANx_4(D)->sTxMailBox[2].TDTR
+ 437 0026 23F48073 		bic	r3, r3, #256	@ D.7410, D.7410,
+ 438 002a C0F8A431 		str	r3, [r0, #420]	@ D.7410,
+ 439 002e 7047     		bx	lr	@
+ 440              	.L64:
+ 441 0030 43F08003 		orr	r3, r3, #128	@ D.7410, D.7410,
+ 442 0034 0360     		str	r3, [r0]	@ D.7410, CANx_4(D)->MCR
+ 443 0036 D0F88431 		ldr	r3, [r0, #388]	@ D.7410, CANx_4(D)->sTxMailBox[0].TDTR
+ 444 003a 43F48073 		orr	r3, r3, #256	@ D.7410, D.7410,
+ 445 003e C0F88431 		str	r3, [r0, #388]	@ D.7410, CANx_4(D)->sTxMailBox[0].TDTR
+ 446 0042 D0F89431 		ldr	r3, [r0, #404]	@ D.7410, CANx_4(D)->sTxMailBox[1].TDTR
+ 447 0046 43F48073 		orr	r3, r3, #256	@ D.7410, D.7410,
+ 448 004a C0F89431 		str	r3, [r0, #404]	@ D.7410, CANx_4(D)->sTxMailBox[1].TDTR
+ 449 004e D0F8A431 		ldr	r3, [r0, #420]	@ D.7410, CANx_4(D)->sTxMailBox[2].TDTR
+ 450 0052 43F48073 		orr	r3, r3, #256	@ D.7410, D.7410,
+ 451 0056 C0F8A431 		str	r3, [r0, #420]	@ D.7410,
+ 452 005a 7047     		bx	lr	@
+ 454              		.section	.text.CAN_Transmit,"ax",%progbits
+ 455              		.align	2
+ 456              		.global	CAN_Transmit
+ 457              		.thumb
+ 458              		.thumb_func
+ 460              	CAN_Transmit:
+ 461              		@ args = 0, pretend = 0, frame = 0
+ 462              		@ frame_needed = 0, uses_anonymous_args = 0
+ 463              		@ link register save eliminated.
+ 464 0000 8368     		ldr	r3, [r0, #8]	@ D.7414, CANx_5(D)->TSR
+ 465 0002 F0B4     		push	{r4, r5, r6, r7}	@
+ 466 0004 5C01     		lsls	r4, r3, #5	@, D.7414,
+ 467 0006 0246     		mov	r2, r0	@ CANx, CANx
+ 468 0008 05D4     		bmi	.L71	@,
+ 469 000a 8368     		ldr	r3, [r0, #8]	@ D.7414, CANx_5(D)->TSR
+ 470 000c 1801     		lsls	r0, r3, #4	@, D.7414,
+ 471 000e 55D5     		bpl	.L76	@,
+ 472 0010 0123     		movs	r3, #1	@ D.7417,
+ 473 0012 1846     		mov	r0, r3	@ transmit_mailbox, D.7417
+ 474 0014 01E0     		b	.L66	@
+ 475              	.L71:
+ 476 0016 0023     		movs	r3, #0	@ D.7417,
+ 477 0018 1846     		mov	r0, r3	@ transmit_mailbox, D.7417
+ 478              	.L66:
+ 479 001a 1C01     		lsls	r4, r3, #4	@ tmp224, D.7417,
+ 480 001c 1319     		adds	r3, r2, r4	@ D.7413, CANx, tmp224
+ 481 001e D3F88051 		ldr	r5, [r3, #384]	@ D.7414, MEM[(struct CAN_TypeDef *)_1 + 384B]
+ 482 0022 05F00105 		and	r5, r5, #1	@ D.7414, D.7414,
+ 483 0026 C3F88051 		str	r5, [r3, #384]	@ D.7414, MEM[(struct CAN_TypeDef *)_1 + 384B]
+ 484 002a 0D7A     		ldrb	r5, [r1, #8]	@ zero_extendqisi2	@ D.7415, TxMessage_16(D)->IDE
+ 485 002c 002D     		cmp	r5, #0	@ D.7415
+ 486 002e 3BD0     		beq	.L69	@
+ 487 0030 4F68     		ldr	r7, [r1, #4]	@ TxMessage_16(D)->ExtId, TxMessage_16(D)->ExtId
+ 488 0032 D3F88061 		ldr	r6, [r3, #384]	@ D.7414, MEM[(struct CAN_TypeDef *)_1 + 384B]
+ 489 0036 45EAC705 		orr	r5, r5, r7, lsl #3	@, D.7414, D.7415, TxMessage_16(D)->ExtId,
+ 490 003a 4F7A     		ldrb	r7, [r1, #9]	@ zero_extendqisi2	@ D.7414, TxMessage_16(D)->RTR
+ 491 003c 3543     		orrs	r5, r5, r6	@, D.7414, D.7414, D.7414
+ 492 003e 3D43     		orrs	r5, r5, r7	@, D.7414, D.7414, D.7414
+ 493 0040 C3F88051 		str	r5, [r3, #384]	@ D.7414,
+ 494              	.L68:
+ 495 0044 8D7A     		ldrb	r5, [r1, #10]	@ zero_extendqisi2	@ TxMessage_16(D)->DLC, TxMessage_16(D)->DLC
+ 496 0046 2244     		add	r2, r2, r4	@ tmp208, tmp224
+ 497 0048 05F00F04 		and	r4, r5, #15	@ tmp195, TxMessage_16(D)->DLC,
+ 498 004c 8C72     		strb	r4, [r1, #10]	@ tmp195, TxMessage_16(D)->DLC
+ 499 004e D3F88451 		ldr	r5, [r3, #388]	@ D.7414, MEM[(struct CAN_TypeDef *)_1 + 388B]
+ 500 0052 02F5C474 		add	r4, r2, #392	@ tmp209, tmp208,
+ 501 0056 25F00F05 		bic	r5, r5, #15	@ D.7414, D.7414,
+ 502 005a C3F88451 		str	r5, [r3, #388]	@ D.7414, MEM[(struct CAN_TypeDef *)_1 + 388B]
+ 503 005e 8E7A     		ldrb	r6, [r1, #10]	@ zero_extendqisi2	@ D.7414, TxMessage_16(D)->DLC
+ 504 0060 D3F88451 		ldr	r5, [r3, #388]	@ D.7414, MEM[(struct CAN_TypeDef *)_1 + 388B]
+ 505 0064 3543     		orrs	r5, r5, r6	@, D.7414, D.7414, D.7414
+ 506 0066 C3F88451 		str	r5, [r3, #388]	@ D.7414, MEM[(struct CAN_TypeDef *)_1 + 388B]
+ 507 006a 4D7B     		ldrb	r5, [r1, #13]	@ zero_extendqisi2	@ D.7414, TxMessage_16(D)->Data
+ 508 006c 8E7B     		ldrb	r6, [r1, #14]	@ zero_extendqisi2	@ D.7414, TxMessage_16(D)->Data
+ 509 006e CF7A     		ldrb	r7, [r1, #11]	@ zero_extendqisi2	@ D.7414, TxMessage_16(D)->Data
+ 510 0070 2D04     		lsls	r5, r5, #16	@ D.7414, D.7414,
+ 511 0072 45EA0665 		orr	r5, r5, r6, lsl #24	@, D.7414, D.7414, D.7414,
+ 512 0076 0E7B     		ldrb	r6, [r1, #12]	@ zero_extendqisi2	@ D.7414, TxMessage_16(D)->Data
+ 513 0078 3D43     		orrs	r5, r5, r7	@, D.7414, D.7414, D.7414
+ 514 007a 45EA0625 		orr	r5, r5, r6, lsl #8	@, D.7414, D.7414, D.7414,
+ 515 007e C2F88851 		str	r5, [r2, #392]	@ D.7414, CANx_5(D)->sTxMailBox[_87].TDLR
+ 516 0082 4A7C     		ldrb	r2, [r1, #17]	@ zero_extendqisi2	@ D.7414, TxMessage_16(D)->Data
+ 517 0084 8E7C     		ldrb	r6, [r1, #18]	@ zero_extendqisi2	@ D.7414, TxMessage_16(D)->Data
+ 518 0086 CD7B     		ldrb	r5, [r1, #15]	@ zero_extendqisi2	@ D.7414, TxMessage_16(D)->Data
+ 519 0088 1204     		lsls	r2, r2, #16	@ D.7414, D.7414,
+ 520 008a 097C     		ldrb	r1, [r1, #16]	@ zero_extendqisi2	@ D.7414, TxMessage_16(D)->Data
+ 521 008c 42EA0662 		orr	r2, r2, r6, lsl #24	@, D.7414, D.7414, D.7414,
+ 522 0090 2A43     		orrs	r2, r2, r5	@, D.7414, D.7414, D.7414
+ 523 0092 42EA0122 		orr	r2, r2, r1, lsl #8	@, D.7414, D.7414, D.7414,
+ 524 0096 6260     		str	r2, [r4, #4]	@ D.7414, CANx_5(D)->sTxMailBox[_87].TDHR
+ 525 0098 D3F88021 		ldr	r2, [r3, #384]	@ D.7414, MEM[(struct CAN_TypeDef *)_1 + 384B]
+ 526 009c F0BC     		pop	{r4, r5, r6, r7}	@
+ 527 009e 42F00102 		orr	r2, r2, #1	@ D.7414, D.7414,
+ 528 00a2 C3F88021 		str	r2, [r3, #384]	@ D.7414, MEM[(struct CAN_TypeDef *)_1 + 384B]
+ 529 00a6 7047     		bx	lr	@
+ 530              	.L69:
+ 531 00a8 0D68     		ldr	r5, [r1]	@ TxMessage_16(D)->StdId, TxMessage_16(D)->StdId
+ 532 00aa 4F7A     		ldrb	r7, [r1, #9]	@ zero_extendqisi2	@ D.7414, TxMessage_16(D)->RTR
+ 533 00ac D3F88061 		ldr	r6, [r3, #384]	@ D.7414, MEM[(struct CAN_TypeDef *)_1 + 384B]
+ 534 00b0 47EA4555 		orr	r5, r7, r5, lsl #21	@, D.7414, D.7414, TxMessage_16(D)->StdId,
+ 535 00b4 3543     		orrs	r5, r5, r6	@, D.7414, D.7414, D.7414
+ 536 00b6 C3F88051 		str	r5, [r3, #384]	@ D.7414,
+ 537 00ba C3E7     		b	.L68	@
+ 538              	.L76:
+ 539 00bc 9368     		ldr	r3, [r2, #8]	@ D.7414, CANx_5(D)->TSR
+ 540 00be DB00     		lsls	r3, r3, #3	@, D.7414,
+ 541 00c0 02D5     		bpl	.L77	@,
+ 542 00c2 0223     		movs	r3, #2	@ D.7417,
+ 543 00c4 1846     		mov	r0, r3	@ transmit_mailbox, D.7417
+ 544 00c6 A8E7     		b	.L66	@
+ 545              	.L77:
+ 546 00c8 0420     		movs	r0, #4	@ transmit_mailbox,
+ 547 00ca F0BC     		pop	{r4, r5, r6, r7}	@
+ 548 00cc 7047     		bx	lr	@
+ 550 00ce 00BF     		.section	.text.CAN_TransmitStatus,"ax",%progbits
+ 551              		.align	2
+ 552              		.global	CAN_TransmitStatus
+ 553              		.thumb
+ 554              		.thumb_func
+ 556              	CAN_TransmitStatus:
+ 557              		@ args = 0, pretend = 0, frame = 0
+ 558              		@ frame_needed = 0, uses_anonymous_args = 0
+ 559              		@ link register save eliminated.
+ 560 0000 0129     		cmp	r1, #1	@ TransmitMailbox,
+ 561 0002 1AD0     		beq	.L80	@,
+ 562 0004 15D3     		bcc	.L81	@,
+ 563 0006 0229     		cmp	r1, #2	@ TransmitMailbox,
+ 564 0008 0FD1     		bne	.L91	@,
+ 565 000a 8268     		ldr	r2, [r0, #8]	@ D.7423, CANx_5(D)->TSR
+ 566 000c 0D4B     		ldr	r3, .L93	@ state,
+ 567 000e 1340     		ands	r3, r3, r2	@, state, state, D.7423
+ 568              	.L83:
+ 569 0010 0D4A     		ldr	r2, .L93+4	@ tmp121,
+ 570 0012 9342     		cmp	r3, r2	@ state, tmp121
+ 571 0014 06D0     		beq	.L88	@,
+ 572 0016 07D9     		bls	.L92	@,
+ 573 0018 0C4A     		ldr	r2, .L93+8	@ tmp123,
+ 574 001a 9342     		cmp	r3, r2	@ state, tmp123
+ 575 001c 02D0     		beq	.L88	@,
+ 576 001e 094A     		ldr	r2, .L93	@ tmp124,
+ 577 0020 9342     		cmp	r3, r2	@ state, tmp124
+ 578 0022 04D1     		bne	.L90	@,
+ 579              	.L88:
+ 580 0024 0120     		movs	r0, #1	@ D.7424,
+ 581 0026 7047     		bx	lr	@
+ 582              	.L92:
+ 583 0028 0BB9     		cbnz	r3, .L90	@ state,
+ 584              	.L91:
+ 585 002a 0220     		movs	r0, #2	@ D.7424,
+ 586 002c 7047     		bx	lr	@
+ 587              	.L90:
+ 588 002e 0020     		movs	r0, #0	@ D.7424,
+ 589 0030 7047     		bx	lr	@
+ 590              	.L81:
+ 591 0032 8268     		ldr	r2, [r0, #8]	@ D.7423, CANx_5(D)->TSR
+ 592 0034 044B     		ldr	r3, .L93+4	@ state,
+ 593 0036 1340     		ands	r3, r3, r2	@, state, state, D.7423
+ 594 0038 EAE7     		b	.L83	@
+ 595              	.L80:
+ 596 003a 8268     		ldr	r2, [r0, #8]	@ D.7423, CANx_5(D)->TSR
+ 597 003c 034B     		ldr	r3, .L93+8	@ state,
+ 598 003e 1340     		ands	r3, r3, r2	@, state, state, D.7423
+ 599 0040 E6E7     		b	.L83	@
+ 600              	.L94:
+ 601 0042 00BF     		.align	2
+ 602              	.L93:
+ 603 0044 00000310 		.word	268632064
+ 604 0048 03000004 		.word	67108867
+ 605 004c 00030008 		.word	134218496
+ 607              		.section	.text.CAN_CancelTransmit,"ax",%progbits
+ 608              		.align	2
+ 609              		.global	CAN_CancelTransmit
+ 610              		.thumb
+ 611              		.thumb_func
+ 613              	CAN_CancelTransmit:
+ 614              		@ args = 0, pretend = 0, frame = 0
+ 615              		@ frame_needed = 0, uses_anonymous_args = 0
+ 616              		@ link register save eliminated.
+ 617 0000 0129     		cmp	r1, #1	@ Mailbox,
+ 618 0002 0DD0     		beq	.L97	@,
+ 619 0004 07D3     		bcc	.L98	@,
+ 620 0006 0229     		cmp	r1, #2	@ Mailbox,
+ 621 0008 04D1     		bne	.L100	@,
+ 622 000a 8368     		ldr	r3, [r0, #8]	@ D.7429, CANx_4(D)->TSR
+ 623 000c 43F40003 		orr	r3, r3, #8388608	@ D.7429, D.7429,
+ 624 0010 8360     		str	r3, [r0, #8]	@ D.7429,
+ 625 0012 7047     		bx	lr	@
+ 626              	.L100:
+ 627 0014 7047     		bx	lr	@
+ 628              	.L98:
+ 629 0016 8368     		ldr	r3, [r0, #8]	@ D.7429, CANx_4(D)->TSR
+ 630 0018 43F08003 		orr	r3, r3, #128	@ D.7429, D.7429,
+ 631 001c 8360     		str	r3, [r0, #8]	@ D.7429,
+ 632 001e 7047     		bx	lr	@
+ 633              	.L97:
+ 634 0020 8368     		ldr	r3, [r0, #8]	@ D.7429, CANx_4(D)->TSR
+ 635 0022 43F40043 		orr	r3, r3, #32768	@ D.7429, D.7429,
+ 636 0026 8360     		str	r3, [r0, #8]	@ D.7429,
+ 637 0028 7047     		bx	lr	@
+ 639 002a 00BF     		.section	.text.CAN_Receive,"ax",%progbits
+ 640              		.align	2
+ 641              		.global	CAN_Receive
+ 642              		.thumb
+ 643              		.thumb_func
+ 645              	CAN_Receive:
+ 646              		@ args = 0, pretend = 0, frame = 0
+ 647              		@ frame_needed = 0, uses_anonymous_args = 0
+ 648              		@ link register save eliminated.
+ 649 0000 70B4     		push	{r4, r5, r6}	@
+ 650 0002 0C01     		lsls	r4, r1, #4	@ tmp211, FIFONumber,
+ 651 0004 0319     		adds	r3, r0, r4	@ D.7436, CANx, tmp211
+ 652 0006 D3F8B051 		ldr	r5, [r3, #432]	@ D.7433, MEM[(struct CAN_TypeDef *)_71 + 432B]
+ 653 000a 05F00405 		and	r5, r5, #4	@ tmp161, D.7433,
+ 654 000e EDB2     		uxtb	r5, r5	@ D.7434, tmp161
+ 655 0010 1572     		strb	r5, [r2, #8]	@ D.7434, RxMessage_10(D)->IDE
+ 656 0012 BDBB     		cbnz	r5, .L102	@ D.7434,
+ 657 0014 D3F8B051 		ldr	r5, [r3, #432]	@ D.7433,
+ 658 0018 6D0D     		lsrs	r5, r5, #21	@ D.7433, D.7433,
+ 659 001a 1560     		str	r5, [r2]	@ D.7433, RxMessage_10(D)->StdId
+ 660              	.L103:
+ 661 001c D3F8B051 		ldr	r5, [r3, #432]	@ D.7433, MEM[(struct CAN_TypeDef *)_71 + 432B]
+ 662 0020 0444     		add	r4, r4, r0	@ tmp174, CANx
+ 663 0022 05F00205 		and	r5, r5, #2	@ tmp166, D.7433,
+ 664 0026 5572     		strb	r5, [r2, #9]	@ tmp166, RxMessage_10(D)->RTR
+ 665 0028 D3F8B461 		ldr	r6, [r3, #436]	@ D.7433, MEM[(struct CAN_TypeDef *)_71 + 436B]
+ 666 002c 06F00F06 		and	r6, r6, #15	@ tmp169, D.7433,
+ 667 0030 9672     		strb	r6, [r2, #10]	@ tmp169, RxMessage_10(D)->DLC
+ 668 0032 D3F8B431 		ldr	r3, [r3, #436]	@ D.7433, MEM[(struct CAN_TypeDef *)_71 + 436B]
+ 669 0036 1B0A     		lsrs	r3, r3, #8	@ D.7433, D.7433,
+ 670 0038 D374     		strb	r3, [r2, #19]	@ D.7433, RxMessage_10(D)->FMI
+ 671 003a D4F8B831 		ldr	r3, [r4, #440]	@ D.7433, CANx_6(D)->sFIFOMailBox[_4].RDLR
+ 672 003e D372     		strb	r3, [r2, #11]	@ D.7433, RxMessage_10(D)->Data
+ 673 0040 D4F8B831 		ldr	r3, [r4, #440]	@ D.7433, CANx_6(D)->sFIFOMailBox[_4].RDLR
+ 674 0044 1B0A     		lsrs	r3, r3, #8	@ D.7433, D.7433,
+ 675 0046 1373     		strb	r3, [r2, #12]	@ D.7433, RxMessage_10(D)->Data
+ 676 0048 D4F8B831 		ldr	r3, [r4, #440]	@ D.7433, CANx_6(D)->sFIFOMailBox[_4].RDLR
+ 677 004c 1B0C     		lsrs	r3, r3, #16	@ D.7433, D.7433,
+ 678 004e 5373     		strb	r3, [r2, #13]	@ D.7433, RxMessage_10(D)->Data
+ 679 0050 D4F8B831 		ldr	r3, [r4, #440]	@ D.7433, CANx_6(D)->sFIFOMailBox[_4].RDLR
+ 680 0054 1B0E     		lsrs	r3, r3, #24	@ D.7433, D.7433,
+ 681 0056 9373     		strb	r3, [r2, #14]	@ D.7433, RxMessage_10(D)->Data
+ 682 0058 D4F8BC31 		ldr	r3, [r4, #444]	@ D.7433, CANx_6(D)->sFIFOMailBox[_4].RDHR
+ 683 005c D373     		strb	r3, [r2, #15]	@ D.7433, RxMessage_10(D)->Data
+ 684 005e D4F8BC31 		ldr	r3, [r4, #444]	@ D.7433, CANx_6(D)->sFIFOMailBox[_4].RDHR
+ 685 0062 1B0A     		lsrs	r3, r3, #8	@ D.7433, D.7433,
+ 686 0064 1374     		strb	r3, [r2, #16]	@ D.7433, RxMessage_10(D)->Data
+ 687 0066 D4F8BC31 		ldr	r3, [r4, #444]	@ D.7433, CANx_6(D)->sFIFOMailBox[_4].RDHR
+ 688 006a 1B0C     		lsrs	r3, r3, #16	@ D.7433, D.7433,
+ 689 006c 5374     		strb	r3, [r2, #17]	@ D.7433, RxMessage_10(D)->Data
+ 690 006e D4F8BC31 		ldr	r3, [r4, #444]	@ D.7433, CANx_6(D)->sFIFOMailBox[_4].RDHR
+ 691 0072 1B0E     		lsrs	r3, r3, #24	@ D.7433, D.7433,
+ 692 0074 9374     		strb	r3, [r2, #18]	@ D.7433, RxMessage_10(D)->Data
+ 693 0076 51B1     		cbz	r1, .L106	@ FIFONumber,
+ 694 0078 0369     		ldr	r3, [r0, #16]	@ D.7433, CANx_6(D)->RF1R
+ 695 007a 70BC     		pop	{r4, r5, r6}	@
+ 696 007c 43F02003 		orr	r3, r3, #32	@ D.7433, D.7433,
+ 697 0080 0361     		str	r3, [r0, #16]	@ D.7433, CANx_6(D)->RF1R
+ 698 0082 7047     		bx	lr	@
+ 699              	.L102:
+ 700 0084 D3F8B051 		ldr	r5, [r3, #432]	@ D.7433,
+ 701 0088 ED08     		lsrs	r5, r5, #3	@ D.7433, D.7433,
+ 702 008a 5560     		str	r5, [r2, #4]	@ D.7433, RxMessage_10(D)->ExtId
+ 703 008c C6E7     		b	.L103	@
+ 704              	.L106:
+ 705 008e C368     		ldr	r3, [r0, #12]	@ D.7433, CANx_6(D)->RF0R
+ 706 0090 70BC     		pop	{r4, r5, r6}	@
+ 707 0092 43F02003 		orr	r3, r3, #32	@ D.7433, D.7433,
+ 708 0096 C360     		str	r3, [r0, #12]	@ D.7433, CANx_6(D)->RF0R
+ 709 0098 7047     		bx	lr	@
+ 711 009a 00BF     		.section	.text.CAN_FIFORelease,"ax",%progbits
+ 712              		.align	2
+ 713              		.global	CAN_FIFORelease
+ 714              		.thumb
+ 715              		.thumb_func
+ 717              	CAN_FIFORelease:
+ 718              		@ args = 0, pretend = 0, frame = 0
+ 719              		@ frame_needed = 0, uses_anonymous_args = 0
+ 720              		@ link register save eliminated.
+ 721 0000 21B1     		cbz	r1, .L110	@ FIFONumber,
+ 722 0002 0369     		ldr	r3, [r0, #16]	@ D.7439, CANx_4(D)->RF1R
+ 723 0004 43F02003 		orr	r3, r3, #32	@ D.7439, D.7439,
+ 724 0008 0361     		str	r3, [r0, #16]	@ D.7439, CANx_4(D)->RF1R
+ 725 000a 7047     		bx	lr	@
+ 726              	.L110:
+ 727 000c C368     		ldr	r3, [r0, #12]	@ D.7439, CANx_4(D)->RF0R
+ 728 000e 43F02003 		orr	r3, r3, #32	@ D.7439, D.7439,
+ 729 0012 C360     		str	r3, [r0, #12]	@ D.7439, CANx_4(D)->RF0R
+ 730 0014 7047     		bx	lr	@
+ 732 0016 00BF     		.section	.text.CAN_MessagePending,"ax",%progbits
+ 733              		.align	2
+ 734              		.global	CAN_MessagePending
+ 735              		.thumb
+ 736              		.thumb_func
+ 738              	CAN_MessagePending:
+ 739              		@ args = 0, pretend = 0, frame = 0
+ 740              		@ frame_needed = 0, uses_anonymous_args = 0
+ 741              		@ link register save eliminated.
+ 742 0000 39B1     		cbz	r1, .L115	@ FIFONumber,
+ 743 0002 0129     		cmp	r1, #1	@ FIFONumber,
+ 744 0004 01D0     		beq	.L116	@,
+ 745 0006 0020     		movs	r0, #0	@ message_pending,
+ 746 0008 7047     		bx	lr	@
+ 747              	.L116:
+ 748 000a 0069     		ldr	r0, [r0, #16]	@ D.7442, CANx_4(D)->RF1R
+ 749 000c 00F00300 		and	r0, r0, #3	@ message_pending, D.7442,
+ 750 0010 7047     		bx	lr	@
+ 751              	.L115:
+ 752 0012 C068     		ldr	r0, [r0, #12]	@ D.7442, CANx_4(D)->RF0R
+ 753 0014 00F00300 		and	r0, r0, #3	@ message_pending, D.7442,
+ 754 0018 7047     		bx	lr	@
+ 756 001a 00BF     		.section	.text.CAN_OperatingModeRequest,"ax",%progbits
+ 757              		.align	2
+ 758              		.global	CAN_OperatingModeRequest
+ 759              		.thumb
+ 760              		.thumb_func
+ 762              	CAN_OperatingModeRequest:
+ 763              		@ args = 0, pretend = 0, frame = 0
+ 764              		@ frame_needed = 0, uses_anonymous_args = 0
+ 765              		@ link register save eliminated.
+ 766 0000 F1B9     		cbnz	r1, .L118	@ CAN_OperatingMode,
+ 767 0002 0368     		ldr	r3, [r0]	@ D.7459, CANx_8(D)->MCR
+ 768 0004 23F00303 		bic	r3, r3, #3	@ D.7459, D.7459,
+ 769 0008 43F00103 		orr	r3, r3, #1	@ D.7459, D.7459,
+ 770 000c 0360     		str	r3, [r0]	@ D.7459, CANx_8(D)->MCR
+ 771 000e 4368     		ldr	r3, [r0, #4]	@ D.7459, CANx_8(D)->MSR
+ 772 0010 03F00303 		and	r3, r3, #3	@ D.7459, D.7459,
+ 773 0014 012B     		cmp	r3, #1	@ D.7459,
+ 774 0016 09D0     		beq	.L119	@,
+ 775 0018 4FF6FF73 		movw	r3, #65535	@ D.7458,
+ 776 001c 01E0     		b	.L120	@
+ 777              	.L158:
+ 778 001e 013B     		subs	r3, r3, #1	@ D.7458, D.7458,
+ 779 0020 04D0     		beq	.L119	@,
+ 780              	.L120:
+ 781 0022 4268     		ldr	r2, [r0, #4]	@ D.7459, CANx_8(D)->MSR
+ 782 0024 02F00302 		and	r2, r2, #3	@ D.7459, D.7459,
+ 783 0028 012A     		cmp	r2, #1	@ D.7459,
+ 784 002a F8D1     		bne	.L158	@,
+ 785              	.L119:
+ 786 002c 4068     		ldr	r0, [r0, #4]	@ D.7459, CANx_8(D)->MSR
+ 787 002e 00F00300 		and	r0, r0, #3	@ D.7459, D.7459,
+ 788 0032 B0F1010C 		subs	ip, r0, #1	@, D.7459,
+ 789 0036 DCF10000 		rsbs	r0, ip, #0	@ status,,
+ 790 003a 50EB0C00 		adcs	r0, r0, ip	@ status, status,
+ 791 003e 7047     		bx	lr	@
+ 792              	.L118:
+ 793 0040 0129     		cmp	r1, #1	@ CAN_OperatingMode,
+ 794 0042 03D0     		beq	.L159	@,
+ 795 0044 0229     		cmp	r1, #2	@ CAN_OperatingMode,
+ 796 0046 17D0     		beq	.L160	@,
+ 797 0048 0020     		movs	r0, #0	@ status,
+ 798 004a 7047     		bx	lr	@
+ 799              	.L159:
+ 800 004c 0368     		ldr	r3, [r0]	@ D.7459, CANx_8(D)->MCR
+ 801 004e 23F00303 		bic	r3, r3, #3	@ D.7459, D.7459,
+ 802 0052 0360     		str	r3, [r0]	@ D.7459, CANx_8(D)->MCR
+ 803 0054 4368     		ldr	r3, [r0, #4]	@ D.7459, CANx_8(D)->MSR
+ 804 0056 9907     		lsls	r1, r3, #30	@, D.7459,
+ 805 0058 07D0     		beq	.L123	@,
+ 806 005a 4FF6FF73 		movw	r3, #65535	@ D.7458,
+ 807 005e 01E0     		b	.L124	@
+ 808              	.L161:
+ 809 0060 013B     		subs	r3, r3, #1	@ D.7458, D.7458,
+ 810 0062 02D0     		beq	.L123	@,
+ 811              	.L124:
+ 812 0064 4268     		ldr	r2, [r0, #4]	@ D.7459, CANx_8(D)->MSR
+ 813 0066 9207     		lsls	r2, r2, #30	@, D.7459,
+ 814 0068 FAD1     		bne	.L161	@,
+ 815              	.L123:
+ 816 006a 4368     		ldr	r3, [r0, #4]	@ D.7459, CANx_8(D)->MSR
+ 817 006c 13F0030F 		tst	r3, #3	@ D.7459,
+ 818 0070 14BF     		ite	ne	@
+ 819 0072 0020     		movne	r0, #0	@, status
+ 820 0074 0120     		moveq	r0, #1	@, status
+ 821 0076 7047     		bx	lr	@
+ 822              	.L160:
+ 823 0078 0368     		ldr	r3, [r0]	@ D.7459, CANx_8(D)->MCR
+ 824 007a 23F00303 		bic	r3, r3, #3	@ D.7459, D.7459,
+ 825 007e 43F00203 		orr	r3, r3, #2	@ D.7459, D.7459,
+ 826 0082 0360     		str	r3, [r0]	@ D.7459, CANx_8(D)->MCR
+ 827 0084 4368     		ldr	r3, [r0, #4]	@ D.7459, CANx_8(D)->MSR
+ 828 0086 03F00303 		and	r3, r3, #3	@ D.7459, D.7459,
+ 829 008a 022B     		cmp	r3, #2	@ D.7459,
+ 830 008c 09D0     		beq	.L125	@,
+ 831 008e 4FF6FF73 		movw	r3, #65535	@ D.7458,
+ 832 0092 01E0     		b	.L126	@
+ 833              	.L162:
+ 834 0094 013B     		subs	r3, r3, #1	@ D.7458, D.7458,
+ 835 0096 04D0     		beq	.L125	@,
+ 836              	.L126:
+ 837 0098 4268     		ldr	r2, [r0, #4]	@ D.7459, CANx_8(D)->MSR
+ 838 009a 02F00302 		and	r2, r2, #3	@ D.7459, D.7459,
+ 839 009e 022A     		cmp	r2, #2	@ D.7459,
+ 840 00a0 F8D1     		bne	.L162	@,
+ 841              	.L125:
+ 842 00a2 4068     		ldr	r0, [r0, #4]	@ D.7459, CANx_8(D)->MSR
+ 843 00a4 00F00300 		and	r0, r0, #3	@ D.7459, D.7459,
+ 844 00a8 831E     		subs	r3, r0, #2	@, D.7459,
+ 845 00aa 5842     		rsbs	r0, r3, #0	@ status,,
+ 846 00ac 5841     		adcs	r0, r0, r3	@ status, status,
+ 847 00ae 7047     		bx	lr	@
+ 849              		.section	.text.CAN_Sleep,"ax",%progbits
+ 850              		.align	2
+ 851              		.global	CAN_Sleep
+ 852              		.thumb
+ 853              		.thumb_func
+ 855              	CAN_Sleep:
+ 856              		@ args = 0, pretend = 0, frame = 0
+ 857              		@ frame_needed = 0, uses_anonymous_args = 0
+ 858              		@ link register save eliminated.
+ 859 0000 0368     		ldr	r3, [r0]	@ D.7463, CANx_3(D)->MCR
+ 860 0002 23F00303 		bic	r3, r3, #3	@ D.7463, D.7463,
+ 861 0006 43F00203 		orr	r3, r3, #2	@ D.7463, D.7463,
+ 862 000a 0360     		str	r3, [r0]	@ D.7463, CANx_3(D)->MCR
+ 863 000c 4068     		ldr	r0, [r0, #4]	@ D.7463, CANx_3(D)->MSR
+ 864 000e 00F00300 		and	r0, r0, #3	@ D.7463, D.7463,
+ 865 0012 831E     		subs	r3, r0, #2	@, D.7463,
+ 866 0014 5842     		rsbs	r0, r3, #0	@,,
+ 867 0016 5841     		adcs	r0, r0, r3	@,,
+ 868 0018 7047     		bx	lr	@
+ 870 001a 00BF     		.section	.text.CAN_WakeUp,"ax",%progbits
+ 871              		.align	2
+ 872              		.global	CAN_WakeUp
+ 873              		.thumb
+ 874              		.thumb_func
+ 876              	CAN_WakeUp:
+ 877              		@ args = 0, pretend = 0, frame = 0
+ 878              		@ frame_needed = 0, uses_anonymous_args = 0
+ 879              		@ link register save eliminated.
+ 880 0000 0368     		ldr	r3, [r0]	@ D.7473, CANx_4(D)->MCR
+ 881 0002 23F00203 		bic	r3, r3, #2	@ D.7473, D.7473,
+ 882 0006 0360     		str	r3, [r0]	@ D.7473, CANx_4(D)->MCR
+ 883 0008 4368     		ldr	r3, [r0, #4]	@ D.7473, CANx_4(D)->MSR
+ 884 000a 9907     		lsls	r1, r3, #30	@, D.7473,
+ 885 000c 07D5     		bpl	.L165	@,
+ 886 000e 4FF6FF73 		movw	r3, #65535	@ D.7472,
+ 887 0012 01E0     		b	.L166	@
+ 888              	.L177:
+ 889 0014 013B     		subs	r3, r3, #1	@ D.7472, D.7472,
+ 890 0016 02D0     		beq	.L165	@,
+ 891              	.L166:
+ 892 0018 4268     		ldr	r2, [r0, #4]	@ D.7473, CANx_4(D)->MSR
+ 893 001a 9207     		lsls	r2, r2, #30	@, D.7473,
+ 894 001c FAD4     		bmi	.L177	@,
+ 895              	.L165:
+ 896 001e 4068     		ldr	r0, [r0, #4]	@ D.7473, CANx_4(D)->MSR
+ 897 0020 80F00200 		eor	r0, r0, #2	@ tmp127, D.7473,
+ 898 0024 C0F34000 		ubfx	r0, r0, #1, #1	@, tmp127,,
+ 899 0028 7047     		bx	lr	@
+ 901 002a 00BF     		.section	.text.CAN_GetLastErrorCode,"ax",%progbits
+ 902              		.align	2
+ 903              		.global	CAN_GetLastErrorCode
+ 904              		.thumb
+ 905              		.thumb_func
+ 907              	CAN_GetLastErrorCode:
+ 908              		@ args = 0, pretend = 0, frame = 0
+ 909              		@ frame_needed = 0, uses_anonymous_args = 0
+ 910              		@ link register save eliminated.
+ 911 0000 8069     		ldr	r0, [r0, #24]	@ D.7478, CANx_2(D)->ESR
+ 912 0002 00F07000 		and	r0, r0, #112	@, D.7478,
+ 913 0006 7047     		bx	lr	@
+ 915              		.section	.text.CAN_GetReceiveErrorCounter,"ax",%progbits
+ 916              		.align	2
+ 917              		.global	CAN_GetReceiveErrorCounter
+ 918              		.thumb
+ 919              		.thumb_func
+ 921              	CAN_GetReceiveErrorCounter:
+ 922              		@ args = 0, pretend = 0, frame = 0
+ 923              		@ frame_needed = 0, uses_anonymous_args = 0
+ 924              		@ link register save eliminated.
+ 925 0000 8069     		ldr	r0, [r0, #24]	@ D.7482, CANx_2(D)->ESR
+ 926 0002 000E     		lsrs	r0, r0, #24	@, D.7482,
+ 927 0004 7047     		bx	lr	@
+ 929 0006 00BF     		.section	.text.CAN_GetLSBTransmitErrorCounter,"ax",%progbits
+ 930              		.align	2
+ 931              		.global	CAN_GetLSBTransmitErrorCounter
+ 932              		.thumb
+ 933              		.thumb_func
+ 935              	CAN_GetLSBTransmitErrorCounter:
+ 936              		@ args = 0, pretend = 0, frame = 0
+ 937              		@ frame_needed = 0, uses_anonymous_args = 0
+ 938              		@ link register save eliminated.
+ 939 0000 8069     		ldr	r0, [r0, #24]	@ D.7485, CANx_2(D)->ESR
+ 940 0002 C0F30740 		ubfx	r0, r0, #16, #8	@, D.7485,,
+ 941 0006 7047     		bx	lr	@
+ 943              		.section	.text.CAN_ITConfig,"ax",%progbits
+ 944              		.align	2
+ 945              		.global	CAN_ITConfig
+ 946              		.thumb
+ 947              		.thumb_func
+ 949              	CAN_ITConfig:
+ 950              		@ args = 0, pretend = 0, frame = 0
+ 951              		@ frame_needed = 0, uses_anonymous_args = 0
+ 952              		@ link register save eliminated.
+ 953 0000 4369     		ldr	r3, [r0, #20]	@ D.7488,
+ 954 0002 1AB9     		cbnz	r2, .L184	@ NewState,
+ 955 0004 23EA0101 		bic	r1, r3, r1	@ D.7488, D.7488, CAN_IT
+ 956 0008 4161     		str	r1, [r0, #20]	@ D.7488,
+ 957 000a 7047     		bx	lr	@
+ 958              	.L184:
+ 959 000c 1943     		orrs	r1, r1, r3	@, D.7488, CAN_IT, D.7488
+ 960 000e 4161     		str	r1, [r0, #20]	@ D.7488,
+ 961 0010 7047     		bx	lr	@
+ 963 0012 00BF     		.section	.text.CAN_GetFlagStatus,"ax",%progbits
+ 964              		.align	2
+ 965              		.global	CAN_GetFlagStatus
+ 966              		.thumb
+ 967              		.thumb_func
+ 969              	CAN_GetFlagStatus:
+ 970              		@ args = 0, pretend = 0, frame = 0
+ 971              		@ frame_needed = 0, uses_anonymous_args = 0
+ 972              		@ link register save eliminated.
+ 973 0000 11F4700F 		tst	r1, #15728640	@ CAN_FLAG,
+ 974 0004 07D0     		beq	.L186	@,
+ 975 0006 8369     		ldr	r3, [r0, #24]	@ D.7491, CANx_5(D)->ESR
+ 976 0008 C3F31303 		ubfx	r3, r3, #0, #20	@ D.7491, D.7491,,
+ 977 000c 0B42     		tst	r3, r1	@ D.7491, CAN_FLAG
+ 978 000e 0CBF     		ite	eq	@
+ 979 0010 0020     		moveq	r0, #0	@, bitstatus
+ 980 0012 0120     		movne	r0, #1	@, bitstatus
+ 981 0014 7047     		bx	lr	@
+ 982              	.L186:
+ 983 0016 CB01     		lsls	r3, r1, #7	@, CAN_FLAG,
+ 984 0018 07D5     		bpl	.L188	@,
+ 985 001a 4368     		ldr	r3, [r0, #4]	@ D.7491, CANx_5(D)->MSR
+ 986 001c C3F31303 		ubfx	r3, r3, #0, #20	@ D.7491, D.7491,,
+ 987 0020 0B42     		tst	r3, r1	@ D.7491, CAN_FLAG
+ 988 0022 0CBF     		ite	eq	@
+ 989 0024 0020     		moveq	r0, #0	@, bitstatus
+ 990 0026 0120     		movne	r0, #1	@, bitstatus
+ 991 0028 7047     		bx	lr	@
+ 992              	.L188:
+ 993 002a 0A01     		lsls	r2, r1, #4	@, CAN_FLAG,
+ 994 002c 07D5     		bpl	.L189	@,
+ 995 002e 8368     		ldr	r3, [r0, #8]	@ D.7491, CANx_5(D)->TSR
+ 996 0030 C3F31303 		ubfx	r3, r3, #0, #20	@ D.7491, D.7491,,
+ 997 0034 0B42     		tst	r3, r1	@ D.7491, CAN_FLAG
+ 998 0036 0CBF     		ite	eq	@
+ 999 0038 0020     		moveq	r0, #0	@, bitstatus
+ 1000 003a 0120     		movne	r0, #1	@, bitstatus
+ 1001 003c 7047     		bx	lr	@
+ 1002              	.L189:
+ 1003 003e 8B01     		lsls	r3, r1, #6	@, CAN_FLAG,
+ 1004 0040 4CBF     		ite	mi
+ 1005 0042 C368     		ldrmi	r3, [r0, #12]	@ D.7491, CANx_5(D)->RF0R
+ 1006 0044 0369     		ldrpl	r3, [r0, #16]	@ D.7491, CANx_5(D)->RF1R
+ 1007 0046 C3F31303 		ubfx	r3, r3, #0, #20	@ D.7491, D.7491,,
+ 1008 004a 0B42     		tst	r3, r1	@ D.7491, CAN_FLAG
+ 1009 004c 0CBF     		ite	eq	@
+ 1010 004e 0020     		moveq	r0, #0	@, bitstatus
+ 1011 0050 0120     		movne	r0, #1	@, bitstatus
+ 1012 0052 7047     		bx	lr	@
+ 1014              		.section	.text.CAN_ClearFlag,"ax",%progbits
+ 1015              		.align	2
+ 1016              		.global	CAN_ClearFlag
+ 1017              		.thumb
+ 1018              		.thumb_func
+ 1020              	CAN_ClearFlag:
+ 1021              		@ args = 0, pretend = 0, frame = 0
+ 1022              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1023              		@ link register save eliminated.
+ 1024 0000 0A4B     		ldr	r3, .L200	@ tmp116,
+ 1025 0002 9942     		cmp	r1, r3	@ CAN_FLAG, tmp116
+ 1026 0004 0CD0     		beq	.L197	@,
+ 1027 0006 8A01     		lsls	r2, r1, #6	@, CAN_FLAG,
+ 1028 0008 C1F31303 		ubfx	r3, r1, #0, #20	@ flagtmp, CAN_FLAG,,
+ 1029 000c 06D4     		bmi	.L198	@,
+ 1030 000e 4A01     		lsls	r2, r1, #5	@, CAN_FLAG,
+ 1031 0010 09D4     		bmi	.L199	@,
+ 1032 0012 0A01     		lsls	r2, r1, #4	@, CAN_FLAG,
+ 1033 0014 4CBF     		ite	mi
+ 1034 0016 8360     		strmi	r3, [r0, #8]	@ flagtmp, CANx_4(D)->TSR
+ 1035 0018 4360     		strpl	r3, [r0, #4]	@ flagtmp, CANx_4(D)->MSR
+ 1036 001a 7047     		bx	lr	@
+ 1037              	.L198:
+ 1038 001c C360     		str	r3, [r0, #12]	@ flagtmp, CANx_4(D)->RF0R
+ 1039 001e 7047     		bx	lr	@
+ 1040              	.L197:
+ 1041 0020 0023     		movs	r3, #0	@ tmp117,
+ 1042 0022 8361     		str	r3, [r0, #24]	@ tmp117, CANx_4(D)->ESR
+ 1043 0024 7047     		bx	lr	@
+ 1044              	.L199:
+ 1045 0026 0361     		str	r3, [r0, #16]	@ flagtmp, CANx_4(D)->RF1R
+ 1046 0028 7047     		bx	lr	@
+ 1047              	.L201:
+ 1048 002a 00BF     		.align	2
+ 1049              	.L200:
+ 1050 002c 7000F030 		.word	821035120
+ 1052              		.section	.text.CAN_GetITStatus,"ax",%progbits
+ 1053              		.align	2
+ 1054              		.global	CAN_GetITStatus
+ 1055              		.thumb
+ 1056              		.thumb_func
+ 1058              	CAN_GetITStatus:
+ 1059              		@ args = 0, pretend = 0, frame = 0
+ 1060              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1061              		@ link register save eliminated.
+ 1062 0000 4369     		ldr	r3, [r0, #20]	@ D.7499, CANx_3(D)->IER
+ 1063 0002 0B40     		ands	r3, r1, r3	@ D.7499, CAN_IT, D.7499
+ 1064 0004 1ED0     		beq	.L221	@,
+ 1065 0006 4029     		cmp	r1, #64	@ CAN_IT,
+ 1066 0008 67D0     		beq	.L204	@,
+ 1067 000a 0ED9     		bls	.L223	@,
+ 1068 000c B1F5006F 		cmp	r1, #2048	@ CAN_IT,
+ 1069 0010 5CD0     		beq	.L213	@,
+ 1070 0012 19D8     		bhi	.L214	@,
+ 1071 0014 B1F5007F 		cmp	r1, #512	@ CAN_IT,
+ 1072 0018 50D0     		beq	.L215	@,
+ 1073 001a B1F5806F 		cmp	r1, #1024	@ CAN_IT,
+ 1074 001e 37D0     		beq	.L216	@,
+ 1075 0020 B1F5807F 		cmp	r1, #256	@ CAN_IT,
+ 1076 0024 27D0     		beq	.L224	@,
+ 1077              	.L222:
+ 1078 0026 0020     		movs	r0, #0	@ itstatus,
+ 1079 0028 7047     		bx	lr	@
+ 1080              	.L223:
+ 1081 002a 0429     		cmp	r1, #4	@ CAN_IT,
+ 1082 002c 4AD0     		beq	.L206	@,
+ 1083 002e 18D9     		bls	.L225	@,
+ 1084 0030 1029     		cmp	r1, #16	@ CAN_IT,
+ 1085 0032 3DD0     		beq	.L210	@,
+ 1086 0034 2029     		cmp	r1, #32	@ CAN_IT,
+ 1087 0036 37D0     		beq	.L211	@,
+ 1088 0038 0829     		cmp	r1, #8	@ CAN_IT,
+ 1089 003a F4D1     		bne	.L222	@,
+ 1090 003c C068     		ldr	r0, [r0, #12]	@ D.7499, CANx_3(D)->RF0R
+ 1091 003e C0F30010 		ubfx	r0, r0, #4, #1	@ itstatus, D.7499,,
+ 1092 0042 7047     		bx	lr	@
+ 1093              	.L221:
+ 1094 0044 1846     		mov	r0, r3	@ itstatus, D.7499
+ 1095 0046 7047     		bx	lr	@
+ 1096              	.L214:
+ 1097 0048 B1F5803F 		cmp	r1, #65536	@ CAN_IT,
+ 1098 004c 24D0     		beq	.L218	@,
+ 1099 004e B1F5003F 		cmp	r1, #131072	@ CAN_IT,
+ 1100 0052 25D0     		beq	.L219	@,
+ 1101 0054 B1F5004F 		cmp	r1, #32768	@ CAN_IT,
+ 1102 0058 E5D1     		bne	.L222	@,
+ 1103 005a 4068     		ldr	r0, [r0, #4]	@ D.7499, CANx_3(D)->MSR
+ 1104 005c C0F38000 		ubfx	r0, r0, #2, #1	@ itstatus, D.7499,,
+ 1105 0060 7047     		bx	lr	@
+ 1106              	.L225:
+ 1107 0062 0129     		cmp	r1, #1	@ CAN_IT,
+ 1108 0064 0BD0     		beq	.L208	@,
+ 1109 0066 0229     		cmp	r1, #2	@ CAN_IT,
+ 1110 0068 DDD1     		bne	.L222	@,
+ 1111 006a C068     		ldr	r0, [r0, #12]	@ D.7499, CANx_3(D)->RF0R
+ 1112 006c 10F00300 		ands	r0, r0, #3	@ itstatus, D.7499,
+ 1113 0070 18BF     		it	ne	@
+ 1114 0072 0120     		movne	r0, #1	@, itstatus,
+ 1115 0074 7047     		bx	lr	@
+ 1116              	.L224:
+ 1117 0076 8069     		ldr	r0, [r0, #24]	@ D.7499, CANx_3(D)->ESR
+ 1118 0078 00F00100 		and	r0, r0, #1	@ itstatus, D.7499,
+ 1119 007c 7047     		bx	lr	@
+ 1120              	.L208:
+ 1121 007e 8068     		ldr	r0, [r0, #8]	@ D.7499, CANx_3(D)->TSR
+ 1122 0080 00F00130 		and	r0, r0, #16843009	@ D.7499, D.7499,
+ 1123 0084 20F08070 		bic	r0, r0, #16777216	@ D.7499, D.7499,
+ 1124 0088 0030     		adds	r0, r0, #0	@ itstatus, D.7499,
+ 1125 008a 18BF     		it	ne
+ 1126 008c 0120     		movne	r0, #1	@ itstatus,
+ 1127 008e 7047     		bx	lr	@
+ 1128              	.L216:
+ 1129 0090 8069     		ldr	r0, [r0, #24]	@ D.7499, CANx_3(D)->ESR
+ 1130 0092 C0F38000 		ubfx	r0, r0, #2, #1	@ itstatus, D.7499,,
+ 1131 0096 7047     		bx	lr	@
+ 1132              	.L218:
+ 1133 0098 4068     		ldr	r0, [r0, #4]	@ D.7499, CANx_3(D)->MSR
+ 1134 009a C0F3C000 		ubfx	r0, r0, #3, #1	@ itstatus, D.7499,,
+ 1135 009e 7047     		bx	lr	@
+ 1136              	.L219:
+ 1137 00a0 4068     		ldr	r0, [r0, #4]	@ D.7499, CANx_3(D)->MSR
+ 1138 00a2 C0F30010 		ubfx	r0, r0, #4, #1	@ itstatus, D.7499,,
+ 1139 00a6 7047     		bx	lr	@
+ 1140              	.L211:
+ 1141 00a8 0069     		ldr	r0, [r0, #16]	@ D.7499, CANx_3(D)->RF1R
+ 1142 00aa C0F3C000 		ubfx	r0, r0, #3, #1	@ itstatus, D.7499,,
+ 1143 00ae 7047     		bx	lr	@
+ 1144              	.L210:
+ 1145 00b0 0069     		ldr	r0, [r0, #16]	@ D.7499, CANx_3(D)->RF1R
+ 1146 00b2 10F00300 		ands	r0, r0, #3	@ itstatus, D.7499,
+ 1147 00b6 18BF     		it	ne	@
+ 1148 00b8 0120     		movne	r0, #1	@, itstatus,
+ 1149 00ba 7047     		bx	lr	@
+ 1150              	.L215:
+ 1151 00bc 8069     		ldr	r0, [r0, #24]	@ D.7499, CANx_3(D)->ESR
+ 1152 00be C0F34000 		ubfx	r0, r0, #1, #1	@ itstatus, D.7499,,
+ 1153 00c2 7047     		bx	lr	@
+ 1154              	.L206:
+ 1155 00c4 C068     		ldr	r0, [r0, #12]	@ D.7499, CANx_3(D)->RF0R
+ 1156 00c6 C0F3C000 		ubfx	r0, r0, #3, #1	@ itstatus, D.7499,,
+ 1157 00ca 7047     		bx	lr	@
+ 1158              	.L213:
+ 1159 00cc 8369     		ldr	r3, [r0, #24]	@ D.7499, CANx_3(D)->ESR
+ 1160 00ce 13F0700F 		tst	r3, #112	@ D.7499,
+ 1161 00d2 0CBF     		ite	eq	@
+ 1162 00d4 0020     		moveq	r0, #0	@, itstatus
+ 1163 00d6 0120     		movne	r0, #1	@, itstatus
+ 1164 00d8 7047     		bx	lr	@
+ 1165              	.L204:
+ 1166 00da 0069     		ldr	r0, [r0, #16]	@ D.7499, CANx_3(D)->RF1R
+ 1167 00dc C0F30010 		ubfx	r0, r0, #4, #1	@ itstatus, D.7499,,
+ 1168 00e0 7047     		bx	lr	@
+ 1170 00e2 00BF     		.section	.text.CAN_ClearITPendingBit,"ax",%progbits
+ 1171              		.align	2
+ 1172              		.global	CAN_ClearITPendingBit
+ 1173              		.thumb
+ 1174              		.thumb_func
+ 1176              	CAN_ClearITPendingBit:
+ 1177              		@ args = 0, pretend = 0, frame = 0
+ 1178              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1179              		@ link register save eliminated.
+ 1180 0000 B1F5807F 		cmp	r1, #256	@ CAN_IT,
+ 1181 0004 1ED0     		beq	.L239	@,
+ 1182 0006 0DD9     		bls	.L243	@,
+ 1183 0008 B1F5006F 		cmp	r1, #2048	@ CAN_IT,
+ 1184 000c 24D0     		beq	.L242	@,
+ 1185 000e 13D9     		bls	.L244	@,
+ 1186 0010 B1F5803F 		cmp	r1, #65536	@ CAN_IT,
+ 1187 0014 25D0     		beq	.L240	@,
+ 1188 0016 B1F5003F 		cmp	r1, #131072	@ CAN_IT,
+ 1189 001a 2ED0     		beq	.L241	@,
+ 1190 001c B1F5004F 		cmp	r1, #32768	@ CAN_IT,
+ 1191 0020 1AD0     		beq	.L242	@,
+ 1192 0022 7047     		bx	lr	@
+ 1193              	.L243:
+ 1194 0024 0829     		cmp	r1, #8	@ CAN_IT,
+ 1195 0026 1FD0     		beq	.L230	@,
+ 1196 0028 0FD9     		bls	.L245	@,
+ 1197 002a 2029     		cmp	r1, #32	@ CAN_IT,
+ 1198 002c 22D0     		beq	.L234	@,
+ 1199 002e 4029     		cmp	r1, #64	@ CAN_IT,
+ 1200 0030 27D1     		bne	.L246	@,
+ 1201 0032 1023     		movs	r3, #16	@ tmp116,
+ 1202 0034 0361     		str	r3, [r0, #16]	@ tmp116,
+ 1203 0036 7047     		bx	lr	@
+ 1204              	.L244:
+ 1205 0038 B1F5007F 		cmp	r1, #512	@ CAN_IT,
+ 1206 003c 02D0     		beq	.L239	@,
+ 1207 003e B1F5806F 		cmp	r1, #1024	@ CAN_IT,
+ 1208 0042 1DD1     		bne	.L247	@,
+ 1209              	.L239:
+ 1210 0044 0423     		movs	r3, #4	@ tmp121,
+ 1211 0046 4360     		str	r3, [r0, #4]	@ tmp121,
+ 1212 0048 7047     		bx	lr	@
+ 1213              	.L245:
+ 1214 004a 0129     		cmp	r1, #1	@ CAN_IT,
+ 1215 004c 0FD0     		beq	.L232	@,
+ 1216 004e 0429     		cmp	r1, #4	@ CAN_IT,
+ 1217 0050 18D1     		bne	.L248	@,
+ 1218 0052 0823     		movs	r3, #8	@ tmp113,
+ 1219 0054 C360     		str	r3, [r0, #12]	@ tmp113,
+ 1220 0056 7047     		bx	lr	@
+ 1221              	.L242:
+ 1222 0058 0022     		movs	r2, #0	@ tmp124,
+ 1223 005a 0423     		movs	r3, #4	@ tmp125,
+ 1224 005c 8261     		str	r2, [r0, #24]	@ tmp124,
+ 1225 005e 4360     		str	r3, [r0, #4]	@ tmp125,
+ 1226 0060 7047     		bx	lr	@
+ 1227              	.L240:
+ 1228 0062 0823     		movs	r3, #8	@ tmp117,
+ 1229 0064 4360     		str	r3, [r0, #4]	@ tmp117,
+ 1230 0066 7047     		bx	lr	@
+ 1231              	.L230:
+ 1232 0068 1023     		movs	r3, #16	@ tmp114,
+ 1233 006a C360     		str	r3, [r0, #12]	@ tmp114,
+ 1234 006c 7047     		bx	lr	@
+ 1235              	.L232:
+ 1236 006e 064B     		ldr	r3, .L249	@ tmp112,
+ 1237 0070 8360     		str	r3, [r0, #8]	@ tmp112, CANx_4(D)->TSR
+ 1238 0072 7047     		bx	lr	@
+ 1239              	.L234:
+ 1240 0074 0823     		movs	r3, #8	@ tmp115,
+ 1241 0076 0361     		str	r3, [r0, #16]	@ tmp115,
+ 1242 0078 7047     		bx	lr	@
+ 1243              	.L241:
+ 1244 007a 1023     		movs	r3, #16	@ tmp118,
+ 1245 007c 4360     		str	r3, [r0, #4]	@ tmp118,
+ 1246 007e 7047     		bx	lr	@
+ 1247              	.L247:
+ 1248 0080 7047     		bx	lr	@
+ 1249              	.L246:
+ 1250 0082 7047     		bx	lr	@
+ 1251              	.L248:
+ 1252 0084 7047     		bx	lr	@
+ 1253              	.L250:
+ 1254 0086 00BF     		.align	2
+ 1255              	.L249:
+ 1256 0088 01010100 		.word	65793
+ 1258              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f10x_can.c
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:79     .text.CAN_DeInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:84     .text.CAN_DeInit:00000000 CAN_DeInit
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:109    .text.CAN_DeInit:00000038 $d
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:112    .text.CAN_Init:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:117    .text.CAN_Init:00000000 CAN_Init
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:225    .text.CAN_FilterInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:230    .text.CAN_FilterInit:00000000 CAN_FilterInit
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:335    .text.CAN_FilterInit:000000f0 $d
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:338    .text.CAN_StructInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:343    .text.CAN_StructInit:00000000 CAN_StructInit
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:367    .text.CAN_SlaveStartBank:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:372    .text.CAN_SlaveStartBank:00000000 CAN_SlaveStartBank
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:394    .text.CAN_SlaveStartBank:00000038 $d
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:397    .text.CAN_DBGFreeze:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:402    .text.CAN_DBGFreeze:00000000 CAN_DBGFreeze
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:417    .text.CAN_TTComModeCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:422    .text.CAN_TTComModeCmd:00000000 CAN_TTComModeCmd
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:455    .text.CAN_Transmit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:460    .text.CAN_Transmit:00000000 CAN_Transmit
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:551    .text.CAN_TransmitStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:556    .text.CAN_TransmitStatus:00000000 CAN_TransmitStatus
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:603    .text.CAN_TransmitStatus:00000044 $d
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:608    .text.CAN_CancelTransmit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:613    .text.CAN_CancelTransmit:00000000 CAN_CancelTransmit
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:640    .text.CAN_Receive:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:645    .text.CAN_Receive:00000000 CAN_Receive
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:712    .text.CAN_FIFORelease:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:717    .text.CAN_FIFORelease:00000000 CAN_FIFORelease
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:733    .text.CAN_MessagePending:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:738    .text.CAN_MessagePending:00000000 CAN_MessagePending
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:757    .text.CAN_OperatingModeRequest:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:762    .text.CAN_OperatingModeRequest:00000000 CAN_OperatingModeRequest
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:850    .text.CAN_Sleep:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:855    .text.CAN_Sleep:00000000 CAN_Sleep
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:871    .text.CAN_WakeUp:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:876    .text.CAN_WakeUp:00000000 CAN_WakeUp
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:902    .text.CAN_GetLastErrorCode:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:907    .text.CAN_GetLastErrorCode:00000000 CAN_GetLastErrorCode
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:916    .text.CAN_GetReceiveErrorCounter:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:921    .text.CAN_GetReceiveErrorCounter:00000000 CAN_GetReceiveErrorCounter
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:930    .text.CAN_GetLSBTransmitErrorCounter:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:935    .text.CAN_GetLSBTransmitErrorCounter:00000000 CAN_GetLSBTransmitErrorCounter
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:944    .text.CAN_ITConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:949    .text.CAN_ITConfig:00000000 CAN_ITConfig
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:964    .text.CAN_GetFlagStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:969    .text.CAN_GetFlagStatus:00000000 CAN_GetFlagStatus
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:1015   .text.CAN_ClearFlag:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:1020   .text.CAN_ClearFlag:00000000 CAN_ClearFlag
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:1050   .text.CAN_ClearFlag:0000002c $d
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:1053   .text.CAN_GetITStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:1058   .text.CAN_GetITStatus:00000000 CAN_GetITStatus
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:1171   .text.CAN_ClearITPendingBit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:1176   .text.CAN_ClearITPendingBit:00000000 CAN_ClearITPendingBit
+C:\Users\Chris\AppData\Local\Temp\ccnkRPKE.s:1256   .text.CAN_ClearITPendingBit:00000088 $d
+
+UNDEFINED SYMBOLS
+RCC_APB1PeriphResetCmd

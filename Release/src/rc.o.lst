@@ -1,0 +1,712 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"rc.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/rc.d -MF src/rc.d -MP -MT src/rc.d -D__USES_INITFINI__
+  31              	@ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER ../src/rc.c -mcpu=cortex-m3
+  32              	@ -mthumb -auxbase-strip src/rc.o -O2 -Wall -Wextra -Wstrict-prototypes
+  33              	@ -std=gnu99 -ffunction-sections -fdata-sections
+  34              	@ -fsingle-precision-constant -fverbose-asm
+  35              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  36              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  37              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  38              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  39              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  40              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  41              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  42              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  43              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  44              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  45              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  46              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  47              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  48              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  49              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  50              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  51              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  52              	@ -freorder-functions -frerun-cse-after-loop
+  53              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  54              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  55              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  56              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  57              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  58              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  59              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  60              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  61              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  62              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  63              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  64              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  65              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  66              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  67              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  68              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  69              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  70              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  71              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  72              	@ -munaligned-access -mvectorize-with-neon-quad
+  73              	
+  74              		.section	.text.Timer3_Config,"ax",%progbits
+  75              		.align	2
+  76              		.global	Timer3_Config
+  77              		.thumb
+  78              		.thumb_func
+  80              	Timer3_Config:
+  81              		@ args = 0, pretend = 0, frame = 16
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83 0000 30B5     		push	{r4, r5, lr}	@
+  84 0002 0C4C     		ldr	r4, .L2	@ tmp118,
+  85 0004 85B0     		sub	sp, sp, #20	@,,
+  86 0006 0023     		movs	r3, #0	@ tmp113,
+  87 0008 4FF6FF72 		movw	r2, #65535	@ tmp115,
+  88 000c 2046     		mov	r0, r4	@, tmp118
+  89 000e 01A9     		add	r1, sp, #4	@,,
+  90 0010 4725     		movs	r5, #71	@ tmp111,
+  91 0012 ADF80630 		strh	r3, [sp, #6]	@ movhi	@ tmp113, TIM_TimeBaseInitStructure.TIM_CounterMode
+  92 0016 ADF80A30 		strh	r3, [sp, #10]	@ movhi	@ tmp113, TIM_TimeBaseInitStructure.TIM_ClockDivision
+  93 001a ADF80820 		strh	r2, [sp, #8]	@ movhi	@ tmp115, TIM_TimeBaseInitStructure.TIM_Period
+  94 001e ADF80450 		strh	r5, [sp, #4]	@ movhi	@ tmp111, TIM_TimeBaseInitStructure.TIM_Prescaler
+  95 0022 FFF7FEFF 		bl	TIM_TimeBaseInit	@
+  96 0026 2046     		mov	r0, r4	@, tmp118
+  97 0028 0121     		movs	r1, #1	@,
+  98 002a FFF7FEFF 		bl	TIM_Cmd	@
+  99 002e 05B0     		add	sp, sp, #20	@,,
+ 100              		@ sp needed	@
+ 101 0030 30BD     		pop	{r4, r5, pc}	@
+ 102              	.L3:
+ 103 0032 00BF     		.align	2
+ 104              	.L2:
+ 105 0034 00040040 		.word	1073742848
+ 107              		.section	.text.RC_Config,"ax",%progbits
+ 108              		.align	2
+ 109              		.global	RC_Config
+ 110              		.thumb
+ 111              		.thumb_func
+ 113              	RC_Config:
+ 114              		@ args = 0, pretend = 0, frame = 16
+ 115              		@ frame_needed = 0, uses_anonymous_args = 0
+ 116 0000 30B5     		push	{r4, r5, lr}	@
+ 117 0002 85B0     		sub	sp, sp, #20	@,,
+ 118              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 119 0004 72B6     		cpsid i
+ 120              	@ 0 "" 2
+ 121              		.thumb
+ 122 0006 0424     		movs	r4, #4	@ tmp113,
+ 123 0008 2A48     		ldr	r0, .L5	@,
+ 124 000a 0121     		movs	r1, #1	@,
+ 125 000c FFF7FEFF 		bl	GPIO_PinRemapConfig	@
+ 126 0010 0325     		movs	r5, #3	@ tmp115,
+ 127 0012 0DEB0401 		add	r1, sp, r4	@,,
+ 128 0016 4FF40043 		mov	r3, #32768	@ tmp112,
+ 129 001a 2748     		ldr	r0, .L5+4	@,
+ 130 001c ADF80430 		strh	r3, [sp, #4]	@ movhi	@ tmp112, GPIO_InitStructure.GPIO_Pin
+ 131 0020 8DF80740 		strb	r4, [sp, #7]	@ tmp113, GPIO_InitStructure.GPIO_Mode
+ 132 0024 8DF80650 		strb	r5, [sp, #6]	@ tmp115, GPIO_InitStructure.GPIO_Speed
+ 133 0028 FFF7FEFF 		bl	GPIO_Init	@
+ 134 002c 1822     		movs	r2, #24	@ tmp120,
+ 135 002e 2823     		movs	r3, #40	@ tmp121,
+ 136 0030 0DEB0401 		add	r1, sp, r4	@,,
+ 137 0034 2148     		ldr	r0, .L5+8	@,
+ 138 0036 ADF80420 		strh	r2, [sp, #4]	@ movhi	@ tmp120, GPIO_InitStructure.GPIO_Pin
+ 139 003a 8DF80730 		strb	r3, [sp, #7]	@ tmp121, GPIO_InitStructure.GPIO_Mode
+ 140 003e 8DF80650 		strb	r5, [sp, #6]	@ tmp115, GPIO_InitStructure.GPIO_Speed
+ 141 0042 FFF7FEFF 		bl	GPIO_Init	@
+ 142 0046 0DEB0401 		add	r1, sp, r4	@,,
+ 143 004a 1D48     		ldr	r0, .L5+12	@,
+ 144 004c ADF80440 		strh	r4, [sp, #4]	@ movhi	@ tmp113, GPIO_InitStructure.GPIO_Pin
+ 145 0050 FFF7FEFF 		bl	GPIO_Init	@
+ 146 0054 2946     		mov	r1, r5	@, tmp115
+ 147 0056 0120     		movs	r0, #1	@,
+ 148 0058 FFF7FEFF 		bl	GPIO_EXTILineConfig	@
+ 149 005c 2146     		mov	r1, r4	@, tmp113
+ 150 005e 0120     		movs	r0, #1	@,
+ 151 0060 FFF7FEFF 		bl	GPIO_EXTILineConfig	@
+ 152 0064 0220     		movs	r0, #2	@,
+ 153 0066 0146     		mov	r1, r0	@,
+ 154 0068 FFF7FEFF 		bl	GPIO_EXTILineConfig	@
+ 155 006c 1C24     		movs	r4, #28	@ tmp131,
+ 156 006e 0021     		movs	r1, #0	@ tmp132,
+ 157 0070 1022     		movs	r2, #16	@ tmp134,
+ 158 0072 0123     		movs	r3, #1	@ tmp136,
+ 159 0074 02A8     		add	r0, sp, #8	@,,
+ 160 0076 8DF80C10 		strb	r1, [sp, #12]	@ tmp132, EXTI_InitStructure.EXTI_Mode
+ 161 007a 8DF80D20 		strb	r2, [sp, #13]	@ tmp134, EXTI_InitStructure.EXTI_Trigger
+ 162 007e 8DF80E30 		strb	r3, [sp, #14]	@ tmp136, EXTI_InitStructure.EXTI_LineCmd
+ 163 0082 0294     		str	r4, [sp, #8]	@ tmp131, EXTI_InitStructure.EXTI_Line
+ 164 0084 FFF7FEFF 		bl	EXTI_Init	@
+ 165 0088 2046     		mov	r0, r4	@, tmp131
+ 166 008a FFF7FEFF 		bl	EXTI_GenerateSWInterrupt	@
+ 167 008e 2046     		mov	r0, r4	@, tmp131
+ 168 0090 FFF7FEFF 		bl	EXTI_ClearITPendingBit	@
+ 169 0094 0B4B     		ldr	r3, .L5+16	@ tmp139,
+ 170 0096 4FF40070 		mov	r0, #512	@ tmp140,
+ 171 009a 4FF48061 		mov	r1, #1024	@ tmp142,
+ 172 009e 4FF48072 		mov	r2, #256	@ tmp144,
+ 173 00a2 1860     		str	r0, [r3]	@ tmp140, MEM[(struct NVIC_Type *)3758153984B].ISER
+ 174 00a4 1960     		str	r1, [r3]	@ tmp142, MEM[(struct NVIC_Type *)3758153984B].ISER
+ 175 00a6 1A60     		str	r2, [r3]	@ tmp144, MEM[(struct NVIC_Type *)3758153984B].ISER
+ 176 00a8 FFF7FEFF 		bl	Timer3_Config	@
+ 177              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 178 00ac 62B6     		cpsie i
+ 179              	@ 0 "" 2
+ 180              		.thumb
+ 181 00ae 05B0     		add	sp, sp, #20	@,,
+ 182              		@ sp needed	@
+ 183 00b0 30BD     		pop	{r4, r5, pc}	@
+ 184              	.L6:
+ 185 00b2 00BF     		.align	2
+ 186              	.L5:
+ 187 00b4 00023000 		.word	3146240
+ 188 00b8 00080140 		.word	1073809408
+ 189 00bc 000C0140 		.word	1073810432
+ 190 00c0 00100140 		.word	1073811456
+ 191 00c4 00E100E0 		.word	-536813312
+ 193              		.section	.text.GetAUX3,"ax",%progbits
+ 194              		.align	2
+ 195              		.global	GetAUX3
+ 196              		.thumb
+ 197              		.thumb_func
+ 199              	GetAUX3:
+ 200              		@ args = 0, pretend = 0, frame = 0
+ 201              		@ frame_needed = 0, uses_anonymous_args = 0
+ 202              		@ link register save eliminated.
+ 203 0000 014B     		ldr	r3, .L8	@ tmp113,
+ 204 0002 1868     		ldr	r0, [r3]	@, rc3
+ 205 0004 7047     		bx	lr	@
+ 206              	.L9:
+ 207 0006 00BF     		.align	2
+ 208              	.L8:
+ 209 0008 00000000 		.word	.LANCHOR0
+ 211              		.section	.text.EXTI3_IRQHandler,"ax",%progbits
+ 212              		.align	2
+ 213              		.global	EXTI3_IRQHandler
+ 214              		.thumb
+ 215              		.thumb_func
+ 217              	EXTI3_IRQHandler:
+ 218              		@ args = 0, pretend = 0, frame = 0
+ 219              		@ frame_needed = 0, uses_anonymous_args = 0
+ 220 0000 1B4B     		ldr	r3, .L23	@ tmp124,
+ 221 0002 10B5     		push	{r4, lr}	@
+ 222 0004 5B69     		ldr	r3, [r3, #20]	@ D.6866, MEM[(struct EXTI_TypeDef *)1073808384B].PR
+ 223 0006 1807     		lsls	r0, r3, #28	@, D.6866,
+ 224 0008 00D4     		bmi	.L22	@,
+ 225 000a 10BD     		pop	{r4, pc}	@
+ 226              	.L22:
+ 227 000c 3320     		movs	r0, #51	@,
+ 228 000e FFF7FEFF 		bl	DEBUG_PutChar	@
+ 229 0012 1848     		ldr	r0, .L23+4	@,
+ 230 0014 0821     		movs	r1, #8	@,
+ 231 0016 FFF7FEFF 		bl	GPIO_ReadInputDataBit	@
+ 232 001a 0128     		cmp	r0, #1	@,
+ 233 001c 22D0     		beq	.L20	@,
+ 234 001e 164C     		ldr	r4, .L23+8	@ tmp151,
+ 235              	.L12:
+ 236 0020 1448     		ldr	r0, .L23+4	@,
+ 237 0022 0821     		movs	r1, #8	@,
+ 238 0024 FFF7FEFF 		bl	GPIO_ReadInputDataBit	@
+ 239 0028 B0B1     		cbz	r0, .L13	@,
+ 240 002a 144B     		ldr	r3, .L23+12	@ tmp135,
+ 241 002c 1B88     		ldrh	r3, [r3]	@ D.6868, rc3b
+ 242              	.L14:
+ 243 002e 2188     		ldrh	r1, [r4]	@, rc3a
+ 244 0030 40F2E632 		movw	r2, #998	@ tmp146,
+ 245 0034 5B1A     		subs	r3, r3, r1	@ tmp143, D.6868, rc3a
+ 246 0036 9BB2     		uxth	r3, r3	@ diff, tmp143
+ 247 0038 6FF47A71 		mvn	r1, #1000	@,
+ 248 003c 5918     		adds	r1, r3, r1	@ tmp144, diff,
+ 249 003e 89B2     		uxth	r1, r1	@ tmp145, tmp144
+ 250 0040 9142     		cmp	r1, r2	@ tmp145, tmp146
+ 251 0042 03D8     		bhi	.L15	@,
+ 252 0044 0E4A     		ldr	r2, .L23+16	@ tmp147,
+ 253 0046 A3F57A73 		sub	r3, r3, #1000	@ rc3.5, diff,
+ 254 004a 1360     		str	r3, [r2]	@ rc3.5, rc3
+ 255              	.L15:
+ 256 004c 084B     		ldr	r3, .L23	@ tmp149,
+ 257 004e 5A69     		ldr	r2, [r3, #20]	@ D.6866, MEM[(struct EXTI_TypeDef *)1073808384B].PR
+ 258 0050 42F00802 		orr	r2, r2, #8	@ D.6866, D.6866,
+ 259 0054 5A61     		str	r2, [r3, #20]	@ D.6866, MEM[(struct EXTI_TypeDef *)1073808384B].PR
+ 260 0056 10BD     		pop	{r4, pc}	@
+ 261              	.L13:
+ 262 0058 0A4B     		ldr	r3, .L23+20	@ tmp136,
+ 263 005a 084A     		ldr	r2, .L23+12	@ tmp139,
+ 264 005c 9B8C     		ldrh	r3, [r3, #36]	@, MEM[(struct TIM_TypeDef *)1073742848B].CNT
+ 265 005e 9BB2     		uxth	r3, r3	@ rc3b.2, MEM[(struct TIM_TypeDef *)1073742848B].CNT
+ 266 0060 1380     		strh	r3, [r2]	@ movhi	@ rc3b.2, rc3b
+ 267 0062 E4E7     		b	.L14	@
+ 268              	.L20:
+ 269 0064 074B     		ldr	r3, .L23+20	@ tmp128,
+ 270 0066 044C     		ldr	r4, .L23+8	@ tmp151,
+ 271 0068 9B8C     		ldrh	r3, [r3, #36]	@, MEM[(struct TIM_TypeDef *)1073742848B].CNT
+ 272 006a 2380     		strh	r3, [r4]	@ movhi	@ MEM[(struct TIM_TypeDef *)1073742848B].CNT, rc3a
+ 273 006c D8E7     		b	.L12	@
+ 274              	.L24:
+ 275 006e 00BF     		.align	2
+ 276              	.L23:
+ 277 0070 00040140 		.word	1073808384
+ 278 0074 000C0140 		.word	1073810432
+ 279 0078 00000000 		.word	.LANCHOR1
+ 280 007c 00000000 		.word	.LANCHOR2
+ 281 0080 00000000 		.word	.LANCHOR0
+ 282 0084 00040040 		.word	1073742848
+ 284              		.section	.text.GetAUX2,"ax",%progbits
+ 285              		.align	2
+ 286              		.global	GetAUX2
+ 287              		.thumb
+ 288              		.thumb_func
+ 290              	GetAUX2:
+ 291              		@ args = 0, pretend = 0, frame = 0
+ 292              		@ frame_needed = 0, uses_anonymous_args = 0
+ 293              		@ link register save eliminated.
+ 294 0000 014B     		ldr	r3, .L26	@ tmp113,
+ 295 0002 1868     		ldr	r0, [r3]	@, rc2
+ 296 0004 7047     		bx	lr	@
+ 297              	.L27:
+ 298 0006 00BF     		.align	2
+ 299              	.L26:
+ 300 0008 00000000 		.word	.LANCHOR3
+ 302              		.section	.text.EXTI2_IRQHandler,"ax",%progbits
+ 303              		.align	2
+ 304              		.global	EXTI2_IRQHandler
+ 305              		.thumb
+ 306              		.thumb_func
+ 308              	EXTI2_IRQHandler:
+ 309              		@ args = 0, pretend = 0, frame = 0
+ 310              		@ frame_needed = 0, uses_anonymous_args = 0
+ 311 0000 1B4B     		ldr	r3, .L40	@ tmp124,
+ 312 0002 10B5     		push	{r4, lr}	@
+ 313 0004 5B69     		ldr	r3, [r3, #20]	@ D.6875, MEM[(struct EXTI_TypeDef *)1073808384B].PR
+ 314 0006 5807     		lsls	r0, r3, #29	@, D.6875,
+ 315 0008 00D4     		bmi	.L39	@,
+ 316 000a 10BD     		pop	{r4, pc}	@
+ 317              	.L39:
+ 318 000c 3220     		movs	r0, #50	@,
+ 319 000e FFF7FEFF 		bl	DEBUG_PutChar	@
+ 320 0012 1848     		ldr	r0, .L40+4	@,
+ 321 0014 0421     		movs	r1, #4	@,
+ 322 0016 FFF7FEFF 		bl	GPIO_ReadInputDataBit	@
+ 323 001a 0128     		cmp	r0, #1	@,
+ 324 001c 22D0     		beq	.L38	@,
+ 325 001e 164C     		ldr	r4, .L40+8	@ tmp151,
+ 326              	.L30:
+ 327 0020 1448     		ldr	r0, .L40+4	@,
+ 328 0022 0421     		movs	r1, #4	@,
+ 329 0024 FFF7FEFF 		bl	GPIO_ReadInputDataBit	@
+ 330 0028 B0B1     		cbz	r0, .L31	@,
+ 331 002a 144B     		ldr	r3, .L40+12	@ tmp135,
+ 332 002c 1B88     		ldrh	r3, [r3]	@ D.6877, rc2b
+ 333              	.L32:
+ 334 002e 2188     		ldrh	r1, [r4]	@, rc2a
+ 335 0030 40F2E632 		movw	r2, #998	@ tmp146,
+ 336 0034 5B1A     		subs	r3, r3, r1	@ tmp143, D.6877, rc2a
+ 337 0036 9BB2     		uxth	r3, r3	@ diff, tmp143
+ 338 0038 6FF47A71 		mvn	r1, #1000	@,
+ 339 003c 5918     		adds	r1, r3, r1	@ tmp144, diff,
+ 340 003e 89B2     		uxth	r1, r1	@ tmp145, tmp144
+ 341 0040 9142     		cmp	r1, r2	@ tmp145, tmp146
+ 342 0042 03D8     		bhi	.L33	@,
+ 343 0044 0E4A     		ldr	r2, .L40+16	@ tmp147,
+ 344 0046 A3F57A73 		sub	r3, r3, #1000	@ rc2.10, diff,
+ 345 004a 1360     		str	r3, [r2]	@ rc2.10, rc2
+ 346              	.L33:
+ 347 004c 084B     		ldr	r3, .L40	@ tmp149,
+ 348 004e 5A69     		ldr	r2, [r3, #20]	@ D.6875, MEM[(struct EXTI_TypeDef *)1073808384B].PR
+ 349 0050 42F00402 		orr	r2, r2, #4	@ D.6875, D.6875,
+ 350 0054 5A61     		str	r2, [r3, #20]	@ D.6875, MEM[(struct EXTI_TypeDef *)1073808384B].PR
+ 351 0056 10BD     		pop	{r4, pc}	@
+ 352              	.L31:
+ 353 0058 0A4B     		ldr	r3, .L40+20	@ tmp136,
+ 354 005a 084A     		ldr	r2, .L40+12	@ tmp139,
+ 355 005c 9B8C     		ldrh	r3, [r3, #36]	@, MEM[(struct TIM_TypeDef *)1073742848B].CNT
+ 356 005e 9BB2     		uxth	r3, r3	@ rc2b.7, MEM[(struct TIM_TypeDef *)1073742848B].CNT
+ 357 0060 1380     		strh	r3, [r2]	@ movhi	@ rc2b.7, rc2b
+ 358 0062 E4E7     		b	.L32	@
+ 359              	.L38:
+ 360 0064 074B     		ldr	r3, .L40+20	@ tmp128,
+ 361 0066 044C     		ldr	r4, .L40+8	@ tmp151,
+ 362 0068 9B8C     		ldrh	r3, [r3, #36]	@, MEM[(struct TIM_TypeDef *)1073742848B].CNT
+ 363 006a 2380     		strh	r3, [r4]	@ movhi	@ MEM[(struct TIM_TypeDef *)1073742848B].CNT, rc2a
+ 364 006c D8E7     		b	.L30	@
+ 365              	.L41:
+ 366 006e 00BF     		.align	2
+ 367              	.L40:
+ 368 0070 00040140 		.word	1073808384
+ 369 0074 00100140 		.word	1073811456
+ 370 0078 00000000 		.word	.LANCHOR4
+ 371 007c 00000000 		.word	.LANCHOR5
+ 372 0080 00000000 		.word	.LANCHOR3
+ 373 0084 00040040 		.word	1073742848
+ 375              		.section	.text.GetAUX4,"ax",%progbits
+ 376              		.align	2
+ 377              		.global	GetAUX4
+ 378              		.thumb
+ 379              		.thumb_func
+ 381              	GetAUX4:
+ 382              		@ args = 0, pretend = 0, frame = 0
+ 383              		@ frame_needed = 0, uses_anonymous_args = 0
+ 384              		@ link register save eliminated.
+ 385 0000 014B     		ldr	r3, .L43	@ tmp113,
+ 386 0002 1868     		ldr	r0, [r3]	@, rc4
+ 387 0004 7047     		bx	lr	@
+ 388              	.L44:
+ 389 0006 00BF     		.align	2
+ 390              	.L43:
+ 391 0008 00000000 		.word	.LANCHOR6
+ 393              		.section	.text.EXTI4_IRQHandler,"ax",%progbits
+ 394              		.align	2
+ 395              		.global	EXTI4_IRQHandler
+ 396              		.thumb
+ 397              		.thumb_func
+ 399              	EXTI4_IRQHandler:
+ 400              		@ args = 0, pretend = 0, frame = 0
+ 401              		@ frame_needed = 0, uses_anonymous_args = 0
+ 402 0000 1B4B     		ldr	r3, .L57	@ tmp124,
+ 403 0002 10B5     		push	{r4, lr}	@
+ 404 0004 5B69     		ldr	r3, [r3, #20]	@ D.6884, MEM[(struct EXTI_TypeDef *)1073808384B].PR
+ 405 0006 D806     		lsls	r0, r3, #27	@, D.6884,
+ 406 0008 00D4     		bmi	.L56	@,
+ 407 000a 10BD     		pop	{r4, pc}	@
+ 408              	.L56:
+ 409 000c 3420     		movs	r0, #52	@,
+ 410 000e FFF7FEFF 		bl	DEBUG_PutChar	@
+ 411 0012 1848     		ldr	r0, .L57+4	@,
+ 412 0014 1021     		movs	r1, #16	@,
+ 413 0016 FFF7FEFF 		bl	GPIO_ReadInputDataBit	@
+ 414 001a 0128     		cmp	r0, #1	@,
+ 415 001c 22D0     		beq	.L55	@,
+ 416 001e 164C     		ldr	r4, .L57+8	@ tmp151,
+ 417              	.L47:
+ 418 0020 1448     		ldr	r0, .L57+4	@,
+ 419 0022 1021     		movs	r1, #16	@,
+ 420 0024 FFF7FEFF 		bl	GPIO_ReadInputDataBit	@
+ 421 0028 B0B1     		cbz	r0, .L48	@,
+ 422 002a 144B     		ldr	r3, .L57+12	@ tmp135,
+ 423 002c 1B88     		ldrh	r3, [r3]	@ D.6886, rc4b
+ 424              	.L49:
+ 425 002e 2188     		ldrh	r1, [r4]	@, rc4a
+ 426 0030 40F2E632 		movw	r2, #998	@ tmp146,
+ 427 0034 5B1A     		subs	r3, r3, r1	@ tmp143, D.6886, rc4a
+ 428 0036 9BB2     		uxth	r3, r3	@ diff, tmp143
+ 429 0038 6FF47A71 		mvn	r1, #1000	@,
+ 430 003c 5918     		adds	r1, r3, r1	@ tmp144, diff,
+ 431 003e 89B2     		uxth	r1, r1	@ tmp145, tmp144
+ 432 0040 9142     		cmp	r1, r2	@ tmp145, tmp146
+ 433 0042 03D8     		bhi	.L50	@,
+ 434 0044 0E4A     		ldr	r2, .L57+16	@ tmp147,
+ 435 0046 A3F57A73 		sub	r3, r3, #1000	@ rc4.15, diff,
+ 436 004a 1360     		str	r3, [r2]	@ rc4.15, rc4
+ 437              	.L50:
+ 438 004c 084B     		ldr	r3, .L57	@ tmp149,
+ 439 004e 5A69     		ldr	r2, [r3, #20]	@ D.6884, MEM[(struct EXTI_TypeDef *)1073808384B].PR
+ 440 0050 42F01002 		orr	r2, r2, #16	@ D.6884, D.6884,
+ 441 0054 5A61     		str	r2, [r3, #20]	@ D.6884, MEM[(struct EXTI_TypeDef *)1073808384B].PR
+ 442 0056 10BD     		pop	{r4, pc}	@
+ 443              	.L48:
+ 444 0058 0A4B     		ldr	r3, .L57+20	@ tmp136,
+ 445 005a 084A     		ldr	r2, .L57+12	@ tmp139,
+ 446 005c 9B8C     		ldrh	r3, [r3, #36]	@, MEM[(struct TIM_TypeDef *)1073742848B].CNT
+ 447 005e 9BB2     		uxth	r3, r3	@ rc4b.12, MEM[(struct TIM_TypeDef *)1073742848B].CNT
+ 448 0060 1380     		strh	r3, [r2]	@ movhi	@ rc4b.12, rc4b
+ 449 0062 E4E7     		b	.L49	@
+ 450              	.L55:
+ 451 0064 074B     		ldr	r3, .L57+20	@ tmp128,
+ 452 0066 044C     		ldr	r4, .L57+8	@ tmp151,
+ 453 0068 9B8C     		ldrh	r3, [r3, #36]	@, MEM[(struct TIM_TypeDef *)1073742848B].CNT
+ 454 006a 2380     		strh	r3, [r4]	@ movhi	@ MEM[(struct TIM_TypeDef *)1073742848B].CNT, rc4a
+ 455 006c D8E7     		b	.L47	@
+ 456              	.L58:
+ 457 006e 00BF     		.align	2
+ 458              	.L57:
+ 459 0070 00040140 		.word	1073808384
+ 460 0074 000C0140 		.word	1073810432
+ 461 0078 00000000 		.word	.LANCHOR7
+ 462 007c 00000000 		.word	.LANCHOR8
+ 463 0080 00000000 		.word	.LANCHOR6
+ 464 0084 00040040 		.word	1073742848
+ 466              		.global	__aeabi_fmul
+ 467              		.global	__aeabi_i2f
+ 468              		.global	__aeabi_fsub
+ 469              		.global	__aeabi_fadd
+ 470              		.global	__aeabi_fdiv
+ 471              		.global	__aeabi_fcmpgt
+ 472              		.global	__aeabi_fcmplt
+ 473              		.section	.text.Get_RC_Step,"ax",%progbits
+ 474              		.align	2
+ 475              		.global	Get_RC_Step
+ 476              		.thumb
+ 477              		.thumb_func
+ 479              	Get_RC_Step:
+ 480              		@ args = 0, pretend = 0, frame = 0
+ 481              		@ frame_needed = 0, uses_anonymous_args = 0
+ 482 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}	@
+ 483 0004 464B     		ldr	r3, .L82	@ tmp136,
+ 484 0006 474A     		ldr	r2, .L82+4	@ tmp137,
+ 485 0008 D3F80080 		ldr	r8, [r3]	@ D.6891, rc3
+ 486 000c 464B     		ldr	r3, .L82+8	@ tmp138,
+ 487 000e 0546     		mov	r5, r0	@ Step, Step
+ 488 0010 0C46     		mov	r4, r1	@ RCSmooth, RCSmooth
+ 489 0012 1768     		ldr	r7, [r2]	@ D.6891, rc2
+ 490 0014 1E68     		ldr	r6, [r3]	@ D.6891, rc4
+ 491 0016 B8F1000F 		cmp	r8, #0	@ D.6891
+ 492 001a 69D0     		beq	.L60	@
+ 493 001c 4868     		ldr	r0, [r1, #4]	@ float	@, MEM[(float *)RCSmooth_5(D) + 4B]
+ 494 001e 4349     		ldr	r1, .L82+12	@,
+ 495 0020 FFF7FEFF 		bl	__aeabi_fmul	@
+ 496 0024 8146     		mov	r9, r0	@ D.6890,
+ 497 0026 4046     		mov	r0, r8	@, D.6891
+ 498 0028 FFF7FEFF 		bl	__aeabi_i2f	@
+ 499 002c 4049     		ldr	r1, .L82+16	@,
+ 500 002e FFF7FEFF 		bl	__aeabi_fsub	@
+ 501 0032 0146     		mov	r1, r0	@ D.6890,
+ 502 0034 4846     		mov	r0, r9	@, D.6890
+ 503 0036 FFF7FEFF 		bl	__aeabi_fadd	@
+ 504 003a 3E49     		ldr	r1, .L82+20	@,
+ 505 003c FFF7FEFF 		bl	__aeabi_fdiv	@
+ 506 0040 3D49     		ldr	r1, .L82+24	@,
+ 507 0042 6060     		str	r0, [r4, #4]	@ float	@ tmp143, MEM[(float *)RCSmooth_5(D) + 4B]
+ 508 0044 8046     		mov	r8, r0	@ tmp143,
+ 509 0046 FFF7FEFF 		bl	__aeabi_fcmpgt	@
+ 510 004a 0028     		cmp	r0, #0	@
+ 511 004c 4AD0     		beq	.L78	@
+ 512              	.L61:
+ 513 004e 4046     		mov	r0, r8	@, tmp143
+ 514 0050 3A49     		ldr	r1, .L82+28	@,
+ 515 0052 FFF7FEFF 		bl	__aeabi_fmul	@
+ 516 0056 6860     		str	r0, [r5, #4]	@ float	@, MEM[(float *)Step_13(D) + 4B]
+ 517 0058 002F     		cmp	r7, #0	@ D.6891
+ 518 005a 4DD0     		beq	.L65	@
+ 519              	.L80:
+ 520 005c 3349     		ldr	r1, .L82+12	@,
+ 521 005e 2068     		ldr	r0, [r4]	@ float	@, *RCSmooth_5(D)
+ 522 0060 FFF7FEFF 		bl	__aeabi_fmul	@
+ 523 0064 8046     		mov	r8, r0	@ D.6890,
+ 524 0066 3846     		mov	r0, r7	@, D.6891
+ 525 0068 FFF7FEFF 		bl	__aeabi_i2f	@
+ 526 006c 3049     		ldr	r1, .L82+16	@,
+ 527 006e FFF7FEFF 		bl	__aeabi_fsub	@
+ 528 0072 0146     		mov	r1, r0	@ D.6890,
+ 529 0074 4046     		mov	r0, r8	@, D.6890
+ 530 0076 FFF7FEFF 		bl	__aeabi_fadd	@
+ 531 007a 2E49     		ldr	r1, .L82+20	@,
+ 532 007c FFF7FEFF 		bl	__aeabi_fdiv	@
+ 533 0080 2D49     		ldr	r1, .L82+24	@,
+ 534 0082 2060     		str	r0, [r4]	@ float	@ tmp155, *RCSmooth_5(D)
+ 535 0084 0746     		mov	r7, r0	@ tmp155,
+ 536 0086 FFF7FEFF 		bl	__aeabi_fcmpgt	@
+ 537 008a 0028     		cmp	r0, #0	@
+ 538 008c 3CD0     		beq	.L79	@
+ 539 008e 3846     		mov	r0, r7	@, tmp155
+ 540 0090 2A49     		ldr	r1, .L82+28	@,
+ 541 0092 FFF7FEFF 		bl	__aeabi_fmul	@
+ 542 0096 2860     		str	r0, [r5]	@ float	@, *Step_13(D)
+ 543              	.L69:
+ 544 0098 002E     		cmp	r6, #0	@ D.6891
+ 545 009a 31D0     		beq	.L70	@
+ 546              	.L81:
+ 547 009c 2349     		ldr	r1, .L82+12	@,
+ 548 009e A068     		ldr	r0, [r4, #8]	@ float	@, MEM[(float *)RCSmooth_5(D) + 8B]
+ 549 00a0 FFF7FEFF 		bl	__aeabi_fmul	@
+ 550 00a4 0746     		mov	r7, r0	@ D.6890,
+ 551 00a6 3046     		mov	r0, r6	@, D.6891
+ 552 00a8 FFF7FEFF 		bl	__aeabi_i2f	@
+ 553 00ac 2049     		ldr	r1, .L82+16	@,
+ 554 00ae FFF7FEFF 		bl	__aeabi_fsub	@
+ 555 00b2 0146     		mov	r1, r0	@ D.6890,
+ 556 00b4 3846     		mov	r0, r7	@, D.6890
+ 557 00b6 FFF7FEFF 		bl	__aeabi_fadd	@
+ 558 00ba 1E49     		ldr	r1, .L82+20	@,
+ 559 00bc FFF7FEFF 		bl	__aeabi_fdiv	@
+ 560 00c0 1D49     		ldr	r1, .L82+24	@,
+ 561 00c2 A060     		str	r0, [r4, #8]	@ float	@ tmp167, MEM[(float *)RCSmooth_5(D) + 8B]
+ 562 00c4 0646     		mov	r6, r0	@ tmp167,
+ 563 00c6 FFF7FEFF 		bl	__aeabi_fcmpgt	@
+ 564 00ca 20B9     		cbnz	r0, .L71	@,
+ 565 00cc 3046     		mov	r0, r6	@, tmp167
+ 566 00ce 1C49     		ldr	r1, .L82+32	@,
+ 567 00d0 FFF7FEFF 		bl	__aeabi_fcmplt	@
+ 568 00d4 A0B1     		cbz	r0, .L70	@,
+ 569              	.L71:
+ 570 00d6 3046     		mov	r0, r6	@, tmp167
+ 571 00d8 1849     		ldr	r1, .L82+28	@,
+ 572 00da FFF7FEFF 		bl	__aeabi_fmul	@
+ 573 00de A860     		str	r0, [r5, #8]	@ float	@, MEM[(float *)Step_13(D) + 8B]
+ 574 00e0 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}	@
+ 575              	.L78:
+ 576 00e4 4046     		mov	r0, r8	@, tmp143
+ 577 00e6 1649     		ldr	r1, .L82+32	@,
+ 578 00e8 FFF7FEFF 		bl	__aeabi_fcmplt	@
+ 579 00ec 0028     		cmp	r0, #0	@
+ 580 00ee AED1     		bne	.L61	@
+ 581              	.L60:
+ 582 00f0 0023     		movs	r3, #0	@ tmp150,
+ 583 00f2 6B60     		str	r3, [r5, #4]	@ float	@ tmp150, MEM[(float *)Step_13(D) + 4B]
+ 584 00f4 002F     		cmp	r7, #0	@ D.6891
+ 585 00f6 B1D1     		bne	.L80	@
+ 586              	.L65:
+ 587 00f8 0023     		movs	r3, #0	@ tmp162,
+ 588 00fa 2B60     		str	r3, [r5]	@ float	@ tmp162, *Step_13(D)
+ 589 00fc 002E     		cmp	r6, #0	@ D.6891
+ 590 00fe CDD1     		bne	.L81	@
+ 591              	.L70:
+ 592 0100 0023     		movs	r3, #0	@ tmp174,
+ 593 0102 AB60     		str	r3, [r5, #8]	@ float	@ tmp174, MEM[(float *)Step_13(D) + 8B]
+ 594 0104 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}	@
+ 595              	.L79:
+ 596 0108 3846     		mov	r0, r7	@, tmp155
+ 597 010a 0D49     		ldr	r1, .L82+32	@,
+ 598 010c FFF7FEFF 		bl	__aeabi_fcmplt	@
+ 599 0110 0028     		cmp	r0, #0	@
+ 600 0112 F1D0     		beq	.L65	@
+ 601 0114 3846     		mov	r0, r7	@, tmp155
+ 602 0116 0949     		ldr	r1, .L82+28	@,
+ 603 0118 FFF7FEFF 		bl	__aeabi_fmul	@
+ 604 011c 2860     		str	r0, [r5]	@ float	@, *Step_13(D)
+ 605 011e BBE7     		b	.L69	@
+ 606              	.L83:
+ 607              		.align	2
+ 608              	.L82:
+ 609 0120 00000000 		.word	.LANCHOR0
+ 610 0124 00000000 		.word	.LANCHOR3
+ 611 0128 00000000 		.word	.LANCHOR6
+ 612 012c 00004743 		.word	1128726528
+ 613 0130 0000FA43 		.word	1140457472
+ 614 0134 00004843 		.word	1128792064
+ 615 0138 0000A041 		.word	1101004800
+ 616 013c 6F12033B 		.word	990057071
+ 617 0140 0000A0C1 		.word	-1046478848
+ 619              		.section	.bss.rc4b.6680,"aw",%nobits
+ 620              		.align	1
+ 621              		.set	.LANCHOR8,. + 0
+ 624              	rc4b.6680:
+ 625 0000 0000     		.space	2
+ 626              		.section	.bss.rc2,"aw",%nobits
+ 627              		.align	2
+ 628              		.set	.LANCHOR3,. + 0
+ 631              	rc2:
+ 632 0000 00000000 		.space	4
+ 633              		.section	.bss.rc3,"aw",%nobits
+ 634              		.align	2
+ 635              		.set	.LANCHOR0,. + 0
+ 638              	rc3:
+ 639 0000 00000000 		.space	4
+ 640              		.section	.bss.rc4,"aw",%nobits
+ 641              		.align	2
+ 642              		.set	.LANCHOR6,. + 0
+ 645              	rc4:
+ 646 0000 00000000 		.space	4
+ 647              		.section	.bss.rc2b.6670,"aw",%nobits
+ 648              		.align	1
+ 649              		.set	.LANCHOR5,. + 0
+ 652              	rc2b.6670:
+ 653 0000 0000     		.space	2
+ 654              		.section	.bss.rc4a.6679,"aw",%nobits
+ 655              		.align	1
+ 656              		.set	.LANCHOR7,. + 0
+ 659              	rc4a.6679:
+ 660 0000 0000     		.space	2
+ 661              		.section	.bss.rc3b.6660,"aw",%nobits
+ 662              		.align	1
+ 663              		.set	.LANCHOR2,. + 0
+ 666              	rc3b.6660:
+ 667 0000 0000     		.space	2
+ 668              		.section	.bss.rc2a.6669,"aw",%nobits
+ 669              		.align	1
+ 670              		.set	.LANCHOR4,. + 0
+ 673              	rc2a.6669:
+ 674 0000 0000     		.space	2
+ 675              		.section	.bss.rc3a.6659,"aw",%nobits
+ 676              		.align	1
+ 677              		.set	.LANCHOR1,. + 0
+ 680              	rc3a.6659:
+ 681 0000 0000     		.space	2
+ 682              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 rc.c
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:75     .text.Timer3_Config:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:80     .text.Timer3_Config:00000000 Timer3_Config
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:105    .text.Timer3_Config:00000034 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:108    .text.RC_Config:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:113    .text.RC_Config:00000000 RC_Config
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:187    .text.RC_Config:000000b4 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:194    .text.GetAUX3:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:199    .text.GetAUX3:00000000 GetAUX3
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:209    .text.GetAUX3:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:212    .text.EXTI3_IRQHandler:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:217    .text.EXTI3_IRQHandler:00000000 EXTI3_IRQHandler
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:277    .text.EXTI3_IRQHandler:00000070 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:285    .text.GetAUX2:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:290    .text.GetAUX2:00000000 GetAUX2
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:300    .text.GetAUX2:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:303    .text.EXTI2_IRQHandler:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:308    .text.EXTI2_IRQHandler:00000000 EXTI2_IRQHandler
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:368    .text.EXTI2_IRQHandler:00000070 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:376    .text.GetAUX4:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:381    .text.GetAUX4:00000000 GetAUX4
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:391    .text.GetAUX4:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:394    .text.EXTI4_IRQHandler:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:399    .text.EXTI4_IRQHandler:00000000 EXTI4_IRQHandler
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:459    .text.EXTI4_IRQHandler:00000070 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:474    .text.Get_RC_Step:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:479    .text.Get_RC_Step:00000000 Get_RC_Step
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:609    .text.Get_RC_Step:00000120 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:620    .bss.rc4b.6680:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:624    .bss.rc4b.6680:00000000 rc4b.6680
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:627    .bss.rc2:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:631    .bss.rc2:00000000 rc2
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:634    .bss.rc3:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:638    .bss.rc3:00000000 rc3
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:641    .bss.rc4:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:645    .bss.rc4:00000000 rc4
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:648    .bss.rc2b.6670:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:652    .bss.rc2b.6670:00000000 rc2b.6670
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:655    .bss.rc4a.6679:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:659    .bss.rc4a.6679:00000000 rc4a.6679
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:662    .bss.rc3b.6660:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:666    .bss.rc3b.6660:00000000 rc3b.6660
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:669    .bss.rc2a.6669:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:673    .bss.rc2a.6669:00000000 rc2a.6669
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:676    .bss.rc3a.6659:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cckz69OL.s:680    .bss.rc3a.6659:00000000 rc3a.6659
+
+UNDEFINED SYMBOLS
+TIM_TimeBaseInit
+TIM_Cmd
+GPIO_PinRemapConfig
+GPIO_Init
+GPIO_EXTILineConfig
+EXTI_Init
+EXTI_GenerateSWInterrupt
+EXTI_ClearITPendingBit
+DEBUG_PutChar
+GPIO_ReadInputDataBit
+__aeabi_fmul
+__aeabi_i2f
+__aeabi_fsub
+__aeabi_fadd
+__aeabi_fdiv
+__aeabi_fcmpgt
+__aeabi_fcmplt

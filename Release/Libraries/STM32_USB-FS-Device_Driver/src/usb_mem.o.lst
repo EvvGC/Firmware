@@ -1,0 +1,137 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"usb_mem.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32_USB-FS-Device_Driver/src/usb_mem.d
+  31              	@ -MF Libraries/STM32_USB-FS-Device_Driver/src/usb_mem.d -MP
+  32              	@ -MT Libraries/STM32_USB-FS-Device_Driver/src/usb_mem.d
+  33              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32_USB-FS-Device_Driver/src/usb_mem.c -mcpu=cortex-m3
+  35              	@ -mthumb -auxbase-strip Libraries/STM32_USB-FS-Device_Driver/src/usb_mem.o
+  36              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  37              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  38              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  39              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  40              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  41              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  42              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  43              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  44              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  45              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  46              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  47              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  48              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  49              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  50              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  51              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  52              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  53              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  54              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  55              	@ -freorder-functions -frerun-cse-after-loop
+  56              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  57              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  58              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  59              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  60              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  61              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  62              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  63              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  64              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  65              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  66              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  67              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  68              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  69              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  70              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  71              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  72              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  73              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  74              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  75              	@ -munaligned-access -mvectorize-with-neon-quad
+  76              	
+  77              		.section	.text.UserToPMABufferCopy,"ax",%progbits
+  78              		.align	2
+  79              		.global	UserToPMABufferCopy
+  80              		.thumb
+  81              		.thumb_func
+  83              	UserToPMABufferCopy:
+  84              		@ args = 0, pretend = 0, frame = 0
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86              		@ link register save eliminated.
+  87 0000 01F10051 		add	r1, r1, #536870912	@ D.7014, wPMABufAddr,
+  88 0004 0132     		adds	r2, r2, #1	@ D.7013, wNBytes,
+  89 0006 01F54051 		add	r1, r1, #12288	@ D.7014, D.7014,
+  90 000a 5310     		asrs	r3, r2, #1	@ i, D.7013,
+  91 000c 10B4     		push	{r4}	@
+  92 000e 4FEA4101 		lsl	r1, r1, #1	@ D.7014, D.7014,
+  93 0012 0FD0     		beq	.L1	@,
+  94 0014 0A1D     		adds	r2, r1, #4	@ ivtmp.8, D.7014,
+  95 0016 0230     		adds	r0, r0, #2	@ ivtmp.10, pbUsrBuf,
+  96              	.L4:
+  97 0018 10F8014C 		ldrb	r4, [r0, #-1]	@ zero_extendqisi2	@ D.7013, MEM[base: _29, offset: 4294967295B]
+  98 001c 10F8021C 		ldrb	r1, [r0, #-2]	@ zero_extendqisi2	@ temp1, MEM[base: _29, offset: 4294967294B]
+  99 0020 013B     		subs	r3, r3, #1	@ i, i,
+ 100 0022 41EA0421 		orr	r1, r1, r4, lsl #8	@, temp2, temp1, D.7013,
+ 101 0026 22F8041C 		strh	r1, [r2, #-4]	@ movhi	@ temp2, MEM[base: 0B, index: ivtmp.8_42, offset: 4294967292B]
+ 102 002a 00F10200 		add	r0, r0, #2	@ ivtmp.10, ivtmp.10,
+ 103 002e 02F10402 		add	r2, r2, #4	@ ivtmp.8, ivtmp.8,
+ 104 0032 F1D1     		bne	.L4	@,
+ 105              	.L1:
+ 106 0034 5DF8044B 		ldr	r4, [sp], #4	@,
+ 107 0038 7047     		bx	lr	@
+ 109 003a 00BF     		.section	.text.PMAToUserBufferCopy,"ax",%progbits
+ 110              		.align	2
+ 111              		.global	PMAToUserBufferCopy
+ 112              		.thumb
+ 113              		.thumb_func
+ 115              	PMAToUserBufferCopy:
+ 116              		@ args = 0, pretend = 0, frame = 0
+ 117              		@ frame_needed = 0, uses_anonymous_args = 0
+ 118              		@ link register save eliminated.
+ 119 0000 01F10051 		add	r1, r1, #536870912	@ D.7043, wPMABufAddr,
+ 120 0004 0132     		adds	r2, r2, #1	@ D.7042, wNBytes,
+ 121 0006 01F54051 		add	r1, r1, #12288	@ D.7043, D.7043,
+ 122 000a 5310     		asrs	r3, r2, #1	@ i, D.7042,
+ 123 000c 4FEA4101 		lsl	r1, r1, #1	@ pdwVal, D.7043,
+ 124 0010 05D0     		beq	.L10	@,
+ 125              	.L13:
+ 126 0012 51F8042B 		ldr	r2, [r1], #4	@ MEM[base: pdwVal_17, offset: 4294967292B], MEM[base: pdwVal_17, offset: 4294967
+ 127 0016 013B     		subs	r3, r3, #1	@ i, i,
+ 128 0018 20F8022B 		strh	r2, [r0], #2	@ movhi	@ MEM[base: pdwVal_17, offset: 4294967292B], MEM[base: pbUsrBuf_27, offs
+ 129 001c F9D1     		bne	.L13	@,
+ 130              	.L10:
+ 131 001e 7047     		bx	lr	@
+ 133              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_mem.c
+C:\Users\Chris\AppData\Local\Temp\cc0QKXvw.s:78     .text.UserToPMABufferCopy:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc0QKXvw.s:83     .text.UserToPMABufferCopy:00000000 UserToPMABufferCopy
+C:\Users\Chris\AppData\Local\Temp\cc0QKXvw.s:110    .text.PMAToUserBufferCopy:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc0QKXvw.s:115    .text.PMAToUserBufferCopy:00000000 PMAToUserBufferCopy
+
+NO UNDEFINED SYMBOLS

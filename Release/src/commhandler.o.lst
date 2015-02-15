@@ -1,0 +1,511 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"commhandler.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/commhandler.d -MF src/commhandler.d -MP -MT src/commhandler.d
+  31              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  32              	@ ../src/commhandler.c -mcpu=cortex-m3 -mthumb
+  33              	@ -auxbase-strip src/commhandler.o -O2 -Wall -Wextra -Wstrict-prototypes
+  34              	@ -std=gnu99 -ffunction-sections -fdata-sections
+  35              	@ -fsingle-precision-constant -fverbose-asm
+  36              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  37              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  38              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  39              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  40              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  41              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  42              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  43              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  44              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  45              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  46              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  47              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  48              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  49              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  50              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  51              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  52              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  53              	@ -freorder-functions -frerun-cse-after-loop
+  54              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  55              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  56              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  57              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  58              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  59              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  60              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  61              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  62              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  63              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  64              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  65              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  66              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  67              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  68              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  69              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  70              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  71              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  72              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  73              	@ -munaligned-access -mvectorize-with-neon-quad
+  74              	
+  75              		.global	__aeabi_fadd
+  76              		.global	__aeabi_f2d
+  77              		.global	__aeabi_fsub
+  78              		.section	.text.CommHandler,"ax",%progbits
+  79              		.align	2
+  80              		.global	CommHandler
+  81              		.thumb
+  82              		.thumb_func
+  84              	CommHandler:
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87 0000 70B5     		push	{r4, r5, r6, lr}	@
+  88 0002 FFF7FEFF 		bl	GetChar	@
+  89 0006 041E     		subs	r4, r0, #0	@ c,
+  90 0008 53DB     		blt	.L1	@,
+  91 000a FFF7FEFF 		bl	LEDon	@
+  92 000e A4F12B03 		sub	r3, r4, #43	@ tmp173, c,
+  93 0012 4B2B     		cmp	r3, #75	@ tmp173,
+  94 0014 4DD8     		bhi	.L1	@
+  95 0016 DFE813F0 		tbh	[pc, r3, lsl #1]	@ tmp173
+  96              	.L5:
+  97 001a EF00     		.2byte	(.L4-.L5)/2
+  98 001c 4C00     		.2byte	(.L1-.L5)/2
+  99 001e E000     		.2byte	(.L6-.L5)/2
+ 100 0020 4C00     		.2byte	(.L1-.L5)/2
+ 101 0022 4C00     		.2byte	(.L1-.L5)/2
+ 102 0024 4C00     		.2byte	(.L1-.L5)/2
+ 103 0026 4C00     		.2byte	(.L1-.L5)/2
+ 104 0028 4C00     		.2byte	(.L1-.L5)/2
+ 105 002a 4C00     		.2byte	(.L1-.L5)/2
+ 106 002c 4C00     		.2byte	(.L1-.L5)/2
+ 107 002e 4C00     		.2byte	(.L1-.L5)/2
+ 108 0030 4C00     		.2byte	(.L1-.L5)/2
+ 109 0032 4C00     		.2byte	(.L1-.L5)/2
+ 110 0034 4C00     		.2byte	(.L1-.L5)/2
+ 111 0036 4C00     		.2byte	(.L1-.L5)/2
+ 112 0038 4C00     		.2byte	(.L1-.L5)/2
+ 113 003a 4C00     		.2byte	(.L1-.L5)/2
+ 114 003c 4C00     		.2byte	(.L1-.L5)/2
+ 115 003e 4C00     		.2byte	(.L1-.L5)/2
+ 116 0040 4C00     		.2byte	(.L1-.L5)/2
+ 117 0042 4C00     		.2byte	(.L1-.L5)/2
+ 118 0044 4C00     		.2byte	(.L1-.L5)/2
+ 119 0046 4C00     		.2byte	(.L1-.L5)/2
+ 120 0048 4C00     		.2byte	(.L1-.L5)/2
+ 121 004a 4C00     		.2byte	(.L1-.L5)/2
+ 122 004c 4C00     		.2byte	(.L1-.L5)/2
+ 123 004e 4C00     		.2byte	(.L1-.L5)/2
+ 124 0050 4C00     		.2byte	(.L1-.L5)/2
+ 125 0052 DC00     		.2byte	(.L7-.L5)/2
+ 126 0054 4C00     		.2byte	(.L1-.L5)/2
+ 127 0056 4C00     		.2byte	(.L1-.L5)/2
+ 128 0058 4C00     		.2byte	(.L1-.L5)/2
+ 129 005a 4C00     		.2byte	(.L1-.L5)/2
+ 130 005c 4C00     		.2byte	(.L1-.L5)/2
+ 131 005e 4C00     		.2byte	(.L1-.L5)/2
+ 132 0060 4C00     		.2byte	(.L1-.L5)/2
+ 133 0062 4C00     		.2byte	(.L1-.L5)/2
+ 134 0064 4C00     		.2byte	(.L1-.L5)/2
+ 135 0066 4C00     		.2byte	(.L1-.L5)/2
+ 136 0068 D100     		.2byte	(.L8-.L5)/2
+ 137 006a 4C00     		.2byte	(.L1-.L5)/2
+ 138 006c 4C00     		.2byte	(.L1-.L5)/2
+ 139 006e 4C00     		.2byte	(.L1-.L5)/2
+ 140 0070 4C00     		.2byte	(.L1-.L5)/2
+ 141 0072 4C00     		.2byte	(.L1-.L5)/2
+ 142 0074 4C00     		.2byte	(.L1-.L5)/2
+ 143 0076 4C00     		.2byte	(.L1-.L5)/2
+ 144 0078 4C00     		.2byte	(.L1-.L5)/2
+ 145 007a 4C00     		.2byte	(.L1-.L5)/2
+ 146 007c 4C00     		.2byte	(.L1-.L5)/2
+ 147 007e 4C00     		.2byte	(.L1-.L5)/2
+ 148 0080 4C00     		.2byte	(.L1-.L5)/2
+ 149 0082 4C00     		.2byte	(.L1-.L5)/2
+ 150 0084 4C00     		.2byte	(.L1-.L5)/2
+ 151 0086 0001     		.2byte	(.L9-.L5)/2
+ 152 0088 F500     		.2byte	(.L10-.L5)/2
+ 153 008a 0F01     		.2byte	(.L11-.L5)/2
+ 154 008c C200     		.2byte	(.L12-.L5)/2
+ 155 008e 4C00     		.2byte	(.L1-.L5)/2
+ 156 0090 4C00     		.2byte	(.L1-.L5)/2
+ 157 0092 B200     		.2byte	(.L13-.L5)/2
+ 158 0094 A200     		.2byte	(.L14-.L5)/2
+ 159 0096 9E00     		.2byte	(.L15-.L5)/2
+ 160 0098 9A00     		.2byte	(.L16-.L5)/2
+ 161 009a 4C00     		.2byte	(.L1-.L5)/2
+ 162 009c 4C00     		.2byte	(.L1-.L5)/2
+ 163 009e 4C00     		.2byte	(.L1-.L5)/2
+ 164 00a0 4C00     		.2byte	(.L1-.L5)/2
+ 165 00a2 8B00     		.2byte	(.L17-.L5)/2
+ 166 00a4 7C00     		.2byte	(.L18-.L5)/2
+ 167 00a6 4C00     		.2byte	(.L1-.L5)/2
+ 168 00a8 6D00     		.2byte	(.L19-.L5)/2
+ 169 00aa 5E00     		.2byte	(.L20-.L5)/2
+ 170 00ac 4C00     		.2byte	(.L1-.L5)/2
+ 171 00ae 5300     		.2byte	(.L21-.L5)/2
+ 172 00b0 4D00     		.2byte	(.L22-.L5)/2
+ 173              	.L1:
+ 174 00b2 70BD     		pop	{r4, r5, r6, pc}	@
+ 175              	.L22:
+ 176 00b4 6848     		ldr	r0, .L46	@,
+ 177 00b6 6949     		ldr	r1, .L46+4	@,
+ 178 00b8 BDE87040 		pop	{r4, r5, r6, lr}	@
+ 179 00bc FFF7FEBF 		b	print	@
+ 180              	.L21:
+ 181 00c0 674B     		ldr	r3, .L46+8	@ tmp213,
+ 182 00c2 1C68     		ldr	r4, [r3]	@ bDeviceState.21, bDeviceState
+ 183 00c4 FFF7FEFF 		bl	GetVCPConnectMode	@
+ 184 00c8 2146     		mov	r1, r4	@, bDeviceState.21
+ 185 00ca 0246     		mov	r2, r0	@ tmp214,
+ 186 00cc BDE87040 		pop	{r4, r5, r6, lr}	@
+ 187 00d0 6448     		ldr	r0, .L46+12	@,
+ 188 00d2 FFF7FEBF 		b	printUSART	@
+ 189              	.L20:
+ 190 00d6 644B     		ldr	r3, .L46+16	@ tmp209,
+ 191 00d8 6448     		ldr	r0, .L46+20	@ tmp240,
+ 192 00da 1A68     		ldr	r2, [r3]	@ debugSense, debugSense
+ 193 00dc 6449     		ldr	r1, .L46+24	@ tmp241,
+ 194 00de 82F00102 		eor	r2, r2, #1	@ debugSense.19, debugSense,
+ 195 00e2 002A     		cmp	r2, #0	@ debugSense.19,
+ 196 00e4 08BF     		it	eq	@
+ 197 00e6 0146     		moveq	r1, r0	@,, tmp240
+ 198 00e8 1A60     		str	r2, [r3]	@ debugSense.19,
+ 199 00ea 6248     		ldr	r0, .L46+28	@,
+ 200 00ec BDE87040 		pop	{r4, r5, r6, lr}	@
+ 201 00f0 FFF7FEBF 		b	print	@
+ 202              	.L19:
+ 203 00f4 604B     		ldr	r3, .L46+32	@ tmp204,
+ 204 00f6 5D48     		ldr	r0, .L46+20	@ tmp238,
+ 205 00f8 1A68     		ldr	r2, [r3]	@ debugRC, debugRC
+ 206 00fa 5D49     		ldr	r1, .L46+24	@ tmp239,
+ 207 00fc 82F00102 		eor	r2, r2, #1	@ debugRC.16, debugRC,
+ 208 0100 002A     		cmp	r2, #0	@ debugRC.16,
+ 209 0102 08BF     		it	eq	@
+ 210 0104 0146     		moveq	r1, r0	@,, tmp238
+ 211 0106 1A60     		str	r2, [r3]	@ debugRC.16,
+ 212 0108 5C48     		ldr	r0, .L46+36	@,
+ 213 010a BDE87040 		pop	{r4, r5, r6, lr}	@
+ 214 010e FFF7FEBF 		b	print	@
+ 215              	.L18:
+ 216 0112 5B4B     		ldr	r3, .L46+40	@ tmp200,
+ 217 0114 5548     		ldr	r0, .L46+20	@ tmp236,
+ 218 0116 1A68     		ldr	r2, [r3]	@ debugPerf, debugPerf
+ 219 0118 5549     		ldr	r1, .L46+24	@ tmp237,
+ 220 011a 82F00102 		eor	r2, r2, #1	@ debugPerf.13, debugPerf,
+ 221 011e 002A     		cmp	r2, #0	@ debugPerf.13,
+ 222 0120 08BF     		it	eq	@
+ 223 0122 0146     		moveq	r1, r0	@,, tmp236
+ 224 0124 1A60     		str	r2, [r3]	@ debugPerf.13,
+ 225 0126 5748     		ldr	r0, .L46+44	@,
+ 226 0128 BDE87040 		pop	{r4, r5, r6, lr}	@
+ 227 012c FFF7FEBF 		b	print	@
+ 228              	.L17:
+ 229 0130 554B     		ldr	r3, .L46+48	@ tmp196,
+ 230 0132 4E48     		ldr	r0, .L46+20	@ tmp234,
+ 231 0134 1A68     		ldr	r2, [r3]	@ debugOrient, debugOrient
+ 232 0136 4E49     		ldr	r1, .L46+24	@ tmp235,
+ 233 0138 82F00102 		eor	r2, r2, #1	@ debugOrient.10, debugOrient,
+ 234 013c 002A     		cmp	r2, #0	@ debugOrient.10,
+ 235 013e 08BF     		it	eq	@
+ 236 0140 0146     		moveq	r1, r0	@,, tmp234
+ 237 0142 1A60     		str	r2, [r3]	@ debugOrient.10,
+ 238 0144 5148     		ldr	r0, .L46+52	@,
+ 239 0146 BDE87040 		pop	{r4, r5, r6, lr}	@
+ 240 014a FFF7FEBF 		b	print	@
+ 241              	.L16:
+ 242 014e 504B     		ldr	r3, .L46+56	@ tmp194,
+ 243 0150 0022     		movs	r2, #0	@ tmp195,
+ 244 0152 1A60     		str	r2, [r3]	@ tmp195, ConfigMode
+ 245 0154 70BD     		pop	{r4, r5, r6, pc}	@
+ 246              	.L15:
+ 247 0156 4E4B     		ldr	r3, .L46+56	@ tmp192,
+ 248 0158 0122     		movs	r2, #1	@ tmp193,
+ 249 015a 1A60     		str	r2, [r3]	@ tmp193, ConfigMode
+ 250 015c 70BD     		pop	{r4, r5, r6, pc}	@
+ 251              	.L14:
+ 252 015e 4D4D     		ldr	r5, .L46+60	@ tmp242,
+ 253 0160 0024     		movs	r4, #0	@ i,
+ 254              	.L29:
+ 255 0162 FFF7FEFF 		bl	GetChar	@
+ 256 0166 0028     		cmp	r0, #0	@ data
+ 257 0168 FBDB     		blt	.L29	@,
+ 258 016a FE28     		cmp	r0, #254	@ data,
+ 259 016c D8BF     		it	le
+ 260 016e 6055     		strble	r0, [r4, r5]	@ data, MEM[symbol: configData, index: _1, offset: 0B]
+ 261 0170 0134     		adds	r4, r4, #1	@ i, i,
+ 262 0172 0C2C     		cmp	r4, #12	@ i,
+ 263 0174 F5D1     		bne	.L29	@,
+ 264 0176 BDE87040 		pop	{r4, r5, r6, lr}	@
+ 265 017a FFF7FEBF 		b	configSave	@
+ 266              	.L13:
+ 267 017e 6420     		movs	r0, #100	@,
+ 268 0180 FFF7FEFF 		bl	Delay_ms	@
+ 269 0184 7820     		movs	r0, #120	@,
+ 270 0186 FFF7FEFF 		bl	PutChar	@
+ 271 018a 434C     		ldr	r4, .L46+64	@ ivtmp.34,
+ 272 018c 04F10C05 		add	r5, r4, #12	@ D.6855, ivtmp.34,
+ 273              	.L27:
+ 274 0190 14F8010F 		ldrb	r0, [r4, #1]!	@ zero_extendqisi2	@, MEM[base: _66, offset: 0B]
+ 275 0194 FFF7FEFF 		bl	PutChar	@
+ 276 0198 AC42     		cmp	r4, r5	@ ivtmp.34, D.6855
+ 277 019a F9D1     		bne	.L27	@,
+ 278 019c 70BD     		pop	{r4, r5, r6, pc}	@
+ 279              	.L12:
+ 280 019e 3F4B     		ldr	r3, .L46+68	@ tmp183,
+ 281 01a0 3248     		ldr	r0, .L46+20	@ tmp232,
+ 282 01a2 1A68     		ldr	r2, [r3]	@ debugPrint, debugPrint
+ 283 01a4 3249     		ldr	r1, .L46+24	@ tmp233,
+ 284 01a6 82F00102 		eor	r2, r2, #1	@ debugPrint.7, debugPrint,
+ 285 01aa 002A     		cmp	r2, #0	@ debugPrint.7,
+ 286 01ac 08BF     		it	eq	@
+ 287 01ae 0146     		moveq	r1, r0	@,, tmp232
+ 288 01b0 1A60     		str	r2, [r3]	@ debugPrint.7,
+ 289 01b2 3B48     		ldr	r0, .L46+72	@,
+ 290 01b4 BDE87040 		pop	{r4, r5, r6, lr}	@
+ 291 01b8 FFF7FEBF 		b	print	@
+ 292              	.L8:
+ 293 01bc 3948     		ldr	r0, .L46+76	@,
+ 294 01be FFF7FEFF 		bl	print	@
+ 295 01c2 4FF47A70 		mov	r0, #1000	@,
+ 296 01c6 FFF7FEFF 		bl	Delay_ms	@
+ 297 01ca BDE87040 		pop	{r4, r5, r6, lr}	@
+ 298 01ce FFF7FEBF 		b	reboot	@
+ 299              	.L7:
+ 300 01d2 BDE87040 		pop	{r4, r5, r6, lr}	@
+ 301 01d6 FFF7FEBF 		b	printConfig	@
+ 302              	.L6:
+ 303 01da 334C     		ldr	r4, .L46+80	@ tmp223,
+ 304 01dc 3349     		ldr	r1, .L46+84	@,
+ 305 01de 2068     		ldr	r0, [r4]	@ float	@, testPhase
+ 306 01e0 FFF7FEFF 		bl	__aeabi_fsub	@
+ 307              	.L44:
+ 308 01e4 2060     		str	r0, [r4]	@ float	@, testPhase
+ 309 01e6 FFF7FEFF 		bl	__aeabi_f2d	@
+ 310 01ea BDE87040 		pop	{r4, r5, r6, lr}	@
+ 311 01ee 0246     		mov	r2, r0	@ D.6854,
+ 312 01f0 0B46     		mov	r3, r1	@ D.6854,
+ 313 01f2 2F48     		ldr	r0, .L46+88	@,
+ 314 01f4 FFF7FEBF 		b	print	@
+ 315              	.L4:
+ 316 01f8 2B4C     		ldr	r4, .L46+80	@ tmp218,
+ 317 01fa 2C49     		ldr	r1, .L46+84	@,
+ 318 01fc 2068     		ldr	r0, [r4]	@ float	@, testPhase
+ 319 01fe FFF7FEFF 		bl	__aeabi_fadd	@
+ 320 0202 EFE7     		b	.L44	@
+ 321              	.L10:
+ 322 0204 2B48     		ldr	r0, .L46+92	@,
+ 323 0206 FFF7FEFF 		bl	print	@
+ 324 020a 4FF47A70 		mov	r0, #1000	@,
+ 325 020e FFF7FEFF 		bl	Delay_ms	@
+ 326 0212 BDE87040 		pop	{r4, r5, r6, lr}	@
+ 327 0216 FFF7FEBF 		b	bootloader	@
+ 328              	.L9:
+ 329 021a 274B     		ldr	r3, .L46+96	@ tmp174,
+ 330 021c 1348     		ldr	r0, .L46+20	@ tmp228,
+ 331 021e 1A68     		ldr	r2, [r3]	@ debugAutoPan, debugAutoPan
+ 332 0220 1349     		ldr	r1, .L46+24	@ tmp229,
+ 333 0222 82F00102 		eor	r2, r2, #1	@ debugAutoPan.1, debugAutoPan,
+ 334 0226 002A     		cmp	r2, #0	@ debugAutoPan.1,
+ 335 0228 08BF     		it	eq	@
+ 336 022a 0146     		moveq	r1, r0	@,, tmp228
+ 337 022c 1A60     		str	r2, [r3]	@ debugAutoPan.1,
+ 338 022e 2348     		ldr	r0, .L46+100	@,
+ 339 0230 BDE87040 		pop	{r4, r5, r6, lr}	@
+ 340 0234 FFF7FEBF 		b	print	@
+ 341              	.L11:
+ 342 0238 214B     		ldr	r3, .L46+104	@ tmp179,
+ 343 023a 0C48     		ldr	r0, .L46+20	@ tmp230,
+ 344 023c 1A68     		ldr	r2, [r3]	@ debugCnt, debugCnt
+ 345 023e 0C49     		ldr	r1, .L46+24	@ tmp231,
+ 346 0240 82F00102 		eor	r2, r2, #1	@ debugCnt.4, debugCnt,
+ 347 0244 002A     		cmp	r2, #0	@ debugCnt.4,
+ 348 0246 08BF     		it	eq	@
+ 349 0248 0146     		moveq	r1, r0	@,, tmp230
+ 350 024a 1A60     		str	r2, [r3]	@ debugCnt.4,
+ 351 024c 1D48     		ldr	r0, .L46+108	@,
+ 352 024e BDE87040 		pop	{r4, r5, r6, lr}	@
+ 353 0252 FFF7FEBF 		b	print	@
+ 354              	.L47:
+ 355 0256 00BF     		.align	2
+ 356              	.L46:
+ 357 0258 10010000 		.word	.LC12
+ 358 025c 20010000 		.word	.LC13
+ 359 0260 00000000 		.word	bDeviceState
+ 360 0264 E4000000 		.word	.LC11
+ 361 0268 00000000 		.word	debugSense
+ 362 026c 04000000 		.word	.LC1
+ 363 0270 00000000 		.word	.LC0
+ 364 0274 CC000000 		.word	.LC10
+ 365 0278 00000000 		.word	debugRC
+ 366 027c A8000000 		.word	.LC8
+ 367 0280 00000000 		.word	debugPerf
+ 368 0284 8C000000 		.word	.LC7
+ 369 0288 00000000 		.word	debugOrient
+ 370 028c 70000000 		.word	.LC6
+ 371 0290 00000000 		.word	ConfigMode
+ 372 0294 00000000 		.word	configData
+ 373 0298 FFFFFFFF 		.word	configData-1
+ 374 029c 00000000 		.word	debugPrint
+ 375 02a0 5C000000 		.word	.LC5
+ 376 02a4 BC000000 		.word	.LC9
+ 377 02a8 00000000 		.word	testPhase
+ 378 02ac CDCCCC3D 		.word	1036831949
+ 379 02b0 28010000 		.word	.LC14
+ 380 02b4 20000000 		.word	.LC3
+ 381 02b8 00000000 		.word	debugAutoPan
+ 382 02bc 08000000 		.word	.LC2
+ 383 02c0 00000000 		.word	debugCnt
+ 384 02c4 44000000 		.word	.LC4
+ 386              		.comm	ConfigMode,4,4
+ 387              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 388              		.align	2
+ 389              	.LC0:
+ 390 0000 6F6E00   		.ascii	"on\000"
+ 391 0003 00       		.space	1
+ 392              	.LC1:
+ 393 0004 6F666600 		.ascii	"off\000"
+ 394              	.LC2:
+ 395 0008 4175746F 		.ascii	"Autopan messages %s\015\012\000"
+ 395      70616E20 
+ 395      6D657373 
+ 395      61676573 
+ 395      2025730D 
+ 396 001e 0000     		.space	2
+ 397              	.LC3:
+ 398 0020 7265626F 		.ascii	"rebooting into boot loader ...\015\012\000"
+ 398      6F74696E 
+ 398      6720696E 
+ 398      746F2062 
+ 398      6F6F7420 
+ 399 0041 000000   		.space	3
+ 400              	.LC4:
+ 401 0044 636F756E 		.ascii	"counter messages %s\015\012\000"
+ 401      74657220 
+ 401      6D657373 
+ 401      61676573 
+ 401      2025730D 
+ 402 005a 0000     		.space	2
+ 403              	.LC5:
+ 404 005c 64656275 		.ascii	"debug messages %s\015\012\000"
+ 404      67206D65 
+ 404      73736167 
+ 404      65732025 
+ 404      730D0A00 
+ 405              	.LC6:
+ 406 0070 4F726965 		.ascii	"Orientation messages %s\015\012\000"
+ 406      6E746174 
+ 406      696F6E20 
+ 406      6D657373 
+ 406      61676573 
+ 407 008a 0000     		.space	2
+ 408              	.LC7:
+ 409 008c 70657266 		.ascii	"performance messages %s\015\012\000"
+ 409      6F726D61 
+ 409      6E636520 
+ 409      6D657373 
+ 409      61676573 
+ 410 00a6 0000     		.space	2
+ 411              	.LC8:
+ 412 00a8 5243206D 		.ascii	"RC messages %s\015\012\000"
+ 412      65737361 
+ 412      67657320 
+ 412      25730D0A 
+ 412      00
+ 413 00b9 000000   		.space	3
+ 414              	.LC9:
+ 415 00bc 7265626F 		.ascii	"rebooting...\015\012\000"
+ 415      6F74696E 
+ 415      672E2E2E 
+ 415      0D0A00
+ 416 00cb 00       		.space	1
+ 417              	.LC10:
+ 418 00cc 53656E73 		.ascii	"Sensor messages %s\015\012\000"
+ 418      6F72206D 
+ 418      65737361 
+ 418      67657320 
+ 418      25730D0A 
+ 419 00e1 000000   		.space	3
+ 420              	.LC11:
+ 421 00e4 0D0A5959 		.ascii	"\015\012YY bDeviceState %3d  VCPConnectMode %d\015\012"
+ 421      20624465 
+ 421      76696365 
+ 421      53746174 
+ 421      65202533 
+ 422 010e 00       		.ascii	"\000"
+ 423 010f 00       		.space	1
+ 424              	.LC12:
+ 425 0110 56657273 		.ascii	"Version: %s\015\012\000"
+ 425      696F6E3A 
+ 425      2025730D 
+ 425      0A00
+ 426 011e 0000     		.space	2
+ 427              	.LC13:
+ 428 0120 302E342E 		.ascii	"0.4.5.2\000"
+ 428      352E3200 
+ 429              	.LC14:
+ 430 0128 74657374 		.ascii	"test phase output %5.1f\015\012\000"
+ 430      20706861 
+ 430      7365206F 
+ 430      75747075 
+ 430      74202535 
+ 431 0142 0000     		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 commhandler.c
+C:\Users\Chris\AppData\Local\Temp\ccOUAKUK.s:79     .text.CommHandler:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOUAKUK.s:84     .text.CommHandler:00000000 CommHandler
+C:\Users\Chris\AppData\Local\Temp\ccOUAKUK.s:97     .text.CommHandler:0000001a $d
+C:\Users\Chris\AppData\Local\Temp\ccOUAKUK.s:174    .text.CommHandler:000000b2 $t
+C:\Users\Chris\AppData\Local\Temp\ccOUAKUK.s:357    .text.CommHandler:00000258 $d
+                            *COM*:00000004 ConfigMode
+C:\Users\Chris\AppData\Local\Temp\ccOUAKUK.s:388    .rodata.str1.4:00000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_fadd
+__aeabi_f2d
+__aeabi_fsub
+GetChar
+LEDon
+print
+GetVCPConnectMode
+printUSART
+configSave
+Delay_ms
+PutChar
+reboot
+printConfig
+bootloader
+bDeviceState
+debugSense
+debugRC
+debugPerf
+debugOrient
+configData
+debugPrint
+testPhase
+debugAutoPan
+debugCnt

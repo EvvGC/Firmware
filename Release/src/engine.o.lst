@@ -1,0 +1,1452 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"engine.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/engine.d -MF src/engine.d -MP -MT src/engine.d
+  31              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  32              	@ ../src/engine.c -mcpu=cortex-m3 -mthumb -auxbase-strip src/engine.o -O2
+  33              	@ -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  34              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  35              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  36              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  37              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  38              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  39              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  40              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  41              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  42              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  43              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  44              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  45              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  46              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  47              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  48              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  49              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  50              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  51              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  52              	@ -freorder-functions -frerun-cse-after-loop
+  53              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  54              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  55              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  56              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  57              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  58              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  59              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  60              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  61              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  62              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  63              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  64              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  65              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  66              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  67              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  68              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  69              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  70              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  71              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  72              	@ -munaligned-access -mvectorize-with-neon-quad
+  73              	
+  74              		.global	__aeabi_fmul
+  75              		.global	__aeabi_fadd
+  76              		.global	__aeabi_ui2f
+  77              		.global	__aeabi_fdiv
+  78              		.global	__aeabi_fsub
+  79              		.section	.text.roll_PID,"ax",%progbits
+  80              		.align	2
+  81              		.global	roll_PID
+  82              		.thumb
+  83              		.thumb_func
+  85              	roll_PID:
+  86              		@ args = 0, pretend = 0, frame = 0
+  87              		@ frame_needed = 0, uses_anonymous_args = 0
+  88 0000 184B     		ldr	r3, .L2	@ tmp127,
+  89 0002 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}	@
+  90 0006 1868     		ldr	r0, [r3]	@ float	@, CameraOrient
+  91 0008 1749     		ldr	r1, .L2+4	@,
+  92 000a FFF7FEFF 		bl	__aeabi_fmul	@
+  93 000e 174B     		ldr	r3, .L2+8	@ tmp129,
+  94 0010 174C     		ldr	r4, .L2+12	@ tmp131,
+  95 0012 1968     		ldr	r1, [r3]	@ float	@, roll_setpoint
+  96 0014 FFF7FEFF 		bl	__aeabi_fadd	@
+  97 0018 0546     		mov	r5, r0	@ tmp130,
+  98 001a 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2	@, configData
+  99 001c FFF7FEFF 		bl	__aeabi_ui2f	@
+ 100 0020 1149     		ldr	r1, .L2+4	@,
+ 101 0022 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 102 0026 2946     		mov	r1, r5	@, tmp130
+ 103 0028 FFF7FEFF 		bl	__aeabi_fmul	@
+ 104 002c 0746     		mov	r7, r0	@ tmp135,
+ 105 002e 2079     		ldrb	r0, [r4, #4]	@ zero_extendqisi2	@, configData
+ 106 0030 FFF7FEFF 		bl	__aeabi_ui2f	@
+ 107 0034 0F49     		ldr	r1, .L2+16	@,
+ 108 0036 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 109 003a 0F4E     		ldr	r6, .L2+20	@ tmp140,
+ 110 003c 8046     		mov	r8, r0	@ D.5357,
+ 111 003e 3168     		ldr	r1, [r6]	@ float	@, roll_Error_last
+ 112 0040 2846     		mov	r0, r5	@, tmp130
+ 113 0042 FFF7FEFF 		bl	__aeabi_fsub	@
+ 114 0046 0146     		mov	r1, r0	@ D.5357,
+ 115 0048 4046     		mov	r0, r8	@, D.5357
+ 116 004a FFF7FEFF 		bl	__aeabi_fmul	@
+ 117 004e 3946     		mov	r1, r7	@, tmp135
+ 118 0050 3560     		str	r5, [r6]	@ float	@ tmp130, roll_Error_last
+ 119 0052 FFF7FEFF 		bl	__aeabi_fadd	@
+ 120 0056 094B     		ldr	r3, .L2+24	@ tmp145,
+ 121 0058 E179     		ldrb	r1, [r4, #7]	@ zero_extendqisi2	@, configData
+ 122 005a BDE8F041 		pop	{r4, r5, r6, r7, r8, lr}	@
+ 123 005e 1860     		str	r0, [r3]	@ float	@, Output
+ 124 0060 FFF7FEBF 		b	SetRollMotor	@
+ 125              	.L3:
+ 126              		.align	2
+ 127              	.L2:
+ 128 0064 00000000 		.word	CameraOrient
+ 129 0068 00007A44 		.word	1148846080
+ 130 006c 00000000 		.word	.LANCHOR0
+ 131 0070 00000000 		.word	configData
+ 132 0074 0000C842 		.word	1120403456
+ 133 0078 00000000 		.word	.LANCHOR1
+ 134 007c 00000000 		.word	Output
+ 136              		.section	.text.pitch_PID,"ax",%progbits
+ 137              		.align	2
+ 138              		.global	pitch_PID
+ 139              		.thumb
+ 140              		.thumb_func
+ 142              	pitch_PID:
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145 0000 184B     		ldr	r3, .L5	@ tmp127,
+ 146 0002 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}	@
+ 147 0006 5868     		ldr	r0, [r3, #4]	@ float	@, CameraOrient
+ 148 0008 1749     		ldr	r1, .L5+4	@,
+ 149 000a FFF7FEFF 		bl	__aeabi_fmul	@
+ 150 000e 174B     		ldr	r3, .L5+8	@ tmp129,
+ 151 0010 174C     		ldr	r4, .L5+12	@ tmp131,
+ 152 0012 1968     		ldr	r1, [r3]	@ float	@, pitch_setpoint
+ 153 0014 FFF7FEFF 		bl	__aeabi_fadd	@
+ 154 0018 0546     		mov	r5, r0	@ tmp130,
+ 155 001a 2078     		ldrb	r0, [r4]	@ zero_extendqisi2	@, configData
+ 156 001c FFF7FEFF 		bl	__aeabi_ui2f	@
+ 157 0020 1149     		ldr	r1, .L5+4	@,
+ 158 0022 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 159 0026 2946     		mov	r1, r5	@, tmp130
+ 160 0028 FFF7FEFF 		bl	__aeabi_fmul	@
+ 161 002c 0746     		mov	r7, r0	@ tmp135,
+ 162 002e E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2	@, configData
+ 163 0030 FFF7FEFF 		bl	__aeabi_ui2f	@
+ 164 0034 0F49     		ldr	r1, .L5+16	@,
+ 165 0036 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 166 003a 0F4E     		ldr	r6, .L5+20	@ tmp140,
+ 167 003c 8046     		mov	r8, r0	@ D.5362,
+ 168 003e 3168     		ldr	r1, [r6]	@ float	@, pitch_Error_last
+ 169 0040 2846     		mov	r0, r5	@, tmp130
+ 170 0042 FFF7FEFF 		bl	__aeabi_fsub	@
+ 171 0046 0146     		mov	r1, r0	@ D.5362,
+ 172 0048 4046     		mov	r0, r8	@, D.5362
+ 173 004a FFF7FEFF 		bl	__aeabi_fmul	@
+ 174 004e 3946     		mov	r1, r7	@, tmp135
+ 175 0050 3560     		str	r5, [r6]	@ float	@ tmp130, pitch_Error_last
+ 176 0052 FFF7FEFF 		bl	__aeabi_fadd	@
+ 177 0056 094B     		ldr	r3, .L5+24	@ tmp145,
+ 178 0058 A179     		ldrb	r1, [r4, #6]	@ zero_extendqisi2	@, configData
+ 179 005a BDE8F041 		pop	{r4, r5, r6, r7, r8, lr}	@
+ 180 005e 5860     		str	r0, [r3, #4]	@ float	@, Output
+ 181 0060 FFF7FEBF 		b	SetPitchMotor	@
+ 182              	.L6:
+ 183              		.align	2
+ 184              	.L5:
+ 185 0064 00000000 		.word	CameraOrient
+ 186 0068 00007A44 		.word	1148846080
+ 187 006c 00000000 		.word	.LANCHOR2
+ 188 0070 00000000 		.word	configData
+ 189 0074 0000C842 		.word	1120403456
+ 190 0078 00000000 		.word	.LANCHOR3
+ 191 007c 00000000 		.word	Output
+ 193              		.section	.text.yaw_PID,"ax",%progbits
+ 194              		.align	2
+ 195              		.global	yaw_PID
+ 196              		.thumb
+ 197              		.thumb_func
+ 199              	yaw_PID:
+ 200              		@ args = 0, pretend = 0, frame = 0
+ 201              		@ frame_needed = 0, uses_anonymous_args = 0
+ 202 0000 184B     		ldr	r3, .L8	@ tmp127,
+ 203 0002 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}	@
+ 204 0006 9868     		ldr	r0, [r3, #8]	@ float	@, CameraOrient
+ 205 0008 1749     		ldr	r1, .L8+4	@,
+ 206 000a FFF7FEFF 		bl	__aeabi_fmul	@
+ 207 000e 174B     		ldr	r3, .L8+8	@ tmp129,
+ 208 0010 174C     		ldr	r4, .L8+12	@ tmp131,
+ 209 0012 1968     		ldr	r1, [r3]	@ float	@, yaw_setpoint
+ 210 0014 FFF7FEFF 		bl	__aeabi_fadd	@
+ 211 0018 0546     		mov	r5, r0	@ tmp130,
+ 212 001a A078     		ldrb	r0, [r4, #2]	@ zero_extendqisi2	@, configData
+ 213 001c FFF7FEFF 		bl	__aeabi_ui2f	@
+ 214 0020 1149     		ldr	r1, .L8+4	@,
+ 215 0022 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 216 0026 2946     		mov	r1, r5	@, tmp130
+ 217 0028 FFF7FEFF 		bl	__aeabi_fmul	@
+ 218 002c 0746     		mov	r7, r0	@ tmp135,
+ 219 002e 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2	@, configData
+ 220 0030 FFF7FEFF 		bl	__aeabi_ui2f	@
+ 221 0034 0F49     		ldr	r1, .L8+16	@,
+ 222 0036 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 223 003a 0F4E     		ldr	r6, .L8+20	@ tmp140,
+ 224 003c 8046     		mov	r8, r0	@ D.5367,
+ 225 003e 3168     		ldr	r1, [r6]	@ float	@, yaw_Error_last
+ 226 0040 2846     		mov	r0, r5	@, tmp130
+ 227 0042 FFF7FEFF 		bl	__aeabi_fsub	@
+ 228 0046 0146     		mov	r1, r0	@ D.5367,
+ 229 0048 4046     		mov	r0, r8	@, D.5367
+ 230 004a FFF7FEFF 		bl	__aeabi_fmul	@
+ 231 004e 3946     		mov	r1, r7	@, tmp135
+ 232 0050 3560     		str	r5, [r6]	@ float	@ tmp130, yaw_Error_last
+ 233 0052 FFF7FEFF 		bl	__aeabi_fadd	@
+ 234 0056 094B     		ldr	r3, .L8+24	@ tmp145,
+ 235 0058 217A     		ldrb	r1, [r4, #8]	@ zero_extendqisi2	@, configData
+ 236 005a BDE8F041 		pop	{r4, r5, r6, r7, r8, lr}	@
+ 237 005e 9860     		str	r0, [r3, #8]	@ float	@, Output
+ 238 0060 FFF7FEBF 		b	SetYawMotor	@
+ 239              	.L9:
+ 240              		.align	2
+ 241              	.L8:
+ 242 0064 00000000 		.word	CameraOrient
+ 243 0068 00007A44 		.word	1148846080
+ 244 006c 00000000 		.word	.LANCHOR4
+ 245 0070 00000000 		.word	configData
+ 246 0074 0000C842 		.word	1120403456
+ 247 0078 00000000 		.word	.LANCHOR5
+ 248 007c 00000000 		.word	Output
+ 250              		.global	__aeabi_fcmplt
+ 251              		.global	__aeabi_fcmpgt
+ 252              		.section	.text.constrain,"ax",%progbits
+ 253              		.align	2
+ 254              		.global	constrain
+ 255              		.thumb
+ 256              		.thumb_func
+ 258              	constrain:
+ 259              		@ args = 0, pretend = 0, frame = 0
+ 260              		@ frame_needed = 0, uses_anonymous_args = 0
+ 261 0000 70B5     		push	{r4, r5, r6, lr}	@
+ 262 0002 1546     		mov	r5, r2	@ high, high
+ 263 0004 0446     		mov	r4, r0	@ value, value
+ 264 0006 0E46     		mov	r6, r1	@ low, low
+ 265 0008 FFF7FEFF 		bl	__aeabi_fcmplt	@
+ 266 000c 40B9     		cbnz	r0, .L13	@,
+ 267 000e 2046     		mov	r0, r4	@, value
+ 268 0010 2946     		mov	r1, r5	@, high
+ 269 0012 FFF7FEFF 		bl	__aeabi_fcmpgt	@
+ 270 0016 08B9     		cbnz	r0, .L18	@,
+ 271 0018 2046     		mov	r0, r4	@ D.5372, value
+ 272 001a 70BD     		pop	{r4, r5, r6, pc}	@
+ 273              	.L18:
+ 274 001c 2846     		mov	r0, r5	@ D.5372, high
+ 275 001e 70BD     		pop	{r4, r5, r6, pc}	@
+ 276              	.L13:
+ 277 0020 3046     		mov	r0, r6	@ D.5372, low
+ 278 0022 70BD     		pop	{r4, r5, r6, pc}	@
+ 280              		.section	.text.Limit_Pitch,"ax",%progbits
+ 281              		.align	2
+ 282              		.global	Limit_Pitch
+ 283              		.thumb
+ 284              		.thumb_func
+ 286              	Limit_Pitch:
+ 287              		@ args = 0, pretend = 0, frame = 0
+ 288              		@ frame_needed = 0, uses_anonymous_args = 0
+ 289 0000 38B5     		push	{r3, r4, r5, lr}	@
+ 290 0002 0D46     		mov	r5, r1	@ pitch, pitch
+ 291 0004 0446     		mov	r4, r0	@ step, step
+ 292 0006 0D49     		ldr	r1, .L30	@,
+ 293 0008 2846     		mov	r0, r5	@, pitch
+ 294 000a FFF7FEFF 		bl	__aeabi_fcmplt	@
+ 295 000e 38B1     		cbz	r0, .L20	@,
+ 296 0010 2046     		mov	r0, r4	@, step
+ 297 0012 0021     		movs	r1, #0	@,
+ 298 0014 FFF7FEFF 		bl	__aeabi_fcmpgt	@
+ 299 0018 10B1     		cbz	r0, .L20	@,
+ 300              	.L26:
+ 301 001a 0024     		movs	r4, #0	@ step,
+ 302              	.L22:
+ 303 001c 2046     		mov	r0, r4	@, step
+ 304 001e 38BD     		pop	{r3, r4, r5, pc}	@
+ 305              	.L20:
+ 306 0020 2846     		mov	r0, r5	@, pitch
+ 307 0022 0749     		ldr	r1, .L30+4	@,
+ 308 0024 FFF7FEFF 		bl	__aeabi_fcmpgt	@
+ 309 0028 0028     		cmp	r0, #0	@
+ 310 002a F7D0     		beq	.L22	@
+ 311 002c 2046     		mov	r0, r4	@, step
+ 312 002e 0021     		movs	r1, #0	@,
+ 313 0030 FFF7FEFF 		bl	__aeabi_fcmplt	@
+ 314 0034 0028     		cmp	r0, #0	@
+ 315 0036 F0D1     		bne	.L26	@
+ 316 0038 2046     		mov	r0, r4	@, step
+ 317 003a 38BD     		pop	{r3, r4, r5, pc}	@
+ 318              	.L31:
+ 319              		.align	2
+ 320              	.L30:
+ 321 003c F1665FBF 		.word	-1084266767
+ 322 0040 D90FC93F 		.word	1070141401
+ 324              		.section	.text.Init_Orientation,"ax",%progbits
+ 325              		.align	2
+ 326              		.global	Init_Orientation
+ 327              		.thumb
+ 328              		.thumb_func
+ 330              	Init_Orientation:
+ 331              		@ args = 0, pretend = 0, frame = 0
+ 332              		@ frame_needed = 0, uses_anonymous_args = 0
+ 333 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}	@
+ 334 0004 1A4D     		ldr	r5, .L35	@ tmp154,
+ 335 0006 1B4C     		ldr	r4, .L35+4	@ tmp155,
+ 336 0008 9626     		movs	r6, #150	@ D.5383,
+ 337              	.L34:
+ 338 000a 1948     		ldr	r0, .L35	@,
+ 339 000c FFF7FEFF 		bl	MPU6050_ACC_get	@
+ 340 0010 A968     		ldr	r1, [r5, #8]	@ float	@, AccData
+ 341 0012 2868     		ldr	r0, [r5]	@ float	@, AccData
+ 342 0014 FFF7FEFF 		bl	atan2f	@
+ 343 0018 A968     		ldr	r1, [r5, #8]	@ float	@, AccData
+ 344 001a 8046     		mov	r8, r0	@ D.5384,
+ 345 001c 6868     		ldr	r0, [r5, #4]	@ float	@, AccData
+ 346 001e FFF7FEFF 		bl	atan2f	@
+ 347 0022 1549     		ldr	r1, .L35+8	@,
+ 348 0024 0746     		mov	r7, r0	@ D.5384,
+ 349 0026 2068     		ldr	r0, [r4]	@ float	@, AccAngleSmooth
+ 350 0028 FFF7FEFF 		bl	__aeabi_fmul	@
+ 351 002c 4146     		mov	r1, r8	@, D.5384
+ 352 002e FFF7FEFF 		bl	__aeabi_fsub	@
+ 353 0032 1249     		ldr	r1, .L35+12	@,
+ 354 0034 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 355 0038 0F49     		ldr	r1, .L35+8	@,
+ 356 003a 2060     		str	r0, [r4]	@ float	@, AccAngleSmooth
+ 357 003c 6068     		ldr	r0, [r4, #4]	@ float	@, AccAngleSmooth
+ 358 003e FFF7FEFF 		bl	__aeabi_fmul	@
+ 359 0042 0146     		mov	r1, r0	@ D.5384,
+ 360 0044 3846     		mov	r0, r7	@, D.5384
+ 361 0046 FFF7FEFF 		bl	__aeabi_fadd	@
+ 362 004a 0C49     		ldr	r1, .L35+12	@,
+ 363 004c FFF7FEFF 		bl	__aeabi_fdiv	@
+ 364 0050 6060     		str	r0, [r4, #4]	@ float	@, AccAngleSmooth
+ 365 0052 0120     		movs	r0, #1	@,
+ 366 0054 FFF7FEFF 		bl	Delay_ms	@
+ 367 0058 013E     		subs	r6, r6, #1	@ D.5383, D.5383,
+ 368 005a 064F     		ldr	r7, .L35+4	@ tmp136,
+ 369 005c D5D1     		bne	.L34	@,
+ 370 005e 084B     		ldr	r3, .L35+16	@ tmp146,
+ 371 0060 7868     		ldr	r0, [r7, #4]	@ float	@ AccAngleSmooth, AccAngleSmooth
+ 372 0062 3968     		ldr	r1, [r7]	@ float	@ AccAngleSmooth, AccAngleSmooth
+ 373 0064 0022     		movs	r2, #0	@ tmp153,
+ 374 0066 5860     		str	r0, [r3, #4]	@ float	@ AccAngleSmooth, CameraOrient
+ 375 0068 1960     		str	r1, [r3]	@ float	@ AccAngleSmooth, CameraOrient
+ 376 006a 9A60     		str	r2, [r3, #8]	@ float	@ tmp153, CameraOrient
+ 377 006c BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}	@
+ 378              	.L36:
+ 379              		.align	2
+ 380              	.L35:
+ 381 0070 00000000 		.word	.LANCHOR6
+ 382 0074 00000000 		.word	AccAngleSmooth
+ 383 0078 00001543 		.word	1125449728
+ 384 007c 00001643 		.word	1125515264
+ 385 0080 00000000 		.word	CameraOrient
+ 387              		.section	.text.Get_Orientation,"ax",%progbits
+ 388              		.align	2
+ 389              		.global	Get_Orientation
+ 390              		.thumb
+ 391              		.thumb_func
+ 393              	Get_Orientation:
+ 394              		@ args = 4, pretend = 0, frame = 0
+ 395              		@ frame_needed = 0, uses_anonymous_args = 0
+ 396 0000 2DE9F84F 		push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}	@
+ 397 0004 1746     		mov	r7, r2	@ AccData, AccData
+ 398 0006 9268     		ldr	r2, [r2, #8]	@ float	@ D.5387, MEM[(float *)AccData_2(D) + 8B]
+ 399 0008 0646     		mov	r6, r0	@ SmoothAcc, SmoothAcc
+ 400 000a 0C46     		mov	r4, r1	@ Orient, Orient
+ 401 000c 1046     		mov	r0, r2	@, D.5387
+ 402 000e 1146     		mov	r1, r2	@,
+ 403 0010 1D46     		mov	r5, r3	@ GyroData, GyroData
+ 404 0012 FFF7FEFF 		bl	__aeabi_fmul	@
+ 405 0016 D7F80480 		ldr	r8, [r7, #4]	@ float	@ D.5387, MEM[(float *)AccData_2(D) + 4B]
+ 406 001a 8146     		mov	r9, r0	@ D.5387,
+ 407 001c 4146     		mov	r1, r8	@,
+ 408 001e 4046     		mov	r0, r8	@, D.5387
+ 409 0020 FFF7FEFF 		bl	__aeabi_fmul	@
+ 410 0024 0146     		mov	r1, r0	@ D.5387,
+ 411 0026 4846     		mov	r0, r9	@, D.5387
+ 412 0028 FFF7FEFF 		bl	__aeabi_fadd	@
+ 413 002c D7F80090 		ldr	r9, [r7]	@ float	@ D.5387, *AccData_2(D)
+ 414 0030 DDF82880 		ldr	r8, [sp, #40]	@ float	@ dt, dt
+ 415 0034 FFF7FEFF 		bl	sqrtf	@
+ 416 0038 0146     		mov	r1, r0	@ D.5387,
+ 417 003a 4846     		mov	r0, r9	@, D.5387
+ 418 003c FFF7FEFF 		bl	atan2f	@
+ 419 0040 B968     		ldr	r1, [r7, #8]	@ float	@, MEM[(float *)AccData_2(D) + 8B]
+ 420 0042 8146     		mov	r9, r0	@ D.5387,
+ 421 0044 7868     		ldr	r0, [r7, #4]	@ float	@, MEM[(float *)AccData_2(D) + 4B]
+ 422 0046 FFF7FEFF 		bl	atan2f	@
+ 423 004a 3B49     		ldr	r1, .L38	@,
+ 424 004c 0746     		mov	r7, r0	@ D.5387,
+ 425 004e 3068     		ldr	r0, [r6]	@ float	@, *SmoothAcc_18(D)
+ 426 0050 FFF7FEFF 		bl	__aeabi_fmul	@
+ 427 0054 4946     		mov	r1, r9	@, D.5387
+ 428 0056 FFF7FEFF 		bl	__aeabi_fsub	@
+ 429 005a 3849     		ldr	r1, .L38+4	@,
+ 430 005c FFF7FEFF 		bl	__aeabi_fdiv	@
+ 431 0060 3549     		ldr	r1, .L38	@,
+ 432 0062 3060     		str	r0, [r6]	@ float	@, *SmoothAcc_18(D)
+ 433 0064 7068     		ldr	r0, [r6, #4]	@ float	@, MEM[(float *)SmoothAcc_18(D) + 4B]
+ 434 0066 FFF7FEFF 		bl	__aeabi_fmul	@
+ 435 006a 0146     		mov	r1, r0	@ D.5387,
+ 436 006c 3846     		mov	r0, r7	@, D.5387
+ 437 006e FFF7FEFF 		bl	__aeabi_fadd	@
+ 438 0072 3249     		ldr	r1, .L38+4	@,
+ 439 0074 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 440 0078 7060     		str	r0, [r6, #4]	@ float	@ tmp179, MEM[(float *)SmoothAcc_18(D) + 4B]
+ 441 007a 2968     		ldr	r1, [r5]	@ float	@, *GyroData_29(D)
+ 442 007c 8146     		mov	r9, r0	@ tmp179,
+ 443 007e 4046     		mov	r0, r8	@, dt
+ 444 0080 FFF7FEFF 		bl	__aeabi_fmul	@
+ 445 0084 6768     		ldr	r7, [r4, #4]	@ float	@ D.5387, MEM[(float *)Orient_31(D) + 4B]
+ 446 0086 0146     		mov	r1, r0	@ D.5387,
+ 447 0088 3846     		mov	r0, r7	@, D.5387
+ 448 008a FFF7FEFF 		bl	__aeabi_fadd	@
+ 449 008e 3946     		mov	r1, r7	@, D.5387
+ 450 0090 8246     		mov	r10, r0	@ D.5387,
+ 451 0092 4846     		mov	r0, r9	@, tmp179
+ 452 0094 FFF7FEFF 		bl	__aeabi_fsub	@
+ 453 0098 2949     		ldr	r1, .L38+8	@,
+ 454 009a FFF7FEFF 		bl	__aeabi_fmul	@
+ 455 009e 0146     		mov	r1, r0	@ D.5387,
+ 456 00a0 5046     		mov	r0, r10	@, D.5387
+ 457 00a2 FFF7FEFF 		bl	__aeabi_fadd	@
+ 458 00a6 6060     		str	r0, [r4, #4]	@ float	@ tmp184, MEM[(float *)Orient_31(D) + 4B]
+ 459 00a8 8146     		mov	r9, r0	@ tmp184,
+ 460 00aa FFF7FEFF 		bl	sinf	@
+ 461 00ae 0746     		mov	r7, r0	@ D.5387,
+ 462 00b0 4846     		mov	r0, r9	@, tmp184
+ 463 00b2 FFF7FEFF 		bl	cosf	@
+ 464 00b6 8146     		mov	r9, r0	@ D.5387,
+ 465 00b8 A868     		ldr	r0, [r5, #8]	@ MEM[(float *)GyroData_29(D) + 8B], MEM[(float *)GyroData_29(D) + 8B]
+ 466 00ba 3946     		mov	r1, r7	@, D.5387
+ 467 00bc 00F10040 		add	r0, r0, #-2147483648	@ D.5387, MEM[(float *)GyroData_29(D) + 8B],
+ 468 00c0 FFF7FEFF 		bl	__aeabi_fmul	@
+ 469 00c4 6968     		ldr	r1, [r5, #4]	@ float	@, MEM[(float *)GyroData_29(D) + 4B]
+ 470 00c6 8246     		mov	r10, r0	@ D.5387,
+ 471 00c8 4846     		mov	r0, r9	@, D.5387
+ 472 00ca FFF7FEFF 		bl	__aeabi_fmul	@
+ 473 00ce 0146     		mov	r1, r0	@ D.5387,
+ 474 00d0 5046     		mov	r0, r10	@, D.5387
+ 475 00d2 FFF7FEFF 		bl	__aeabi_fadd	@
+ 476 00d6 0146     		mov	r1, r0	@ D.5387,
+ 477 00d8 4046     		mov	r0, r8	@, dt
+ 478 00da FFF7FEFF 		bl	__aeabi_fmul	@
+ 479 00de D4F800A0 		ldr	r10, [r4]	@ float	@ D.5387, *Orient_31(D)
+ 480 00e2 0146     		mov	r1, r0	@ D.5387,
+ 481 00e4 5046     		mov	r0, r10	@, D.5387
+ 482 00e6 FFF7FEFF 		bl	__aeabi_fadd	@
+ 483 00ea 5146     		mov	r1, r10	@, D.5387
+ 484 00ec 8346     		mov	fp, r0	@ D.5387,
+ 485 00ee 3068     		ldr	r0, [r6]	@ float	@, *SmoothAcc_18(D)
+ 486 00f0 FFF7FEFF 		bl	__aeabi_fsub	@
+ 487 00f4 1249     		ldr	r1, .L38+8	@,
+ 488 00f6 FFF7FEFF 		bl	__aeabi_fmul	@
+ 489 00fa 0146     		mov	r1, r0	@ D.5387,
+ 490 00fc 5846     		mov	r0, fp	@, D.5387
+ 491 00fe FFF7FEFF 		bl	__aeabi_fadd	@
+ 492 0102 2060     		str	r0, [r4]	@ float	@, *Orient_31(D)
+ 493 0104 A968     		ldr	r1, [r5, #8]	@ MEM[(float *)GyroData_29(D) + 8B], MEM[(float *)GyroData_29(D) + 8B]
+ 494 0106 4846     		mov	r0, r9	@, D.5387
+ 495 0108 01F10041 		add	r1, r1, #-2147483648	@ D.5387, MEM[(float *)GyroData_29(D) + 8B],
+ 496 010c FFF7FEFF 		bl	__aeabi_fmul	@
+ 497 0110 6968     		ldr	r1, [r5, #4]	@ float	@, MEM[(float *)GyroData_29(D) + 4B]
+ 498 0112 0646     		mov	r6, r0	@ D.5387,
+ 499 0114 3846     		mov	r0, r7	@, D.5387
+ 500 0116 FFF7FEFF 		bl	__aeabi_fmul	@
+ 501 011a 0146     		mov	r1, r0	@ D.5387,
+ 502 011c 3046     		mov	r0, r6	@, D.5387
+ 503 011e FFF7FEFF 		bl	__aeabi_fsub	@
+ 504 0122 0146     		mov	r1, r0	@ D.5387,
+ 505 0124 4046     		mov	r0, r8	@, dt
+ 506 0126 FFF7FEFF 		bl	__aeabi_fmul	@
+ 507 012a 0146     		mov	r1, r0	@ D.5387,
+ 508 012c A068     		ldr	r0, [r4, #8]	@ float	@, MEM[(float *)Orient_31(D) + 8B]
+ 509 012e FFF7FEFF 		bl	__aeabi_fadd	@
+ 510 0132 A060     		str	r0, [r4, #8]	@ float	@, MEM[(float *)Orient_31(D) + 8B]
+ 511 0134 BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}	@
+ 512              	.L39:
+ 513              		.align	2
+ 514              	.L38:
+ 515 0138 0000C642 		.word	1120272384
+ 516 013c 0000C842 		.word	1120403456
+ 517 0140 17B75139 		.word	961656599
+ 519              		.section	.text.autoPan,"ax",%progbits
+ 520              		.align	2
+ 521              		.global	autoPan
+ 522              		.thumb
+ 523              		.thumb_func
+ 525              	autoPan:
+ 526              		@ args = 0, pretend = 0, frame = 0
+ 527              		@ frame_needed = 0, uses_anonymous_args = 0
+ 528 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}	@
+ 529 0002 1E4D     		ldr	r5, .L53	@ tmp124,
+ 530 0004 0446     		mov	r4, r0	@ motorPos, motorPos
+ 531 0006 2E68     		ldr	r6, [r5]	@ float	@ centerPoint.6, centerPoint
+ 532 0008 0F46     		mov	r7, r1	@ setpoint, setpoint
+ 533 000a 3046     		mov	r0, r6	@, centerPoint.6
+ 534 000c 4FF08041 		mov	r1, #1073741824	@,
+ 535 0010 FFF7FEFF 		bl	__aeabi_fsub	@
+ 536 0014 2146     		mov	r1, r4	@, motorPos
+ 537 0016 FFF7FEFF 		bl	__aeabi_fcmpgt	@
+ 538 001a 0028     		cmp	r0, #0	@
+ 539 001c 2BD1     		bne	.L51	@
+ 540 001e 4FF08041 		mov	r1, #1073741824	@,
+ 541 0022 3046     		mov	r0, r6	@, centerPoint.6
+ 542 0024 FFF7FEFF 		bl	__aeabi_fadd	@
+ 543 0028 0146     		mov	r1, r0	@ D.5390,
+ 544 002a 2046     		mov	r0, r4	@, motorPos
+ 545 002c FFF7FEFF 		bl	__aeabi_fcmpgt	@
+ 546 0030 B0B9     		cbnz	r0, .L52	@,
+ 547 0032 134A     		ldr	r2, .L53+4	@ tmp137,
+ 548 0034 0023     		movs	r3, #0	@ tmp138,
+ 549 0036 2B60     		str	r3, [r5]	@ float	@ tmp138, centerPoint
+ 550 0038 1360     		str	r3, [r2]	@ float	@ tmp138, step
+ 551 003a 1D46     		mov	r5, r3	@ D.5390, tmp138
+ 552              	.L43:
+ 553 003c 114C     		ldr	r4, .L53+8	@ tmp141,
+ 554 003e 1249     		ldr	r1, .L53+12	@,
+ 555 0040 2068     		ldr	r0, [r4]	@ float	@, stepSmooth
+ 556 0042 FFF7FEFF 		bl	__aeabi_fmul	@
+ 557 0046 2946     		mov	r1, r5	@, D.5390
+ 558 0048 FFF7FEFF 		bl	__aeabi_fadd	@
+ 559 004c 0F49     		ldr	r1, .L53+16	@,
+ 560 004e FFF7FEFF 		bl	__aeabi_fdiv	@
+ 561 0052 0346     		mov	r3, r0	@ tmp144,
+ 562 0054 0146     		mov	r1, r0	@, tmp144
+ 563 0056 2360     		str	r3, [r4]	@ float	@ tmp144, stepSmooth
+ 564 0058 3846     		mov	r0, r7	@, setpoint
+ 565 005a FFF7FEFF 		bl	__aeabi_fsub	@
+ 566 005e F8BD     		pop	{r3, r4, r5, r6, r7, pc}	@
+ 567              	.L52:
+ 568 0060 4FF04043 		mov	r3, #-1073741824	@ tmp134,
+ 569              	.L50:
+ 570 0064 2B60     		str	r3, [r5]	@ float	@ tmp134, centerPoint
+ 571 0066 2046     		mov	r0, r4	@, motorPos
+ 572 0068 0949     		ldr	r1, .L53+20	@,
+ 573 006a FFF7FEFF 		bl	__aeabi_fmul	@
+ 574 006e 044B     		ldr	r3, .L53+4	@ tmp136,
+ 575 0070 0546     		mov	r5, r0	@ D.5390, tmp135
+ 576 0072 1860     		str	r0, [r3]	@ float	@ tmp135, step
+ 577 0074 E2E7     		b	.L43	@
+ 578              	.L51:
+ 579 0076 4FF08043 		mov	r3, #1073741824	@ tmp128,
+ 580 007a F3E7     		b	.L50	@
+ 581              	.L54:
+ 582              		.align	2
+ 583              	.L53:
+ 584 007c 00000000 		.word	.LANCHOR7
+ 585 0080 00000000 		.word	.LANCHOR8
+ 586 0084 00000000 		.word	.LANCHOR9
+ 587 0088 00001C42 		.word	1109131264
+ 588 008c 00002042 		.word	1109393408
+ 589 0090 CDCC0C3F 		.word	1057803469
+ 591              		.global	__aeabi_i2f
+ 592              		.global	__aeabi_f2d
+ 593              		.section	.text.engineProcess,"ax",%progbits
+ 594              		.align	2
+ 595              		.global	engineProcess
+ 596              		.thumb
+ 597              		.thumb_func
+ 599              	engineProcess:
+ 600              		@ args = 0, pretend = 0, frame = 48
+ 601              		@ frame_needed = 0, uses_anonymous_args = 0
+ 602 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}	@
+ 603 0004 DFF87C92 		ldr	r9, .L105+104	@ tmp394,
+ 604 0008 99B0     		sub	sp, sp, #100	@,,
+ 605 000a D9F80030 		ldr	r3, [r9]	@ loopCounter, loopCounter
+ 606 000e 8346     		mov	fp, r0	@ dt, dt
+ 607 0010 0133     		adds	r3, r3, #1	@ loopCounter.12, loopCounter,
+ 608 0012 C9F80030 		str	r3, [r9]	@ loopCounter.12, loopCounter
+ 609 0016 FFF7FEFF 		bl	LEDon	@
+ 610 001a FFF7FEFF 		bl	DEBUG_LEDoff	@
+ 611 001e 16A8     		add	r0, sp, #88	@,,
+ 612 0020 FFF7FEFF 		bl	StopWatchInit	@
+ 613 0024 7D48     		ldr	r0, .L105	@,
+ 614 0026 FFF7FEFF 		bl	MPU6050_ACC_get	@
+ 615 002a 16A8     		add	r0, sp, #88	@,,
+ 616 002c FFF7FEFF 		bl	StopWatchLap	@
+ 617 0030 1190     		str	r0, [sp, #68]	@, %sfp
+ 618 0032 7B48     		ldr	r0, .L105+4	@,
+ 619 0034 FFF7FEFF 		bl	MPU6050_Gyro_get	@
+ 620 0038 16A8     		add	r0, sp, #88	@,,
+ 621 003a FFF7FEFF 		bl	StopWatchLap	@
+ 622 003e 784B     		ldr	r3, .L105+4	@,
+ 623 0040 1290     		str	r0, [sp, #72]	@, %sfp
+ 624 0042 7849     		ldr	r1, .L105+8	@,
+ 625 0044 7848     		ldr	r0, .L105+12	@,
+ 626 0046 754A     		ldr	r2, .L105	@,
+ 627 0048 CDF800B0 		str	fp, [sp]	@ float	@ dt,
+ 628 004c FFF7FEFF 		bl	Get_Orientation	@
+ 629 0050 16A8     		add	r0, sp, #88	@,,
+ 630 0052 FFF7FEFF 		bl	StopWatchLap	@
+ 631 0056 754D     		ldr	r5, .L105+16	@ tmp401,
+ 632 0058 1390     		str	r0, [sp, #76]	@, %sfp
+ 633 005a 6B7A     		ldrb	r3, [r5, #9]	@ zero_extendqisi2	@ configData, configData
+ 634 005c 312B     		cmp	r3, #49	@ configData,
+ 635 005e 00F02082 		beq	.L96	@,
+ 636              	.L56:
+ 637 0062 734C     		ldr	r4, .L105+20	@ tmp396,
+ 638 0064 6F4E     		ldr	r6, .L105+8	@ tmp402,
+ 639 0066 6068     		ldr	r0, [r4, #4]	@ float	@ Step, Step
+ 640 0068 0146     		mov	r1, r0	@,
+ 641 006a FFF7FEFF 		bl	__aeabi_fadd	@
+ 642 006e 714B     		ldr	r3, .L105+24	@,
+ 643 0070 7168     		ldr	r1, [r6, #4]	@ float	@, CameraOrient
+ 644 0072 1860     		str	r0, [r3]	@ float	@, pitchRCOffset
+ 645 0074 FFF7FEFF 		bl	__aeabi_fadd	@
+ 646 0078 6F49     		ldr	r1, .L105+28	@,
+ 647 007a FFF7FEFF 		bl	__aeabi_fmul	@
+ 648 007e 6F49     		ldr	r1, .L105+32	@,
+ 649 0080 8046     		mov	r8, r0	@ D.5394,
+ 650 0082 FFF7FEFF 		bl	__aeabi_fcmplt	@
+ 651 0086 0028     		cmp	r0, #0	@
+ 652 0088 40F0A880 		bne	.L71	@
+ 653 008c 4046     		mov	r0, r8	@, D.5394
+ 654 008e 4FF07E51 		mov	r1, #1065353216	@,
+ 655 0092 FFF7FEFF 		bl	__aeabi_fcmpgt	@
+ 656 0096 08B1     		cbz	r0, .L57	@,
+ 657 0098 4FF07E58 		mov	r8, #1065353216	@ D.5394,
+ 658              	.L57:
+ 659 009c 684B     		ldr	r3, .L105+36	@ tmp257,
+ 660 009e 694F     		ldr	r7, .L105+40	@ tmp397,
+ 661 00a0 C3F80080 		str	r8, [r3]	@ float	@ D.5394, pitch_angle_correction
+ 662 00a4 3868     		ldr	r0, [r7]	@ float	@, pitch_setpoint
+ 663 00a6 4146     		mov	r1, r8	@, D.5394
+ 664 00a8 FFF7FEFF 		bl	__aeabi_fadd	@
+ 665 00ac DFF8D881 		ldr	r8, .L105+108	@ tmp263,
+ 666 00b0 3860     		str	r0, [r7]	@ float	@, pitch_setpoint
+ 667 00b2 6549     		ldr	r1, .L105+44	@,
+ 668 00b4 2068     		ldr	r0, [r4]	@ float	@, Step
+ 669 00b6 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 670 00ba D8F80010 		ldr	r1, [r8]	@ float	@, rollRCOffset
+ 671 00be FFF7FEFF 		bl	__aeabi_fadd	@
+ 672 00c2 3168     		ldr	r1, [r6]	@ float	@, CameraOrient
+ 673 00c4 C8F80000 		str	r0, [r8]	@ float	@, rollRCOffset
+ 674 00c8 FFF7FEFF 		bl	__aeabi_fadd	@
+ 675 00cc 8046     		mov	r8, r0	@ tmp267,
+ 676 00ce E87A     		ldrb	r0, [r5, #11]	@ zero_extendqisi2	@ D.5395, configData
+ 677 00d0 6438     		subs	r0, r0, #100	@, D.5395,
+ 678 00d2 FFF7FEFF 		bl	__aeabi_i2f	@
+ 679 00d6 5D49     		ldr	r1, .L105+48	@,
+ 680 00d8 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 681 00dc FFF7FEFF 		bl	Deg2Rad	@
+ 682 00e0 0146     		mov	r1, r0	@ D.5394,
+ 683 00e2 4046     		mov	r0, r8	@, tmp267
+ 684 00e4 FFF7FEFF 		bl	__aeabi_fadd	@
+ 685 00e8 5349     		ldr	r1, .L105+28	@,
+ 686 00ea FFF7FEFF 		bl	__aeabi_fmul	@
+ 687 00ee 5349     		ldr	r1, .L105+32	@,
+ 688 00f0 8246     		mov	r10, r0	@ D.5394,
+ 689 00f2 FFF7FEFF 		bl	__aeabi_fcmplt	@
+ 690 00f6 0028     		cmp	r0, #0	@
+ 691 00f8 6DD1     		bne	.L72	@
+ 692 00fa 5046     		mov	r0, r10	@, D.5394
+ 693 00fc 4FF07E51 		mov	r1, #1065353216	@,
+ 694 0100 FFF7FEFF 		bl	__aeabi_fcmpgt	@
+ 695 0104 08B1     		cbz	r0, .L59	@,
+ 696 0106 4FF07E5A 		mov	r10, #1065353216	@ D.5394,
+ 697              	.L59:
+ 698 010a 514B     		ldr	r3, .L105+52	@ tmp279,
+ 699 010c DFF87C81 		ldr	r8, .L105+112	@ tmp395,
+ 700 0110 C3F800A0 		str	r10, [r3]	@ float	@ D.5394, roll_angle_correction
+ 701 0114 D8F80000 		ldr	r0, [r8]	@ float	@, roll_setpoint
+ 702 0118 5146     		mov	r1, r10	@, D.5394
+ 703 011a FFF7FEFF 		bl	__aeabi_fadd	@
+ 704 011e AB7A     		ldrb	r3, [r5, #10]	@ zero_extendqisi2	@ configData, configData
+ 705 0120 C8F80000 		str	r0, [r8]	@ float	@, roll_setpoint
+ 706 0124 302B     		cmp	r3, #48	@ configData,
+ 707 0126 00F0C181 		beq	.L97	@,
+ 708 012a A368     		ldr	r3, [r4, #8]	@ float	@ D.5394, Step
+ 709 012c DFF860A1 		ldr	r10, .L105+116	@ tmp399,
+ 710 0130 1846     		mov	r0, r3	@, D.5394
+ 711 0132 DAF80010 		ldr	r1, [r10]	@ float	@, yaw_setpoint
+ 712 0136 0D93     		str	r3, [sp, #52]	@,
+ 713 0138 FFF7FEFF 		bl	__aeabi_fadd	@
+ 714 013c 0D9B     		ldr	r3, [sp, #52]	@,
+ 715 013e 454D     		ldr	r5, .L105+56	@ tmp294,
+ 716 0140 CAF80000 		str	r0, [r10]	@ float	@, yaw_setpoint
+ 717 0144 4049     		ldr	r1, .L105+44	@,
+ 718 0146 1846     		mov	r0, r3	@, D.5394
+ 719 0148 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 720 014c 2968     		ldr	r1, [r5]	@ float	@, yawRCOffset
+ 721 014e FFF7FEFF 		bl	__aeabi_fadd	@
+ 722 0152 2860     		str	r0, [r5]	@ float	@, yawRCOffset
+ 723              	.L62:
+ 724 0154 16A8     		add	r0, sp, #88	@,,
+ 725 0156 FFF7FEFF 		bl	StopWatchLap	@
+ 726 015a 1490     		str	r0, [sp, #80]	@, %sfp
+ 727 015c FFF7FEFF 		bl	pitch_PID	@
+ 728 0160 FFF7FEFF 		bl	roll_PID	@
+ 729 0164 FFF7FEFF 		bl	yaw_PID	@
+ 730 0168 16A8     		add	r0, sp, #88	@,,
+ 731 016a FFF7FEFF 		bl	StopWatchLap	@
+ 732 016e 1590     		str	r0, [sp, #84]	@, %sfp
+ 733 0170 16A8     		add	r0, sp, #88	@,,
+ 734 0172 FFF7FEFF 		bl	StopWatchTotal	@
+ 735 0176 384D     		ldr	r5, .L105+60	@ tmp400,
+ 736 0178 8446     		mov	ip, r0	@ tAll,
+ 737 017a 2B68     		ldr	r3, [r5]	@ printcounter, printcounter
+ 738 017c 0133     		adds	r3, r3, #1	@ printcounter.31, printcounter,
+ 739 017e B3F5FA7F 		cmp	r3, #500	@ printcounter.31,
+ 740 0182 2B60     		str	r3, [r5]	@ printcounter.31, printcounter
+ 741 0184 22DB     		blt	.L63	@,
+ 742 0186 354B     		ldr	r3, .L105+64	@ tmp304,
+ 743 0188 1B68     		ldr	r3, [r3]	@ debugPrint, debugPrint
+ 744 018a 002B     		cmp	r3, #0	@ debugPrint
+ 745 018c 40F08280 		bne	.L98	@
+ 746 0190 334B     		ldr	r3, .L105+68	@ tmp325,
+ 747 0192 1B68     		ldr	r3, [r3]	@ debugSense, debugSense
+ 748 0194 002B     		cmp	r3, #0	@ debugSense
+ 749 0196 40F0C380 		bne	.L99	@
+ 750              	.L65:
+ 751 019a 324B     		ldr	r3, .L105+72	@ tmp341,
+ 752 019c 1B68     		ldr	r3, [r3]	@ debugPerf, debugPerf
+ 753 019e 002B     		cmp	r3, #0	@ debugPerf
+ 754 01a0 40F0F280 		bne	.L100	@
+ 755              	.L66:
+ 756 01a4 304B     		ldr	r3, .L105+76	@ tmp345,
+ 757 01a6 1B68     		ldr	r3, [r3]	@ debugRC, debugRC
+ 758 01a8 002B     		cmp	r3, #0	@ debugRC
+ 759 01aa 40F00B81 		bne	.L101	@
+ 760              	.L67:
+ 761 01ae 2F4B     		ldr	r3, .L105+80	@ tmp360,
+ 762 01b0 1B68     		ldr	r3, [r3]	@ debugOrient, debugOrient
+ 763 01b2 002B     		cmp	r3, #0	@ debugOrient
+ 764 01b4 40F03081 		bne	.L102	@
+ 765              	.L68:
+ 766 01b8 2D4B     		ldr	r3, .L105+84	@ tmp369,
+ 767 01ba 1B68     		ldr	r3, [r3]	@ debugCnt, debugCnt
+ 768 01bc 002B     		cmp	r3, #0	@ debugCnt
+ 769 01be 40F04681 		bne	.L103	@
+ 770              	.L69:
+ 771 01c2 2C4B     		ldr	r3, .L105+88	@ tmp381,
+ 772 01c4 1B68     		ldr	r3, [r3]	@ debugAutoPan, debugAutoPan
+ 773 01c6 63B9     		cbnz	r3, .L104	@ debugAutoPan,
+ 774              	.L70:
+ 775 01c8 0023     		movs	r3, #0	@ tmp393,
+ 776 01ca 2B60     		str	r3, [r5]	@ tmp393, printcounter
+ 777              	.L63:
+ 778 01cc FFF7FEFF 		bl	LEDoff	@
+ 779 01d0 19B0     		add	sp, sp, #100	@,,
+ 780              		@ sp needed	@
+ 781 01d2 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}	@
+ 782              	.L72:
+ 783 01d6 DFF864A0 		ldr	r10, .L105+32	@ D.5394,
+ 784 01da 96E7     		b	.L59	@
+ 785              	.L71:
+ 786 01dc DFF85C80 		ldr	r8, .L105+32	@ D.5394,
+ 787 01e0 5CE7     		b	.L57	@
+ 788              	.L104:
+ 789 01e2 254C     		ldr	r4, .L105+92	@ tmp384,
+ 790 01e4 6068     		ldr	r0, [r4, #4]	@ float	@, Output
+ 791 01e6 FFF7FEFF 		bl	__aeabi_f2d	@
+ 792 01ea 0646     		mov	r6, r0	@ D.5396,
+ 793 01ec 2068     		ldr	r0, [r4]	@ float	@, Output
+ 794 01ee 0F46     		mov	r7, r1	@ D.5396,
+ 795 01f0 FFF7FEFF 		bl	__aeabi_f2d	@
+ 796 01f4 CDE90001 		strd	r0, [sp]	@,
+ 797 01f8 A068     		ldr	r0, [r4, #8]	@ float	@, Output
+ 798 01fa FFF7FEFF 		bl	__aeabi_f2d	@
+ 799 01fe CDE90201 		strd	r0, [sp, #8]	@,,
+ 800 0202 1E4B     		ldr	r3, .L105+96	@ tmp390,
+ 801 0204 1868     		ldr	r0, [r3]	@ float	@, centerPoint
+ 802 0206 FFF7FEFF 		bl	__aeabi_f2d	@
+ 803 020a 3246     		mov	r2, r6	@, D.5396
+ 804 020c CDE90401 		strd	r0, [sp, #16]	@,,
+ 805 0210 3B46     		mov	r3, r7	@, D.5396
+ 806 0212 1B48     		ldr	r0, .L105+100	@,
+ 807 0214 FFF7FEFF 		bl	print	@
+ 808 0218 D6E7     		b	.L70	@
+ 809              	.L106:
+ 810 021a 00BF     		.align	2
+ 811              	.L105:
+ 812 021c 00000000 		.word	.LANCHOR6
+ 813 0220 00000000 		.word	.LANCHOR11
+ 814 0224 00000000 		.word	CameraOrient
+ 815 0228 00000000 		.word	AccAngleSmooth
+ 816 022c 00000000 		.word	configData
+ 817 0230 00000000 		.word	.LANCHOR12
+ 818 0234 00000000 		.word	.LANCHOR14
+ 819 0238 33336542 		.word	1113928499
+ 820 023c 000080BF 		.word	-1082130432
+ 821 0240 00000000 		.word	pitch_angle_correction
+ 822 0244 00000000 		.word	.LANCHOR2
+ 823 0248 00007A44 		.word	1148846080
+ 824 024c 00002041 		.word	1092616192
+ 825 0250 00000000 		.word	roll_angle_correction
+ 826 0254 00000000 		.word	.LANCHOR16
+ 827 0258 00000000 		.word	.LANCHOR17
+ 828 025c 00000000 		.word	.LANCHOR18
+ 829 0260 00000000 		.word	.LANCHOR19
+ 830 0264 00000000 		.word	.LANCHOR20
+ 831 0268 00000000 		.word	.LANCHOR21
+ 832 026c 00000000 		.word	.LANCHOR22
+ 833 0270 00000000 		.word	.LANCHOR23
+ 834 0274 00000000 		.word	.LANCHOR24
+ 835 0278 00000000 		.word	Output
+ 836 027c 00000000 		.word	.LANCHOR7
+ 837 0280 3C020000 		.word	.LC9
+ 838 0284 00000000 		.word	.LANCHOR10
+ 839 0288 00000000 		.word	.LANCHOR15
+ 840 028c 00000000 		.word	.LANCHOR0
+ 841 0290 00000000 		.word	.LANCHOR4
+ 842              	.L98:
+ 843 0294 8B4A     		ldr	r2, .L107	@ tmp307,
+ 844 0296 D9F80030 		ldr	r3, [r9]	@ loopCounter.11, loopCounter
+ 845 029a 1268     		ldr	r2, [r2]	@ I2Cerrorcount.33, I2Cerrorcount
+ 846 029c 3068     		ldr	r0, [r6]	@ float	@, CameraOrient
+ 847 029e CDF838C0 		str	ip, [sp, #56]	@,
+ 848 02a2 0F92     		str	r2, [sp, #60]	@,
+ 849 02a4 0D93     		str	r3, [sp, #52]	@,
+ 850 02a6 FFF7FEFF 		bl	Rad2Deg	@
+ 851 02aa 0146     		mov	r1, r0	@ D.5394,
+ 852 02ac 7068     		ldr	r0, [r6, #4]	@ float	@, CameraOrient
+ 853 02ae 1091     		str	r1, [sp, #64]	@,
+ 854 02b0 FFF7FEFF 		bl	Rad2Deg	@
+ 855 02b4 8146     		mov	r9, r0	@ D.5394,
+ 856 02b6 B068     		ldr	r0, [r6, #8]	@ float	@, CameraOrient
+ 857 02b8 FFF7FEFF 		bl	Rad2Deg	@
+ 858 02bc 1099     		ldr	r1, [sp, #64]	@,
+ 859 02be 0646     		mov	r6, r0	@ D.5394,
+ 860 02c0 0846     		mov	r0, r1	@, D.5394
+ 861 02c2 FFF7FEFF 		bl	__aeabi_f2d	@
+ 862 02c6 CDE90001 		strd	r0, [sp]	@,
+ 863 02ca 4846     		mov	r0, r9	@, D.5394
+ 864 02cc FFF7FEFF 		bl	__aeabi_f2d	@
+ 865 02d0 CDE90201 		strd	r0, [sp, #8]	@,,
+ 866 02d4 3046     		mov	r0, r6	@, D.5394
+ 867 02d6 FFF7FEFF 		bl	__aeabi_f2d	@
+ 868 02da 0D9B     		ldr	r3, [sp, #52]	@,
+ 869 02dc 0F9A     		ldr	r2, [sp, #60]	@,
+ 870 02de CDE90401 		strd	r0, [sp, #16]	@,,
+ 871 02e2 1946     		mov	r1, r3	@, loopCounter.11
+ 872 02e4 7848     		ldr	r0, .L107+4	@,
+ 873 02e6 FFF7FEFF 		bl	print	@
+ 874 02ea 6068     		ldr	r0, [r4, #4]	@ float	@, Step
+ 875 02ec FFF7FEFF 		bl	__aeabi_f2d	@
+ 876 02f0 0246     		mov	r2, r0	@ D.5396,
+ 877 02f2 0B46     		mov	r3, r1	@ D.5396,
+ 878 02f4 7548     		ldr	r0, .L107+8	@,
+ 879 02f6 FFF7FEFF 		bl	print	@
+ 880 02fa 7549     		ldr	r1, .L107+12	@,
+ 881 02fc 0868     		ldr	r0, [r1]	@ float	@, pitchRCOffset
+ 882 02fe FFF7FEFF 		bl	__aeabi_f2d	@
+ 883 0302 0246     		mov	r2, r0	@ D.5396,
+ 884 0304 0B46     		mov	r3, r1	@ D.5396,
+ 885 0306 7348     		ldr	r0, .L107+16	@,
+ 886 0308 FFF7FEFF 		bl	print	@
+ 887 030c 7248     		ldr	r0, .L107+20	@,
+ 888 030e FFF7FEFF 		bl	print	@
+ 889 0312 724B     		ldr	r3, .L107+24	@ tmp325,
+ 890 0314 DDF838C0 		ldr	ip, [sp, #56]	@,
+ 891 0318 1B68     		ldr	r3, [r3]	@ debugSense, debugSense
+ 892 031a 002B     		cmp	r3, #0	@ debugSense
+ 893 031c 3FF43DAF 		beq	.L65	@
+ 894              	.L99:
+ 895 0320 5846     		mov	r0, fp	@, dt
+ 896 0322 CDF838C0 		str	ip, [sp, #56]	@,
+ 897 0326 FFF7FEFF 		bl	__aeabi_f2d	@
+ 898 032a 6D4E     		ldr	r6, .L107+28	@ tmp329,
+ 899 032c 0246     		mov	r2, r0	@ D.5396,
+ 900 032e 3068     		ldr	r0, [r6]	@ float	@, AccData
+ 901 0330 0F92     		str	r2, [sp, #60]	@,
+ 902 0332 0D91     		str	r1, [sp, #52]	@ tmp3,
+ 903 0334 FFF7FEFF 		bl	__aeabi_f2d	@
+ 904 0338 CDE90001 		strd	r0, [sp]	@,
+ 905 033c 7068     		ldr	r0, [r6, #4]	@ float	@, AccData
+ 906 033e FFF7FEFF 		bl	__aeabi_f2d	@
+ 907 0342 CDE90201 		strd	r0, [sp, #8]	@,,
+ 908 0346 B068     		ldr	r0, [r6, #8]	@ float	@, AccData
+ 909 0348 FFF7FEFF 		bl	__aeabi_f2d	@
+ 910 034c CDE90401 		strd	r0, [sp, #16]	@,,
+ 911 0350 644E     		ldr	r6, .L107+32	@ tmp335,
+ 912 0352 3068     		ldr	r0, [r6]	@ float	@, GyroData
+ 913 0354 FFF7FEFF 		bl	__aeabi_f2d	@
+ 914 0358 CDE90601 		strd	r0, [sp, #24]	@,,
+ 915 035c 7068     		ldr	r0, [r6, #4]	@ float	@, GyroData
+ 916 035e FFF7FEFF 		bl	__aeabi_f2d	@
+ 917 0362 CDE90801 		strd	r0, [sp, #32]	@,,
+ 918 0366 B068     		ldr	r0, [r6, #8]	@ float	@, GyroData
+ 919 0368 FFF7FEFF 		bl	__aeabi_f2d	@
+ 920 036c 0D9B     		ldr	r3, [sp, #52]	@,
+ 921 036e CDE90A01 		strd	r0, [sp, #40]	@,,
+ 922 0372 0F9A     		ldr	r2, [sp, #60]	@,
+ 923 0374 5C48     		ldr	r0, .L107+36	@,
+ 924 0376 FFF7FEFF 		bl	print	@
+ 925 037a 5C4B     		ldr	r3, .L107+40	@ tmp341,
+ 926 037c DDF838C0 		ldr	ip, [sp, #56]	@,
+ 927 0380 1B68     		ldr	r3, [r3]	@ debugPerf, debugPerf
+ 928 0382 002B     		cmp	r3, #0	@ debugPerf
+ 929 0384 3FF40EAF 		beq	.L66	@
+ 930              	.L100:
+ 931 0388 CDF838C0 		str	ip, [sp, #56]	@,
+ 932 038c FFF7FEFF 		bl	GetIdlePerf	@
+ 933 0390 FFF7FEFF 		bl	__aeabi_f2d	@
+ 934 0394 0B46     		mov	r3, r1	@ D.5396,
+ 935 0396 1199     		ldr	r1, [sp, #68]	@, %sfp
+ 936 0398 DDF838C0 		ldr	ip, [sp, #56]	@,
+ 937 039c 0191     		str	r1, [sp, #4]	@,
+ 938 039e 1299     		ldr	r1, [sp, #72]	@, %sfp
+ 939 03a0 0246     		mov	r2, r0	@ D.5396,
+ 940 03a2 0291     		str	r1, [sp, #8]	@,
+ 941 03a4 1399     		ldr	r1, [sp, #76]	@, %sfp
+ 942 03a6 CDF800C0 		str	ip, [sp]	@ tAll,
+ 943 03aa 0391     		str	r1, [sp, #12]	@,
+ 944 03ac 1499     		ldr	r1, [sp, #80]	@, %sfp
+ 945 03ae 5048     		ldr	r0, .L107+44	@,
+ 946 03b0 0491     		str	r1, [sp, #16]	@,
+ 947 03b2 1599     		ldr	r1, [sp, #84]	@, %sfp
+ 948 03b4 0591     		str	r1, [sp, #20]	@,
+ 949 03b6 FFF7FEFF 		bl	print	@
+ 950 03ba 4E4B     		ldr	r3, .L107+48	@ tmp345,
+ 951 03bc 1B68     		ldr	r3, [r3]	@ debugRC, debugRC
+ 952 03be 002B     		cmp	r3, #0	@ debugRC
+ 953 03c0 3FF4F5AE 		beq	.L67	@
+ 954              	.L101:
+ 955 03c4 4C4E     		ldr	r6, .L107+52	@ tmp348,
+ 956 03c6 3068     		ldr	r0, [r6]	@ float	@, RCSmooth
+ 957 03c8 FFF7FEFF 		bl	__aeabi_f2d	@
+ 958 03cc 0246     		mov	r2, r0	@ D.5396,
+ 959 03ce 7068     		ldr	r0, [r6, #4]	@ float	@, RCSmooth
+ 960 03d0 0F92     		str	r2, [sp, #60]	@,
+ 961 03d2 0D91     		str	r1, [sp, #52]	@ tmp3,
+ 962 03d4 FFF7FEFF 		bl	__aeabi_f2d	@
+ 963 03d8 CDE90001 		strd	r0, [sp]	@,
+ 964 03dc B068     		ldr	r0, [r6, #8]	@ float	@, RCSmooth
+ 965 03de FFF7FEFF 		bl	__aeabi_f2d	@
+ 966 03e2 CDE90201 		strd	r0, [sp, #8]	@,,
+ 967 03e6 2068     		ldr	r0, [r4]	@ float	@, Step
+ 968 03e8 FFF7FEFF 		bl	__aeabi_f2d	@
+ 969 03ec CDE90401 		strd	r0, [sp, #16]	@,,
+ 970 03f0 6068     		ldr	r0, [r4, #4]	@ float	@, Step
+ 971 03f2 FFF7FEFF 		bl	__aeabi_f2d	@
+ 972 03f6 CDE90601 		strd	r0, [sp, #24]	@,,
+ 973 03fa A068     		ldr	r0, [r4, #8]	@ float	@, Step
+ 974 03fc FFF7FEFF 		bl	__aeabi_f2d	@
+ 975 0400 0D9B     		ldr	r3, [sp, #52]	@,
+ 976 0402 CDE90801 		strd	r0, [sp, #32]	@,,
+ 977 0406 0F9A     		ldr	r2, [sp, #60]	@,
+ 978 0408 3C48     		ldr	r0, .L107+56	@,
+ 979 040a FFF7FEFF 		bl	print	@
+ 980 040e 3C4B     		ldr	r3, .L107+60	@ tmp360,
+ 981 0410 1B68     		ldr	r3, [r3]	@ debugOrient, debugOrient
+ 982 0412 002B     		cmp	r3, #0	@ debugOrient
+ 983 0414 3FF4D0AE 		beq	.L68	@
+ 984              	.L102:
+ 985 0418 D8F80000 		ldr	r0, [r8]	@ float	@, roll_setpoint
+ 986 041c FFF7FEFF 		bl	__aeabi_f2d	@
+ 987 0420 8046     		mov	r8, r0	@ D.5396,
+ 988 0422 3868     		ldr	r0, [r7]	@ float	@, pitch_setpoint
+ 989 0424 8946     		mov	r9, r1	@ D.5396,
+ 990 0426 FFF7FEFF 		bl	__aeabi_f2d	@
+ 991 042a CDE90001 		strd	r0, [sp]	@,
+ 992 042e DAF80000 		ldr	r0, [r10]	@ float	@, yaw_setpoint
+ 993 0432 FFF7FEFF 		bl	__aeabi_f2d	@
+ 994 0436 4B46     		mov	r3, r9	@, D.5396
+ 995 0438 CDE90201 		strd	r0, [sp, #8]	@,,
+ 996 043c 4246     		mov	r2, r8	@, D.5396
+ 997 043e 3148     		ldr	r0, .L107+64	@,
+ 998 0440 FFF7FEFF 		bl	print	@
+ 999 0444 304B     		ldr	r3, .L107+68	@ tmp369,
+ 1000 0446 1B68     		ldr	r3, [r3]	@ debugCnt, debugCnt
+ 1001 0448 002B     		cmp	r3, #0	@ debugCnt
+ 1002 044a 3FF4BAAE 		beq	.L69	@
+ 1003              	.L103:
+ 1004 044e 2F4C     		ldr	r4, .L107+72	@ tmp374,
+ 1005 0450 2F4B     		ldr	r3, .L107+76	@ tmp371,
+ 1006 0452 A268     		ldr	r2, [r4, #8]	@ D.5395, MaxCnt
+ 1007 0454 2F48     		ldr	r0, .L107+80	@ tmp377,
+ 1008 0456 D3F80080 		ldr	r8, [r3]	@ D.5395, MinCnt
+ 1009 045a 5F68     		ldr	r7, [r3, #4]	@ D.5395, MinCnt
+ 1010 045c 9E68     		ldr	r6, [r3, #8]	@ D.5395, MinCnt
+ 1011 045e D0F800A0 		ldr	r10, [r0]	@ D.5395, IrqCnt
+ 1012 0462 94E80808 		ldmia	r4, {r3, fp}	@ tmp374,,
+ 1013 0466 D0F80490 		ldr	r9, [r0, #4]	@ D.5395, IrqCnt
+ 1014 046a 8468     		ldr	r4, [r0, #8]	@ D.5395, IrqCnt
+ 1015 046c 0F92     		str	r2, [sp, #60]	@,
+ 1016 046e 0D93     		str	r3, [sp, #52]	@,
+ 1017 0470 FFF7FEFF 		bl	usbOverrun	@
+ 1018 0474 0D9B     		ldr	r3, [sp, #52]	@,
+ 1019 0476 0F9A     		ldr	r2, [sp, #60]	@,
+ 1020 0478 8DE80808 		stmia	sp, {r3, fp}	@,,
+ 1021 047c 0292     		str	r2, [sp, #8]	@ D.5395,
+ 1022 047e 3346     		mov	r3, r6	@, D.5395
+ 1023 0480 0690     		str	r0, [sp, #24]	@,
+ 1024 0482 CDF80CA0 		str	r10, [sp, #12]	@ D.5395,
+ 1025 0486 CDF81090 		str	r9, [sp, #16]	@ D.5395,
+ 1026 048a 0594     		str	r4, [sp, #20]	@ D.5395,
+ 1027 048c 4146     		mov	r1, r8	@, D.5395
+ 1028 048e 3A46     		mov	r2, r7	@, D.5395
+ 1029 0490 2148     		ldr	r0, .L107+84	@,
+ 1030 0492 FFF7FEFF 		bl	print	@
+ 1031 0496 214B     		ldr	r3, .L107+88	@ tmp381,
+ 1032 0498 1B68     		ldr	r3, [r3]	@ debugAutoPan, debugAutoPan
+ 1033 049a 002B     		cmp	r3, #0	@ debugAutoPan
+ 1034 049c 3FF494AE 		beq	.L70	@
+ 1035 04a0 9FE6     		b	.L104	@
+ 1036              	.L96:
+ 1037 04a2 1F48     		ldr	r0, .L107+92	@,
+ 1038 04a4 1449     		ldr	r1, .L107+52	@,
+ 1039 04a6 FFF7FEFF 		bl	Get_RC_Step	@
+ 1040 04aa DAE5     		b	.L56	@
+ 1041              	.L97:
+ 1042 04ac 1D4B     		ldr	r3, .L107+96	@ tmp285,
+ 1043 04ae DFF878A0 		ldr	r10, .L107+100	@ tmp399,
+ 1044 04b2 9868     		ldr	r0, [r3, #8]	@ float	@, Output
+ 1045 04b4 DAF80010 		ldr	r1, [r10]	@ float	@, yaw_setpoint
+ 1046 04b8 FFF7FEFF 		bl	autoPan	@
+ 1047 04bc CAF80000 		str	r0, [r10]	@ float	@, yaw_setpoint
+ 1048 04c0 48E6     		b	.L62	@
+ 1049              	.L108:
+ 1050 04c2 00BF     		.align	2
+ 1051              	.L107:
+ 1052 04c4 00000000 		.word	I2Cerrorcount
+ 1053 04c8 00000000 		.word	.LC0
+ 1054 04cc 48000000 		.word	.LC1
+ 1055 04d0 00000000 		.word	.LANCHOR14
+ 1056 04d4 5C000000 		.word	.LC2
+ 1057 04d8 74000000 		.word	.LC3
+ 1058 04dc 00000000 		.word	.LANCHOR19
+ 1059 04e0 00000000 		.word	.LANCHOR6
+ 1060 04e4 00000000 		.word	.LANCHOR11
+ 1061 04e8 8C000000 		.word	.LC4
+ 1062 04ec 00000000 		.word	.LANCHOR20
+ 1063 04f0 D8000000 		.word	.LC5
+ 1064 04f4 00000000 		.word	.LANCHOR21
+ 1065 04f8 00000000 		.word	.LANCHOR13
+ 1066 04fc 3C010000 		.word	.LC6
+ 1067 0500 00000000 		.word	.LANCHOR22
+ 1068 0504 9C010000 		.word	.LC7
+ 1069 0508 00000000 		.word	.LANCHOR23
+ 1070 050c 00000000 		.word	MaxCnt
+ 1071 0510 00000000 		.word	MinCnt
+ 1072 0514 00000000 		.word	IrqCnt
+ 1073 0518 E4010000 		.word	.LC8
+ 1074 051c 00000000 		.word	.LANCHOR24
+ 1075 0520 00000000 		.word	.LANCHOR12
+ 1076 0524 00000000 		.word	Output
+ 1077 0528 00000000 		.word	.LANCHOR4
+ 1079              		.global	step
+ 1080              		.global	stepSmooth
+ 1081              		.global	centerPoint
+ 1082              		.global	RCSmooth
+ 1083              		.global	Step
+ 1084              		.global	GyroData
+ 1085              		.global	AccData
+ 1086              		.comm	AccAngleSmooth,12,4
+ 1087              		.comm	CameraOrient,12,4
+ 1088              		.comm	Output,12,4
+ 1089              		.comm	yaw_angle_correction,4,4
+ 1090              		.global	yaw_Error_last
+ 1091              		.global	yaw_setpoint
+ 1092              		.comm	roll_angle_correction,4,4
+ 1093              		.global	roll_Error_last
+ 1094              		.global	roll_setpoint
+ 1095              		.comm	pitch_angle_correction,4,4
+ 1096              		.global	pitch_Error_last
+ 1097              		.global	pitch_setpoint
+ 1098              		.global	debugAutoPan
+ 1099              		.global	debugOrient
+ 1100              		.global	debugRC
+ 1101              		.global	debugCnt
+ 1102              		.global	debugSense
+ 1103              		.global	debugPerf
+ 1104              		.global	debugPrint
+ 1105              		.section	.bss.roll_setpoint,"aw",%nobits
+ 1106              		.align	2
+ 1107              		.set	.LANCHOR0,. + 0
+ 1110              	roll_setpoint:
+ 1111 0000 00000000 		.space	4
+ 1112              		.section	.bss.pitchRCOffset,"aw",%nobits
+ 1113              		.align	2
+ 1114              		.set	.LANCHOR14,. + 0
+ 1117              	pitchRCOffset:
+ 1118 0000 00000000 		.space	4
+ 1119              		.section	.bss.debugCnt,"aw",%nobits
+ 1120              		.align	2
+ 1121              		.set	.LANCHOR23,. + 0
+ 1124              	debugCnt:
+ 1125 0000 00000000 		.space	4
+ 1126              		.section	.bss.debugOrient,"aw",%nobits
+ 1127              		.align	2
+ 1128              		.set	.LANCHOR22,. + 0
+ 1131              	debugOrient:
+ 1132 0000 00000000 		.space	4
+ 1133              		.section	.bss.yawRCOffset,"aw",%nobits
+ 1134              		.align	2
+ 1135              		.set	.LANCHOR16,. + 0
+ 1138              	yawRCOffset:
+ 1139 0000 00000000 		.space	4
+ 1140              		.section	.bss.yaw_setpoint,"aw",%nobits
+ 1141              		.align	2
+ 1142              		.set	.LANCHOR4,. + 0
+ 1145              	yaw_setpoint:
+ 1146 0000 00000000 		.space	4
+ 1147              		.section	.bss.centerPoint,"aw",%nobits
+ 1148              		.align	2
+ 1149              		.set	.LANCHOR7,. + 0
+ 1152              	centerPoint:
+ 1153 0000 00000000 		.space	4
+ 1154              		.section	.bss.Step,"aw",%nobits
+ 1155              		.align	2
+ 1156              		.set	.LANCHOR12,. + 0
+ 1159              	Step:
+ 1160 0000 00000000 		.space	12
+ 1160      00000000 
+ 1160      00000000 
+ 1161              		.section	.bss.loopCounter.5037,"aw",%nobits
+ 1162              		.align	2
+ 1163              		.set	.LANCHOR10,. + 0
+ 1166              	loopCounter.5037:
+ 1167 0000 00000000 		.space	4
+ 1168              		.section	.bss.rollRCOffset,"aw",%nobits
+ 1169              		.align	2
+ 1170              		.set	.LANCHOR15,. + 0
+ 1173              	rollRCOffset:
+ 1174 0000 00000000 		.space	4
+ 1175              		.section	.bss.debugAutoPan,"aw",%nobits
+ 1176              		.align	2
+ 1177              		.set	.LANCHOR24,. + 0
+ 1180              	debugAutoPan:
+ 1181 0000 00000000 		.space	4
+ 1182              		.section	.bss.pitch_Error_last,"aw",%nobits
+ 1183              		.align	2
+ 1184              		.set	.LANCHOR3,. + 0
+ 1187              	pitch_Error_last:
+ 1188 0000 00000000 		.space	4
+ 1189              		.section	.bss.debugPrint,"aw",%nobits
+ 1190              		.align	2
+ 1191              		.set	.LANCHOR18,. + 0
+ 1194              	debugPrint:
+ 1195 0000 00000000 		.space	4
+ 1196              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 1197              		.align	2
+ 1198              	.LC0:
+ 1199 0000 4C6F6F70 		.ascii	"Loop: %7d, I2CErrors: %d, angles: roll %7.2f, pitch"
+ 1199      3A202537 
+ 1199      642C2049 
+ 1199      32434572 
+ 1199      726F7273 
+ 1200 0033 2025372E 		.ascii	" %7.2f, yaw %7.2f\015\012\000"
+ 1200      32662C20 
+ 1200      79617720 
+ 1200      25372E32 
+ 1200      660D0A00 
+ 1201 0047 00       		.space	1
+ 1202              	.LC1:
+ 1203 0048 53746570 		.ascii	"Step[PITCH]: %f \015\012\000"
+ 1203      5B504954 
+ 1203      43485D3A 
+ 1203      20256620 
+ 1203      0D0A00
+ 1204 005b 00       		.space	1
+ 1205              	.LC2:
+ 1206 005c 70697463 		.ascii	"pitchRCOffset: %f \015\012\000"
+ 1206      6852434F 
+ 1206      66667365 
+ 1206      743A2025 
+ 1206      66200D0A 
+ 1207 0071 000000   		.space	3
+ 1208              	.LC3:
+ 1209 0074 2D2D2D2D 		.ascii	"------------------- \015\012\000"
+ 1209      2D2D2D2D 
+ 1209      2D2D2D2D 
+ 1209      2D2D2D2D 
+ 1209      2D2D2D20 
+ 1210 008b 00       		.space	1
+ 1211              	.LC4:
+ 1212 008c 20647420 		.ascii	" dt %f, AccData: %8.3f | %8.3f | %8.3f, GyroData %7"
+ 1212      25662C20 
+ 1212      41636344 
+ 1212      6174613A 
+ 1212      2025382E 
+ 1213 00bf 2E336620 		.ascii	".3f | %7.3f | %7.3f \015\012\000"
+ 1213      7C202537 
+ 1213      2E336620 
+ 1213      7C202537 
+ 1213      2E336620 
+ 1214 00d6 0000     		.space	2
+ 1215              	.LC5:
+ 1216 00d8 69646C65 		.ascii	"idle: %5.2f%%, time[\302\265s]: attitude est. %4d, "
+ 1216      3A202535 
+ 1216      2E326625 
+ 1216      252C2074 
+ 1216      696D655B 
+ 1217 0105 494D5520 		.ascii	"IMU acc %4d, gyro %4d, angle %4d, calc %4d, PID %4d"
+ 1217      61636320 
+ 1217      2534642C 
+ 1217      20677972 
+ 1217      6F202534 
+ 1218 0138 0D0A00   		.ascii	"\015\012\000"
+ 1219 013b 00       		.space	1
+ 1220              	.LC6:
+ 1221 013c 20524332 		.ascii	" RC2avg: %7.2f |  RC3avg: %7.2f |  RC4avg: %7.2f | "
+ 1221      6176673A 
+ 1221      2025372E 
+ 1221      3266207C 
+ 1221      20205243 
+ 1222 016f 52537465 		.ascii	"RStep:%7.3f  PStep: %7.3f  YStep: %7.3f\015\012\000"
+ 1222      703A2537 
+ 1222      2E336620 
+ 1222      20505374 
+ 1222      65703A20 
+ 1223 0199 000000   		.space	3
+ 1224              	.LC7:
+ 1225 019c 526F6C6C 		.ascii	"Roll_setpoint:%12.4f | Pitch_setpoint:%12.4f | Yaw_"
+ 1225      5F736574 
+ 1225      706F696E 
+ 1225      743A2531 
+ 1225      322E3466 
+ 1226 01cf 73657470 		.ascii	"setpoint:%12.4f\015\012\000"
+ 1226      6F696E74 
+ 1226      3A253132 
+ 1226      2E34660D 
+ 1226      0A00
+ 1227 01e1 000000   		.space	3
+ 1228              	.LC8:
+ 1229 01e4 436F756E 		.ascii	"Counter min %3d, %3d, %3d,  max %4d, %4d, %4d, coun"
+ 1229      74657220 
+ 1229      6D696E20 
+ 1229      2533642C 
+ 1229      20253364 
+ 1230 0217 74202533 		.ascii	"t %3d, %3d, %3d, usbOverrun %4d\015\012\000"
+ 1230      642C2025 
+ 1230      33642C20 
+ 1230      2533642C 
+ 1230      20757362 
+ 1231 0239 000000   		.space	3
+ 1232              	.LC9:
+ 1233 023c 50697463 		.ascii	"Pitch_output:%3.2f | Roll_output:%3.2f | Yaw_output"
+ 1233      685F6F75 
+ 1233      74707574 
+ 1233      3A25332E 
+ 1233      3266207C 
+ 1234 026f 3A25332E 		.ascii	":%3.2f | centerpoint:%4.4f\012\015\000"
+ 1234      3266207C 
+ 1234      2063656E 
+ 1234      74657270 
+ 1234      6F696E74 
+ 1235              		.section	.bss.AccData,"aw",%nobits
+ 1236              		.align	2
+ 1237              		.set	.LANCHOR6,. + 0
+ 1240              	AccData:
+ 1241 0000 00000000 		.space	12
+ 1241      00000000 
+ 1241      00000000 
+ 1242              		.section	.bss.stepSmooth,"aw",%nobits
+ 1243              		.align	2
+ 1244              		.set	.LANCHOR9,. + 0
+ 1247              	stepSmooth:
+ 1248 0000 00000000 		.space	4
+ 1249              		.section	.bss.GyroData,"aw",%nobits
+ 1250              		.align	2
+ 1251              		.set	.LANCHOR11,. + 0
+ 1254              	GyroData:
+ 1255 0000 00000000 		.space	12
+ 1255      00000000 
+ 1255      00000000 
+ 1256              		.section	.bss.roll_Error_last,"aw",%nobits
+ 1257              		.align	2
+ 1258              		.set	.LANCHOR1,. + 0
+ 1261              	roll_Error_last:
+ 1262 0000 00000000 		.space	4
+ 1263              		.section	.bss.printcounter,"aw",%nobits
+ 1264              		.align	2
+ 1265              		.set	.LANCHOR17,. + 0
+ 1268              	printcounter:
+ 1269 0000 00000000 		.space	4
+ 1270              		.section	.bss.pitch_setpoint,"aw",%nobits
+ 1271              		.align	2
+ 1272              		.set	.LANCHOR2,. + 0
+ 1275              	pitch_setpoint:
+ 1276 0000 00000000 		.space	4
+ 1277              		.section	.bss.debugRC,"aw",%nobits
+ 1278              		.align	2
+ 1279              		.set	.LANCHOR21,. + 0
+ 1282              	debugRC:
+ 1283 0000 00000000 		.space	4
+ 1284              		.section	.bss.step,"aw",%nobits
+ 1285              		.align	2
+ 1286              		.set	.LANCHOR8,. + 0
+ 1289              	step:
+ 1290 0000 00000000 		.space	4
+ 1291              		.section	.bss.debugSense,"aw",%nobits
+ 1292              		.align	2
+ 1293              		.set	.LANCHOR19,. + 0
+ 1296              	debugSense:
+ 1297 0000 00000000 		.space	4
+ 1298              		.section	.bss.RCSmooth,"aw",%nobits
+ 1299              		.align	2
+ 1300              		.set	.LANCHOR13,. + 0
+ 1303              	RCSmooth:
+ 1304 0000 00000000 		.space	12
+ 1304      00000000 
+ 1304      00000000 
+ 1305              		.section	.bss.yaw_Error_last,"aw",%nobits
+ 1306              		.align	2
+ 1307              		.set	.LANCHOR5,. + 0
+ 1310              	yaw_Error_last:
+ 1311 0000 00000000 		.space	4
+ 1312              		.section	.bss.debugPerf,"aw",%nobits
+ 1313              		.align	2
+ 1314              		.set	.LANCHOR20,. + 0
+ 1317              	debugPerf:
+ 1318 0000 00000000 		.space	4
+ 1319              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 engine.c
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:80     .text.roll_PID:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:85     .text.roll_PID:00000000 roll_PID
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:128    .text.roll_PID:00000064 $d
+                            *COM*:0000000c CameraOrient
+                            *COM*:0000000c Output
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:137    .text.pitch_PID:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:142    .text.pitch_PID:00000000 pitch_PID
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:185    .text.pitch_PID:00000064 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:194    .text.yaw_PID:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:199    .text.yaw_PID:00000000 yaw_PID
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:242    .text.yaw_PID:00000064 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:253    .text.constrain:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:258    .text.constrain:00000000 constrain
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:281    .text.Limit_Pitch:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:286    .text.Limit_Pitch:00000000 Limit_Pitch
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:321    .text.Limit_Pitch:0000003c $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:325    .text.Init_Orientation:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:330    .text.Init_Orientation:00000000 Init_Orientation
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:381    .text.Init_Orientation:00000070 $d
+                            *COM*:0000000c AccAngleSmooth
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:388    .text.Get_Orientation:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:393    .text.Get_Orientation:00000000 Get_Orientation
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:515    .text.Get_Orientation:00000138 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:520    .text.autoPan:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:525    .text.autoPan:00000000 autoPan
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:584    .text.autoPan:0000007c $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:594    .text.engineProcess:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:599    .text.engineProcess:00000000 engineProcess
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:812    .text.engineProcess:0000021c $d
+                            *COM*:00000004 pitch_angle_correction
+                            *COM*:00000004 roll_angle_correction
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:843    .text.engineProcess:00000294 $t
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1052   .text.engineProcess:000004c4 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1289   .bss.step:00000000 step
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1247   .bss.stepSmooth:00000000 stepSmooth
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1152   .bss.centerPoint:00000000 centerPoint
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1303   .bss.RCSmooth:00000000 RCSmooth
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1159   .bss.Step:00000000 Step
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1254   .bss.GyroData:00000000 GyroData
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1240   .bss.AccData:00000000 AccData
+                            *COM*:00000004 yaw_angle_correction
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1310   .bss.yaw_Error_last:00000000 yaw_Error_last
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1145   .bss.yaw_setpoint:00000000 yaw_setpoint
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1261   .bss.roll_Error_last:00000000 roll_Error_last
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1110   .bss.roll_setpoint:00000000 roll_setpoint
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1187   .bss.pitch_Error_last:00000000 pitch_Error_last
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1275   .bss.pitch_setpoint:00000000 pitch_setpoint
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1180   .bss.debugAutoPan:00000000 debugAutoPan
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1131   .bss.debugOrient:00000000 debugOrient
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1282   .bss.debugRC:00000000 debugRC
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1124   .bss.debugCnt:00000000 debugCnt
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1296   .bss.debugSense:00000000 debugSense
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1317   .bss.debugPerf:00000000 debugPerf
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1194   .bss.debugPrint:00000000 debugPrint
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1106   .bss.roll_setpoint:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1113   .bss.pitchRCOffset:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1117   .bss.pitchRCOffset:00000000 pitchRCOffset
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1120   .bss.debugCnt:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1127   .bss.debugOrient:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1134   .bss.yawRCOffset:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1138   .bss.yawRCOffset:00000000 yawRCOffset
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1141   .bss.yaw_setpoint:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1148   .bss.centerPoint:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1155   .bss.Step:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1162   .bss.loopCounter.5037:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1166   .bss.loopCounter.5037:00000000 loopCounter.5037
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1169   .bss.rollRCOffset:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1173   .bss.rollRCOffset:00000000 rollRCOffset
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1176   .bss.debugAutoPan:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1183   .bss.pitch_Error_last:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1190   .bss.debugPrint:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1197   .rodata.str1.4:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1236   .bss.AccData:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1243   .bss.stepSmooth:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1250   .bss.GyroData:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1257   .bss.roll_Error_last:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1264   .bss.printcounter:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1268   .bss.printcounter:00000000 printcounter
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1271   .bss.pitch_setpoint:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1278   .bss.debugRC:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1285   .bss.step:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1292   .bss.debugSense:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1299   .bss.RCSmooth:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1306   .bss.yaw_Error_last:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccO2xpiP.s:1313   .bss.debugPerf:00000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_fmul
+__aeabi_fadd
+__aeabi_ui2f
+__aeabi_fdiv
+__aeabi_fsub
+SetRollMotor
+configData
+SetPitchMotor
+SetYawMotor
+__aeabi_fcmplt
+__aeabi_fcmpgt
+MPU6050_ACC_get
+atan2f
+Delay_ms
+sqrtf
+sinf
+cosf
+__aeabi_i2f
+__aeabi_f2d
+LEDon
+DEBUG_LEDoff
+StopWatchInit
+StopWatchLap
+MPU6050_Gyro_get
+Deg2Rad
+StopWatchTotal
+LEDoff
+print
+Rad2Deg
+GetIdlePerf
+usbOverrun
+Get_RC_Step
+I2Cerrorcount
+MaxCnt
+MinCnt
+IrqCnt

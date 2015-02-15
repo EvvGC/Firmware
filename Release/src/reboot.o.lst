@@ -1,0 +1,230 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"reboot.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/reboot.d -MF src/reboot.d -MP -MT src/reboot.d
+  31              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  32              	@ ../src/reboot.c -mcpu=cortex-m3 -mthumb -auxbase-strip src/reboot.o -O2
+  33              	@ -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  34              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  35              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  36              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  37              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  38              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  39              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  40              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  41              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  42              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  43              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  44              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  45              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  46              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  47              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  48              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  49              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  50              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  51              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  52              	@ -freorder-functions -frerun-cse-after-loop
+  53              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  54              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  55              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  56              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  57              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  58              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  59              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  60              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  61              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  62              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  63              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  64              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  65              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  66              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  67              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  68              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  69              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  70              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  71              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  72              	@ -munaligned-access -mvectorize-with-neon-quad
+  73              	
+  74              		.section	.text.BKPInit,"ax",%progbits
+  75              		.align	2
+  76              		.global	BKPInit
+  77              		.thumb
+  78              		.thumb_func
+  80              	BKPInit:
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84 0000 024B     		ldr	r3, .L2	@ tmp112,
+  85 0002 DA69     		ldr	r2, [r3, #28]	@ D.6632, MEM[(struct RCC_TypeDef *)1073876992B].APB1ENR
+  86 0004 42F0C052 		orr	r2, r2, #402653184	@ D.6632, D.6632,
+  87 0008 DA61     		str	r2, [r3, #28]	@ D.6632, MEM[(struct RCC_TypeDef *)1073876992B].APB1ENR
+  88 000a 7047     		bx	lr	@
+  89              	.L3:
+  90              		.align	2
+  91              	.L2:
+  92 000c 00100240 		.word	1073876992
+  94              		.section	.text.BKPRead,"ax",%progbits
+  95              		.align	2
+  96              		.global	BKPRead
+  97              		.thumb
+  98              		.thumb_func
+ 100              	BKPRead:
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103              		@ link register save eliminated.
+ 104 0000 084B     		ldr	r3, .L5	@ tmp122,
+ 105 0002 094A     		ldr	r2, .L5+4	@ tmp124,
+ 106 0004 1968     		ldr	r1, [r3]	@ D.6635, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 107 0006 41F48071 		orr	r1, r1, #256	@ D.6635, D.6635,
+ 108 000a 1960     		str	r1, [r3]	@ D.6635, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 109 000c B2F8B810 		ldrh	r1, [r2, #184]	@, MEM[(struct BKP_TypeDef *)1073769472B].DR41
+ 110 0010 B2F8BC00 		ldrh	r0, [r2, #188]	@, MEM[(struct BKP_TypeDef *)1073769472B].DR42
+ 111 0014 1A68     		ldr	r2, [r3]	@ D.6635, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 112 0016 89B2     		uxth	r1, r1	@ D.6636, MEM[(struct BKP_TypeDef *)1073769472B].DR41
+ 113 0018 22F48072 		bic	r2, r2, #256	@ D.6635, D.6635,
+ 114 001c 41EA0040 		orr	r0, r1, r0, lsl #16	@,, D.6636, MEM[(struct BKP_TypeDef *)1073769472B].DR42,
+ 115 0020 1A60     		str	r2, [r3]	@ D.6635, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 116 0022 7047     		bx	lr	@
+ 117              	.L6:
+ 118              		.align	2
+ 119              	.L5:
+ 120 0024 00700040 		.word	1073770496
+ 121 0028 006C0040 		.word	1073769472
+ 123              		.section	.text.BKPWrite,"ax",%progbits
+ 124              		.align	2
+ 125              		.global	BKPWrite
+ 126              		.thumb
+ 127              		.thumb_func
+ 129              	BKPWrite:
+ 130              		@ args = 0, pretend = 0, frame = 0
+ 131              		@ frame_needed = 0, uses_anonymous_args = 0
+ 132              		@ link register save eliminated.
+ 133 0000 094B     		ldr	r3, .L8	@ tmp118,
+ 134 0002 10B4     		push	{r4}	@
+ 135 0004 1C68     		ldr	r4, [r3]	@ D.6640, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 136 0006 094A     		ldr	r2, .L8+4	@ tmp120,
+ 137 0008 44F48074 		orr	r4, r4, #256	@ D.6640, D.6640,
+ 138 000c 81B2     		uxth	r1, r0	@ D.6641, val
+ 139 000e 000C     		lsrs	r0, r0, #16	@ D.6641, val,
+ 140 0010 1C60     		str	r4, [r3]	@ D.6640, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 141 0012 A2F8B810 		strh	r1, [r2, #184]	@ movhi	@ D.6641, MEM[(struct BKP_TypeDef *)1073769472B].DR41
+ 142 0016 A2F8BC00 		strh	r0, [r2, #188]	@ movhi	@ D.6641, MEM[(struct BKP_TypeDef *)1073769472B].DR42
+ 143 001a 1A68     		ldr	r2, [r3]	@ D.6640, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 144 001c 5DF8044B 		ldr	r4, [sp], #4	@,
+ 145 0020 22F48072 		bic	r2, r2, #256	@ D.6640, D.6640,
+ 146 0024 1A60     		str	r2, [r3]	@ D.6640, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 147 0026 7047     		bx	lr	@
+ 148              	.L9:
+ 149              		.align	2
+ 150              	.L8:
+ 151 0028 00700040 		.word	1073770496
+ 152 002c 006C0040 		.word	1073769472
+ 154              		.section	.text.reboot,"ax",%progbits
+ 155              		.align	2
+ 156              		.global	reboot
+ 157              		.thumb
+ 158              		.thumb_func
+ 160              	reboot:
+ 161              		@ Volatile: function does not return.
+ 162              		@ args = 0, pretend = 0, frame = 0
+ 163              		@ frame_needed = 0, uses_anonymous_args = 0
+ 164              		@ link register save eliminated.
+ 165 0000 024B     		ldr	r3, .L13	@ tmp110,
+ 166 0002 034A     		ldr	r2, .L13+4	@ tmp111,
+ 167 0004 DA60     		str	r2, [r3, #12]	@ tmp111, MEM[(struct SCB_Type *)3758157056B].AIRCR
+ 168              	.L11:
+ 169              	@ 94 "../src/reboot.c" 1
+ 170 0006 00BF     		nop
+ 171              	@ 0 "" 2
+ 172              		.thumb
+ 173 0008 FDE7     		b	.L11	@
+ 174              	.L14:
+ 175 000a 00BF     		.align	2
+ 176              	.L13:
+ 177 000c 00ED00E0 		.word	-536810240
+ 178 0010 0400FA05 		.word	100270084
+ 180              		.section	.text.bootloader,"ax",%progbits
+ 181              		.align	2
+ 182              		.global	bootloader
+ 183              		.thumb
+ 184              		.thumb_func
+ 186              	bootloader:
+ 187              		@ args = 0, pretend = 0, frame = 0
+ 188              		@ frame_needed = 0, uses_anonymous_args = 0
+ 189 0000 0F4B     		ldr	r3, .L18	@ tmp117,
+ 190 0002 10B5     		push	{r4, lr}	@
+ 191 0004 B3F1006F 		cmp	r3, #134217728	@ tmp117,
+ 192 0008 00D1     		bne	.L17	@,
+ 193 000a 10BD     		pop	{r4, pc}	@
+ 194              	.L17:
+ 195 000c 0D49     		ldr	r1, .L18+4	@ tmp118,
+ 196 000e 0E4B     		ldr	r3, .L18+8	@ tmp120,
+ 197 0010 C869     		ldr	r0, [r1, #28]	@ D.6646, MEM[(struct RCC_TypeDef *)1073876992B].APB1ENR
+ 198 0012 0E4A     		ldr	r2, .L18+12	@ tmp122,
+ 199 0014 40F0C050 		orr	r0, r0, #402653184	@ D.6646, D.6646,
+ 200 0018 C861     		str	r0, [r1, #28]	@ D.6646, MEM[(struct RCC_TypeDef *)1073876992B].APB1ENR
+ 201 001a 1C68     		ldr	r4, [r3]	@ D.6646, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 202 001c 46F6B430 		movw	r0, #27572	@ tmp124,
+ 203 0020 44F48074 		orr	r4, r4, #256	@ D.6646, D.6646,
+ 204 0024 44F6FC21 		movw	r1, #19196	@ tmp127,
+ 205 0028 1C60     		str	r4, [r3]	@ D.6646, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 206 002a A2F8B800 		strh	r0, [r2, #184]	@ movhi	@ tmp124, MEM[(struct BKP_TypeDef *)1073769472B].DR41
+ 207 002e A2F8BC10 		strh	r1, [r2, #188]	@ movhi	@ tmp127, MEM[(struct BKP_TypeDef *)1073769472B].DR42
+ 208 0032 1A68     		ldr	r2, [r3]	@ D.6646, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 209 0034 22F48072 		bic	r2, r2, #256	@ D.6646, D.6646,
+ 210 0038 1A60     		str	r2, [r3]	@ D.6646, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 211 003a FFF7FEFF 		bl	reboot	@
+ 212              	.L19:
+ 213 003e 00BF     		.align	2
+ 214              	.L18:
+ 215 0040 00000000 		.word	g_pfnVectors
+ 216 0044 00100240 		.word	1073876992
+ 217 0048 00700040 		.word	1073770496
+ 218 004c 006C0040 		.word	1073769472
+ 220              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 reboot.c
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:75     .text.BKPInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:80     .text.BKPInit:00000000 BKPInit
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:92     .text.BKPInit:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:95     .text.BKPRead:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:100    .text.BKPRead:00000000 BKPRead
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:120    .text.BKPRead:00000024 $d
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:124    .text.BKPWrite:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:129    .text.BKPWrite:00000000 BKPWrite
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:151    .text.BKPWrite:00000028 $d
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:155    .text.reboot:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:160    .text.reboot:00000000 reboot
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:177    .text.reboot:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:181    .text.bootloader:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:186    .text.bootloader:00000000 bootloader
+C:\Users\Chris\AppData\Local\Temp\ccQoI4zt.s:215    .text.bootloader:00000040 $d
+
+UNDEFINED SYMBOLS
+g_pfnVectors

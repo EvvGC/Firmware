@@ -1,0 +1,181 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"printf.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/sys/printf.d -MF src/sys/printf.d -MP -MT src/sys/printf.d
+  31              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  32              	@ ../src/sys/printf.c -mcpu=cortex-m3 -mthumb
+  33              	@ -auxbase-strip src/sys/printf.o -O2 -Wall -Wextra -Wstrict-prototypes
+  34              	@ -std=gnu99 -ffunction-sections -fdata-sections
+  35              	@ -fsingle-precision-constant -fverbose-asm
+  36              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  37              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  38              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  39              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  40              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  41              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  42              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  43              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  44              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  45              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  46              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  47              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  48              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  49              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  50              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  51              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  52              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  53              	@ -freorder-functions -frerun-cse-after-loop
+  54              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  55              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  56              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  57              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  58              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  59              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  60              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  61              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  62              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  63              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  64              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  65              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  66              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  67              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  68              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  69              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  70              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  71              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  72              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  73              	@ -munaligned-access -mvectorize-with-neon-quad
+  74              	
+  75              		.section	.text.sprintf_,"ax",%progbits
+  76              		.align	2
+  77              		.global	sprintf_
+  78              		.thumb
+  79              		.thumb_func
+  81              	sprintf_:
+  82              		@ args = 4, pretend = 12, frame = 16
+  83              		@ frame_needed = 0, uses_anonymous_args = 1
+  84 0000 0EB4     		push	{r1, r2, r3}	@
+  85 0002 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}	@
+  86 0006 84B0     		sub	sp, sp, #16	@,,
+  87 0008 0BAB     		add	r3, sp, #44	@ tmp163,,
+  88 000a 53F8042B 		ldr	r2, [r3], #4	@ format, format
+  89 000e 8046     		mov	r8, r0	@ buffer, buffer
+  90 0010 0093     		str	r3, [sp]	@ tmp163, MEM[(struct  *)&arg].__ap
+  91 0012 9C46     		mov	ip, r3	@ arg$__ap, tmp163
+  92 0014 0446     		mov	r4, r0	@ buffer, buffer
+  93 0016 0025     		movs	r5, #0	@ stream$length,
+  94              	.L2:
+  95 0018 1378     		ldrb	r3, [r2]	@ zero_extendqisi2	@ character, *format_19
+  96 001a 43B1     		cbz	r3, .L24	@ character,
+  97              	.L13:
+  98 001c 252B     		cmp	r3, #37	@ character,
+  99 001e 0ED0     		beq	.L3	@,
+ 100 0020 2370     		strb	r3, [r4]	@ character, *buffer_60
+ 101 0022 0132     		adds	r2, r2, #1	@ format, format,
+ 102 0024 1378     		ldrb	r3, [r2]	@ zero_extendqisi2	@ character, *format_19
+ 103 0026 0135     		adds	r5, r5, #1	@ stream$length, stream$length,
+ 104 0028 0134     		adds	r4, r4, #1	@ buffer, buffer,
+ 105 002a 002B     		cmp	r3, #0	@ character
+ 106 002c F6D1     		bne	.L13	@
+ 107              	.L24:
+ 108 002e 2846     		mov	r0, r5	@, stream$length
+ 109 0030 08F80530 		strb	r3, [r8, r5]	@ character, *_10
+ 110 0034 04B0     		add	sp, sp, #16	@,,
+ 111              		@ sp needed	@
+ 112 0036 BDE8F043 		pop	{r4, r5, r6, r7, r8, r9, lr}	@
+ 113 003a 03B0     		add	sp, sp, #12	@,,
+ 114 003c 7047     		bx	lr	@
+ 115              	.L3:
+ 116 003e 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2	@ character, MEM[(const char *)format_19 + 1B]
+ 117 0040 02F10209 		add	r9, r2, #2	@ format, format,
+ 118 0044 252B     		cmp	r3, #37	@ character,
+ 119 0046 0DD0     		beq	.L5	@,
+ 120 0048 632B     		cmp	r3, #99	@ character,
+ 121 004a 07D0     		beq	.L25	@,
+ 122 004c 732B     		cmp	r3, #115	@ character,
+ 123 004e 26D0     		beq	.L7	@,
+ 124 0050 642B     		cmp	r3, #100	@ character,
+ 125 0052 0CD0     		beq	.L14	@,
+ 126 0054 782B     		cmp	r3, #120	@ character,
+ 127 0056 27D0     		beq	.L15	@,
+ 128              	.L22:
+ 129 0058 4A46     		mov	r2, r9	@ format, format
+ 130 005a DDE7     		b	.L2	@
+ 131              	.L25:
+ 132 005c 9CF80030 		ldrb	r3, [ip]	@ zero_extendqisi2	@ character, MEM[(int *)arg$__ap_3]
+ 133 0060 0CF1040C 		add	ip, ip, #4	@ arg$__ap, arg$__ap,
+ 134              	.L5:
+ 135 0064 2370     		strb	r3, [r4]	@ character, *buffer_60
+ 136 0066 0135     		adds	r5, r5, #1	@ stream$length, stream$length,
+ 137 0068 0134     		adds	r4, r4, #1	@ buffer, buffer,
+ 138 006a 4A46     		mov	r2, r9	@ format, format
+ 139 006c D4E7     		b	.L2	@
+ 140              	.L14:
+ 141 006e 0A22     		movs	r2, #10	@ base,
+ 142              	.L8:
+ 143 0070 0CF10406 		add	r6, ip, #4	@ arg$__ap, arg$__ap,
+ 144 0074 DCF80000 		ldr	r0, [ip]	@, MEM[(int *)arg$__ap_3]
+ 145 0078 01A9     		add	r1, sp, #4	@,,
+ 146 007a FFF7FEFF 		bl	itoa	@
+ 147 007e B446     		mov	ip, r6	@ arg$__ap, arg$__ap
+ 148              	.L11:
+ 149 0080 0178     		ldrb	r1, [r0]	@ zero_extendqisi2	@ character, *buffer_ptr_53
+ 150 0082 99B1     		cbz	r1, .L26	@ character,
+ 151 0084 0646     		mov	r6, r0	@ ivtmp.30, buffer_ptr
+ 152 0086 2346     		mov	r3, r4	@ buffer, buffer
+ 153              	.L12:
+ 154 0088 03F8011B 		strb	r1, [r3], #1	@ character, MEM[base: buffer_40, offset: 4294967295B]
+ 155 008c 16F8011F 		ldrb	r1, [r6, #1]!	@ zero_extendqisi2	@ character, MEM[base: _83, offset: 1B]
+ 156 0090 5F19     		adds	r7, r3, r5	@ D.4773, buffer, stream$length
+ 157 0092 3F1B     		subs	r7, r7, r4	@ stream$length, D.4773, buffer
+ 158 0094 0029     		cmp	r1, #0	@ character
+ 159 0096 F7D1     		bne	.L12	@
+ 160              	.L10:
+ 161 0098 3D46     		mov	r5, r7	@ stream$length, stream$length
+ 162 009a 1C46     		mov	r4, r3	@ buffer, buffer
+ 163 009c DCE7     		b	.L22	@
+ 164              	.L7:
+ 165 009e DCF80000 		ldr	r0, [ip]	@ buffer_ptr, MEM[(char * *)arg$__ap_3]
+ 166 00a2 0CF1040C 		add	ip, ip, #4	@ arg$__ap, arg$__ap,
+ 167 00a6 EBE7     		b	.L11	@
+ 168              	.L15:
+ 169 00a8 1022     		movs	r2, #16	@ base,
+ 170 00aa E1E7     		b	.L8	@
+ 171              	.L26:
+ 172 00ac 2F46     		mov	r7, r5	@ stream$length, stream$length
+ 173 00ae 2346     		mov	r3, r4	@ buffer, buffer
+ 174 00b0 F2E7     		b	.L10	@
+ 176 00b2 00BF     		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 printf.c
+C:\Users\Chris\AppData\Local\Temp\ccCF48je.s:76     .text.sprintf_:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccCF48je.s:81     .text.sprintf_:00000000 sprintf_
+
+UNDEFINED SYMBOLS
+itoa

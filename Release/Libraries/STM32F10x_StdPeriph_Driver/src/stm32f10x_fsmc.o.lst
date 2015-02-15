@@ -1,0 +1,844 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"stm32f10x_fsmc.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_fsmc.d
+  31              	@ -MF Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_fsmc.d -MP
+  32              	@ -MT Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_fsmc.d
+  33              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_fsmc.c
+  35              	@ -mcpu=cortex-m3 -mthumb
+  36              	@ -auxbase-strip Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_fsmc.o
+  37              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  38              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  39              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  40              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  41              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  42              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  43              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  44              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  45              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  46              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  47              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  48              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  49              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  50              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  51              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  52              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  53              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  54              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  55              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  56              	@ -freorder-functions -frerun-cse-after-loop
+  57              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  58              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  59              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  60              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  61              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  62              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  63              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  64              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  65              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  66              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  67              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  68              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  69              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  70              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  71              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  72              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  73              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  74              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  75              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  76              	@ -munaligned-access -mvectorize-with-neon-quad
+  77              	
+  78              		.section	.text.FSMC_NORSRAMDeInit,"ax",%progbits
+  79              		.align	2
+  80              		.global	FSMC_NORSRAMDeInit
+  81              		.thumb
+  82              		.thumb_func
+  84              	FSMC_NORSRAMDeInit:
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+  88 0000 10B4     		push	{r4}	@
+  89 0002 4FF02043 		mov	r3, #-1610612736	@ tmp112,
+  90 0006 80B1     		cbz	r0, .L5	@ FSMC_Bank,
+  91 0008 43F2D202 		movw	r2, #12498	@ tmp115,
+  92 000c 43F82020 		str	r2, [r3, r0, lsl #2]	@ tmp115, MEM[(struct FSMC_Bank1_TypeDef *)2684354560B].BTCR
+  93              	.L3:
+  94 0010 084A     		ldr	r2, .L6	@ tmp118,
+  95 0012 441C     		adds	r4, r0, #1	@ D.7000, FSMC_Bank,
+  96 0014 6FF07043 		mvn	r3, #-268435456	@ tmp117,
+  97 0018 4FF02041 		mov	r1, #-1610612736	@ tmp116,
+  98 001c 41F82430 		str	r3, [r1, r4, lsl #2]	@ tmp117, MEM[(struct FSMC_Bank1_TypeDef *)2684354560B].BTCR
+  99 0020 42F82030 		str	r3, [r2, r0, lsl #2]	@ tmp117, MEM[(struct FSMC_Bank1E_TypeDef *)2684354820B].BWTR
+ 100 0024 5DF8044B 		ldr	r4, [sp], #4	@,
+ 101 0028 7047     		bx	lr	@
+ 102              	.L5:
+ 103 002a 43F2DB02 		movw	r2, #12507	@ tmp113,
+ 104 002e 1A60     		str	r2, [r3]	@ tmp113, MEM[(struct FSMC_Bank1_TypeDef *)2684354560B].BTCR
+ 105 0030 EEE7     		b	.L3	@
+ 106              	.L7:
+ 107 0032 00BF     		.align	2
+ 108              	.L6:
+ 109 0034 040100A0 		.word	-1610612476
+ 111              		.section	.text.FSMC_NANDDeInit,"ax",%progbits
+ 112              		.align	2
+ 113              		.global	FSMC_NANDDeInit
+ 114              		.thumb
+ 115              		.thumb_func
+ 117              	FSMC_NANDDeInit:
+ 118              		@ args = 0, pretend = 0, frame = 0
+ 119              		@ frame_needed = 0, uses_anonymous_args = 0
+ 120              		@ link register save eliminated.
+ 121 0000 1028     		cmp	r0, #16	@ FSMC_Bank,
+ 122 0002 0CBF     		ite	eq
+ 123 0004 054B     		ldreq	r3, .L12	@ tmp111,
+ 124 0006 064B     		ldrne	r3, .L12+4	@ tmp119,
+ 125 0008 4FF0FC32 		mov	r2, #-50529028	@ tmp124,
+ 126 000c 1820     		movs	r0, #24	@ tmp120,
+ 127 000e 4021     		movs	r1, #64	@ tmp122,
+ 128 0010 1860     		str	r0, [r3]	@ tmp120,
+ 129 0012 5960     		str	r1, [r3, #4]	@ tmp122,
+ 130 0014 9A60     		str	r2, [r3, #8]	@ tmp124,
+ 131 0016 DA60     		str	r2, [r3, #12]	@ tmp124,
+ 132 0018 7047     		bx	lr	@
+ 133              	.L13:
+ 134 001a 00BF     		.align	2
+ 135              	.L12:
+ 136 001c 600000A0 		.word	-1610612640
+ 137 0020 800000A0 		.word	-1610612608
+ 139              		.section	.text.FSMC_PCCARDDeInit,"ax",%progbits
+ 140              		.align	2
+ 141              		.global	FSMC_PCCARDDeInit
+ 142              		.thumb
+ 143              		.thumb_func
+ 145              	FSMC_PCCARDDeInit:
+ 146              		@ args = 0, pretend = 0, frame = 0
+ 147              		@ frame_needed = 0, uses_anonymous_args = 0
+ 148              		@ link register save eliminated.
+ 149 0000 054B     		ldr	r3, .L15	@ tmp110,
+ 150 0002 4FF0FC32 		mov	r2, #-50529028	@ tmp115,
+ 151 0006 1820     		movs	r0, #24	@ tmp111,
+ 152 0008 0021     		movs	r1, #0	@ tmp113,
+ 153 000a 1860     		str	r0, [r3]	@ tmp111, MEM[(struct FSMC_Bank4_TypeDef *)2684354720B].PCR4
+ 154 000c 5960     		str	r1, [r3, #4]	@ tmp113, MEM[(struct FSMC_Bank4_TypeDef *)2684354720B].SR4
+ 155 000e 9A60     		str	r2, [r3, #8]	@ tmp115, MEM[(struct FSMC_Bank4_TypeDef *)2684354720B].PMEM4
+ 156 0010 DA60     		str	r2, [r3, #12]	@ tmp115, MEM[(struct FSMC_Bank4_TypeDef *)2684354720B].PATT4
+ 157 0012 1A61     		str	r2, [r3, #16]	@ tmp115, MEM[(struct FSMC_Bank4_TypeDef *)2684354720B].PIO4
+ 158 0014 7047     		bx	lr	@
+ 159              	.L16:
+ 160 0016 00BF     		.align	2
+ 161              	.L15:
+ 162 0018 A00000A0 		.word	-1610612576
+ 164              		.section	.text.FSMC_NORSRAMInit,"ax",%progbits
+ 165              		.align	2
+ 166              		.global	FSMC_NORSRAMInit
+ 167              		.thumb
+ 168              		.thumb_func
+ 170              	FSMC_NORSRAMInit:
+ 171              		@ args = 0, pretend = 0, frame = 0
+ 172              		@ frame_needed = 0, uses_anonymous_args = 0
+ 173              		@ link register save eliminated.
+ 174 0000 8368     		ldr	r3, [r0, #8]	@ D.7007, FSMC_NORSRAMInitStruct_4(D)->FSMC_MemoryType
+ 175 0002 4168     		ldr	r1, [r0, #4]	@ FSMC_NORSRAMInitStruct_4(D)->FSMC_DataAddressMux, FSMC_NORSRAMInitStruct_4(D)->
+ 176 0004 C268     		ldr	r2, [r0, #12]	@ FSMC_NORSRAMInitStruct_4(D)->FSMC_MemoryDataWidth, FSMC_NORSRAMInitStruct_4(D)
+ 177 0006 F0B4     		push	{r4, r5, r6, r7}	@
+ 178 0008 43EA0106 		orr	r6, r3, r1	@ D.7007, D.7007, FSMC_NORSRAMInitStruct_4(D)->FSMC_DataAddressMux
+ 179 000c 0169     		ldr	r1, [r0, #16]	@ FSMC_NORSRAMInitStruct_4(D)->FSMC_BurstAccessMode, FSMC_NORSRAMInitStruct_4(D)
+ 180 000e 1643     		orrs	r6, r6, r2	@, D.7007, D.7007, FSMC_NORSRAMInitStruct_4(D)->FSMC_MemoryDataWidth
+ 181 0010 4269     		ldr	r2, [r0, #20]	@ FSMC_NORSRAMInitStruct_4(D)->FSMC_AsynchronousWait, FSMC_NORSRAMInitStruct_4(D
+ 182 0012 0E43     		orrs	r6, r6, r1	@, D.7007, D.7007, FSMC_NORSRAMInitStruct_4(D)->FSMC_BurstAccessMode
+ 183 0014 8169     		ldr	r1, [r0, #24]	@ FSMC_NORSRAMInitStruct_4(D)->FSMC_WaitSignalPolarity, FSMC_NORSRAMInitStruct_4
+ 184 0016 1643     		orrs	r6, r6, r2	@, D.7007, D.7007, FSMC_NORSRAMInitStruct_4(D)->FSMC_AsynchronousWait
+ 185 0018 C269     		ldr	r2, [r0, #28]	@ FSMC_NORSRAMInitStruct_4(D)->FSMC_WrapMode, FSMC_NORSRAMInitStruct_4(D)->FSMC_
+ 186 001a 0E43     		orrs	r6, r6, r1	@, D.7007, D.7007, FSMC_NORSRAMInitStruct_4(D)->FSMC_WaitSignalPolarity
+ 187 001c 016A     		ldr	r1, [r0, #32]	@ FSMC_NORSRAMInitStruct_4(D)->FSMC_WaitSignalActive, FSMC_NORSRAMInitStruct_4(D
+ 188 001e 1643     		orrs	r6, r6, r2	@, D.7007, D.7007, FSMC_NORSRAMInitStruct_4(D)->FSMC_WrapMode
+ 189 0020 426A     		ldr	r2, [r0, #36]	@ FSMC_NORSRAMInitStruct_4(D)->FSMC_WriteOperation, FSMC_NORSRAMInitStruct_4(D)-
+ 190 0022 3143     		orrs	r1, r1, r6	@, D.7007, FSMC_NORSRAMInitStruct_4(D)->FSMC_WaitSignalActive, D.7007
+ 191 0024 846A     		ldr	r4, [r0, #40]	@ FSMC_NORSRAMInitStruct_4(D)->FSMC_WaitSignal, FSMC_NORSRAMInitStruct_4(D)->FSM
+ 192 0026 41EA0206 		orr	r6, r1, r2	@ D.7007, D.7007, FSMC_NORSRAMInitStruct_4(D)->FSMC_WriteOperation
+ 193 002a C16A     		ldr	r1, [r0, #44]	@ D.7007, FSMC_NORSRAMInitStruct_4(D)->FSMC_ExtendedMode
+ 194 002c 0268     		ldr	r2, [r0]	@ D.7007, FSMC_NORSRAMInitStruct_4(D)->FSMC_Bank
+ 195 002e 3443     		orrs	r4, r4, r6	@, D.7007, FSMC_NORSRAMInitStruct_4(D)->FSMC_WaitSignal, D.7007
+ 196 0030 056B     		ldr	r5, [r0, #48]	@ FSMC_NORSRAMInitStruct_4(D)->FSMC_WriteBurst, FSMC_NORSRAMInitStruct_4(D)->FSM
+ 197 0032 44EA0106 		orr	r6, r4, r1	@ D.7007, D.7007, D.7007
+ 198 0036 9400     		lsls	r4, r2, #2	@ D.7009, D.7007,
+ 199 0038 3543     		orrs	r5, r5, r6	@, D.7007, FSMC_NORSRAMInitStruct_4(D)->FSMC_WriteBurst, D.7007
+ 200 003a 04F12044 		add	r4, r4, #-1610612736	@ D.7010, D.7009,
+ 201 003e 082B     		cmp	r3, #8	@ D.7007,
+ 202 0040 2560     		str	r5, [r4]	@ D.7007, MEM[(struct FSMC_Bank1_TypeDef *)_73]
+ 203 0042 21D0     		beq	.L21	@,
+ 204              	.L18:
+ 205 0044 436B     		ldr	r3, [r0, #52]	@ D.7008, FSMC_NORSRAMInitStruct_4(D)->FSMC_ReadWriteTimingStruct
+ 206 0046 571C     		adds	r7, r2, #1	@ D.7007, D.7007,
+ 207 0048 1D68     		ldr	r5, [r3]	@ _34->FSMC_AddressSetupTime, _34->FSMC_AddressSetupTime
+ 208 004a 9E69     		ldr	r6, [r3, #24]	@ _34->FSMC_AccessMode, _34->FSMC_AccessMode
+ 209 004c 5C68     		ldr	r4, [r3, #4]	@ _34->FSMC_AddressHoldTime, _34->FSMC_AddressHoldTime
+ 210 004e 2E43     		orrs	r6, r6, r5	@, D.7007, _34->FSMC_AccessMode, _34->FSMC_AddressSetupTime
+ 211 0050 9D68     		ldr	r5, [r3, #8]	@ _34->FSMC_DataSetupTime, _34->FSMC_DataSetupTime
+ 212 0052 46EA0416 		orr	r6, r6, r4, lsl #4	@, D.7007, D.7007, _34->FSMC_AddressHoldTime,
+ 213 0056 DC68     		ldr	r4, [r3, #12]	@ _34->FSMC_BusTurnAroundDuration, _34->FSMC_BusTurnAroundDuration
+ 214 0058 46EA0525 		orr	r5, r6, r5, lsl #8	@, D.7007, D.7007, _34->FSMC_DataSetupTime,
+ 215 005c 1E69     		ldr	r6, [r3, #16]	@ _34->FSMC_CLKDivision, _34->FSMC_CLKDivision
+ 216 005e 45EA0444 		orr	r4, r5, r4, lsl #16	@, D.7007, D.7007, _34->FSMC_BusTurnAroundDuration,
+ 217 0062 5B69     		ldr	r3, [r3, #20]	@ _34->FSMC_DataLatency, _34->FSMC_DataLatency
+ 218 0064 44EA0654 		orr	r4, r4, r6, lsl #20	@, D.7007, D.7007, _34->FSMC_CLKDivision,
+ 219 0068 44EA0364 		orr	r4, r4, r3, lsl #24	@, D.7007, D.7007, _34->FSMC_DataLatency,
+ 220 006c B1F5804F 		cmp	r1, #16384	@ D.7007,
+ 221 0070 4FF02043 		mov	r3, #-1610612736	@ tmp213,
+ 222 0074 43F82740 		str	r4, [r3, r7, lsl #2]	@ D.7007, MEM[(struct FSMC_Bank1_TypeDef *)2684354560B].BTCR
+ 223 0078 0BD0     		beq	.L22	@,
+ 224 007a F0BC     		pop	{r4, r5, r6, r7}	@
+ 225 007c 0F4B     		ldr	r3, .L23	@ tmp229,
+ 226 007e 6FF07041 		mvn	r1, #-268435456	@ tmp230,
+ 227 0082 43F82210 		str	r1, [r3, r2, lsl #2]	@ tmp230, MEM[(struct FSMC_Bank1E_TypeDef *)2684354820B].BWTR
+ 228 0086 7047     		bx	lr	@
+ 229              	.L21:
+ 230 0088 2368     		ldr	r3, [r4]	@ D.7007, MEM[(struct FSMC_Bank1_TypeDef *)_73]
+ 231 008a 43F04003 		orr	r3, r3, #64	@ D.7007, D.7007,
+ 232 008e 2360     		str	r3, [r4]	@ D.7007, MEM[(struct FSMC_Bank1_TypeDef *)_73]
+ 233 0090 D8E7     		b	.L18	@
+ 234              	.L22:
+ 235 0092 836B     		ldr	r3, [r0, #56]	@ D.7008, FSMC_NORSRAMInitStruct_4(D)->FSMC_WriteTimingStruct
+ 236 0094 094D     		ldr	r5, .L23	@ tmp228,
+ 237 0096 1968     		ldr	r1, [r3]	@ _54->FSMC_AddressSetupTime, _54->FSMC_AddressSetupTime
+ 238 0098 9C69     		ldr	r4, [r3, #24]	@ _54->FSMC_AccessMode, _54->FSMC_AccessMode
+ 239 009a 5868     		ldr	r0, [r3, #4]	@ _54->FSMC_AddressHoldTime, _54->FSMC_AddressHoldTime
+ 240 009c 0C43     		orrs	r4, r4, r1	@, D.7007, _54->FSMC_AccessMode, _54->FSMC_AddressSetupTime
+ 241 009e 9968     		ldr	r1, [r3, #8]	@ _54->FSMC_DataSetupTime, _54->FSMC_DataSetupTime
+ 242 00a0 1E69     		ldr	r6, [r3, #16]	@ _54->FSMC_CLKDivision, _54->FSMC_CLKDivision
+ 243 00a2 44EA0010 		orr	r0, r4, r0, lsl #4	@, D.7007, D.7007, _54->FSMC_AddressHoldTime,
+ 244 00a6 5B69     		ldr	r3, [r3, #20]	@ _54->FSMC_DataLatency, _54->FSMC_DataLatency
+ 245 00a8 40EA0121 		orr	r1, r0, r1, lsl #8	@, D.7007, D.7007, _54->FSMC_DataSetupTime,
+ 246 00ac 41EA0651 		orr	r1, r1, r6, lsl #20	@, D.7007, D.7007, _54->FSMC_CLKDivision,
+ 247 00b0 41EA0361 		orr	r1, r1, r3, lsl #24	@, D.7007, D.7007, _54->FSMC_DataLatency,
+ 248 00b4 45F82210 		str	r1, [r5, r2, lsl #2]	@ D.7007, MEM[(struct FSMC_Bank1E_TypeDef *)2684354820B].BWTR
+ 249 00b8 F0BC     		pop	{r4, r5, r6, r7}	@
+ 250 00ba 7047     		bx	lr	@
+ 251              	.L24:
+ 252              		.align	2
+ 253              	.L23:
+ 254 00bc 040100A0 		.word	-1610612476
+ 256              		.section	.text.FSMC_NANDInit,"ax",%progbits
+ 257              		.align	2
+ 258              		.global	FSMC_NANDInit
+ 259              		.thumb
+ 260              		.thumb_func
+ 262              	FSMC_NANDInit:
+ 263              		@ args = 0, pretend = 0, frame = 0
+ 264              		@ frame_needed = 0, uses_anonymous_args = 0
+ 265              		@ link register save eliminated.
+ 266 0000 C269     		ldr	r2, [r0, #28]	@ D.7014, FSMC_NANDInitStruct_3(D)->FSMC_CommonSpaceTimingStruct
+ 267 0002 2DE9F007 		push	{r4, r5, r6, r7, r8, r9, r10}	@
+ 268 0006 8168     		ldr	r1, [r0, #8]	@ FSMC_NANDInitStruct_3(D)->FSMC_MemoryDataWidth, FSMC_NANDInitStruct_3(D)->FSMC_
+ 269 0008 4768     		ldr	r7, [r0, #4]	@ FSMC_NANDInitStruct_3(D)->FSMC_Waitfeature, FSMC_NANDInitStruct_3(D)->FSMC_Wait
+ 270 000a 036A     		ldr	r3, [r0, #32]	@ D.7014, FSMC_NANDInitStruct_3(D)->FSMC_AttributeSpaceTimingStruct
+ 271 000c 9668     		ldr	r6, [r2, #8]	@ _18->FSMC_HoldSetupTime, _18->FSMC_HoldSetupTime
+ 272 000e 47EA0109 		orr	r9, r7, r1	@ D.7013, FSMC_NANDInitStruct_3(D)->FSMC_Waitfeature, FSMC_NANDInitStruct_3(D)->FSM
+ 273 0012 C768     		ldr	r7, [r0, #12]	@ FSMC_NANDInitStruct_3(D)->FSMC_ECC, FSMC_NANDInitStruct_3(D)->FSMC_ECC
+ 274 0014 5168     		ldr	r1, [r2, #4]	@, _18->FSMC_WaitSetupTime
+ 275 0016 0469     		ldr	r4, [r0, #16]	@ FSMC_NANDInitStruct_3(D)->FSMC_ECCPageSize, FSMC_NANDInitStruct_3(D)->FSMC_ECC
+ 276 0018 9D68     		ldr	r5, [r3, #8]	@ _29->FSMC_HoldSetupTime, _29->FSMC_HoldSetupTime
+ 277 001a 4FEA064A 		lsl	r10, r6, #16	@ D.7013, _18->FSMC_HoldSetupTime,
+ 278 001e 49F00809 		orr	r9, r9, #8	@ D.7013, D.7013,
+ 279 0022 1668     		ldr	r6, [r2]	@ _18->FSMC_SetupTime, _18->FSMC_SetupTime
+ 280 0024 49EA0709 		orr	r9, r9, r7	@ D.7013, D.7013, FSMC_NANDInitStruct_3(D)->FSMC_ECC
+ 281 0028 4AEA012A 		orr	r10, r10, r1, lsl #8	@, D.7013, D.7013,,
+ 282 002c D168     		ldr	r1, [r2, #12]	@ _18->FSMC_HiZSetupTime, _18->FSMC_HiZSetupTime
+ 283 002e 5A68     		ldr	r2, [r3, #4]	@, _29->FSMC_WaitSetupTime
+ 284 0030 4769     		ldr	r7, [r0, #20]	@ FSMC_NANDInitStruct_3(D)->FSMC_TCLRSetupTime, FSMC_NANDInitStruct_3(D)->FSMC_T
+ 285 0032 4FEA0548 		lsl	r8, r5, #16	@ D.7013, _29->FSMC_HoldSetupTime,
+ 286 0036 49EA0409 		orr	r9, r9, r4	@ D.7013, D.7013, FSMC_NANDInitStruct_3(D)->FSMC_ECCPageSize
+ 287 003a 1D68     		ldr	r5, [r3]	@ _29->FSMC_SetupTime, _29->FSMC_SetupTime
+ 288 003c 8469     		ldr	r4, [r0, #24]	@ FSMC_NANDInitStruct_3(D)->FSMC_TARSetupTime, FSMC_NANDInitStruct_3(D)->FSMC_TA
+ 289 003e 0068     		ldr	r0, [r0]	@ FSMC_NANDInitStruct_3(D)->FSMC_Bank, FSMC_NANDInitStruct_3(D)->FSMC_Bank
+ 290 0040 DB68     		ldr	r3, [r3, #12]	@ _29->FSMC_HiZSetupTime, _29->FSMC_HiZSetupTime
+ 291 0042 48EA0228 		orr	r8, r8, r2, lsl #8	@, D.7013, D.7013,,
+ 292 0046 48EA0502 		orr	r2, r8, r5	@ D.7013, D.7013, _29->FSMC_SetupTime
+ 293 004a 1028     		cmp	r0, #16	@ FSMC_NANDInitStruct_3(D)->FSMC_Bank,
+ 294 004c 42EA0362 		orr	r2, r2, r3, lsl #24	@, tmppatt, D.7013, _29->FSMC_HiZSetupTime,
+ 295 0050 49EA4729 		orr	r9, r9, r7, lsl #9	@, D.7013, D.7013, FSMC_NANDInitStruct_3(D)->FSMC_TCLRSetupTime,
+ 296 0054 0CBF     		ite	eq
+ 297 0056 074B     		ldreq	r3, .L28	@ tmp180,
+ 298 0058 074B     		ldrne	r3, .L28+4	@ tmp183,
+ 299 005a 4AEA060A 		orr	r10, r10, r6	@ D.7013, D.7013, _18->FSMC_SetupTime
+ 300 005e 49EA4434 		orr	r4, r9, r4, lsl #13	@, tmppcr, D.7013, FSMC_NANDInitStruct_3(D)->FSMC_TARSetupTime,
+ 301 0062 4AEA0161 		orr	r1, r10, r1, lsl #24	@, tmppmem, D.7013, _18->FSMC_HiZSetupTime,
+ 302 0066 1C60     		str	r4, [r3]	@ tmppcr,
+ 303 0068 9960     		str	r1, [r3, #8]	@ tmppmem,
+ 304 006a BDE8F007 		pop	{r4, r5, r6, r7, r8, r9, r10}	@
+ 305 006e DA60     		str	r2, [r3, #12]	@ tmppatt,
+ 306 0070 7047     		bx	lr	@
+ 307              	.L29:
+ 308 0072 00BF     		.align	2
+ 309              	.L28:
+ 310 0074 600000A0 		.word	-1610612640
+ 311 0078 800000A0 		.word	-1610612608
+ 313              		.section	.text.FSMC_PCCARDInit,"ax",%progbits
+ 314              		.align	2
+ 315              		.global	FSMC_PCCARDInit
+ 316              		.thumb
+ 317              		.thumb_func
+ 319              	FSMC_PCCARDInit:
+ 320              		@ args = 0, pretend = 0, frame = 0
+ 321              		@ frame_needed = 0, uses_anonymous_args = 0
+ 322              		@ link register save eliminated.
+ 323 0000 90E80C00 		ldmia	r0, {r2, r3}	@ FSMC_PCCARDInitStruct,,
+ 324 0004 42F01001 		orr	r1, r2, #16	@ D.7017, FSMC_PCCARDInitStruct_2(D)->FSMC_Waitfeature,
+ 325 0008 8268     		ldr	r2, [r0, #8]	@ FSMC_PCCARDInitStruct_2(D)->FSMC_TARSetupTime, FSMC_PCCARDInitStruct_2(D)->FSMC
+ 326 000a 41EA4321 		orr	r1, r1, r3, lsl #9	@, D.7017, D.7017, FSMC_PCCARDInitStruct_2(D)->FSMC_TCLRSetupTime,
+ 327 000e 154B     		ldr	r3, .L31	@ tmp159,
+ 328 0010 41EA4231 		orr	r1, r1, r2, lsl #13	@, D.7017, D.7017, FSMC_PCCARDInitStruct_2(D)->FSMC_TARSetupTime,
+ 329 0014 C268     		ldr	r2, [r0, #12]	@ D.7018, FSMC_PCCARDInitStruct_2(D)->FSMC_CommonSpaceTimingStruct
+ 330 0016 70B4     		push	{r4, r5, r6}	@
+ 331 0018 1960     		str	r1, [r3]	@ D.7017, MEM[(struct FSMC_Bank4_TypeDef *)2684354720B].PCR4
+ 332 001a 9468     		ldr	r4, [r2, #8]	@ _12->FSMC_HoldSetupTime, _12->FSMC_HoldSetupTime
+ 333 001c 5168     		ldr	r1, [r2, #4]	@ _12->FSMC_WaitSetupTime, _12->FSMC_WaitSetupTime
+ 334 001e 1568     		ldr	r5, [r2]	@ _12->FSMC_SetupTime, _12->FSMC_SetupTime
+ 335 0020 2404     		lsls	r4, r4, #16	@ D.7017, _12->FSMC_HoldSetupTime,
+ 336 0022 D268     		ldr	r2, [r2, #12]	@ _12->FSMC_HiZSetupTime, _12->FSMC_HiZSetupTime
+ 337 0024 44EA0121 		orr	r1, r4, r1, lsl #8	@, D.7017, D.7017, _12->FSMC_WaitSetupTime,
+ 338 0028 2943     		orrs	r1, r1, r5	@, D.7017, D.7017, _12->FSMC_SetupTime
+ 339 002a 41EA0261 		orr	r1, r1, r2, lsl #24	@, D.7017, D.7017, _12->FSMC_HiZSetupTime,
+ 340 002e 0269     		ldr	r2, [r0, #16]	@ D.7018, FSMC_PCCARDInitStruct_2(D)->FSMC_AttributeSpaceTimingStruct
+ 341 0030 9960     		str	r1, [r3, #8]	@ D.7017, MEM[(struct FSMC_Bank4_TypeDef *)2684354720B].PMEM4
+ 342 0032 9468     		ldr	r4, [r2, #8]	@ _24->FSMC_HoldSetupTime, _24->FSMC_HoldSetupTime
+ 343 0034 5168     		ldr	r1, [r2, #4]	@ _24->FSMC_WaitSetupTime, _24->FSMC_WaitSetupTime
+ 344 0036 1668     		ldr	r6, [r2]	@ _24->FSMC_SetupTime, _24->FSMC_SetupTime
+ 345 0038 2404     		lsls	r4, r4, #16	@ D.7017, _24->FSMC_HoldSetupTime,
+ 346 003a D568     		ldr	r5, [r2, #12]	@ _24->FSMC_HiZSetupTime, _24->FSMC_HiZSetupTime
+ 347 003c 44EA0121 		orr	r1, r4, r1, lsl #8	@, D.7017, D.7017, _24->FSMC_WaitSetupTime,
+ 348 0040 3143     		orrs	r1, r1, r6	@, D.7017, D.7017, _24->FSMC_SetupTime
+ 349 0042 4269     		ldr	r2, [r0, #20]	@ D.7018, FSMC_PCCARDInitStruct_2(D)->FSMC_IOSpaceTimingStruct
+ 350 0044 41EA0561 		orr	r1, r1, r5, lsl #24	@, D.7017, D.7017, _24->FSMC_HiZSetupTime,
+ 351 0048 D960     		str	r1, [r3, #12]	@ D.7017, MEM[(struct FSMC_Bank4_TypeDef *)2684354720B].PATT4
+ 352 004a 9068     		ldr	r0, [r2, #8]	@ _36->FSMC_HoldSetupTime, _36->FSMC_HoldSetupTime
+ 353 004c 5168     		ldr	r1, [r2, #4]	@ _36->FSMC_WaitSetupTime, _36->FSMC_WaitSetupTime
+ 354 004e 1468     		ldr	r4, [r2]	@ _36->FSMC_SetupTime, _36->FSMC_SetupTime
+ 355 0050 0004     		lsls	r0, r0, #16	@ D.7017, _36->FSMC_HoldSetupTime,
+ 356 0052 D268     		ldr	r2, [r2, #12]	@ _36->FSMC_HiZSetupTime, _36->FSMC_HiZSetupTime
+ 357 0054 40EA0121 		orr	r1, r0, r1, lsl #8	@, D.7017, D.7017, _36->FSMC_WaitSetupTime,
+ 358 0058 2143     		orrs	r1, r1, r4	@, D.7017, D.7017, _36->FSMC_SetupTime
+ 359 005a 41EA0261 		orr	r1, r1, r2, lsl #24	@, D.7017, D.7017, _36->FSMC_HiZSetupTime,
+ 360 005e 1961     		str	r1, [r3, #16]	@ D.7017, MEM[(struct FSMC_Bank4_TypeDef *)2684354720B].PIO4
+ 361 0060 70BC     		pop	{r4, r5, r6}	@
+ 362 0062 7047     		bx	lr	@
+ 363              	.L32:
+ 364              		.align	2
+ 365              	.L31:
+ 366 0064 A00000A0 		.word	-1610612576
+ 368              		.section	.text.FSMC_NORSRAMStructInit,"ax",%progbits
+ 369              		.align	2
+ 370              		.global	FSMC_NORSRAMStructInit
+ 371              		.thumb
+ 372              		.thumb_func
+ 374              	FSMC_NORSRAMStructInit:
+ 375              		@ args = 0, pretend = 0, frame = 0
+ 376              		@ frame_needed = 0, uses_anonymous_args = 0
+ 377              		@ link register save eliminated.
+ 378 0000 F0B4     		push	{r4, r5, r6, r7}	@
+ 379 0002 816B     		ldr	r1, [r0, #56]	@ D.7021, FSMC_NORSRAMInitStruct_2(D)->FSMC_WriteTimingStruct
+ 380 0004 446B     		ldr	r4, [r0, #52]	@ D.7021, FSMC_NORSRAMInitStruct_2(D)->FSMC_ReadWriteTimingStruct
+ 381 0006 0023     		movs	r3, #0	@ tmp113,
+ 382 0008 0F22     		movs	r2, #15	@ tmp126,
+ 383 000a FF25     		movs	r5, #255	@ tmp128,
+ 384 000c 4FF48057 		mov	r7, #4096	@ tmp122,
+ 385 0010 4FF40056 		mov	r6, #8192	@ tmp123,
+ 386 0014 4FF0020C 		mov	ip, #2	@ tmp114,
+ 387 0018 4762     		str	r7, [r0, #36]	@ tmp122, FSMC_NORSRAMInitStruct_2(D)->FSMC_WriteOperation
+ 388 001a 8662     		str	r6, [r0, #40]	@ tmp123, FSMC_NORSRAMInitStruct_2(D)->FSMC_WaitSignal
+ 389 001c C0F804C0 		str	ip, [r0, #4]	@ tmp114, FSMC_NORSRAMInitStruct_2(D)->FSMC_DataAddressMux
+ 390 0020 0360     		str	r3, [r0]	@ tmp113, FSMC_NORSRAMInitStruct_2(D)->FSMC_Bank
+ 391 0022 8360     		str	r3, [r0, #8]	@ tmp113, FSMC_NORSRAMInitStruct_2(D)->FSMC_MemoryType
+ 392 0024 C360     		str	r3, [r0, #12]	@ tmp113, FSMC_NORSRAMInitStruct_2(D)->FSMC_MemoryDataWidth
+ 393 0026 0361     		str	r3, [r0, #16]	@ tmp113, FSMC_NORSRAMInitStruct_2(D)->FSMC_BurstAccessMode
+ 394 0028 4361     		str	r3, [r0, #20]	@ tmp113, FSMC_NORSRAMInitStruct_2(D)->FSMC_AsynchronousWait
+ 395 002a 8361     		str	r3, [r0, #24]	@ tmp113, FSMC_NORSRAMInitStruct_2(D)->FSMC_WaitSignalPolarity
+ 396 002c C361     		str	r3, [r0, #28]	@ tmp113, FSMC_NORSRAMInitStruct_2(D)->FSMC_WrapMode
+ 397 002e 0362     		str	r3, [r0, #32]	@ tmp113, FSMC_NORSRAMInitStruct_2(D)->FSMC_WaitSignalActive
+ 398 0030 C362     		str	r3, [r0, #44]	@ tmp113, FSMC_NORSRAMInitStruct_2(D)->FSMC_ExtendedMode
+ 399 0032 0363     		str	r3, [r0, #48]	@ tmp113, FSMC_NORSRAMInitStruct_2(D)->FSMC_WriteBurst
+ 400 0034 A361     		str	r3, [r4, #24]	@ tmp113, _16->FSMC_AccessMode
+ 401 0036 2260     		str	r2, [r4]	@ tmp126, _16->FSMC_AddressSetupTime
+ 402 0038 6260     		str	r2, [r4, #4]	@ tmp126, _16->FSMC_AddressHoldTime
+ 403 003a E260     		str	r2, [r4, #12]	@ tmp126, _16->FSMC_BusTurnAroundDuration
+ 404 003c 2261     		str	r2, [r4, #16]	@ tmp126, _16->FSMC_CLKDivision
+ 405 003e 6261     		str	r2, [r4, #20]	@ tmp126, _16->FSMC_DataLatency
+ 406 0040 A560     		str	r5, [r4, #8]	@ tmp128, _16->FSMC_DataSetupTime
+ 407 0042 8D60     		str	r5, [r1, #8]	@ tmp128, _24->FSMC_DataSetupTime
+ 408 0044 0A60     		str	r2, [r1]	@ tmp126, _24->FSMC_AddressSetupTime
+ 409 0046 4A60     		str	r2, [r1, #4]	@ tmp126, _24->FSMC_AddressHoldTime
+ 410 0048 CA60     		str	r2, [r1, #12]	@ tmp126, _24->FSMC_BusTurnAroundDuration
+ 411 004a 0A61     		str	r2, [r1, #16]	@ tmp126, _24->FSMC_CLKDivision
+ 412 004c 4A61     		str	r2, [r1, #20]	@ tmp126, _24->FSMC_DataLatency
+ 413 004e 8B61     		str	r3, [r1, #24]	@ tmp113, _24->FSMC_AccessMode
+ 414 0050 F0BC     		pop	{r4, r5, r6, r7}	@
+ 415 0052 7047     		bx	lr	@
+ 417              		.section	.text.FSMC_NANDStructInit,"ax",%progbits
+ 418              		.align	2
+ 419              		.global	FSMC_NANDStructInit
+ 420              		.thumb
+ 421              		.thumb_func
+ 423              	FSMC_NANDStructInit:
+ 424              		@ args = 0, pretend = 0, frame = 0
+ 425              		@ frame_needed = 0, uses_anonymous_args = 0
+ 426              		@ link register save eliminated.
+ 427 0000 30B4     		push	{r4, r5}	@
+ 428 0002 016A     		ldr	r1, [r0, #32]	@ D.7024, FSMC_NANDInitStruct_2(D)->FSMC_AttributeSpaceTimingStruct
+ 429 0004 C469     		ldr	r4, [r0, #28]	@ D.7024, FSMC_NANDInitStruct_2(D)->FSMC_CommonSpaceTimingStruct
+ 430 0006 FC23     		movs	r3, #252	@ tmp120,
+ 431 0008 0022     		movs	r2, #0	@ tmp114,
+ 432 000a 1025     		movs	r5, #16	@ tmp113,
+ 433 000c 0560     		str	r5, [r0]	@ tmp113, FSMC_NANDInitStruct_2(D)->FSMC_Bank
+ 434 000e 4260     		str	r2, [r0, #4]	@ tmp114, FSMC_NANDInitStruct_2(D)->FSMC_Waitfeature
+ 435 0010 8260     		str	r2, [r0, #8]	@ tmp114, FSMC_NANDInitStruct_2(D)->FSMC_MemoryDataWidth
+ 436 0012 C260     		str	r2, [r0, #12]	@ tmp114, FSMC_NANDInitStruct_2(D)->FSMC_ECC
+ 437 0014 0261     		str	r2, [r0, #16]	@ tmp114, FSMC_NANDInitStruct_2(D)->FSMC_ECCPageSize
+ 438 0016 4261     		str	r2, [r0, #20]	@ tmp114, FSMC_NANDInitStruct_2(D)->FSMC_TCLRSetupTime
+ 439 0018 8261     		str	r2, [r0, #24]	@ tmp114, FSMC_NANDInitStruct_2(D)->FSMC_TARSetupTime
+ 440 001a 2360     		str	r3, [r4]	@ tmp120, _10->FSMC_SetupTime
+ 441 001c 6360     		str	r3, [r4, #4]	@ tmp120, _10->FSMC_WaitSetupTime
+ 442 001e A360     		str	r3, [r4, #8]	@ tmp120, _10->FSMC_HoldSetupTime
+ 443 0020 E360     		str	r3, [r4, #12]	@ tmp120, _10->FSMC_HiZSetupTime
+ 444 0022 0B60     		str	r3, [r1]	@ tmp120, _15->FSMC_SetupTime
+ 445 0024 4B60     		str	r3, [r1, #4]	@ tmp120, _15->FSMC_WaitSetupTime
+ 446 0026 8B60     		str	r3, [r1, #8]	@ tmp120, _15->FSMC_HoldSetupTime
+ 447 0028 CB60     		str	r3, [r1, #12]	@ tmp120, _15->FSMC_HiZSetupTime
+ 448 002a 30BC     		pop	{r4, r5}	@
+ 449 002c 7047     		bx	lr	@
+ 451 002e 00BF     		.section	.text.FSMC_PCCARDStructInit,"ax",%progbits
+ 452              		.align	2
+ 453              		.global	FSMC_PCCARDStructInit
+ 454              		.thumb
+ 455              		.thumb_func
+ 457              	FSMC_PCCARDStructInit:
+ 458              		@ args = 0, pretend = 0, frame = 0
+ 459              		@ frame_needed = 0, uses_anonymous_args = 0
+ 460              		@ link register save eliminated.
+ 461 0000 30B4     		push	{r4, r5}	@
+ 462 0002 0169     		ldr	r1, [r0, #16]	@ D.7027, FSMC_PCCARDInitStruct_2(D)->FSMC_AttributeSpaceTimingStruct
+ 463 0004 C468     		ldr	r4, [r0, #12]	@ D.7027, FSMC_PCCARDInitStruct_2(D)->FSMC_CommonSpaceTimingStruct
+ 464 0006 4269     		ldr	r2, [r0, #20]	@ D.7027, FSMC_PCCARDInitStruct_2(D)->FSMC_IOSpaceTimingStruct
+ 465 0008 FC23     		movs	r3, #252	@ tmp117,
+ 466 000a 0025     		movs	r5, #0	@ tmp114,
+ 467 000c 0560     		str	r5, [r0]	@ tmp114, FSMC_PCCARDInitStruct_2(D)->FSMC_Waitfeature
+ 468 000e 4560     		str	r5, [r0, #4]	@ tmp114, FSMC_PCCARDInitStruct_2(D)->FSMC_TCLRSetupTime
+ 469 0010 8560     		str	r5, [r0, #8]	@ tmp114, FSMC_PCCARDInitStruct_2(D)->FSMC_TARSetupTime
+ 470 0012 2360     		str	r3, [r4]	@ tmp117, _6->FSMC_SetupTime
+ 471 0014 6360     		str	r3, [r4, #4]	@ tmp117, _6->FSMC_WaitSetupTime
+ 472 0016 A360     		str	r3, [r4, #8]	@ tmp117, _6->FSMC_HoldSetupTime
+ 473 0018 E360     		str	r3, [r4, #12]	@ tmp117, _6->FSMC_HiZSetupTime
+ 474 001a 0B60     		str	r3, [r1]	@ tmp117, _11->FSMC_SetupTime
+ 475 001c 4B60     		str	r3, [r1, #4]	@ tmp117, _11->FSMC_WaitSetupTime
+ 476 001e 8B60     		str	r3, [r1, #8]	@ tmp117, _11->FSMC_HoldSetupTime
+ 477 0020 CB60     		str	r3, [r1, #12]	@ tmp117, _11->FSMC_HiZSetupTime
+ 478 0022 30BC     		pop	{r4, r5}	@
+ 479 0024 1360     		str	r3, [r2]	@ tmp117, _16->FSMC_SetupTime
+ 480 0026 5360     		str	r3, [r2, #4]	@ tmp117, _16->FSMC_WaitSetupTime
+ 481 0028 9360     		str	r3, [r2, #8]	@ tmp117, _16->FSMC_HoldSetupTime
+ 482 002a D360     		str	r3, [r2, #12]	@ tmp117, _16->FSMC_HiZSetupTime
+ 483 002c 7047     		bx	lr	@
+ 485 002e 00BF     		.section	.text.FSMC_NORSRAMCmd,"ax",%progbits
+ 486              		.align	2
+ 487              		.global	FSMC_NORSRAMCmd
+ 488              		.thumb
+ 489              		.thumb_func
+ 491              	FSMC_NORSRAMCmd:
+ 492              		@ args = 0, pretend = 0, frame = 0
+ 493              		@ frame_needed = 0, uses_anonymous_args = 0
+ 494              		@ link register save eliminated.
+ 495 0000 8000     		lsls	r0, r0, #2	@ D.7031, FSMC_Bank,
+ 496 0002 00F12040 		add	r0, r0, #-1610612736	@ D.7032, D.7031,
+ 497 0006 21B9     		cbnz	r1, .L39	@ NewState,
+ 498 0008 0268     		ldr	r2, [r0]	@ D.7030, MEM[(struct FSMC_Bank1_TypeDef *)_16]
+ 499 000a 044B     		ldr	r3, .L40	@ D.7030,
+ 500 000c 1340     		ands	r3, r3, r2	@, D.7030, D.7030, D.7030
+ 501 000e 0360     		str	r3, [r0]	@ D.7030,* D.7032
+ 502 0010 7047     		bx	lr	@
+ 503              	.L39:
+ 504 0012 0368     		ldr	r3, [r0]	@ D.7030, MEM[(struct FSMC_Bank1_TypeDef *)_12]
+ 505 0014 43F00103 		orr	r3, r3, #1	@ D.7030, D.7030,
+ 506 0018 0360     		str	r3, [r0]	@ D.7030,* D.7032
+ 507 001a 7047     		bx	lr	@
+ 508              	.L41:
+ 509              		.align	2
+ 510              	.L40:
+ 511 001c FEFF0F00 		.word	1048574
+ 513              		.section	.text.FSMC_NANDCmd,"ax",%progbits
+ 514              		.align	2
+ 515              		.global	FSMC_NANDCmd
+ 516              		.thumb
+ 517              		.thumb_func
+ 519              	FSMC_NANDCmd:
+ 520              		@ args = 0, pretend = 0, frame = 0
+ 521              		@ frame_needed = 0, uses_anonymous_args = 0
+ 522              		@ link register save eliminated.
+ 523 0000 41B1     		cbz	r1, .L43	@ NewState,
+ 524 0002 1028     		cmp	r0, #16	@ FSMC_Bank,
+ 525 0004 0CBF     		ite	eq
+ 526 0006 084B     		ldreq	r3, .L47	@ tmp120,
+ 527 0008 084B     		ldrne	r3, .L47+4	@ tmp122,
+ 528 000a 1A68     		ldr	r2, [r3]	@ D.7035,
+ 529 000c 42F00402 		orr	r2, r2, #4	@ D.7035, D.7035,
+ 530 0010 1A60     		str	r2, [r3]	@ D.7035,
+ 531 0012 7047     		bx	lr	@
+ 532              	.L43:
+ 533 0014 1028     		cmp	r0, #16	@ FSMC_Bank,
+ 534 0016 0CBF     		ite	eq
+ 535 0018 034A     		ldreq	r2, .L47	@ tmp124,
+ 536 001a 044A     		ldrne	r2, .L47+4	@ tmp127,
+ 537 001c 044B     		ldr	r3, .L47+8	@ D.7035,
+ 538 001e 1168     		ldr	r1, [r2]	@ D.7035,
+ 539 0020 0B40     		ands	r3, r3, r1	@, D.7035, D.7035, D.7035
+ 540 0022 1360     		str	r3, [r2]	@ D.7035,
+ 541 0024 7047     		bx	lr	@
+ 542              	.L48:
+ 543 0026 00BF     		.align	2
+ 544              	.L47:
+ 545 0028 600000A0 		.word	-1610612640
+ 546 002c 800000A0 		.word	-1610612608
+ 547 0030 FBFF0F00 		.word	1048571
+ 549              		.section	.text.FSMC_PCCARDCmd,"ax",%progbits
+ 550              		.align	2
+ 551              		.global	FSMC_PCCARDCmd
+ 552              		.thumb
+ 553              		.thumb_func
+ 555              	FSMC_PCCARDCmd:
+ 556              		@ args = 0, pretend = 0, frame = 0
+ 557              		@ frame_needed = 0, uses_anonymous_args = 0
+ 558              		@ link register save eliminated.
+ 559 0000 28B9     		cbnz	r0, .L52	@ NewState,
+ 560 0002 064A     		ldr	r2, .L53	@ tmp117,
+ 561 0004 064B     		ldr	r3, .L53+4	@ D.7038,
+ 562 0006 1168     		ldr	r1, [r2]	@ D.7038, MEM[(struct FSMC_Bank4_TypeDef *)2684354720B].PCR4
+ 563 0008 0B40     		ands	r3, r3, r1	@, D.7038, D.7038, D.7038
+ 564 000a 1360     		str	r3, [r2]	@ D.7038, MEM[(struct FSMC_Bank4_TypeDef *)2684354720B].PCR4
+ 565 000c 7047     		bx	lr	@
+ 566              	.L52:
+ 567 000e 034B     		ldr	r3, .L53	@ tmp115,
+ 568 0010 1A68     		ldr	r2, [r3]	@ D.7038, MEM[(struct FSMC_Bank4_TypeDef *)2684354720B].PCR4
+ 569 0012 42F00402 		orr	r2, r2, #4	@ D.7038, D.7038,
+ 570 0016 1A60     		str	r2, [r3]	@ D.7038, MEM[(struct FSMC_Bank4_TypeDef *)2684354720B].PCR4
+ 571 0018 7047     		bx	lr	@
+ 572              	.L54:
+ 573 001a 00BF     		.align	2
+ 574              	.L53:
+ 575 001c A00000A0 		.word	-1610612576
+ 576 0020 FBFF0F00 		.word	1048571
+ 578              		.section	.text.FSMC_NANDECCCmd,"ax",%progbits
+ 579              		.align	2
+ 580              		.global	FSMC_NANDECCCmd
+ 581              		.thumb
+ 582              		.thumb_func
+ 584              	FSMC_NANDECCCmd:
+ 585              		@ args = 0, pretend = 0, frame = 0
+ 586              		@ frame_needed = 0, uses_anonymous_args = 0
+ 587              		@ link register save eliminated.
+ 588 0000 41B1     		cbz	r1, .L56	@ NewState,
+ 589 0002 1028     		cmp	r0, #16	@ FSMC_Bank,
+ 590 0004 0CBF     		ite	eq
+ 591 0006 084B     		ldreq	r3, .L60	@ tmp120,
+ 592 0008 084B     		ldrne	r3, .L60+4	@ tmp122,
+ 593 000a 1A68     		ldr	r2, [r3]	@ D.7041,
+ 594 000c 42F04002 		orr	r2, r2, #64	@ D.7041, D.7041,
+ 595 0010 1A60     		str	r2, [r3]	@ D.7041,
+ 596 0012 7047     		bx	lr	@
+ 597              	.L56:
+ 598 0014 1028     		cmp	r0, #16	@ FSMC_Bank,
+ 599 0016 0CBF     		ite	eq
+ 600 0018 034A     		ldreq	r2, .L60	@ tmp124,
+ 601 001a 044A     		ldrne	r2, .L60+4	@ tmp127,
+ 602 001c 044B     		ldr	r3, .L60+8	@ D.7041,
+ 603 001e 1168     		ldr	r1, [r2]	@ D.7041,
+ 604 0020 0B40     		ands	r3, r3, r1	@, D.7041, D.7041, D.7041
+ 605 0022 1360     		str	r3, [r2]	@ D.7041,
+ 606 0024 7047     		bx	lr	@
+ 607              	.L61:
+ 608 0026 00BF     		.align	2
+ 609              	.L60:
+ 610 0028 600000A0 		.word	-1610612640
+ 611 002c 800000A0 		.word	-1610612608
+ 612 0030 BFFF0F00 		.word	1048511
+ 614              		.section	.text.FSMC_GetECC,"ax",%progbits
+ 615              		.align	2
+ 616              		.global	FSMC_GetECC
+ 617              		.thumb
+ 618              		.thumb_func
+ 620              	FSMC_GetECC:
+ 621              		@ args = 0, pretend = 0, frame = 0
+ 622              		@ frame_needed = 0, uses_anonymous_args = 0
+ 623              		@ link register save eliminated.
+ 624 0000 1028     		cmp	r0, #16	@ FSMC_Bank,
+ 625 0002 0CBF     		ite	eq
+ 626 0004 014B     		ldreq	r3, .L65	@ tmp113,
+ 627 0006 024B     		ldrne	r3, .L65+4	@ tmp114,
+ 628 0008 5869     		ldr	r0, [r3, #20]	@ eccval,
+ 629 000a 7047     		bx	lr	@
+ 630              	.L66:
+ 631              		.align	2
+ 632              	.L65:
+ 633 000c 600000A0 		.word	-1610612640
+ 634 0010 800000A0 		.word	-1610612608
+ 636              		.section	.text.FSMC_ITConfig,"ax",%progbits
+ 637              		.align	2
+ 638              		.global	FSMC_ITConfig
+ 639              		.thumb
+ 640              		.thumb_func
+ 642              	FSMC_ITConfig:
+ 643              		@ args = 0, pretend = 0, frame = 0
+ 644              		@ frame_needed = 0, uses_anonymous_args = 0
+ 645              		@ link register save eliminated.
+ 646 0000 52B1     		cbz	r2, .L68	@ NewState,
+ 647 0002 1028     		cmp	r0, #16	@ FSMC_Bank,
+ 648 0004 1AD0     		beq	.L74	@,
+ 649 0006 B0F5807F 		cmp	r0, #256	@ FSMC_Bank,
+ 650 000a 0CBF     		ite	eq
+ 651 000c 0E4B     		ldreq	r3, .L76	@ tmp130,
+ 652 000e 0F4B     		ldrne	r3, .L76+4	@ tmp132,
+ 653 0010 5A68     		ldr	r2, [r3, #4]	@ D.7046,
+ 654 0012 1143     		orrs	r1, r1, r2	@, D.7046, FSMC_IT, D.7046
+ 655 0014 5960     		str	r1, [r3, #4]	@ D.7046,
+ 656 0016 7047     		bx	lr	@
+ 657              	.L68:
+ 658 0018 1028     		cmp	r0, #16	@ FSMC_Bank,
+ 659 001a 09D0     		beq	.L75	@,
+ 660 001c B0F5807F 		cmp	r0, #256	@ FSMC_Bank,
+ 661 0020 0CBF     		ite	eq
+ 662 0022 094B     		ldreq	r3, .L76	@ tmp137,
+ 663 0024 094B     		ldrne	r3, .L76+4	@ tmp140,
+ 664 0026 5A68     		ldr	r2, [r3, #4]	@ D.7046,
+ 665 0028 22EA0101 		bic	r1, r2, r1	@ D.7046, D.7046, FSMC_IT
+ 666 002c 5960     		str	r1, [r3, #4]	@ D.7046,
+ 667 002e 7047     		bx	lr	@
+ 668              	.L75:
+ 669 0030 074B     		ldr	r3, .L76+8	@ tmp134,
+ 670 0032 5A68     		ldr	r2, [r3, #4]	@ D.7046,
+ 671 0034 22EA0101 		bic	r1, r2, r1	@ D.7046, D.7046, FSMC_IT
+ 672 0038 5960     		str	r1, [r3, #4]	@ D.7046,
+ 673 003a 7047     		bx	lr	@
+ 674              	.L74:
+ 675 003c 044B     		ldr	r3, .L76+8	@ tmp128,
+ 676 003e 5A68     		ldr	r2, [r3, #4]	@ D.7046,
+ 677 0040 1143     		orrs	r1, r1, r2	@, D.7046, FSMC_IT, D.7046
+ 678 0042 5960     		str	r1, [r3, #4]	@ D.7046,
+ 679 0044 7047     		bx	lr	@
+ 680              	.L77:
+ 681 0046 00BF     		.align	2
+ 682              	.L76:
+ 683 0048 800000A0 		.word	-1610612608
+ 684 004c A00000A0 		.word	-1610612576
+ 685 0050 600000A0 		.word	-1610612640
+ 687              		.section	.text.FSMC_GetFlagStatus,"ax",%progbits
+ 688              		.align	2
+ 689              		.global	FSMC_GetFlagStatus
+ 690              		.thumb
+ 691              		.thumb_func
+ 693              	FSMC_GetFlagStatus:
+ 694              		@ args = 0, pretend = 0, frame = 0
+ 695              		@ frame_needed = 0, uses_anonymous_args = 0
+ 696              		@ link register save eliminated.
+ 697 0000 1028     		cmp	r0, #16	@ FSMC_Bank,
+ 698 0002 0AD0     		beq	.L82	@,
+ 699 0004 B0F5807F 		cmp	r0, #256	@ FSMC_Bank,
+ 700 0008 0CBF     		ite	eq
+ 701 000a 054B     		ldreq	r3, .L83	@ tmp118,
+ 702 000c 054B     		ldrne	r3, .L83+4	@ tmp119,
+ 703 000e 5B68     		ldr	r3, [r3, #4]	@ tmpsr,
+ 704              	.L80:
+ 705 0010 0B42     		tst	r3, r1	@ tmpsr, FSMC_FLAG
+ 706 0012 0CBF     		ite	eq	@
+ 707 0014 0020     		moveq	r0, #0	@,
+ 708 0016 0120     		movne	r0, #1	@,
+ 709 0018 7047     		bx	lr	@
+ 710              	.L82:
+ 711 001a 034B     		ldr	r3, .L83+8	@ tmp117,
+ 712 001c 5B68     		ldr	r3, [r3, #4]	@ tmpsr,
+ 713 001e F7E7     		b	.L80	@
+ 714              	.L84:
+ 715              		.align	2
+ 716              	.L83:
+ 717 0020 800000A0 		.word	-1610612608
+ 718 0024 A00000A0 		.word	-1610612576
+ 719 0028 600000A0 		.word	-1610612640
+ 721              		.section	.text.FSMC_ClearFlag,"ax",%progbits
+ 722              		.align	2
+ 723              		.global	FSMC_ClearFlag
+ 724              		.thumb
+ 725              		.thumb_func
+ 727              	FSMC_ClearFlag:
+ 728              		@ args = 0, pretend = 0, frame = 0
+ 729              		@ frame_needed = 0, uses_anonymous_args = 0
+ 730              		@ link register save eliminated.
+ 731 0000 1028     		cmp	r0, #16	@ FSMC_Bank,
+ 732 0002 09D0     		beq	.L89	@,
+ 733 0004 B0F5807F 		cmp	r0, #256	@ FSMC_Bank,
+ 734 0008 0CBF     		ite	eq
+ 735 000a 064B     		ldreq	r3, .L90	@ tmp124,
+ 736 000c 064B     		ldrne	r3, .L90+4	@ tmp127,
+ 737 000e 5A68     		ldr	r2, [r3, #4]	@ D.7054,
+ 738 0010 22EA0101 		bic	r1, r2, r1	@ D.7054, D.7054, FSMC_FLAG
+ 739 0014 5960     		str	r1, [r3, #4]	@ D.7054,
+ 740 0016 7047     		bx	lr	@
+ 741              	.L89:
+ 742 0018 044B     		ldr	r3, .L90+8	@ tmp121,
+ 743 001a 5A68     		ldr	r2, [r3, #4]	@ D.7054,
+ 744 001c 22EA0101 		bic	r1, r2, r1	@ D.7054, D.7054, FSMC_FLAG
+ 745 0020 5960     		str	r1, [r3, #4]	@ D.7054,
+ 746 0022 7047     		bx	lr	@
+ 747              	.L91:
+ 748              		.align	2
+ 749              	.L90:
+ 750 0024 800000A0 		.word	-1610612608
+ 751 0028 A00000A0 		.word	-1610612576
+ 752 002c 600000A0 		.word	-1610612640
+ 754              		.section	.text.FSMC_GetITStatus,"ax",%progbits
+ 755              		.align	2
+ 756              		.global	FSMC_GetITStatus
+ 757              		.thumb
+ 758              		.thumb_func
+ 760              	FSMC_GetITStatus:
+ 761              		@ args = 0, pretend = 0, frame = 0
+ 762              		@ frame_needed = 0, uses_anonymous_args = 0
+ 763              		@ link register save eliminated.
+ 764 0000 1028     		cmp	r0, #16	@ FSMC_Bank,
+ 765 0002 0ED0     		beq	.L98	@,
+ 766 0004 B0F5807F 		cmp	r0, #256	@ FSMC_Bank,
+ 767 0008 0CBF     		ite	eq
+ 768 000a 074B     		ldreq	r3, .L99	@ tmp120,
+ 769 000c 074B     		ldrne	r3, .L99+4	@ tmp121,
+ 770 000e 5B68     		ldr	r3, [r3, #4]	@ tmpsr,
+ 771              	.L94:
+ 772 0010 13EA0100 		ands	r0, r3, r1	@ itstatus, tmpsr, FSMC_IT
+ 773 0014 04D0     		beq	.L96	@,
+ 774 0016 13EAD101 		ands	r1, r3, r1, lsr #3	@,, tmpsr, FSMC_IT,
+ 775 001a 0CBF     		ite	eq	@
+ 776 001c 0020     		moveq	r0, #0	@, bitstatus
+ 777 001e 0120     		movne	r0, #1	@, bitstatus
+ 778              	.L96:
+ 779 0020 7047     		bx	lr	@
+ 780              	.L98:
+ 781 0022 034B     		ldr	r3, .L99+8	@ tmp119,
+ 782 0024 5B68     		ldr	r3, [r3, #4]	@ tmpsr,
+ 783 0026 F3E7     		b	.L94	@
+ 784              	.L100:
+ 785              		.align	2
+ 786              	.L99:
+ 787 0028 800000A0 		.word	-1610612608
+ 788 002c A00000A0 		.word	-1610612576
+ 789 0030 600000A0 		.word	-1610612640
+ 791              		.section	.text.FSMC_ClearITPendingBit,"ax",%progbits
+ 792              		.align	2
+ 793              		.global	FSMC_ClearITPendingBit
+ 794              		.thumb
+ 795              		.thumb_func
+ 797              	FSMC_ClearITPendingBit:
+ 798              		@ args = 0, pretend = 0, frame = 0
+ 799              		@ frame_needed = 0, uses_anonymous_args = 0
+ 800              		@ link register save eliminated.
+ 801 0000 1028     		cmp	r0, #16	@ FSMC_Bank,
+ 802 0002 09D0     		beq	.L105	@,
+ 803 0004 B0F5807F 		cmp	r0, #256	@ FSMC_Bank,
+ 804 0008 0CBF     		ite	eq
+ 805 000a 064B     		ldreq	r3, .L106	@ tmp128,
+ 806 000c 064B     		ldrne	r3, .L106+4	@ tmp132,
+ 807 000e 5A68     		ldr	r2, [r3, #4]	@ D.7061,
+ 808 0010 22EAD101 		bic	r1, r2, r1, lsr #3	@ D.7061, D.7061, FSMC_IT,
+ 809 0014 5960     		str	r1, [r3, #4]	@ D.7061,
+ 810 0016 7047     		bx	lr	@
+ 811              	.L105:
+ 812 0018 044B     		ldr	r3, .L106+8	@ tmp124,
+ 813 001a 5A68     		ldr	r2, [r3, #4]	@ D.7061,
+ 814 001c 22EAD101 		bic	r1, r2, r1, lsr #3	@ D.7061, D.7061, FSMC_IT,
+ 815 0020 5960     		str	r1, [r3, #4]	@ D.7061,
+ 816 0022 7047     		bx	lr	@
+ 817              	.L107:
+ 818              		.align	2
+ 819              	.L106:
+ 820 0024 800000A0 		.word	-1610612608
+ 821 0028 A00000A0 		.word	-1610612576
+ 822 002c 600000A0 		.word	-1610612640
+ 824              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f10x_fsmc.c
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:79     .text.FSMC_NORSRAMDeInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:84     .text.FSMC_NORSRAMDeInit:00000000 FSMC_NORSRAMDeInit
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:109    .text.FSMC_NORSRAMDeInit:00000034 $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:112    .text.FSMC_NANDDeInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:117    .text.FSMC_NANDDeInit:00000000 FSMC_NANDDeInit
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:136    .text.FSMC_NANDDeInit:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:140    .text.FSMC_PCCARDDeInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:145    .text.FSMC_PCCARDDeInit:00000000 FSMC_PCCARDDeInit
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:162    .text.FSMC_PCCARDDeInit:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:165    .text.FSMC_NORSRAMInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:170    .text.FSMC_NORSRAMInit:00000000 FSMC_NORSRAMInit
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:254    .text.FSMC_NORSRAMInit:000000bc $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:257    .text.FSMC_NANDInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:262    .text.FSMC_NANDInit:00000000 FSMC_NANDInit
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:310    .text.FSMC_NANDInit:00000074 $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:314    .text.FSMC_PCCARDInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:319    .text.FSMC_PCCARDInit:00000000 FSMC_PCCARDInit
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:366    .text.FSMC_PCCARDInit:00000064 $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:369    .text.FSMC_NORSRAMStructInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:374    .text.FSMC_NORSRAMStructInit:00000000 FSMC_NORSRAMStructInit
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:418    .text.FSMC_NANDStructInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:423    .text.FSMC_NANDStructInit:00000000 FSMC_NANDStructInit
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:452    .text.FSMC_PCCARDStructInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:457    .text.FSMC_PCCARDStructInit:00000000 FSMC_PCCARDStructInit
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:486    .text.FSMC_NORSRAMCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:491    .text.FSMC_NORSRAMCmd:00000000 FSMC_NORSRAMCmd
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:511    .text.FSMC_NORSRAMCmd:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:514    .text.FSMC_NANDCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:519    .text.FSMC_NANDCmd:00000000 FSMC_NANDCmd
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:545    .text.FSMC_NANDCmd:00000028 $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:550    .text.FSMC_PCCARDCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:555    .text.FSMC_PCCARDCmd:00000000 FSMC_PCCARDCmd
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:575    .text.FSMC_PCCARDCmd:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:579    .text.FSMC_NANDECCCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:584    .text.FSMC_NANDECCCmd:00000000 FSMC_NANDECCCmd
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:610    .text.FSMC_NANDECCCmd:00000028 $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:615    .text.FSMC_GetECC:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:620    .text.FSMC_GetECC:00000000 FSMC_GetECC
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:633    .text.FSMC_GetECC:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:637    .text.FSMC_ITConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:642    .text.FSMC_ITConfig:00000000 FSMC_ITConfig
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:683    .text.FSMC_ITConfig:00000048 $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:688    .text.FSMC_GetFlagStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:693    .text.FSMC_GetFlagStatus:00000000 FSMC_GetFlagStatus
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:717    .text.FSMC_GetFlagStatus:00000020 $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:722    .text.FSMC_ClearFlag:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:727    .text.FSMC_ClearFlag:00000000 FSMC_ClearFlag
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:750    .text.FSMC_ClearFlag:00000024 $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:755    .text.FSMC_GetITStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:760    .text.FSMC_GetITStatus:00000000 FSMC_GetITStatus
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:787    .text.FSMC_GetITStatus:00000028 $d
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:792    .text.FSMC_ClearITPendingBit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:797    .text.FSMC_ClearITPendingBit:00000000 FSMC_ClearITPendingBit
+C:\Users\Chris\AppData\Local\Temp\ccI6YfSd.s:820    .text.FSMC_ClearITPendingBit:00000024 $d
+
+NO UNDEFINED SYMBOLS

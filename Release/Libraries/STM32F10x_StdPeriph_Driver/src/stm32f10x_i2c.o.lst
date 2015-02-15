@@ -1,0 +1,896 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"stm32f10x_i2c.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.d
+  31              	@ -MF Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.d -MP
+  32              	@ -MT Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.d
+  33              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c
+  35              	@ -mcpu=cortex-m3 -mthumb
+  36              	@ -auxbase-strip Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.o
+  37              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  38              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  39              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  40              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  41              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  42              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  43              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  44              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  45              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  46              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  47              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  48              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  49              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  50              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  51              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  52              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  53              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  54              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  55              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  56              	@ -freorder-functions -frerun-cse-after-loop
+  57              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  58              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  59              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  60              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  61              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  62              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  63              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  64              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  65              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  66              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  67              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  68              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  69              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  70              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  71              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  72              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  73              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  74              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  75              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  76              	@ -munaligned-access -mvectorize-with-neon-quad
+  77              	
+  78              		.section	.text.I2C_DeInit,"ax",%progbits
+  79              		.align	2
+  80              		.global	I2C_DeInit
+  81              		.thumb
+  82              		.thumb_func
+  84              	I2C_DeInit:
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87 0000 08B5     		push	{r3, lr}	@
+  88 0002 0D4B     		ldr	r3, .L5	@ tmp111,
+  89 0004 9842     		cmp	r0, r3	@ I2Cx, tmp111
+  90 0006 0BD0     		beq	.L4	@,
+  91 0008 4FF48000 		mov	r0, #4194304	@,
+  92 000c 0121     		movs	r1, #1	@,
+  93 000e FFF7FEFF 		bl	RCC_APB1PeriphResetCmd	@
+  94 0012 BDE80840 		pop	{r3, lr}	@
+  95 0016 4FF48000 		mov	r0, #4194304	@,
+  96 001a 0021     		movs	r1, #0	@,
+  97 001c FFF7FEBF 		b	RCC_APB1PeriphResetCmd	@
+  98              	.L4:
+  99 0020 4FF40010 		mov	r0, #2097152	@,
+ 100 0024 0121     		movs	r1, #1	@,
+ 101 0026 FFF7FEFF 		bl	RCC_APB1PeriphResetCmd	@
+ 102 002a BDE80840 		pop	{r3, lr}	@
+ 103 002e 4FF40010 		mov	r0, #2097152	@,
+ 104 0032 0021     		movs	r1, #0	@,
+ 105 0034 FFF7FEBF 		b	RCC_APB1PeriphResetCmd	@
+ 106              	.L6:
+ 107              		.align	2
+ 108              	.L5:
+ 109 0038 00540040 		.word	1073763328
+ 111              		.section	.text.I2C_Init,"ax",%progbits
+ 112              		.align	2
+ 113              		.global	I2C_Init
+ 114              		.thumb
+ 115              		.thumb_func
+ 117              	I2C_Init:
+ 118              		@ args = 0, pretend = 0, frame = 24
+ 119              		@ frame_needed = 0, uses_anonymous_args = 0
+ 120 0000 F0B5     		push	{r4, r5, r6, r7, lr}	@
+ 121 0002 87B0     		sub	sp, sp, #28	@,,
+ 122 0004 0446     		mov	r4, r0	@ I2Cx, I2Cx
+ 123 0006 8688     		ldrh	r6, [r0, #4]	@, I2Cx_8(D)->CR2
+ 124 0008 01A8     		add	r0, sp, #4	@,,
+ 125 000a 0D46     		mov	r5, r1	@ I2C_InitStruct, I2C_InitStruct
+ 126 000c FFF7FEFF 		bl	RCC_GetClocksFreq	@
+ 127 0010 0399     		ldr	r1, [sp, #12]	@ pclk1, rcc_clocks.PCLK1_Frequency
+ 128 0012 2F48     		ldr	r0, .L16	@ tmp154,
+ 129 0014 26F03F06 		bic	r6, r6, #63	@ tmpreg, I2Cx_8(D)->CR2,
+ 130 0018 A0FB0130 		umull	r3, r0, r0, r1	@, tmp153, tmp154, pclk1
+ 131 001c 3604     		lsls	r6, r6, #16	@ tmpreg, tmpreg,
+ 132 001e 800C     		lsrs	r0, r0, #18	@ D.7022, tmp153,
+ 133 0020 360C     		lsrs	r6, r6, #16	@ tmpreg, tmpreg,
+ 134 0022 87B2     		uxth	r7, r0	@ freqrange, D.7022
+ 135 0024 3E43     		orrs	r6, r6, r7	@, tmpreg, tmpreg, freqrange
+ 136 0026 A680     		strh	r6, [r4, #4]	@ movhi	@ tmpreg, I2Cx_8(D)->CR2
+ 137 0028 2388     		ldrh	r3, [r4]	@, I2Cx_8(D)->CR1
+ 138 002a 2A68     		ldr	r2, [r5]	@ D.7022, I2C_InitStruct_20(D)->I2C_ClockSpeed
+ 139 002c 23F00103 		bic	r3, r3, #1	@ D.7023, I2Cx_8(D)->CR1,
+ 140 0030 284E     		ldr	r6, .L16+4	@ tmp160,
+ 141 0032 1B04     		lsls	r3, r3, #16	@ D.7023, D.7023,
+ 142 0034 1B0C     		lsrs	r3, r3, #16	@ D.7023, D.7023,
+ 143 0036 B242     		cmp	r2, r6	@ D.7022, tmp160
+ 144 0038 2380     		strh	r3, [r4]	@ movhi	@ D.7023, I2Cx_8(D)->CR1
+ 145 003a 23D8     		bhi	.L8	@,
+ 146 003c 5300     		lsls	r3, r2, #1	@ D.7022, D.7022,
+ 147 003e B1FBF3F3 		udiv	r3, r1, r3	@ D.7022, pclk1, D.7022
+ 148 0042 9BB2     		uxth	r3, r3	@ tmpreg, D.7022
+ 149 0044 032B     		cmp	r3, #3	@ tmpreg,
+ 150 0046 07F10107 		add	r7, r7, #1	@ D.7023, freqrange,
+ 151 004a 98BF     		it	ls	@
+ 152 004c 0423     		movls	r3, #4	@, tmpreg,
+ 153 004e 2784     		strh	r7, [r4, #32]	@ movhi	@ D.7023, I2Cx_8(D)->TRISE
+ 154              	.L10:
+ 155 0050 A383     		strh	r3, [r4, #28]	@ movhi	@ tmpreg, I2Cx_8(D)->CCR
+ 156 0052 2388     		ldrh	r3, [r4]	@, I2Cx_8(D)->CR1
+ 157 0054 6E89     		ldrh	r6, [r5, #10]	@, I2C_InitStruct_20(D)->I2C_Ack
+ 158 0056 9BB2     		uxth	r3, r3	@ D.7023, I2Cx_8(D)->CR1
+ 159 0058 43F00103 		orr	r3, r3, #1	@ D.7023, D.7023,
+ 160 005c 2380     		strh	r3, [r4]	@ movhi	@ D.7023, I2Cx_8(D)->CR1
+ 161 005e 2388     		ldrh	r3, [r4]	@, I2Cx_8(D)->CR1
+ 162 0060 A888     		ldrh	r0, [r5, #4]	@, I2C_InitStruct_20(D)->I2C_Mode
+ 163 0062 23F48163 		bic	r3, r3, #1032	@ tmpreg, I2Cx_8(D)->CR1,
+ 164 0066 23F00203 		bic	r3, r3, #2	@ tmpreg, tmpreg,
+ 165 006a 2989     		ldrh	r1, [r5, #8]	@, I2C_InitStruct_20(D)->I2C_OwnAddress1
+ 166 006c AA89     		ldrh	r2, [r5, #12]	@, I2C_InitStruct_20(D)->I2C_AcknowledgedAddress
+ 167 006e 1B04     		lsls	r3, r3, #16	@ tmpreg, tmpreg,
+ 168 0070 3043     		orrs	r0, r0, r6	@, tmp206, I2C_InitStruct_20(D)->I2C_Mode, I2C_InitStruct_20(D)->I2C_Ack
+ 169 0072 1B0C     		lsrs	r3, r3, #16	@ tmpreg, tmpreg,
+ 170 0074 0343     		orrs	r3, r3, r0	@, tmp208, tmpreg, tmp206
+ 171 0076 0A43     		orrs	r2, r2, r1	@, tmp212, I2C_InitStruct_20(D)->I2C_AcknowledgedAddress, I2C_InitStruct_20(D)->I2
+ 172 0078 9BB2     		uxth	r3, r3	@ tmpreg, tmp208
+ 173 007a 92B2     		uxth	r2, r2	@ D.7023, tmp212
+ 174 007c 2380     		strh	r3, [r4]	@ movhi	@ tmpreg, I2Cx_8(D)->CR1
+ 175 007e 2281     		strh	r2, [r4, #8]	@ movhi	@ D.7023, I2Cx_8(D)->OAR1
+ 176 0080 07B0     		add	sp, sp, #28	@,,
+ 177              		@ sp needed	@
+ 178 0082 F0BD     		pop	{r4, r5, r6, r7, pc}	@
+ 179              	.L8:
+ 180 0084 EE88     		ldrh	r6, [r5, #6]	@ I2C_InitStruct_20(D)->I2C_DutyCycle, I2C_InitStruct_20(D)->I2C_DutyCycle
+ 181 0086 4BF6FF73 		movw	r3, #49151	@ tmp167,
+ 182 008a 9E42     		cmp	r6, r3	@ I2C_InitStruct_20(D)->I2C_DutyCycle, tmp167
+ 183 008c 1AD0     		beq	.L15	@,
+ 184 008e 02EB8202 		add	r2, r2, r2, lsl #2	@, tmp175, D.7022, D.7022,
+ 185 0092 02EB8202 		add	r2, r2, r2, lsl #2	@, D.7022, tmp175, tmp175,
+ 186 0096 B1FBF2F3 		udiv	r3, r1, r2	@ D.7022, pclk1, D.7022
+ 187 009a 9BB2     		uxth	r3, r3	@ result, D.7022
+ 188 009c 43F48043 		orr	r3, r3, #16384	@ result, result,
+ 189              	.L12:
+ 190 00a0 C3F30B02 		ubfx	r2, r3, #0, #12	@ tmp183, result,,
+ 191 00a4 0AB9     		cbnz	r2, .L13	@ tmp183,
+ 192 00a6 43F00103 		orr	r3, r3, #1	@ result, result,
+ 193              	.L13:
+ 194 00aa 4FF49672 		mov	r2, #300	@ tmp188,
+ 195 00ae 02FB00F0 		mul	r0, r2, r0	@ D.7024, tmp188, D.7022
+ 196 00b2 094A     		ldr	r2, .L16+8	@ tmp191,
+ 197 00b4 43F40043 		orr	r3, r3, #32768	@ tmpreg, result,
+ 198 00b8 82FB0010 		smull	r1, r0, r2, r0	@, tmp190, tmp191, D.7024
+ 199 00bc 8009     		lsrs	r0, r0, #6	@ D.7024, tmp190,
+ 200 00be 0130     		adds	r0, r0, #1	@ D.7023, D.7024,
+ 201 00c0 2084     		strh	r0, [r4, #32]	@ movhi	@ D.7023, I2Cx_8(D)->TRISE
+ 202 00c2 C5E7     		b	.L10	@
+ 203              	.L15:
+ 204 00c4 02EB4202 		add	r2, r2, r2, lsl #1	@, D.7022, D.7022, D.7022,
+ 205 00c8 B1FBF2F3 		udiv	r3, r1, r2	@ D.7022, pclk1, D.7022
+ 206 00cc 9BB2     		uxth	r3, r3	@ result, D.7022
+ 207 00ce E7E7     		b	.L12	@
+ 208              	.L17:
+ 209              		.align	2
+ 210              	.L16:
+ 211 00d0 83DE1B43 		.word	1125899907
+ 212 00d4 A0860100 		.word	100000
+ 213 00d8 D34D6210 		.word	274877907
+ 215              		.section	.text.I2C_StructInit,"ax",%progbits
+ 216              		.align	2
+ 217              		.global	I2C_StructInit
+ 218              		.thumb
+ 219              		.thumb_func
+ 221              	I2C_StructInit:
+ 222              		@ args = 0, pretend = 0, frame = 0
+ 223              		@ frame_needed = 0, uses_anonymous_args = 0
+ 224              		@ link register save eliminated.
+ 225 0000 0023     		movs	r3, #0	@ tmp113,
+ 226 0002 10B4     		push	{r4}	@
+ 227 0004 4BF6FF71 		movw	r1, #49151	@ tmp115,
+ 228 0008 41F28834 		movw	r4, #5000	@ tmp111,
+ 229 000c 4FF48042 		mov	r2, #16384	@ tmp121,
+ 230 0010 0460     		str	r4, [r0]	@ tmp111, I2C_InitStruct_2(D)->I2C_ClockSpeed
+ 231 0012 C180     		strh	r1, [r0, #6]	@ movhi	@ tmp115, I2C_InitStruct_2(D)->I2C_DutyCycle
+ 232 0014 8281     		strh	r2, [r0, #12]	@ movhi	@ tmp121, I2C_InitStruct_2(D)->I2C_AcknowledgedAddress
+ 233 0016 8380     		strh	r3, [r0, #4]	@ movhi	@ tmp113, I2C_InitStruct_2(D)->I2C_Mode
+ 234 0018 0381     		strh	r3, [r0, #8]	@ movhi	@ tmp113, I2C_InitStruct_2(D)->I2C_OwnAddress1
+ 235 001a 4381     		strh	r3, [r0, #10]	@ movhi	@ tmp113, I2C_InitStruct_2(D)->I2C_Ack
+ 236 001c 5DF8044B 		ldr	r4, [sp], #4	@,
+ 237 0020 7047     		bx	lr	@
+ 239 0022 00BF     		.section	.text.I2C_Cmd,"ax",%progbits
+ 240              		.align	2
+ 241              		.global	I2C_Cmd
+ 242              		.thumb
+ 243              		.thumb_func
+ 245              	I2C_Cmd:
+ 246              		@ args = 0, pretend = 0, frame = 0
+ 247              		@ frame_needed = 0, uses_anonymous_args = 0
+ 248              		@ link register save eliminated.
+ 249 0000 0388     		ldrh	r3, [r0]	@,* I2Cx
+ 250 0002 29B9     		cbnz	r1, .L22	@ NewState,
+ 251 0004 23F00103 		bic	r3, r3, #1	@ D.7029, I2Cx_4(D)->CR1,
+ 252 0008 1B04     		lsls	r3, r3, #16	@ D.7029, D.7029,
+ 253 000a 1B0C     		lsrs	r3, r3, #16	@ D.7029, D.7029,
+ 254 000c 0380     		strh	r3, [r0]	@ movhi	@ D.7029,* I2Cx
+ 255 000e 7047     		bx	lr	@
+ 256              	.L22:
+ 257 0010 9BB2     		uxth	r3, r3	@ D.7029, I2Cx_4(D)->CR1
+ 258 0012 43F00103 		orr	r3, r3, #1	@ D.7029, D.7029,
+ 259 0016 0380     		strh	r3, [r0]	@ movhi	@ D.7029,* I2Cx
+ 260 0018 7047     		bx	lr	@
+ 262 001a 00BF     		.section	.text.I2C_DMACmd,"ax",%progbits
+ 263              		.align	2
+ 264              		.global	I2C_DMACmd
+ 265              		.thumb
+ 266              		.thumb_func
+ 268              	I2C_DMACmd:
+ 269              		@ args = 0, pretend = 0, frame = 0
+ 270              		@ frame_needed = 0, uses_anonymous_args = 0
+ 271              		@ link register save eliminated.
+ 272 0000 8388     		ldrh	r3, [r0, #4]	@,
+ 273 0002 29B9     		cbnz	r1, .L26	@ NewState,
+ 274 0004 23F40063 		bic	r3, r3, #2048	@ D.7032, I2Cx_4(D)->CR2,
+ 275 0008 1B04     		lsls	r3, r3, #16	@ D.7032, D.7032,
+ 276 000a 1B0C     		lsrs	r3, r3, #16	@ D.7032, D.7032,
+ 277 000c 8380     		strh	r3, [r0, #4]	@ movhi	@ D.7032,
+ 278 000e 7047     		bx	lr	@
+ 279              	.L26:
+ 280 0010 9BB2     		uxth	r3, r3	@ D.7032, I2Cx_4(D)->CR2
+ 281 0012 43F40063 		orr	r3, r3, #2048	@ D.7032, D.7032,
+ 282 0016 8380     		strh	r3, [r0, #4]	@ movhi	@ D.7032,
+ 283 0018 7047     		bx	lr	@
+ 285 001a 00BF     		.section	.text.I2C_DMALastTransferCmd,"ax",%progbits
+ 286              		.align	2
+ 287              		.global	I2C_DMALastTransferCmd
+ 288              		.thumb
+ 289              		.thumb_func
+ 291              	I2C_DMALastTransferCmd:
+ 292              		@ args = 0, pretend = 0, frame = 0
+ 293              		@ frame_needed = 0, uses_anonymous_args = 0
+ 294              		@ link register save eliminated.
+ 295 0000 8388     		ldrh	r3, [r0, #4]	@,
+ 296 0002 29B9     		cbnz	r1, .L30	@ NewState,
+ 297 0004 23F48053 		bic	r3, r3, #4096	@ D.7035, I2Cx_4(D)->CR2,
+ 298 0008 1B04     		lsls	r3, r3, #16	@ D.7035, D.7035,
+ 299 000a 1B0C     		lsrs	r3, r3, #16	@ D.7035, D.7035,
+ 300 000c 8380     		strh	r3, [r0, #4]	@ movhi	@ D.7035,
+ 301 000e 7047     		bx	lr	@
+ 302              	.L30:
+ 303 0010 9BB2     		uxth	r3, r3	@ D.7035, I2Cx_4(D)->CR2
+ 304 0012 43F48053 		orr	r3, r3, #4096	@ D.7035, D.7035,
+ 305 0016 8380     		strh	r3, [r0, #4]	@ movhi	@ D.7035,
+ 306 0018 7047     		bx	lr	@
+ 308 001a 00BF     		.section	.text.I2C_GenerateSTART,"ax",%progbits
+ 309              		.align	2
+ 310              		.global	I2C_GenerateSTART
+ 311              		.thumb
+ 312              		.thumb_func
+ 314              	I2C_GenerateSTART:
+ 315              		@ args = 0, pretend = 0, frame = 0
+ 316              		@ frame_needed = 0, uses_anonymous_args = 0
+ 317              		@ link register save eliminated.
+ 318 0000 0388     		ldrh	r3, [r0]	@,* I2Cx
+ 319 0002 29B9     		cbnz	r1, .L34	@ NewState,
+ 320 0004 23F48073 		bic	r3, r3, #256	@ D.7038, I2Cx_4(D)->CR1,
+ 321 0008 1B04     		lsls	r3, r3, #16	@ D.7038, D.7038,
+ 322 000a 1B0C     		lsrs	r3, r3, #16	@ D.7038, D.7038,
+ 323 000c 0380     		strh	r3, [r0]	@ movhi	@ D.7038,* I2Cx
+ 324 000e 7047     		bx	lr	@
+ 325              	.L34:
+ 326 0010 9BB2     		uxth	r3, r3	@ D.7038, I2Cx_4(D)->CR1
+ 327 0012 43F48073 		orr	r3, r3, #256	@ D.7038, D.7038,
+ 328 0016 0380     		strh	r3, [r0]	@ movhi	@ D.7038,* I2Cx
+ 329 0018 7047     		bx	lr	@
+ 331 001a 00BF     		.section	.text.I2C_GenerateSTOP,"ax",%progbits
+ 332              		.align	2
+ 333              		.global	I2C_GenerateSTOP
+ 334              		.thumb
+ 335              		.thumb_func
+ 337              	I2C_GenerateSTOP:
+ 338              		@ args = 0, pretend = 0, frame = 0
+ 339              		@ frame_needed = 0, uses_anonymous_args = 0
+ 340              		@ link register save eliminated.
+ 341 0000 0388     		ldrh	r3, [r0]	@,* I2Cx
+ 342 0002 29B9     		cbnz	r1, .L38	@ NewState,
+ 343 0004 23F40073 		bic	r3, r3, #512	@ D.7041, I2Cx_4(D)->CR1,
+ 344 0008 1B04     		lsls	r3, r3, #16	@ D.7041, D.7041,
+ 345 000a 1B0C     		lsrs	r3, r3, #16	@ D.7041, D.7041,
+ 346 000c 0380     		strh	r3, [r0]	@ movhi	@ D.7041,* I2Cx
+ 347 000e 7047     		bx	lr	@
+ 348              	.L38:
+ 349 0010 9BB2     		uxth	r3, r3	@ D.7041, I2Cx_4(D)->CR1
+ 350 0012 43F40073 		orr	r3, r3, #512	@ D.7041, D.7041,
+ 351 0016 0380     		strh	r3, [r0]	@ movhi	@ D.7041,* I2Cx
+ 352 0018 7047     		bx	lr	@
+ 354 001a 00BF     		.section	.text.I2C_AcknowledgeConfig,"ax",%progbits
+ 355              		.align	2
+ 356              		.global	I2C_AcknowledgeConfig
+ 357              		.thumb
+ 358              		.thumb_func
+ 360              	I2C_AcknowledgeConfig:
+ 361              		@ args = 0, pretend = 0, frame = 0
+ 362              		@ frame_needed = 0, uses_anonymous_args = 0
+ 363              		@ link register save eliminated.
+ 364 0000 0388     		ldrh	r3, [r0]	@,* I2Cx
+ 365 0002 29B9     		cbnz	r1, .L42	@ NewState,
+ 366 0004 23F48063 		bic	r3, r3, #1024	@ D.7044, I2Cx_4(D)->CR1,
+ 367 0008 1B04     		lsls	r3, r3, #16	@ D.7044, D.7044,
+ 368 000a 1B0C     		lsrs	r3, r3, #16	@ D.7044, D.7044,
+ 369 000c 0380     		strh	r3, [r0]	@ movhi	@ D.7044,* I2Cx
+ 370 000e 7047     		bx	lr	@
+ 371              	.L42:
+ 372 0010 9BB2     		uxth	r3, r3	@ D.7044, I2Cx_4(D)->CR1
+ 373 0012 43F48063 		orr	r3, r3, #1024	@ D.7044, D.7044,
+ 374 0016 0380     		strh	r3, [r0]	@ movhi	@ D.7044,* I2Cx
+ 375 0018 7047     		bx	lr	@
+ 377 001a 00BF     		.section	.text.I2C_OwnAddress2Config,"ax",%progbits
+ 378              		.align	2
+ 379              		.global	I2C_OwnAddress2Config
+ 380              		.thumb
+ 381              		.thumb_func
+ 383              	I2C_OwnAddress2Config:
+ 384              		@ args = 0, pretend = 0, frame = 0
+ 385              		@ frame_needed = 0, uses_anonymous_args = 0
+ 386              		@ link register save eliminated.
+ 387 0000 8389     		ldrh	r3, [r0, #12]	@, I2Cx_3(D)->OAR2
+ 388 0002 01F0FE01 		and	r1, r1, #254	@ tmp123, Address,
+ 389 0006 9BB2     		uxth	r3, r3	@ tmpreg, I2Cx_3(D)->OAR2
+ 390 0008 23F0FE03 		bic	r3, r3, #254	@ tmp124, tmpreg,
+ 391 000c 0B43     		orrs	r3, r3, r1	@, tmpreg, tmp124, tmp123
+ 392 000e 8381     		strh	r3, [r0, #12]	@ movhi	@ tmpreg, I2Cx_3(D)->OAR2
+ 393 0010 7047     		bx	lr	@
+ 395 0012 00BF     		.section	.text.I2C_DualAddressCmd,"ax",%progbits
+ 396              		.align	2
+ 397              		.global	I2C_DualAddressCmd
+ 398              		.thumb
+ 399              		.thumb_func
+ 401              	I2C_DualAddressCmd:
+ 402              		@ args = 0, pretend = 0, frame = 0
+ 403              		@ frame_needed = 0, uses_anonymous_args = 0
+ 404              		@ link register save eliminated.
+ 405 0000 8389     		ldrh	r3, [r0, #12]	@,
+ 406 0002 29B9     		cbnz	r1, .L47	@ NewState,
+ 407 0004 23F00103 		bic	r3, r3, #1	@ D.7051, I2Cx_4(D)->OAR2,
+ 408 0008 1B04     		lsls	r3, r3, #16	@ D.7051, D.7051,
+ 409 000a 1B0C     		lsrs	r3, r3, #16	@ D.7051, D.7051,
+ 410 000c 8381     		strh	r3, [r0, #12]	@ movhi	@ D.7051,
+ 411 000e 7047     		bx	lr	@
+ 412              	.L47:
+ 413 0010 9BB2     		uxth	r3, r3	@ D.7051, I2Cx_4(D)->OAR2
+ 414 0012 43F00103 		orr	r3, r3, #1	@ D.7051, D.7051,
+ 415 0016 8381     		strh	r3, [r0, #12]	@ movhi	@ D.7051,
+ 416 0018 7047     		bx	lr	@
+ 418 001a 00BF     		.section	.text.I2C_GeneralCallCmd,"ax",%progbits
+ 419              		.align	2
+ 420              		.global	I2C_GeneralCallCmd
+ 421              		.thumb
+ 422              		.thumb_func
+ 424              	I2C_GeneralCallCmd:
+ 425              		@ args = 0, pretend = 0, frame = 0
+ 426              		@ frame_needed = 0, uses_anonymous_args = 0
+ 427              		@ link register save eliminated.
+ 428 0000 0388     		ldrh	r3, [r0]	@,* I2Cx
+ 429 0002 29B9     		cbnz	r1, .L51	@ NewState,
+ 430 0004 23F04003 		bic	r3, r3, #64	@ D.7054, I2Cx_4(D)->CR1,
+ 431 0008 1B04     		lsls	r3, r3, #16	@ D.7054, D.7054,
+ 432 000a 1B0C     		lsrs	r3, r3, #16	@ D.7054, D.7054,
+ 433 000c 0380     		strh	r3, [r0]	@ movhi	@ D.7054,* I2Cx
+ 434 000e 7047     		bx	lr	@
+ 435              	.L51:
+ 436 0010 9BB2     		uxth	r3, r3	@ D.7054, I2Cx_4(D)->CR1
+ 437 0012 43F04003 		orr	r3, r3, #64	@ D.7054, D.7054,
+ 438 0016 0380     		strh	r3, [r0]	@ movhi	@ D.7054,* I2Cx
+ 439 0018 7047     		bx	lr	@
+ 441 001a 00BF     		.section	.text.I2C_ITConfig,"ax",%progbits
+ 442              		.align	2
+ 443              		.global	I2C_ITConfig
+ 444              		.thumb
+ 445              		.thumb_func
+ 447              	I2C_ITConfig:
+ 448              		@ args = 0, pretend = 0, frame = 0
+ 449              		@ frame_needed = 0, uses_anonymous_args = 0
+ 450              		@ link register save eliminated.
+ 451 0000 8388     		ldrh	r3, [r0, #4]	@,
+ 452 0002 9BB2     		uxth	r3, r3	@ D.7057, I2Cx_4(D)->CR2
+ 453 0004 1AB9     		cbnz	r2, .L55	@ NewState,
+ 454 0006 23EA0101 		bic	r1, r3, r1	@ D.7057, D.7057, I2C_IT
+ 455 000a 8180     		strh	r1, [r0, #4]	@ movhi	@ D.7057,
+ 456 000c 7047     		bx	lr	@
+ 457              	.L55:
+ 458 000e 1943     		orrs	r1, r1, r3	@, D.7057, I2C_IT, D.7057
+ 459 0010 8180     		strh	r1, [r0, #4]	@ movhi	@ D.7057,
+ 460 0012 7047     		bx	lr	@
+ 462              		.section	.text.I2C_SendData,"ax",%progbits
+ 463              		.align	2
+ 464              		.global	I2C_SendData
+ 465              		.thumb
+ 466              		.thumb_func
+ 468              	I2C_SendData:
+ 469              		@ args = 0, pretend = 0, frame = 0
+ 470              		@ frame_needed = 0, uses_anonymous_args = 0
+ 471              		@ link register save eliminated.
+ 472 0000 0182     		strh	r1, [r0, #16]	@ movhi	@ Data, I2Cx_4(D)->DR
+ 473 0002 7047     		bx	lr	@
+ 475              		.section	.text.I2C_ReceiveData,"ax",%progbits
+ 476              		.align	2
+ 477              		.global	I2C_ReceiveData
+ 478              		.thumb
+ 479              		.thumb_func
+ 481              	I2C_ReceiveData:
+ 482              		@ args = 0, pretend = 0, frame = 0
+ 483              		@ frame_needed = 0, uses_anonymous_args = 0
+ 484              		@ link register save eliminated.
+ 485 0000 008A     		ldrh	r0, [r0, #16]	@, I2Cx_2(D)->DR
+ 486 0002 C0B2     		uxtb	r0, r0	@, I2Cx_2(D)->DR
+ 487 0004 7047     		bx	lr	@
+ 489 0006 00BF     		.section	.text.I2C_Send7bitAddress,"ax",%progbits
+ 490              		.align	2
+ 491              		.global	I2C_Send7bitAddress
+ 492              		.thumb
+ 493              		.thumb_func
+ 495              	I2C_Send7bitAddress:
+ 496              		@ args = 0, pretend = 0, frame = 0
+ 497              		@ frame_needed = 0, uses_anonymous_args = 0
+ 498              		@ link register save eliminated.
+ 499 0000 1AB9     		cbnz	r2, .L61	@ I2C_Direction,
+ 500 0002 01F0FE01 		and	r1, r1, #254	@ Address, Address,
+ 501 0006 0182     		strh	r1, [r0, #16]	@ movhi	@ Address, I2Cx_8(D)->DR
+ 502 0008 7047     		bx	lr	@
+ 503              	.L61:
+ 504 000a 41F00101 		orr	r1, r1, #1	@ Address, Address,
+ 505 000e 0182     		strh	r1, [r0, #16]	@ movhi	@ Address, I2Cx_8(D)->DR
+ 506 0010 7047     		bx	lr	@
+ 508 0012 00BF     		.section	.text.I2C_ReadRegister,"ax",%progbits
+ 509              		.align	2
+ 510              		.global	I2C_ReadRegister
+ 511              		.thumb
+ 512              		.thumb_func
+ 514              	I2C_ReadRegister:
+ 515              		@ args = 0, pretend = 0, frame = 8
+ 516              		@ frame_needed = 0, uses_anonymous_args = 0
+ 517              		@ link register save eliminated.
+ 518 0000 82B0     		sub	sp, sp, #8	@,,
+ 519 0002 0023     		movs	r3, #0	@ tmp120,
+ 520 0004 0193     		str	r3, [sp, #4]	@ tmp120, tmp
+ 521 0006 0190     		str	r0, [sp, #4]	@ I2Cx, tmp
+ 522 0008 019B     		ldr	r3, [sp, #4]	@ tmp.2, tmp
+ 523 000a 1944     		add	r1, r1, r3	@ tmp.3, tmp.2
+ 524 000c 0191     		str	r1, [sp, #4]	@ tmp.3, tmp
+ 525 000e 019B     		ldr	r3, [sp, #4]	@ tmp.4, tmp
+ 526 0010 1888     		ldrh	r0, [r3]	@, *tmp.5_12
+ 527 0012 80B2     		uxth	r0, r0	@, *tmp.5_12
+ 528 0014 02B0     		add	sp, sp, #8	@,,
+ 529              		@ sp needed	@
+ 530 0016 7047     		bx	lr	@
+ 532              		.section	.text.I2C_SoftwareResetCmd,"ax",%progbits
+ 533              		.align	2
+ 534              		.global	I2C_SoftwareResetCmd
+ 535              		.thumb
+ 536              		.thumb_func
+ 538              	I2C_SoftwareResetCmd:
+ 539              		@ args = 0, pretend = 0, frame = 0
+ 540              		@ frame_needed = 0, uses_anonymous_args = 0
+ 541              		@ link register save eliminated.
+ 542 0000 0388     		ldrh	r3, [r0]	@,* I2Cx
+ 543 0002 19B9     		cbnz	r1, .L66	@ NewState,
+ 544 0004 C3F30E03 		ubfx	r3, r3, #0, #15	@ D.7074, I2Cx_4(D)->CR1,,
+ 545 0008 0380     		strh	r3, [r0]	@ movhi	@ D.7074,* I2Cx
+ 546 000a 7047     		bx	lr	@
+ 547              	.L66:
+ 548 000c 6FEA4343 		mvn	r3, r3, lsl #17	@ tmp117, I2Cx_4(D)->CR1,
+ 549 0010 6FEA5343 		mvn	r3, r3, lsr #17	@ tmp117, tmp117,
+ 550 0014 9BB2     		uxth	r3, r3	@ D.7074, tmp117
+ 551 0016 0380     		strh	r3, [r0]	@ movhi	@ D.7074,* I2Cx
+ 552 0018 7047     		bx	lr	@
+ 554 001a 00BF     		.section	.text.I2C_NACKPositionConfig,"ax",%progbits
+ 555              		.align	2
+ 556              		.global	I2C_NACKPositionConfig
+ 557              		.thumb
+ 558              		.thumb_func
+ 560              	I2C_NACKPositionConfig:
+ 561              		@ args = 0, pretend = 0, frame = 0
+ 562              		@ frame_needed = 0, uses_anonymous_args = 0
+ 563              		@ link register save eliminated.
+ 564 0000 B1F5006F 		cmp	r1, #2048	@ I2C_NACKPosition,
+ 565 0004 0388     		ldrh	r3, [r0]	@,* I2Cx
+ 566 0006 05D0     		beq	.L70	@,
+ 567 0008 23F40063 		bic	r3, r3, #2048	@ D.7077, I2Cx_4(D)->CR1,
+ 568 000c 1B04     		lsls	r3, r3, #16	@ D.7077, D.7077,
+ 569 000e 1B0C     		lsrs	r3, r3, #16	@ D.7077, D.7077,
+ 570 0010 0380     		strh	r3, [r0]	@ movhi	@ D.7077,* I2Cx
+ 571 0012 7047     		bx	lr	@
+ 572              	.L70:
+ 573 0014 9BB2     		uxth	r3, r3	@ D.7077, I2Cx_4(D)->CR1
+ 574 0016 43F40063 		orr	r3, r3, #2048	@ D.7077, D.7077,
+ 575 001a 0380     		strh	r3, [r0]	@ movhi	@ D.7077,* I2Cx
+ 576 001c 7047     		bx	lr	@
+ 578 001e 00BF     		.section	.text.I2C_SMBusAlertConfig,"ax",%progbits
+ 579              		.align	2
+ 580              		.global	I2C_SMBusAlertConfig
+ 581              		.thumb
+ 582              		.thumb_func
+ 584              	I2C_SMBusAlertConfig:
+ 585              		@ args = 0, pretend = 0, frame = 0
+ 586              		@ frame_needed = 0, uses_anonymous_args = 0
+ 587              		@ link register save eliminated.
+ 588 0000 B1F5005F 		cmp	r1, #8192	@ I2C_SMBusAlert,
+ 589 0004 0388     		ldrh	r3, [r0]	@,* I2Cx
+ 590 0006 05D0     		beq	.L74	@,
+ 591 0008 23F40053 		bic	r3, r3, #8192	@ D.7080, I2Cx_4(D)->CR1,
+ 592 000c 1B04     		lsls	r3, r3, #16	@ D.7080, D.7080,
+ 593 000e 1B0C     		lsrs	r3, r3, #16	@ D.7080, D.7080,
+ 594 0010 0380     		strh	r3, [r0]	@ movhi	@ D.7080,* I2Cx
+ 595 0012 7047     		bx	lr	@
+ 596              	.L74:
+ 597 0014 9BB2     		uxth	r3, r3	@ D.7080, I2Cx_4(D)->CR1
+ 598 0016 43F40053 		orr	r3, r3, #8192	@ D.7080, D.7080,
+ 599 001a 0380     		strh	r3, [r0]	@ movhi	@ D.7080,* I2Cx
+ 600 001c 7047     		bx	lr	@
+ 602 001e 00BF     		.section	.text.I2C_TransmitPEC,"ax",%progbits
+ 603              		.align	2
+ 604              		.global	I2C_TransmitPEC
+ 605              		.thumb
+ 606              		.thumb_func
+ 608              	I2C_TransmitPEC:
+ 609              		@ args = 0, pretend = 0, frame = 0
+ 610              		@ frame_needed = 0, uses_anonymous_args = 0
+ 611              		@ link register save eliminated.
+ 612 0000 0388     		ldrh	r3, [r0]	@,* I2Cx
+ 613 0002 29B9     		cbnz	r1, .L78	@ NewState,
+ 614 0004 23F48053 		bic	r3, r3, #4096	@ D.7083, I2Cx_4(D)->CR1,
+ 615 0008 1B04     		lsls	r3, r3, #16	@ D.7083, D.7083,
+ 616 000a 1B0C     		lsrs	r3, r3, #16	@ D.7083, D.7083,
+ 617 000c 0380     		strh	r3, [r0]	@ movhi	@ D.7083,* I2Cx
+ 618 000e 7047     		bx	lr	@
+ 619              	.L78:
+ 620 0010 9BB2     		uxth	r3, r3	@ D.7083, I2Cx_4(D)->CR1
+ 621 0012 43F48053 		orr	r3, r3, #4096	@ D.7083, D.7083,
+ 622 0016 0380     		strh	r3, [r0]	@ movhi	@ D.7083,* I2Cx
+ 623 0018 7047     		bx	lr	@
+ 625 001a 00BF     		.section	.text.I2C_PECPositionConfig,"ax",%progbits
+ 626              		.align	2
+ 627              		.global	I2C_PECPositionConfig
+ 628              		.thumb
+ 629              		.thumb_func
+ 631              	I2C_PECPositionConfig:
+ 632              		@ args = 0, pretend = 0, frame = 0
+ 633              		@ frame_needed = 0, uses_anonymous_args = 0
+ 634              		@ link register save eliminated.
+ 635 0000 B1F5006F 		cmp	r1, #2048	@ I2C_PECPosition,
+ 636 0004 0388     		ldrh	r3, [r0]	@,* I2Cx
+ 637 0006 05D0     		beq	.L82	@,
+ 638 0008 23F40063 		bic	r3, r3, #2048	@ D.7086, I2Cx_4(D)->CR1,
+ 639 000c 1B04     		lsls	r3, r3, #16	@ D.7086, D.7086,
+ 640 000e 1B0C     		lsrs	r3, r3, #16	@ D.7086, D.7086,
+ 641 0010 0380     		strh	r3, [r0]	@ movhi	@ D.7086,* I2Cx
+ 642 0012 7047     		bx	lr	@
+ 643              	.L82:
+ 644 0014 9BB2     		uxth	r3, r3	@ D.7086, I2Cx_4(D)->CR1
+ 645 0016 43F40063 		orr	r3, r3, #2048	@ D.7086, D.7086,
+ 646 001a 0380     		strh	r3, [r0]	@ movhi	@ D.7086,* I2Cx
+ 647 001c 7047     		bx	lr	@
+ 649 001e 00BF     		.section	.text.I2C_CalculatePEC,"ax",%progbits
+ 650              		.align	2
+ 651              		.global	I2C_CalculatePEC
+ 652              		.thumb
+ 653              		.thumb_func
+ 655              	I2C_CalculatePEC:
+ 656              		@ args = 0, pretend = 0, frame = 0
+ 657              		@ frame_needed = 0, uses_anonymous_args = 0
+ 658              		@ link register save eliminated.
+ 659 0000 0388     		ldrh	r3, [r0]	@,* I2Cx
+ 660 0002 29B9     		cbnz	r1, .L86	@ NewState,
+ 661 0004 23F02003 		bic	r3, r3, #32	@ D.7089, I2Cx_4(D)->CR1,
+ 662 0008 1B04     		lsls	r3, r3, #16	@ D.7089, D.7089,
+ 663 000a 1B0C     		lsrs	r3, r3, #16	@ D.7089, D.7089,
+ 664 000c 0380     		strh	r3, [r0]	@ movhi	@ D.7089,* I2Cx
+ 665 000e 7047     		bx	lr	@
+ 666              	.L86:
+ 667 0010 9BB2     		uxth	r3, r3	@ D.7089, I2Cx_4(D)->CR1
+ 668 0012 43F02003 		orr	r3, r3, #32	@ D.7089, D.7089,
+ 669 0016 0380     		strh	r3, [r0]	@ movhi	@ D.7089,* I2Cx
+ 670 0018 7047     		bx	lr	@
+ 672 001a 00BF     		.section	.text.I2C_GetPEC,"ax",%progbits
+ 673              		.align	2
+ 674              		.global	I2C_GetPEC
+ 675              		.thumb
+ 676              		.thumb_func
+ 678              	I2C_GetPEC:
+ 679              		@ args = 0, pretend = 0, frame = 0
+ 680              		@ frame_needed = 0, uses_anonymous_args = 0
+ 681              		@ link register save eliminated.
+ 682 0000 008B     		ldrh	r0, [r0, #24]	@, I2Cx_2(D)->SR2
+ 683 0002 C0F30720 		ubfx	r0, r0, #8, #8	@, I2Cx_2(D)->SR2,,
+ 684 0006 7047     		bx	lr	@
+ 686              		.section	.text.I2C_ARPCmd,"ax",%progbits
+ 687              		.align	2
+ 688              		.global	I2C_ARPCmd
+ 689              		.thumb
+ 690              		.thumb_func
+ 692              	I2C_ARPCmd:
+ 693              		@ args = 0, pretend = 0, frame = 0
+ 694              		@ frame_needed = 0, uses_anonymous_args = 0
+ 695              		@ link register save eliminated.
+ 696 0000 0388     		ldrh	r3, [r0]	@,* I2Cx
+ 697 0002 29B9     		cbnz	r1, .L91	@ NewState,
+ 698 0004 23F01003 		bic	r3, r3, #16	@ D.7096, I2Cx_4(D)->CR1,
+ 699 0008 1B04     		lsls	r3, r3, #16	@ D.7096, D.7096,
+ 700 000a 1B0C     		lsrs	r3, r3, #16	@ D.7096, D.7096,
+ 701 000c 0380     		strh	r3, [r0]	@ movhi	@ D.7096,* I2Cx
+ 702 000e 7047     		bx	lr	@
+ 703              	.L91:
+ 704 0010 9BB2     		uxth	r3, r3	@ D.7096, I2Cx_4(D)->CR1
+ 705 0012 43F01003 		orr	r3, r3, #16	@ D.7096, D.7096,
+ 706 0016 0380     		strh	r3, [r0]	@ movhi	@ D.7096,* I2Cx
+ 707 0018 7047     		bx	lr	@
+ 709 001a 00BF     		.section	.text.I2C_StretchClockCmd,"ax",%progbits
+ 710              		.align	2
+ 711              		.global	I2C_StretchClockCmd
+ 712              		.thumb
+ 713              		.thumb_func
+ 715              	I2C_StretchClockCmd:
+ 716              		@ args = 0, pretend = 0, frame = 0
+ 717              		@ frame_needed = 0, uses_anonymous_args = 0
+ 718              		@ link register save eliminated.
+ 719 0000 0388     		ldrh	r3, [r0]	@,* I2Cx
+ 720 0002 29B1     		cbz	r1, .L95	@ NewState,
+ 721 0004 23F08003 		bic	r3, r3, #128	@ D.7099, I2Cx_4(D)->CR1,
+ 722 0008 1B04     		lsls	r3, r3, #16	@ D.7099, D.7099,
+ 723 000a 1B0C     		lsrs	r3, r3, #16	@ D.7099, D.7099,
+ 724 000c 0380     		strh	r3, [r0]	@ movhi	@ D.7099,* I2Cx
+ 725 000e 7047     		bx	lr	@
+ 726              	.L95:
+ 727 0010 9BB2     		uxth	r3, r3	@ D.7099, I2Cx_4(D)->CR1
+ 728 0012 43F08003 		orr	r3, r3, #128	@ D.7099, D.7099,
+ 729 0016 0380     		strh	r3, [r0]	@ movhi	@ D.7099,* I2Cx
+ 730 0018 7047     		bx	lr	@
+ 732 001a 00BF     		.section	.text.I2C_FastModeDutyCycleConfig,"ax",%progbits
+ 733              		.align	2
+ 734              		.global	I2C_FastModeDutyCycleConfig
+ 735              		.thumb
+ 736              		.thumb_func
+ 738              	I2C_FastModeDutyCycleConfig:
+ 739              		@ args = 0, pretend = 0, frame = 0
+ 740              		@ frame_needed = 0, uses_anonymous_args = 0
+ 741              		@ link register save eliminated.
+ 742 0000 B1F5804F 		cmp	r1, #16384	@ I2C_DutyCycle,
+ 743 0004 838B     		ldrh	r3, [r0, #28]	@,
+ 744 0006 05D0     		beq	.L97	@,
+ 745 0008 23F48043 		bic	r3, r3, #16384	@ D.7102, I2Cx_4(D)->CCR,
+ 746 000c 1B04     		lsls	r3, r3, #16	@ D.7102, D.7102,
+ 747 000e 1B0C     		lsrs	r3, r3, #16	@ D.7102, D.7102,
+ 748 0010 8383     		strh	r3, [r0, #28]	@ movhi	@ D.7102,
+ 749 0012 7047     		bx	lr	@
+ 750              	.L97:
+ 751 0014 9BB2     		uxth	r3, r3	@ D.7102, I2Cx_4(D)->CCR
+ 752 0016 43F48043 		orr	r3, r3, #16384	@ D.7102, D.7102,
+ 753 001a 8383     		strh	r3, [r0, #28]	@ movhi	@ D.7102,
+ 754 001c 7047     		bx	lr	@
+ 756 001e 00BF     		.section	.text.I2C_CheckEvent,"ax",%progbits
+ 757              		.align	2
+ 758              		.global	I2C_CheckEvent
+ 759              		.thumb
+ 760              		.thumb_func
+ 762              	I2C_CheckEvent:
+ 763              		@ args = 0, pretend = 0, frame = 0
+ 764              		@ frame_needed = 0, uses_anonymous_args = 0
+ 765              		@ link register save eliminated.
+ 766 0000 828A     		ldrh	r2, [r0, #20]	@, I2Cx_3(D)->SR1
+ 767 0002 038B     		ldrh	r3, [r0, #24]	@, I2Cx_3(D)->SR2
+ 768 0004 92B2     		uxth	r2, r2	@ D.7105, I2Cx_3(D)->SR1
+ 769 0006 42EA0343 		orr	r3, r2, r3, lsl #16	@, D.7106, D.7105, I2Cx_3(D)->SR2,
+ 770 000a 21F07F40 		bic	r0, r1, #-16777216	@ lastevent, I2C_EVENT,
+ 771 000e 1840     		ands	r0, r0, r3	@, D.7106, lastevent, D.7106
+ 772 0010 0B1A     		subs	r3, r1, r0	@, I2C_EVENT, D.7106
+ 773 0012 5842     		rsbs	r0, r3, #0	@,,
+ 774 0014 5841     		adcs	r0, r0, r3	@,,
+ 775 0016 7047     		bx	lr	@
+ 777              		.section	.text.I2C_GetLastEvent,"ax",%progbits
+ 778              		.align	2
+ 779              		.global	I2C_GetLastEvent
+ 780              		.thumb
+ 781              		.thumb_func
+ 783              	I2C_GetLastEvent:
+ 784              		@ args = 0, pretend = 0, frame = 0
+ 785              		@ frame_needed = 0, uses_anonymous_args = 0
+ 786              		@ link register save eliminated.
+ 787 0000 828A     		ldrh	r2, [r0, #20]	@, I2Cx_2(D)->SR1
+ 788 0002 038B     		ldrh	r3, [r0, #24]	@, I2Cx_2(D)->SR2
+ 789 0004 90B2     		uxth	r0, r2	@ D.7111, I2Cx_2(D)->SR1
+ 790 0006 40EA0340 		orr	r0, r0, r3, lsl #16	@, D.7112, D.7111, I2Cx_2(D)->SR2,
+ 791 000a 20F07F40 		bic	r0, r0, #-16777216	@, D.7112,
+ 792 000e 7047     		bx	lr	@
+ 794              		.section	.text.I2C_GetFlagStatus,"ax",%progbits
+ 795              		.align	2
+ 796              		.global	I2C_GetFlagStatus
+ 797              		.thumb
+ 798              		.thumb_func
+ 800              	I2C_GetFlagStatus:
+ 801              		@ args = 0, pretend = 0, frame = 8
+ 802              		@ frame_needed = 0, uses_anonymous_args = 0
+ 803              		@ link register save eliminated.
+ 804 0000 82B0     		sub	sp, sp, #8	@,,
+ 805 0002 0023     		movs	r3, #0	@ tmp127,
+ 806 0004 0A0F     		lsrs	r2, r1, #28	@ i2creg.7, I2C_FLAG,
+ 807 0006 0093     		str	r3, [sp]	@ tmp127, i2creg
+ 808 0008 0193     		str	r3, [sp, #4]	@ tmp127, i2cxbase
+ 809 000a 0190     		str	r0, [sp, #4]	@ I2Cx, i2cxbase
+ 810 000c 0092     		str	r2, [sp]	@ i2creg.7, i2creg
+ 811 000e 009B     		ldr	r3, [sp]	@ i2creg.8, i2creg
+ 812 0010 21F07F41 		bic	r1, r1, #-16777216	@ I2C_FLAG, I2C_FLAG,
+ 813 0014 53B1     		cbz	r3, .L102	@ i2creg.8,
+ 814 0016 019B     		ldr	r3, [sp, #4]	@ i2cxbase.9, i2cxbase
+ 815 0018 1433     		adds	r3, r3, #20	@ i2cxbase.10, i2cxbase.9,
+ 816 001a 0193     		str	r3, [sp, #4]	@ i2cxbase.10, i2cxbase
+ 817              	.L103:
+ 818 001c 019B     		ldr	r3, [sp, #4]	@ i2cxbase.13, i2cxbase
+ 819 001e 1B68     		ldr	r3, [r3]	@ D.7115, *i2cxbase.14_23
+ 820 0020 1942     		tst	r1, r3	@ I2C_FLAG, D.7115
+ 821 0022 0CBF     		ite	eq	@
+ 822 0024 0020     		moveq	r0, #0	@,
+ 823 0026 0120     		movne	r0, #1	@,
+ 824 0028 02B0     		add	sp, sp, #8	@,,
+ 825              		@ sp needed	@
+ 826 002a 7047     		bx	lr	@
+ 827              	.L102:
+ 828 002c 019B     		ldr	r3, [sp, #4]	@ i2cxbase.11, i2cxbase
+ 829 002e 090C     		lsrs	r1, r1, #16	@ I2C_FLAG, I2C_FLAG,
+ 830 0030 1833     		adds	r3, r3, #24	@ i2cxbase.12, i2cxbase.11,
+ 831 0032 0193     		str	r3, [sp, #4]	@ i2cxbase.12, i2cxbase
+ 832 0034 F2E7     		b	.L103	@
+ 834 0036 00BF     		.section	.text.I2C_ClearFlag,"ax",%progbits
+ 835              		.align	2
+ 836              		.global	I2C_ClearFlag
+ 837              		.thumb
+ 838              		.thumb_func
+ 840              	I2C_ClearFlag:
+ 841              		@ args = 0, pretend = 0, frame = 0
+ 842              		@ frame_needed = 0, uses_anonymous_args = 0
+ 843              		@ link register save eliminated.
+ 844 0000 C943     		mvns	r1, r1	@ tmp117, I2C_FLAG
+ 845 0002 89B2     		uxth	r1, r1	@ D.7120, tmp117
+ 846 0004 8182     		strh	r1, [r0, #20]	@ movhi	@ D.7120, I2Cx_6(D)->SR1
+ 847 0006 7047     		bx	lr	@
+ 849              		.section	.text.I2C_GetITStatus,"ax",%progbits
+ 850              		.align	2
+ 851              		.global	I2C_GetITStatus
+ 852              		.thumb
+ 853              		.thumb_func
+ 855              	I2C_GetITStatus:
+ 856              		@ args = 0, pretend = 0, frame = 0
+ 857              		@ frame_needed = 0, uses_anonymous_args = 0
+ 858              		@ link register save eliminated.
+ 859 0000 8388     		ldrh	r3, [r0, #4]	@, I2Cx_6(D)->CR2
+ 860 0002 808A     		ldrh	r0, [r0, #20]	@, I2Cx_6(D)->SR1
+ 861 0004 9BB2     		uxth	r3, r3	@ D.7124, I2Cx_6(D)->CR2
+ 862 0006 80B2     		uxth	r0, r0	@ D.7124, I2Cx_6(D)->SR1
+ 863 0008 0840     		ands	r0, r1, r0	@ D.7123, I2C_IT, D.7124
+ 864 000a 06D0     		beq	.L106	@,
+ 865 000c 01F0E061 		and	r1, r1, #117440512	@ D.7123, I2C_IT,
+ 866 0010 13EA1141 		ands	r1, r3, r1, lsr #16	@,, D.7124, D.7123,
+ 867 0014 0CBF     		ite	eq	@
+ 868 0016 0020     		moveq	r0, #0	@, bitstatus
+ 869 0018 0120     		movne	r0, #1	@, bitstatus
+ 870              	.L106:
+ 871 001a 7047     		bx	lr	@
+ 873              		.section	.text.I2C_ClearITPendingBit,"ax",%progbits
+ 874              		.align	2
+ 875              		.global	I2C_ClearITPendingBit
+ 876              		.thumb
+ 877              		.thumb_func
+ 879              	I2C_ClearITPendingBit:
+ 880              		@ args = 0, pretend = 0, frame = 0
+ 881              		@ frame_needed = 0, uses_anonymous_args = 0
+ 882              		@ link register save eliminated.
+ 883 0000 C943     		mvns	r1, r1	@ tmp117, I2C_IT
+ 884 0002 89B2     		uxth	r1, r1	@ D.7128, tmp117
+ 885 0004 8182     		strh	r1, [r0, #20]	@ movhi	@ D.7128, I2Cx_6(D)->SR1
+ 886 0006 7047     		bx	lr	@
+ 888              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f10x_i2c.c
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:79     .text.I2C_DeInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:84     .text.I2C_DeInit:00000000 I2C_DeInit
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:109    .text.I2C_DeInit:00000038 $d
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:112    .text.I2C_Init:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:117    .text.I2C_Init:00000000 I2C_Init
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:211    .text.I2C_Init:000000d0 $d
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:216    .text.I2C_StructInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:221    .text.I2C_StructInit:00000000 I2C_StructInit
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:240    .text.I2C_Cmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:245    .text.I2C_Cmd:00000000 I2C_Cmd
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:263    .text.I2C_DMACmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:268    .text.I2C_DMACmd:00000000 I2C_DMACmd
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:286    .text.I2C_DMALastTransferCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:291    .text.I2C_DMALastTransferCmd:00000000 I2C_DMALastTransferCmd
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:309    .text.I2C_GenerateSTART:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:314    .text.I2C_GenerateSTART:00000000 I2C_GenerateSTART
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:332    .text.I2C_GenerateSTOP:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:337    .text.I2C_GenerateSTOP:00000000 I2C_GenerateSTOP
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:355    .text.I2C_AcknowledgeConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:360    .text.I2C_AcknowledgeConfig:00000000 I2C_AcknowledgeConfig
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:378    .text.I2C_OwnAddress2Config:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:383    .text.I2C_OwnAddress2Config:00000000 I2C_OwnAddress2Config
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:396    .text.I2C_DualAddressCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:401    .text.I2C_DualAddressCmd:00000000 I2C_DualAddressCmd
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:419    .text.I2C_GeneralCallCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:424    .text.I2C_GeneralCallCmd:00000000 I2C_GeneralCallCmd
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:442    .text.I2C_ITConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:447    .text.I2C_ITConfig:00000000 I2C_ITConfig
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:463    .text.I2C_SendData:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:468    .text.I2C_SendData:00000000 I2C_SendData
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:476    .text.I2C_ReceiveData:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:481    .text.I2C_ReceiveData:00000000 I2C_ReceiveData
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:490    .text.I2C_Send7bitAddress:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:495    .text.I2C_Send7bitAddress:00000000 I2C_Send7bitAddress
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:509    .text.I2C_ReadRegister:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:514    .text.I2C_ReadRegister:00000000 I2C_ReadRegister
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:533    .text.I2C_SoftwareResetCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:538    .text.I2C_SoftwareResetCmd:00000000 I2C_SoftwareResetCmd
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:555    .text.I2C_NACKPositionConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:560    .text.I2C_NACKPositionConfig:00000000 I2C_NACKPositionConfig
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:579    .text.I2C_SMBusAlertConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:584    .text.I2C_SMBusAlertConfig:00000000 I2C_SMBusAlertConfig
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:603    .text.I2C_TransmitPEC:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:608    .text.I2C_TransmitPEC:00000000 I2C_TransmitPEC
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:626    .text.I2C_PECPositionConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:631    .text.I2C_PECPositionConfig:00000000 I2C_PECPositionConfig
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:650    .text.I2C_CalculatePEC:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:655    .text.I2C_CalculatePEC:00000000 I2C_CalculatePEC
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:673    .text.I2C_GetPEC:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:678    .text.I2C_GetPEC:00000000 I2C_GetPEC
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:687    .text.I2C_ARPCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:692    .text.I2C_ARPCmd:00000000 I2C_ARPCmd
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:710    .text.I2C_StretchClockCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:715    .text.I2C_StretchClockCmd:00000000 I2C_StretchClockCmd
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:733    .text.I2C_FastModeDutyCycleConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:738    .text.I2C_FastModeDutyCycleConfig:00000000 I2C_FastModeDutyCycleConfig
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:757    .text.I2C_CheckEvent:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:762    .text.I2C_CheckEvent:00000000 I2C_CheckEvent
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:778    .text.I2C_GetLastEvent:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:783    .text.I2C_GetLastEvent:00000000 I2C_GetLastEvent
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:795    .text.I2C_GetFlagStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:800    .text.I2C_GetFlagStatus:00000000 I2C_GetFlagStatus
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:835    .text.I2C_ClearFlag:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:840    .text.I2C_ClearFlag:00000000 I2C_ClearFlag
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:850    .text.I2C_GetITStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:855    .text.I2C_GetITStatus:00000000 I2C_GetITStatus
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:874    .text.I2C_ClearITPendingBit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccvHvJyB.s:879    .text.I2C_ClearITPendingBit:00000000 I2C_ClearITPendingBit
+
+UNDEFINED SYMBOLS
+RCC_APB1PeriphResetCmd
+RCC_GetClocksFreq

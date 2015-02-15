@@ -1,0 +1,222 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"usb_istr.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/VCP/src/usb_istr.d -MF src/VCP/src/usb_istr.d -MP
+  31              	@ -MT src/VCP/src/usb_istr.d -D__USES_INITFINI__ -D STM32F10X_HD
+  32              	@ -D USE_STDPERIPH_DRIVER ../src/VCP/src/usb_istr.c -mcpu=cortex-m3 -mthumb
+  33              	@ -auxbase-strip src/VCP/src/usb_istr.o -O2 -Wall -Wextra
+  34              	@ -Wstrict-prototypes -std=gnu99 -ffunction-sections -fdata-sections
+  35              	@ -fsingle-precision-constant -fverbose-asm
+  36              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  37              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  38              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  39              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  40              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  41              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  42              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  43              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  44              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  45              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  46              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  47              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  48              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  49              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  50              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  51              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  52              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  53              	@ -freorder-functions -frerun-cse-after-loop
+  54              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  55              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  56              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  57              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  58              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  59              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  60              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  61              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  62              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  63              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  64              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  65              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  66              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  67              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  68              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  69              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  70              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  71              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  72              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  73              	@ -munaligned-access -mvectorize-with-neon-quad
+  74              	
+  75              		.section	.text.USB_Istr,"ax",%progbits
+  76              		.align	2
+  77              		.global	USB_Istr
+  78              		.thumb
+  79              		.thumb_func
+  81              	USB_Istr:
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84 0000 224A     		ldr	r2, .L22	@ tmp132,
+  85 0002 38B5     		push	{r3, r4, r5, lr}	@
+  86 0004 1368     		ldr	r3, [r2]	@ D.7101, MEM[(volatile unsigned int *)1073765444B]
+  87 0006 224C     		ldr	r4, .L22+4	@ tmp191,
+  88 0008 9BB2     		uxth	r3, r3	@ wIstr.0, D.7101
+  89 000a 224D     		ldr	r5, .L22+8	@ tmp192,
+  90 000c 2380     		strh	r3, [r4]	@ movhi	@ wIstr.0, wIstr
+  91 000e 2188     		ldrh	r1, [r4]	@, wIstr
+  92 0010 2B88     		ldrh	r3, [r5]	@ wInterrupt_Mask.2, wInterrupt_Mask
+  93 0012 1940     		ands	r1, r1, r3	@, tmp138, wIstr, wInterrupt_Mask.2
+  94 0014 8905     		lsls	r1, r1, #22	@, tmp138,
+  95 0016 07D5     		bpl	.L2	@,
+  96 0018 1F49     		ldr	r1, .L22+12	@ tmp145,
+  97 001a 4FF6FF50 		movw	r0, #65023	@ tmp144,
+  98 001e 1060     		str	r0, [r2]	@ tmp144, MEM[(volatile unsigned int *)1073765444B]
+  99 0020 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2	@ bIntPackSOF, bIntPackSOF
+ 100 0022 0132     		adds	r2, r2, #1	@ tmp148, bIntPackSOF,
+ 101 0024 D2B2     		uxtb	r2, r2	@ bIntPackSOF.5, tmp148
+ 102 0026 0A70     		strb	r2, [r1]	@ bIntPackSOF.5, bIntPackSOF
+ 103              	.L2:
+ 104 0028 2288     		ldrh	r2, [r4]	@, wIstr
+ 105 002a 1A40     		ands	r2, r2, r3	@, tmp153, wIstr, wInterrupt_Mask.2
+ 106 002c 1204     		lsls	r2, r2, #16	@, tmp153,
+ 107 002e 29D4     		bmi	.L18	@,
+ 108              	.L3:
+ 109 0030 2288     		ldrh	r2, [r4]	@, wIstr
+ 110 0032 02F48062 		and	r2, r2, #1024	@ tmp162, wIstr,
+ 111 0036 1342     		tst	r3, r2	@ D.7103, tmp162
+ 112 0038 1BD1     		bne	.L19	@,
+ 113              	.L4:
+ 114 003a 2288     		ldrh	r2, [r4]	@, wIstr
+ 115 003c 02F40052 		and	r2, r2, #8192	@ tmp174, wIstr,
+ 116 0040 1342     		tst	r3, r2	@ D.7103, tmp174
+ 117 0042 0ED1     		bne	.L20	@,
+ 118              	.L5:
+ 119 0044 2288     		ldrh	r2, [r4]	@, wIstr
+ 120 0046 02F48052 		and	r2, r2, #4096	@ tmp184, wIstr,
+ 121 004a 1342     		tst	r3, r2	@ D.7103, tmp184
+ 122 004c 00D1     		bne	.L21	@,
+ 123 004e 38BD     		pop	{r3, r4, r5, pc}	@
+ 124              	.L21:
+ 125 0050 0E4B     		ldr	r3, .L22	@ tmp189,
+ 126 0052 4EF6FF72 		movw	r2, #61439	@ tmp190,
+ 127 0056 1A60     		str	r2, [r3]	@ tmp190, MEM[(volatile unsigned int *)1073765444B]
+ 128 0058 0020     		movs	r0, #0	@,
+ 129 005a BDE83840 		pop	{r3, r4, r5, lr}	@
+ 130 005e FFF7FEBF 		b	Resume	@
+ 131              	.L20:
+ 132 0062 0A4B     		ldr	r3, .L22	@ tmp179,
+ 133 0064 4DF6FF72 		movw	r2, #57343	@ tmp180,
+ 134 0068 1A60     		str	r2, [r3]	@ tmp180, MEM[(volatile unsigned int *)1073765444B]
+ 135 006a FFF7FEFF 		bl	ERR_Callback	@
+ 136 006e 2B88     		ldrh	r3, [r5]	@ D.7103, wInterrupt_Mask
+ 137 0070 E8E7     		b	.L5	@
+ 138              	.L19:
+ 139 0072 064A     		ldr	r2, .L22	@ tmp167,
+ 140 0074 094B     		ldr	r3, .L22+16	@ tmp169,
+ 141 0076 4FF6FF31 		movw	r1, #64511	@ tmp168,
+ 142 007a 5B68     		ldr	r3, [r3, #4]	@ Device_Property.Reset, Device_Property.Reset
+ 143 007c 1160     		str	r1, [r2]	@ tmp168, MEM[(volatile unsigned int *)1073765444B]
+ 144 007e 9847     		blx	r3	@ Device_Property.Reset
+ 145 0080 2B88     		ldrh	r3, [r5]	@ D.7103, wInterrupt_Mask
+ 146 0082 DAE7     		b	.L4	@
+ 147              	.L18:
+ 148 0084 FFF7FEFF 		bl	CTR_LP	@
+ 149 0088 2B88     		ldrh	r3, [r5]	@ D.7103, wInterrupt_Mask
+ 150 008a D1E7     		b	.L3	@
+ 151              	.L23:
+ 152              		.align	2
+ 153              	.L22:
+ 154 008c 445C0040 		.word	1073765444
+ 155 0090 00000000 		.word	wIstr
+ 156 0094 00000000 		.word	wInterrupt_Mask
+ 157 0098 00000000 		.word	.LANCHOR0
+ 158 009c 00000000 		.word	Device_Property
+ 160              		.global	pEpInt_OUT
+ 161              		.global	pEpInt_IN
+ 162              		.global	wCNTR
+ 163              		.global	esof_counter
+ 164              		.global	bIntPackSOF
+ 165              		.comm	wIstr,2,2
+ 166              		.section	.bss.wCNTR,"aw",%nobits
+ 167              		.align	2
+ 170              	wCNTR:
+ 171 0000 00000000 		.space	4
+ 172              		.section	.data.pEpInt_IN,"aw",%progbits
+ 173              		.align	2
+ 176              	pEpInt_IN:
+ 177 0000 00000000 		.word	EP1_IN_Callback
+ 178 0004 00000000 		.word	NOP_Process
+ 179 0008 00000000 		.word	NOP_Process
+ 180 000c 00000000 		.word	NOP_Process
+ 181 0010 00000000 		.word	NOP_Process
+ 182 0014 00000000 		.word	NOP_Process
+ 183 0018 00000000 		.word	NOP_Process
+ 184              		.section	.bss.bIntPackSOF,"aw",%nobits
+ 185              		.set	.LANCHOR0,. + 0
+ 188              	bIntPackSOF:
+ 189 0000 00       		.space	1
+ 190              		.section	.data.pEpInt_OUT,"aw",%progbits
+ 191              		.align	2
+ 194              	pEpInt_OUT:
+ 195 0000 00000000 		.word	NOP_Process
+ 196 0004 00000000 		.word	NOP_Process
+ 197 0008 00000000 		.word	EP3_OUT_Callback
+ 198 000c 00000000 		.word	NOP_Process
+ 199 0010 00000000 		.word	NOP_Process
+ 200 0014 00000000 		.word	NOP_Process
+ 201 0018 00000000 		.word	NOP_Process
+ 202              		.section	.bss.esof_counter,"aw",%nobits
+ 203              		.align	2
+ 206              	esof_counter:
+ 207 0000 00000000 		.space	4
+ 208              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_istr.c
+C:\Users\Chris\AppData\Local\Temp\ccVsdT0V.s:76     .text.USB_Istr:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVsdT0V.s:81     .text.USB_Istr:00000000 USB_Istr
+C:\Users\Chris\AppData\Local\Temp\ccVsdT0V.s:154    .text.USB_Istr:0000008c $d
+                            *COM*:00000002 wIstr
+C:\Users\Chris\AppData\Local\Temp\ccVsdT0V.s:194    .data.pEpInt_OUT:00000000 pEpInt_OUT
+C:\Users\Chris\AppData\Local\Temp\ccVsdT0V.s:176    .data.pEpInt_IN:00000000 pEpInt_IN
+C:\Users\Chris\AppData\Local\Temp\ccVsdT0V.s:170    .bss.wCNTR:00000000 wCNTR
+C:\Users\Chris\AppData\Local\Temp\ccVsdT0V.s:206    .bss.esof_counter:00000000 esof_counter
+C:\Users\Chris\AppData\Local\Temp\ccVsdT0V.s:188    .bss.bIntPackSOF:00000000 bIntPackSOF
+C:\Users\Chris\AppData\Local\Temp\ccVsdT0V.s:167    .bss.wCNTR:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccVsdT0V.s:173    .data.pEpInt_IN:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccVsdT0V.s:189    .bss.bIntPackSOF:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccVsdT0V.s:191    .data.pEpInt_OUT:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccVsdT0V.s:203    .bss.esof_counter:00000000 $d
+
+UNDEFINED SYMBOLS
+Resume
+ERR_Callback
+CTR_LP
+wInterrupt_Mask
+Device_Property
+EP1_IN_Callback
+NOP_Process
+EP3_OUT_Callback

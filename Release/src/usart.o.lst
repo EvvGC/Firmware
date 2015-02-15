@@ -1,0 +1,531 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"usart.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/usart.d -MF src/usart.d -MP -MT src/usart.d -D__USES_INITFINI__
+  31              	@ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER ../src/usart.c -mcpu=cortex-m3
+  32              	@ -mthumb -auxbase-strip src/usart.o -O2 -Wall -Wextra -Wstrict-prototypes
+  33              	@ -std=gnu99 -ffunction-sections -fdata-sections
+  34              	@ -fsingle-precision-constant -fverbose-asm
+  35              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  36              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  37              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  38              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  39              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  40              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  41              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  42              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  43              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  44              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  45              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  46              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  47              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  48              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  49              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  50              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  51              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  52              	@ -freorder-functions -frerun-cse-after-loop
+  53              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  54              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  55              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  56              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  57              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  58              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  59              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  60              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  61              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  62              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  63              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  64              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  65              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  66              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  67              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  68              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  69              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  70              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  71              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  72              	@ -munaligned-access -mvectorize-with-neon-quad
+  73              	
+  74              		.section	.text.UART4EnableTxInterrupt,"ax",%progbits
+  75              		.align	2
+  76              		.global	UART4EnableTxInterrupt
+  77              		.thumb
+  78              		.thumb_func
+  80              	UART4EnableTxInterrupt:
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84 0000 0248     		ldr	r0, .L2	@,
+  85 0002 40F22771 		movw	r1, #1831	@,
+  86 0006 0122     		movs	r2, #1	@,
+  87 0008 FFF7FEBF 		b	USART_ITConfig	@
+  88              	.L3:
+  89              		.align	2
+  90              	.L2:
+  91 000c 004C0040 		.word	1073761280
+  93              		.section	.text.InitUart4BufferIRQ,"ax",%progbits
+  94              		.align	2
+  95              		.global	InitUart4BufferIRQ
+  96              		.thumb
+  97              		.thumb_func
+  99              	InitUart4BufferIRQ:
+ 100              		@ args = 0, pretend = 0, frame = 8
+ 101              		@ frame_needed = 0, uses_anonymous_args = 0
+ 102 0000 00B5     		push	{lr}	@
+ 103 0002 4FF4A060 		mov	r0, #1280	@,
+ 104 0006 83B0     		sub	sp, sp, #12	@,,
+ 105 0008 FFF7FEFF 		bl	NVIC_PriorityGroupConfig	@
+ 106 000c 0123     		movs	r3, #1	@ tmp112,
+ 107 000e 3421     		movs	r1, #52	@ tmp110,
+ 108 0010 0022     		movs	r2, #0	@ tmp114,
+ 109 0012 01A8     		add	r0, sp, #4	@,,
+ 110 0014 8DF80410 		strb	r1, [sp, #4]	@ tmp110, NVIC_InitStructure.NVIC_IRQChannel
+ 111 0018 8DF80530 		strb	r3, [sp, #5]	@ tmp112, NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority
+ 112 001c 8DF80730 		strb	r3, [sp, #7]	@ tmp112, NVIC_InitStructure.NVIC_IRQChannelCmd
+ 113 0020 8DF80620 		strb	r2, [sp, #6]	@ tmp114, NVIC_InitStructure.NVIC_IRQChannelSubPriority
+ 114 0024 FFF7FEFF 		bl	NVIC_Init	@
+ 115 0028 03B0     		add	sp, sp, #12	@,,
+ 116              		@ sp needed	@
+ 117 002a 5DF804FB 		ldr	pc, [sp], #4	@
+ 119 002e 00BF     		.section	.text.USART_GetChar,"ax",%progbits
+ 120              		.align	2
+ 121              		.global	USART_GetChar
+ 122              		.thumb
+ 123              		.thumb_func
+ 125              	USART_GetChar:
+ 126              		@ args = 0, pretend = 0, frame = 0
+ 127              		@ frame_needed = 0, uses_anonymous_args = 0
+ 128              		@ link register save eliminated.
+ 129 0000 0148     		ldr	r0, .L6	@,
+ 130 0002 FFF7FEBF 		b	RingBufferGet	@
+ 131              	.L7:
+ 132 0006 00BF     		.align	2
+ 133              	.L6:
+ 134 0008 00000000 		.word	.LANCHOR0
+ 136              		.section	.text.USART_Peek,"ax",%progbits
+ 137              		.align	2
+ 138              		.global	USART_Peek
+ 139              		.thumb
+ 140              		.thumb_func
+ 142              	USART_Peek:
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145              		@ link register save eliminated.
+ 146 0000 0148     		ldr	r0, .L9	@,
+ 147 0002 FFF7FEBF 		b	RingBufferPeek	@
+ 148              	.L10:
+ 149 0006 00BF     		.align	2
+ 150              	.L9:
+ 151 0008 00000000 		.word	.LANCHOR0
+ 153              		.section	.text.USART_Available,"ax",%progbits
+ 154              		.align	2
+ 155              		.global	USART_Available
+ 156              		.thumb
+ 157              		.thumb_func
+ 159              	USART_Available:
+ 160              		@ args = 0, pretend = 0, frame = 0
+ 161              		@ frame_needed = 0, uses_anonymous_args = 0
+ 162              		@ link register save eliminated.
+ 163 0000 0148     		ldr	r0, .L12	@,
+ 164 0002 FFF7FEBF 		b	RingBufferFillLevel	@
+ 165              	.L13:
+ 166 0006 00BF     		.align	2
+ 167              	.L12:
+ 168 0008 00000000 		.word	.LANCHOR0
+ 170              		.section	.text.USART_Flush,"ax",%progbits
+ 171              		.align	2
+ 172              		.global	USART_Flush
+ 173              		.thumb
+ 174              		.thumb_func
+ 176              	USART_Flush:
+ 177              		@ args = 0, pretend = 0, frame = 0
+ 178              		@ frame_needed = 0, uses_anonymous_args = 0
+ 179 0000 08B5     		push	{r3, lr}	@
+ 180              	.L16:
+ 181 0002 0348     		ldr	r0, .L18	@,
+ 182 0004 FFF7FEFF 		bl	RingBufferFillLevel	@
+ 183 0008 0028     		cmp	r0, #0	@
+ 184 000a FAD1     		bne	.L16	@
+ 185 000c 08BD     		pop	{r3, pc}	@
+ 186              	.L19:
+ 187 000e 00BF     		.align	2
+ 188              	.L18:
+ 189 0010 00000000 		.word	.LANCHOR1
+ 191              		.section	.text.USART_PutCharDirect,"ax",%progbits
+ 192              		.align	2
+ 193              		.global	USART_PutCharDirect
+ 194              		.thumb
+ 195              		.thumb_func
+ 197              	USART_PutCharDirect:
+ 198              		@ args = 0, pretend = 0, frame = 0
+ 199              		@ frame_needed = 0, uses_anonymous_args = 0
+ 200              		@ link register save eliminated.
+ 201 0000 034A     		ldr	r2, .L23	@ tmp121,
+ 202              	.L22:
+ 203 0002 1388     		ldrh	r3, [r2]	@, MEM[(struct USART_TypeDef *)1073761280B].SR
+ 204 0004 0249     		ldr	r1, .L23	@ tmp114,
+ 205 0006 1B06     		lsls	r3, r3, #24	@, MEM[(struct USART_TypeDef *)1073761280B].SR,
+ 206 0008 FBD5     		bpl	.L22	@,
+ 207 000a 8880     		strh	r0, [r1, #4]	@ movhi	@ ch, MEM[(struct USART_TypeDef *)1073761280B].DR
+ 208 000c 7047     		bx	lr	@
+ 209              	.L24:
+ 210 000e 00BF     		.align	2
+ 211              	.L23:
+ 212 0010 004C0040 		.word	1073761280
+ 214              		.section	.text.USART_PutChar,"ax",%progbits
+ 215              		.align	2
+ 216              		.global	USART_PutChar
+ 217              		.thumb
+ 218              		.thumb_func
+ 220              	USART_PutChar:
+ 221              		@ args = 0, pretend = 0, frame = 0
+ 222              		@ frame_needed = 0, uses_anonymous_args = 0
+ 223              		@ link register save eliminated.
+ 224 0000 0146     		mov	r1, r0	@ ch, ch
+ 225 0002 0122     		movs	r2, #1	@,
+ 226 0004 0148     		ldr	r0, .L26	@,
+ 227 0006 FFF7FEBF 		b	RingBufferPut	@
+ 228              	.L27:
+ 229 000a 00BF     		.align	2
+ 230              	.L26:
+ 231 000c 00000000 		.word	.LANCHOR1
+ 233              		.section	.text.USART_PutStringDirect,"ax",%progbits
+ 234              		.align	2
+ 235              		.global	USART_PutStringDirect
+ 236              		.thumb
+ 237              		.thumb_func
+ 239              	USART_PutStringDirect:
+ 240              		@ args = 0, pretend = 0, frame = 0
+ 241              		@ frame_needed = 0, uses_anonymous_args = 0
+ 242              		@ link register save eliminated.
+ 243 0000 0178     		ldrb	r1, [r0]	@ zero_extendqisi2	@ D.6820, *str_3(D)
+ 244 0002 10B4     		push	{r4}	@
+ 245 0004 49B1     		cbz	r1, .L28	@ D.6820,
+ 246 0006 064A     		ldr	r2, .L37	@ tmp148,
+ 247 0008 1446     		mov	r4, r2	@ tmp149, tmp148
+ 248              	.L31:
+ 249 000a 1388     		ldrh	r3, [r2]	@, MEM[(struct USART_TypeDef *)1073761280B].SR
+ 250 000c 1B06     		lsls	r3, r3, #24	@, MEM[(struct USART_TypeDef *)1073761280B].SR,
+ 251 000e FCD5     		bpl	.L31	@,
+ 252 0010 A180     		strh	r1, [r4, #4]	@ movhi	@ D.6820, MEM[(struct USART_TypeDef *)1073761280B].DR
+ 253 0012 10F8011F 		ldrb	r1, [r0, #1]!	@ zero_extendqisi2	@ D.6820, MEM[base: _12, offset: 1B]
+ 254 0016 0029     		cmp	r1, #0	@ D.6820
+ 255 0018 F7D1     		bne	.L31	@
+ 256              	.L28:
+ 257 001a 5DF8044B 		ldr	r4, [sp], #4	@,
+ 258 001e 7047     		bx	lr	@
+ 259              	.L38:
+ 260              		.align	2
+ 261              	.L37:
+ 262 0020 004C0040 		.word	1073761280
+ 264              		.section	.text.USART_PutString,"ax",%progbits
+ 265              		.align	2
+ 266              		.global	USART_PutString
+ 267              		.thumb
+ 268              		.thumb_func
+ 270              	USART_PutString:
+ 271              		@ args = 0, pretend = 0, frame = 0
+ 272              		@ frame_needed = 0, uses_anonymous_args = 0
+ 273 0000 10B5     		push	{r4, lr}	@
+ 274 0002 0178     		ldrb	r1, [r0]	@ zero_extendqisi2	@ D.6834, *str_3(D)
+ 275 0004 41B1     		cbz	r1, .L39	@ D.6834,
+ 276 0006 0446     		mov	r4, r0	@ ivtmp.53, str
+ 277              	.L42:
+ 278 0008 0448     		ldr	r0, .L46	@,
+ 279 000a 0122     		movs	r2, #1	@,
+ 280 000c FFF7FEFF 		bl	RingBufferPut	@
+ 281 0010 14F8011F 		ldrb	r1, [r4, #1]!	@ zero_extendqisi2	@ D.6834, MEM[base: _9, offset: 1B]
+ 282 0014 0029     		cmp	r1, #0	@ D.6834
+ 283 0016 F7D1     		bne	.L42	@
+ 284              	.L39:
+ 285 0018 10BD     		pop	{r4, pc}	@
+ 286              	.L47:
+ 287 001a 00BF     		.align	2
+ 288              	.L46:
+ 289 001c 00000000 		.word	.LANCHOR1
+ 291              		.section	.text.UART4_IRQHandler,"ax",%progbits
+ 292              		.align	2
+ 293              		.global	UART4_IRQHandler
+ 294              		.thumb
+ 295              		.thumb_func
+ 297              	UART4_IRQHandler:
+ 298              		@ args = 0, pretend = 0, frame = 0
+ 299              		@ frame_needed = 0, uses_anonymous_args = 0
+ 300 0000 264B     		ldr	r3, .L64	@ tmp140,
+ 301 0002 274A     		ldr	r2, .L64+4	@ tmp138,
+ 302 0004 70B5     		push	{r4, r5, r6, lr}	@
+ 303 0006 1968     		ldr	r1, [r3]	@ IrqCntUart4, IrqCntUart4
+ 304 0008 1588     		ldrh	r5, [r2]	@, MEM[(struct USART_TypeDef *)1073761280B].SR
+ 305 000a 0131     		adds	r1, r1, #1	@ IrqCntUart4.1, IrqCntUart4,
+ 306 000c ADB2     		uxth	r5, r5	@ D.6838, MEM[(struct USART_TypeDef *)1073761280B].SR
+ 307 000e 1960     		str	r1, [r3]	@ IrqCntUart4.1, IrqCntUart4
+ 308 0010 2906     		lsls	r1, r5, #24	@, D.6838,
+ 309 0012 13D5     		bpl	.L49	@,
+ 310 0014 234C     		ldr	r4, .L64+8	@ tmp147,
+ 311 0016 2168     		ldr	r1, [r4]	@ D.6839, RingBufferUART4TX.Read
+ 312 0018 6368     		ldr	r3, [r4, #4]	@ D.6839, RingBufferUART4TX.Write
+ 313 001a 9942     		cmp	r1, r3	@ D.6839, D.6839
+ 314 001c 2DD0     		beq	.L50	@,
+ 315 001e 2368     		ldr	r3, [r4]	@ D.6839, RingBufferUART4TX.Read
+ 316 0020 2046     		mov	r0, r4	@, tmp147
+ 317 0022 2344     		add	r3, r3, r4	@ tmp151, tmp147
+ 318 0024 1B7B     		ldrb	r3, [r3, #12]	@ zero_extendqisi2	@ D.6838, RingBufferUART4TX.Buffer
+ 319 0026 9380     		strh	r3, [r2, #4]	@ movhi	@ D.6838, MEM[(struct USART_TypeDef *)1073761280B].DR
+ 320 0028 2668     		ldr	r6, [r4]	@ D.6839, RingBufferUART4TX.Read
+ 321 002a FFF7FEFF 		bl	RingBufferSize	@
+ 322 002e 0136     		adds	r6, r6, #1	@ D.6839, D.6839,
+ 323 0030 8642     		cmp	r6, r0	@ D.6839,
+ 324 0032 16BF     		itet	ne
+ 325 0034 2368     		ldrne	r3, [r4]	@ D.6839, RingBufferUART4TX.Read
+ 326 0036 0023     		moveq	r3, #0	@ tmp160,
+ 327 0038 0133     		addne	r3, r3, #1	@ D.6839, D.6839,
+ 328 003a 2360     		str	r3, [r4]	@ D.6839,
+ 329              	.L49:
+ 330 003c AB06     		lsls	r3, r5, #26	@, D.6838,
+ 331 003e 00D4     		bmi	.L61	@,
+ 332 0040 70BD     		pop	{r4, r5, r6, pc}	@
+ 333              	.L61:
+ 334 0042 174B     		ldr	r3, .L64+4	@ tmp167,
+ 335 0044 184C     		ldr	r4, .L64+12	@ tmp170,
+ 336 0046 9B88     		ldrh	r3, [r3, #4]	@, MEM[(struct USART_TypeDef *)1073761280B].DR
+ 337 0048 2046     		mov	r0, r4	@, tmp170
+ 338 004a 9EB2     		uxth	r6, r3	@ D.6838, MEM[(struct USART_TypeDef *)1073761280B].DR
+ 339 004c FFF7FEFF 		bl	RingBufferFillLevel	@
+ 340 0050 0546     		mov	r5, r0	@ D.6839,
+ 341 0052 2046     		mov	r0, r4	@, tmp170
+ 342 0054 FFF7FEFF 		bl	RingBufferSize	@
+ 343 0058 6B1C     		adds	r3, r5, #1	@ D.6839, D.6839,
+ 344 005a 8342     		cmp	r3, r0	@ D.6839,
+ 345 005c 16D0     		beq	.L62	@,
+ 346 005e 6368     		ldr	r3, [r4, #4]	@ D.6839, RingBufferUART4RX.Write
+ 347 0060 2046     		mov	r0, r4	@, tmp170
+ 348 0062 2344     		add	r3, r3, r4	@ tmp177, tmp170
+ 349 0064 6568     		ldr	r5, [r4, #4]	@ D.6839, RingBufferUART4RX.Write
+ 350 0066 1E73     		strb	r6, [r3, #12]	@ D.6838, RingBufferUART4RX.Buffer
+ 351 0068 FFF7FEFF 		bl	RingBufferSize	@
+ 352 006c 0135     		adds	r5, r5, #1	@ D.6839, D.6839,
+ 353 006e 8542     		cmp	r5, r0	@ D.6839,
+ 354 0070 10D0     		beq	.L63	@,
+ 355 0072 6368     		ldr	r3, [r4, #4]	@ D.6839, RingBufferUART4RX.Write
+ 356 0074 0133     		adds	r3, r3, #1	@ D.6839, D.6839,
+ 357 0076 6360     		str	r3, [r4, #4]	@ D.6839,
+ 358 0078 70BD     		pop	{r4, r5, r6, pc}	@
+ 359              	.L50:
+ 360 007a 1046     		mov	r0, r2	@, tmp138
+ 361 007c 40F22771 		movw	r1, #1831	@,
+ 362 0080 0022     		movs	r2, #0	@,
+ 363 0082 FFF7FEFF 		bl	USART_ITConfig	@
+ 364              	@ 156 "../src/usart.c" 1
+ 365 0086 00BF     		nop
+ 366              	@ 0 "" 2
+ 367              	@ 157 "../src/usart.c" 1
+ 368 0088 00BF     		nop
+ 369              	@ 0 "" 2
+ 370              		.thumb
+ 371 008a D7E7     		b	.L49	@
+ 372              	.L62:
+ 373 008c A368     		ldr	r3, [r4, #8]	@ D.6839, RingBufferUART4RX.Overrun
+ 374 008e 0133     		adds	r3, r3, #1	@ D.6839, D.6839,
+ 375 0090 A360     		str	r3, [r4, #8]	@ D.6839, RingBufferUART4RX.Overrun
+ 376 0092 70BD     		pop	{r4, r5, r6, pc}	@
+ 377              	.L63:
+ 378 0094 0023     		movs	r3, #0	@ tmp183,
+ 379 0096 6360     		str	r3, [r4, #4]	@ tmp183,
+ 380 0098 70BD     		pop	{r4, r5, r6, pc}	@
+ 381              	.L65:
+ 382 009a 00BF     		.align	2
+ 383              	.L64:
+ 384 009c 00000000 		.word	IrqCntUart4
+ 385 00a0 004C0040 		.word	1073761280
+ 386 00a4 00000000 		.word	.LANCHOR1
+ 387 00a8 00000000 		.word	.LANCHOR0
+ 389              		.section	.text.InitUart4Buffer,"ax",%progbits
+ 390              		.align	2
+ 391              		.global	InitUart4Buffer
+ 392              		.thumb
+ 393              		.thumb_func
+ 395              	InitUart4Buffer:
+ 396              		@ args = 0, pretend = 0, frame = 0
+ 397              		@ frame_needed = 0, uses_anonymous_args = 0
+ 398 0000 08B5     		push	{r3, lr}	@
+ 399 0002 0548     		ldr	r0, .L67	@,
+ 400 0004 0549     		ldr	r1, .L67+4	@,
+ 401 0006 FFF7FEFF 		bl	RingBufferInit	@
+ 402 000a BDE80840 		pop	{r3, lr}	@
+ 403 000e 0448     		ldr	r0, .L67+8	@,
+ 404 0010 0021     		movs	r1, #0	@,
+ 405 0012 FFF7FEBF 		b	RingBufferInit	@
+ 406              	.L68:
+ 407 0016 00BF     		.align	2
+ 408              	.L67:
+ 409 0018 00000000 		.word	.LANCHOR1
+ 410 001c 00000000 		.word	UART4EnableTxInterrupt
+ 411 0020 00000000 		.word	.LANCHOR0
+ 413              		.section	.text.Usart4Init,"ax",%progbits
+ 414              		.align	2
+ 415              		.global	Usart4Init
+ 416              		.thumb
+ 417              		.thumb_func
+ 419              	Usart4Init:
+ 420              		@ args = 0, pretend = 0, frame = 32
+ 421              		@ frame_needed = 0, uses_anonymous_args = 0
+ 422 0000 30B5     		push	{r4, r5, lr}	@
+ 423 0002 234D     		ldr	r5, .L70	@ tmp116,
+ 424 0004 89B0     		sub	sp, sp, #36	@,,
+ 425 0006 2846     		mov	r0, r5	@, tmp116
+ 426 0008 01A9     		add	r1, sp, #4	@,,
+ 427 000a 1822     		movs	r2, #24	@ tmp112,
+ 428 000c 0323     		movs	r3, #3	@ tmp114,
+ 429 000e 4FF48064 		mov	r4, #1024	@ tmp111,
+ 430 0012 ADF80440 		strh	r4, [sp, #4]	@ movhi	@ tmp111, GPIO_InitStructure.GPIO_Pin
+ 431 0016 8DF80720 		strb	r2, [sp, #7]	@ tmp112, GPIO_InitStructure.GPIO_Mode
+ 432 001a 1E4C     		ldr	r4, .L70+4	@ tmp125,
+ 433 001c 8DF80630 		strb	r3, [sp, #6]	@ tmp114, GPIO_InitStructure.GPIO_Speed
+ 434 0020 FFF7FEFF 		bl	GPIO_Init	@
+ 435 0024 4FF40062 		mov	r2, #2048	@ tmp119,
+ 436 0028 2823     		movs	r3, #40	@ tmp120,
+ 437 002a 01A9     		add	r1, sp, #4	@,,
+ 438 002c 2846     		mov	r0, r5	@, tmp116
+ 439 002e ADF80420 		strh	r2, [sp, #4]	@ movhi	@ tmp119, GPIO_InitStructure.GPIO_Pin
+ 440 0032 8DF80730 		strb	r3, [sp, #7]	@ tmp120, GPIO_InitStructure.GPIO_Mode
+ 441 0036 FFF7FEFF 		bl	GPIO_Init	@
+ 442 003a 02A8     		add	r0, sp, #8	@,,
+ 443 003c FFF7FEFF 		bl	USART_ClockStructInit	@
+ 444 0040 02A9     		add	r1, sp, #8	@,,
+ 445 0042 2046     		mov	r0, r4	@, tmp125
+ 446 0044 FFF7FEFF 		bl	USART_ClockInit	@
+ 447 0048 4FF41655 		mov	r5, #9600	@ tmp127,
+ 448 004c 0023     		movs	r3, #0	@ tmp129,
+ 449 004e 2046     		mov	r0, r4	@, tmp125
+ 450 0050 0C22     		movs	r2, #12	@ tmp135,
+ 451 0052 04A9     		add	r1, sp, #16	@,,
+ 452 0054 ADF81430 		strh	r3, [sp, #20]	@ movhi	@ tmp129, USART_InitStructure.USART_WordLength
+ 453 0058 ADF81630 		strh	r3, [sp, #22]	@ movhi	@ tmp129, USART_InitStructure.USART_StopBits
+ 454 005c ADF81830 		strh	r3, [sp, #24]	@ movhi	@ tmp129, USART_InitStructure.USART_Parity
+ 455 0060 ADF81C30 		strh	r3, [sp, #28]	@ movhi	@ tmp129, USART_InitStructure.USART_HardwareFlowControl
+ 456 0064 ADF81A20 		strh	r2, [sp, #26]	@ movhi	@ tmp135, USART_InitStructure.USART_Mode
+ 457 0068 0495     		str	r5, [sp, #16]	@ tmp127, USART_InitStructure.USART_BaudRate
+ 458 006a FFF7FEFF 		bl	USART_Init	@
+ 459 006e 0122     		movs	r2, #1	@,
+ 460 0070 2046     		mov	r0, r4	@, tmp125
+ 461 0072 40F22551 		movw	r1, #1317	@,
+ 462 0076 FFF7FEFF 		bl	USART_ITConfig	@
+ 463 007a 2046     		mov	r0, r4	@, tmp125
+ 464 007c 0121     		movs	r1, #1	@,
+ 465 007e FFF7FEFF 		bl	USART_Cmd	@
+ 466 0082 FFF7FEFF 		bl	InitUart4Buffer	@
+ 467 0086 FFF7FEFF 		bl	InitUart4BufferIRQ	@
+ 468 008a 09B0     		add	sp, sp, #36	@,,
+ 469              		@ sp needed	@
+ 470 008c 30BD     		pop	{r4, r5, pc}	@
+ 471              	.L71:
+ 472 008e 00BF     		.align	2
+ 473              	.L70:
+ 474 0090 00100140 		.word	1073811456
+ 475 0094 004C0040 		.word	1073761280
+ 477              		.comm	IrqCntUart4,4,4
+ 478              		.section	.bss.RingBufferUART4TX,"aw",%nobits
+ 479              		.align	2
+ 480              		.set	.LANCHOR1,. + 0
+ 483              	RingBufferUART4TX:
+ 484 0000 00000000 		.space	528
+ 484      00000000 
+ 484      00000000 
+ 484      00000000 
+ 484      00000000 
+ 485              		.section	.bss.RingBufferUART4RX,"aw",%nobits
+ 486              		.align	2
+ 487              		.set	.LANCHOR0,. + 0
+ 490              	RingBufferUART4RX:
+ 491 0000 00000000 		.space	528
+ 491      00000000 
+ 491      00000000 
+ 491      00000000 
+ 491      00000000 
+ 492              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 usart.c
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:75     .text.UART4EnableTxInterrupt:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:80     .text.UART4EnableTxInterrupt:00000000 UART4EnableTxInterrupt
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:91     .text.UART4EnableTxInterrupt:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:94     .text.InitUart4BufferIRQ:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:99     .text.InitUart4BufferIRQ:00000000 InitUart4BufferIRQ
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:120    .text.USART_GetChar:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:125    .text.USART_GetChar:00000000 USART_GetChar
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:134    .text.USART_GetChar:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:137    .text.USART_Peek:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:142    .text.USART_Peek:00000000 USART_Peek
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:151    .text.USART_Peek:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:154    .text.USART_Available:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:159    .text.USART_Available:00000000 USART_Available
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:168    .text.USART_Available:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:171    .text.USART_Flush:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:176    .text.USART_Flush:00000000 USART_Flush
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:189    .text.USART_Flush:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:192    .text.USART_PutCharDirect:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:197    .text.USART_PutCharDirect:00000000 USART_PutCharDirect
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:212    .text.USART_PutCharDirect:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:215    .text.USART_PutChar:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:220    .text.USART_PutChar:00000000 USART_PutChar
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:231    .text.USART_PutChar:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:234    .text.USART_PutStringDirect:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:239    .text.USART_PutStringDirect:00000000 USART_PutStringDirect
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:262    .text.USART_PutStringDirect:00000020 $d
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:265    .text.USART_PutString:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:270    .text.USART_PutString:00000000 USART_PutString
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:289    .text.USART_PutString:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:292    .text.UART4_IRQHandler:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:297    .text.UART4_IRQHandler:00000000 UART4_IRQHandler
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:384    .text.UART4_IRQHandler:0000009c $d
+                            *COM*:00000004 IrqCntUart4
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:390    .text.InitUart4Buffer:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:395    .text.InitUart4Buffer:00000000 InitUart4Buffer
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:409    .text.InitUart4Buffer:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:414    .text.Usart4Init:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:419    .text.Usart4Init:00000000 Usart4Init
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:474    .text.Usart4Init:00000090 $d
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:479    .bss.RingBufferUART4TX:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:483    .bss.RingBufferUART4TX:00000000 RingBufferUART4TX
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:486    .bss.RingBufferUART4RX:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccZeHarm.s:490    .bss.RingBufferUART4RX:00000000 RingBufferUART4RX
+
+UNDEFINED SYMBOLS
+USART_ITConfig
+NVIC_PriorityGroupConfig
+NVIC_Init
+RingBufferGet
+RingBufferPeek
+RingBufferFillLevel
+RingBufferPut
+RingBufferSize
+RingBufferInit
+GPIO_Init
+USART_ClockStructInit
+USART_ClockInit
+USART_Init
+USART_Cmd
