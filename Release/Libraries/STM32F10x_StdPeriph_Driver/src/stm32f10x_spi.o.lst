@@ -1,0 +1,677 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"stm32f10x_spi.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_spi.d
+  31              	@ -MF Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_spi.d -MP
+  32              	@ -MT Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_spi.d
+  33              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_spi.c
+  35              	@ -mcpu=cortex-m3 -mthumb
+  36              	@ -auxbase-strip Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_spi.o
+  37              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  38              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  39              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  40              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  41              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  42              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  43              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  44              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  45              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  46              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  47              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  48              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  49              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  50              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  51              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  52              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  53              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  54              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  55              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  56              	@ -freorder-functions -frerun-cse-after-loop
+  57              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  58              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  59              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  60              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  61              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  62              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  63              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  64              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  65              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  66              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  67              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  68              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  69              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  70              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  71              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  72              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  73              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  74              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  75              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  76              	@ -munaligned-access -mvectorize-with-neon-quad
+  77              	
+  78              		.section	.text.SPI_I2S_DeInit,"ax",%progbits
+  79              		.align	2
+  80              		.global	SPI_I2S_DeInit
+  81              		.thumb
+  82              		.thumb_func
+  84              	SPI_I2S_DeInit:
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87 0000 08B5     		push	{r3, lr}	@
+  88 0002 174B     		ldr	r3, .L9	@ tmp111,
+  89 0004 9842     		cmp	r0, r3	@ SPIx, tmp111
+  90 0006 12D0     		beq	.L6	@,
+  91 0008 164B     		ldr	r3, .L9+4	@ tmp112,
+  92 000a 9842     		cmp	r0, r3	@ SPIx, tmp112
+  93 000c 1BD0     		beq	.L7	@,
+  94 000e 164B     		ldr	r3, .L9+8	@ tmp113,
+  95 0010 9842     		cmp	r0, r3	@ SPIx, tmp113
+  96 0012 00D0     		beq	.L8	@,
+  97 0014 08BD     		pop	{r3, pc}	@
+  98              	.L8:
+  99 0016 4FF40040 		mov	r0, #32768	@,
+ 100 001a 0121     		movs	r1, #1	@,
+ 101 001c FFF7FEFF 		bl	RCC_APB1PeriphResetCmd	@
+ 102 0020 BDE80840 		pop	{r3, lr}	@
+ 103 0024 4FF40040 		mov	r0, #32768	@,
+ 104 0028 0021     		movs	r1, #0	@,
+ 105 002a FFF7FEBF 		b	RCC_APB1PeriphResetCmd	@
+ 106              	.L6:
+ 107 002e 4FF48050 		mov	r0, #4096	@,
+ 108 0032 0121     		movs	r1, #1	@,
+ 109 0034 FFF7FEFF 		bl	RCC_APB2PeriphResetCmd	@
+ 110 0038 BDE80840 		pop	{r3, lr}	@
+ 111 003c 4FF48050 		mov	r0, #4096	@,
+ 112 0040 0021     		movs	r1, #0	@,
+ 113 0042 FFF7FEBF 		b	RCC_APB2PeriphResetCmd	@
+ 114              	.L7:
+ 115 0046 4FF48040 		mov	r0, #16384	@,
+ 116 004a 0121     		movs	r1, #1	@,
+ 117 004c FFF7FEFF 		bl	RCC_APB1PeriphResetCmd	@
+ 118 0050 BDE80840 		pop	{r3, lr}	@
+ 119 0054 4FF48040 		mov	r0, #16384	@,
+ 120 0058 0021     		movs	r1, #0	@,
+ 121 005a FFF7FEBF 		b	RCC_APB1PeriphResetCmd	@
+ 122              	.L10:
+ 123 005e 00BF     		.align	2
+ 124              	.L9:
+ 125 0060 00300140 		.word	1073819648
+ 126 0064 00380040 		.word	1073756160
+ 127 0068 003C0040 		.word	1073757184
+ 129              		.section	.text.SPI_Init,"ax",%progbits
+ 130              		.align	2
+ 131              		.global	SPI_Init
+ 132              		.thumb
+ 133              		.thumb_func
+ 135              	SPI_Init:
+ 136              		@ args = 0, pretend = 0, frame = 0
+ 137              		@ frame_needed = 0, uses_anonymous_args = 0
+ 138              		@ link register save eliminated.
+ 139 0000 F0B4     		push	{r4, r5, r6, r7}	@
+ 140 0002 0B88     		ldrh	r3, [r1]	@, SPI_InitStruct_5(D)->SPI_Direction
+ 141 0004 4C88     		ldrh	r4, [r1, #2]	@, SPI_InitStruct_5(D)->SPI_Mode
+ 142 0006 8A88     		ldrh	r2, [r1, #4]	@, SPI_InitStruct_5(D)->SPI_DataSize
+ 143 0008 1C43     		orrs	r4, r4, r3	@, tmp137, SPI_InitStruct_5(D)->SPI_Mode, SPI_InitStruct_5(D)->SPI_Direction
+ 144 000a CB88     		ldrh	r3, [r1, #6]	@, SPI_InitStruct_5(D)->SPI_CPOL
+ 145 000c 1443     		orrs	r4, r4, r2	@, tmp140, tmp137, SPI_InitStruct_5(D)->SPI_DataSize
+ 146 000e 0A89     		ldrh	r2, [r1, #8]	@, SPI_InitStruct_5(D)->SPI_CPHA
+ 147 0010 1C43     		orrs	r4, r4, r3	@, tmp143, tmp140, SPI_InitStruct_5(D)->SPI_CPOL
+ 148 0012 4B89     		ldrh	r3, [r1, #10]	@, SPI_InitStruct_5(D)->SPI_NSS
+ 149 0014 8F89     		ldrh	r7, [r1, #12]	@, SPI_InitStruct_5(D)->SPI_BaudRatePrescaler
+ 150 0016 2243     		orrs	r2, r2, r4	@, tmp146, SPI_InitStruct_5(D)->SPI_CPHA, tmp143
+ 151 0018 0588     		ldrh	r5, [r0]	@, SPIx_2(D)->CR1
+ 152 001a CE89     		ldrh	r6, [r1, #14]	@, SPI_InitStruct_5(D)->SPI_FirstBit
+ 153 001c 1A43     		orrs	r2, r2, r3	@, tmp149, tmp146, SPI_InitStruct_5(D)->SPI_NSS
+ 154 001e 3A43     		orrs	r2, r2, r7	@, tmp152, tmp149, SPI_InitStruct_5(D)->SPI_BaudRatePrescaler
+ 155 0020 3243     		orrs	r2, r2, r6	@, tmp155, tmp152, SPI_InitStruct_5(D)->SPI_FirstBit
+ 156 0022 05F44153 		and	r3, r5, #12352	@ tmpreg, SPIx_2(D)->CR1,
+ 157 0026 1343     		orrs	r3, r3, r2	@, tmp157, tmpreg, tmp155
+ 158 0028 9BB2     		uxth	r3, r3	@ tmpreg, tmp157
+ 159 002a 0380     		strh	r3, [r0]	@ movhi	@ tmpreg, SPIx_2(D)->CR1
+ 160 002c 838B     		ldrh	r3, [r0, #28]	@, SPIx_2(D)->I2SCFGR
+ 161 002e 0A8A     		ldrh	r2, [r1, #16]	@ D.6890, SPI_InitStruct_5(D)->SPI_CRCPolynomial
+ 162 0030 23F40063 		bic	r3, r3, #2048	@ D.6890, SPIx_2(D)->I2SCFGR,
+ 163 0034 1B04     		lsls	r3, r3, #16	@ D.6890, D.6890,
+ 164 0036 1B0C     		lsrs	r3, r3, #16	@ D.6890, D.6890,
+ 165 0038 8383     		strh	r3, [r0, #28]	@ movhi	@ D.6890, SPIx_2(D)->I2SCFGR
+ 166 003a F0BC     		pop	{r4, r5, r6, r7}	@
+ 167 003c 0282     		strh	r2, [r0, #16]	@ movhi	@ D.6890, SPIx_2(D)->CRCPR
+ 168 003e 7047     		bx	lr	@
+ 170              		.section	.text.I2S_Init,"ax",%progbits
+ 171              		.align	2
+ 172              		.global	I2S_Init
+ 173              		.thumb
+ 174              		.thumb_func
+ 176              	I2S_Init:
+ 177              		@ args = 0, pretend = 0, frame = 24
+ 178              		@ frame_needed = 0, uses_anonymous_args = 0
+ 179 0000 838B     		ldrh	r3, [r0, #28]	@, SPIx_9(D)->I2SCFGR
+ 180 0002 F0B5     		push	{r4, r5, r6, r7, lr}	@
+ 181 0004 23F47B63 		bic	r3, r3, #4016	@ D.6893, SPIx_9(D)->I2SCFGR,
+ 182 0008 23F00F03 		bic	r3, r3, #15	@ D.6893, D.6893,
+ 183 000c 1B04     		lsls	r3, r3, #16	@ D.6893, D.6893,
+ 184 000e 0222     		movs	r2, #2	@ tmp162,
+ 185 0010 1B0C     		lsrs	r3, r3, #16	@ D.6893, D.6893,
+ 186 0012 8383     		strh	r3, [r0, #28]	@ movhi	@ D.6893, SPIx_9(D)->I2SCFGR
+ 187 0014 0284     		strh	r2, [r0, #32]	@ movhi	@ tmp162, SPIx_9(D)->I2SPR
+ 188 0016 8B68     		ldr	r3, [r1, #8]	@ I2S_InitStruct_15(D)->I2S_AudioFreq, I2S_InitStruct_15(D)->I2S_AudioFreq
+ 189 0018 868B     		ldrh	r6, [r0, #28]	@, SPIx_9(D)->I2SCFGR
+ 190 001a 9342     		cmp	r3, r2	@ I2S_InitStruct_15(D)->I2S_AudioFreq,
+ 191 001c 87B0     		sub	sp, sp, #28	@,,
+ 192 001e 0546     		mov	r5, r0	@ SPIx, SPIx
+ 193 0020 0C46     		mov	r4, r1	@ I2S_InitStruct, I2S_InitStruct
+ 194 0022 B6B2     		uxth	r6, r6	@ tmpreg, SPIx_9(D)->I2SCFGR
+ 195 0024 36D0     		beq	.L21	@,
+ 196 0026 8B88     		ldrh	r3, [r1, #4]	@ I2S_InitStruct_15(D)->I2S_DataFormat, I2S_InitStruct_15(D)->I2S_DataFormat
+ 197 0028 01A8     		add	r0, sp, #4	@,,
+ 198 002a 002B     		cmp	r3, #0	@ I2S_InitStruct_15(D)->I2S_DataFormat,
+ 199 002c 14BF     		ite	ne	@
+ 200 002e 0227     		movne	r7, #2	@, packetlength,
+ 201 0030 0127     		moveq	r7, #1	@, packetlength,
+ 202 0032 FFF7FEFF 		bl	RCC_GetClocksFreq	@
+ 203 0036 E388     		ldrh	r3, [r4, #6]	@ D.6893, I2S_InitStruct_15(D)->I2S_MCLKOutput
+ 204 0038 0199     		ldr	r1, [sp, #4]	@ sourceclock, RCC_Clocks.SYSCLK_Frequency
+ 205 003a B3F5007F 		cmp	r3, #512	@ D.6893,
+ 206 003e 2CD0     		beq	.L22	@,
+ 207 0040 7A01     		lsls	r2, r7, #5	@ D.6895, packetlength,
+ 208 0042 B1FBF2F2 		udiv	r2, r1, r2	@ D.6894, sourceclock, D.6895
+ 209 0046 02EB8202 		add	r2, r2, r2, lsl #2	@, D.6894, D.6894, D.6894,
+ 210 004a A168     		ldr	r1, [r4, #8]	@ I2S_InitStruct_15(D)->I2S_AudioFreq, I2S_InitStruct_15(D)->I2S_AudioFreq
+ 211 004c 5200     		lsls	r2, r2, #1	@ tmp184, D.6894,
+ 212 004e B2FBF1F2 		udiv	r2, r2, r1	@ D.6894, tmp184, I2S_InitStruct_15(D)->I2S_AudioFreq
+ 213 0052 0532     		adds	r2, r2, #5	@ tmp189, D.6894,
+ 214 0054 92B2     		uxth	r2, r2	@ tmp, tmp189
+ 215              	.L17:
+ 216 0056 1649     		ldr	r1, .L23	@ tmp191,
+ 217 0058 A1FB0202 		umull	r0, r2, r1, r2	@, tmp190, tmp191, tmp
+ 218 005c D208     		lsrs	r2, r2, #3	@ tmp, tmp190,
+ 219 005e 5108     		lsrs	r1, r2, #1	@ i2sdiv, tmp,
+ 220 0060 881E     		subs	r0, r1, #2	@ tmp196, i2sdiv,
+ 221 0062 80B2     		uxth	r0, r0	@ tmp197, tmp196
+ 222 0064 02F00102 		and	r2, r2, #1	@ i2sodd, tmp,
+ 223 0068 FD28     		cmp	r0, #253	@ tmp197,
+ 224 006a 94BF     		ite	ls
+ 225 006c 41EA0222 		orrls	r2, r1, r2, lsl #8	@, D.6893, i2sdiv, i2sodd,
+ 226 0070 0222     		movhi	r2, #2	@ D.6893,
+ 227              	.L18:
+ 228 0072 2188     		ldrh	r1, [r4]	@, I2S_InitStruct_15(D)->I2S_Mode
+ 229 0074 6088     		ldrh	r0, [r4, #2]	@, I2S_InitStruct_15(D)->I2S_Standard
+ 230 0076 3143     		orrs	r1, r1, r6	@, tmp204, I2S_InitStruct_15(D)->I2S_Mode, tmpreg
+ 231 0078 A788     		ldrh	r7, [r4, #4]	@, I2S_InitStruct_15(D)->I2S_DataFormat
+ 232 007a 41F40061 		orr	r1, r1, #2048	@ tmp206, tmp204,
+ 233 007e 0143     		orrs	r1, r1, r0	@, tmp209, tmp206, I2S_InitStruct_15(D)->I2S_Standard
+ 234 0080 A089     		ldrh	r0, [r4, #12]	@, I2S_InitStruct_15(D)->I2S_CPOL
+ 235 0082 3943     		orrs	r1, r1, r7	@, tmp212, tmp209, I2S_InitStruct_15(D)->I2S_DataFormat
+ 236 0084 1343     		orrs	r3, r3, r2	@, tmp201, D.6893, D.6893
+ 237 0086 0143     		orrs	r1, r1, r0	@, tmp214, tmp212, I2S_InitStruct_15(D)->I2S_CPOL
+ 238 0088 9BB2     		uxth	r3, r3	@ D.6893, tmp201
+ 239 008a 89B2     		uxth	r1, r1	@ tmpreg, tmp214
+ 240 008c 2B84     		strh	r3, [r5, #32]	@ movhi	@ D.6893, SPIx_9(D)->I2SPR
+ 241 008e A983     		strh	r1, [r5, #28]	@ movhi	@ tmpreg, SPIx_9(D)->I2SCFGR
+ 242 0090 07B0     		add	sp, sp, #28	@,,
+ 243              		@ sp needed	@
+ 244 0092 F0BD     		pop	{r4, r5, r6, r7, pc}	@
+ 245              	.L21:
+ 246 0094 1A46     		mov	r2, r3	@ D.6893, I2S_InitStruct_15(D)->I2S_AudioFreq
+ 247 0096 CB88     		ldrh	r3, [r1, #6]	@ D.6893, I2S_InitStruct_15(D)->I2S_MCLKOutput
+ 248 0098 EBE7     		b	.L18	@
+ 249              	.L22:
+ 250 009a 090A     		lsrs	r1, r1, #8	@ D.6894, sourceclock,
+ 251 009c 01EB8101 		add	r1, r1, r1, lsl #2	@, D.6894, D.6894, D.6894,
+ 252 00a0 A068     		ldr	r0, [r4, #8]	@ I2S_InitStruct_15(D)->I2S_AudioFreq, I2S_InitStruct_15(D)->I2S_AudioFreq
+ 253 00a2 4A00     		lsls	r2, r1, #1	@ tmp172, D.6894,
+ 254 00a4 B2FBF0F2 		udiv	r2, r2, r0	@ D.6894, tmp172, I2S_InitStruct_15(D)->I2S_AudioFreq
+ 255 00a8 0532     		adds	r2, r2, #5	@ tmp177, D.6894,
+ 256 00aa 92B2     		uxth	r2, r2	@ tmp, tmp177
+ 257 00ac D3E7     		b	.L17	@
+ 258              	.L24:
+ 259 00ae 00BF     		.align	2
+ 260              	.L23:
+ 261 00b0 CDCCCCCC 		.word	-858993459
+ 263              		.section	.text.SPI_StructInit,"ax",%progbits
+ 264              		.align	2
+ 265              		.global	SPI_StructInit
+ 266              		.thumb
+ 267              		.thumb_func
+ 269              	SPI_StructInit:
+ 270              		@ args = 0, pretend = 0, frame = 0
+ 271              		@ frame_needed = 0, uses_anonymous_args = 0
+ 272              		@ link register save eliminated.
+ 273 0000 0023     		movs	r3, #0	@ tmp112,
+ 274 0002 0722     		movs	r2, #7	@ tmp128,
+ 275 0004 0282     		strh	r2, [r0, #16]	@ movhi	@ tmp128, SPI_InitStruct_2(D)->SPI_CRCPolynomial
+ 276 0006 0380     		strh	r3, [r0]	@ movhi	@ tmp112, SPI_InitStruct_2(D)->SPI_Direction
+ 277 0008 4380     		strh	r3, [r0, #2]	@ movhi	@ tmp112, SPI_InitStruct_2(D)->SPI_Mode
+ 278 000a 8380     		strh	r3, [r0, #4]	@ movhi	@ tmp112, SPI_InitStruct_2(D)->SPI_DataSize
+ 279 000c C380     		strh	r3, [r0, #6]	@ movhi	@ tmp112, SPI_InitStruct_2(D)->SPI_CPOL
+ 280 000e 0381     		strh	r3, [r0, #8]	@ movhi	@ tmp112, SPI_InitStruct_2(D)->SPI_CPHA
+ 281 0010 4381     		strh	r3, [r0, #10]	@ movhi	@ tmp112, SPI_InitStruct_2(D)->SPI_NSS
+ 282 0012 8381     		strh	r3, [r0, #12]	@ movhi	@ tmp112, SPI_InitStruct_2(D)->SPI_BaudRatePrescaler
+ 283 0014 C381     		strh	r3, [r0, #14]	@ movhi	@ tmp112, SPI_InitStruct_2(D)->SPI_FirstBit
+ 284 0016 7047     		bx	lr	@
+ 286              		.section	.text.I2S_StructInit,"ax",%progbits
+ 287              		.align	2
+ 288              		.global	I2S_StructInit
+ 289              		.thumb
+ 290              		.thumb_func
+ 292              	I2S_StructInit:
+ 293              		@ args = 0, pretend = 0, frame = 0
+ 294              		@ frame_needed = 0, uses_anonymous_args = 0
+ 295              		@ link register save eliminated.
+ 296 0000 0023     		movs	r3, #0	@ tmp112,
+ 297 0002 0222     		movs	r2, #2	@ tmp119,
+ 298 0004 8260     		str	r2, [r0, #8]	@ tmp119, I2S_InitStruct_2(D)->I2S_AudioFreq
+ 299 0006 0380     		strh	r3, [r0]	@ movhi	@ tmp112, I2S_InitStruct_2(D)->I2S_Mode
+ 300 0008 4380     		strh	r3, [r0, #2]	@ movhi	@ tmp112, I2S_InitStruct_2(D)->I2S_Standard
+ 301 000a 8380     		strh	r3, [r0, #4]	@ movhi	@ tmp112, I2S_InitStruct_2(D)->I2S_DataFormat
+ 302 000c C380     		strh	r3, [r0, #6]	@ movhi	@ tmp112, I2S_InitStruct_2(D)->I2S_MCLKOutput
+ 303 000e 8381     		strh	r3, [r0, #12]	@ movhi	@ tmp112, I2S_InitStruct_2(D)->I2S_CPOL
+ 304 0010 7047     		bx	lr	@
+ 306 0012 00BF     		.section	.text.SPI_Cmd,"ax",%progbits
+ 307              		.align	2
+ 308              		.global	SPI_Cmd
+ 309              		.thumb
+ 310              		.thumb_func
+ 312              	SPI_Cmd:
+ 313              		@ args = 0, pretend = 0, frame = 0
+ 314              		@ frame_needed = 0, uses_anonymous_args = 0
+ 315              		@ link register save eliminated.
+ 316 0000 0388     		ldrh	r3, [r0]	@,* SPIx
+ 317 0002 29B9     		cbnz	r1, .L30	@ NewState,
+ 318 0004 23F04003 		bic	r3, r3, #64	@ D.6902, SPIx_4(D)->CR1,
+ 319 0008 1B04     		lsls	r3, r3, #16	@ D.6902, D.6902,
+ 320 000a 1B0C     		lsrs	r3, r3, #16	@ D.6902, D.6902,
+ 321 000c 0380     		strh	r3, [r0]	@ movhi	@ D.6902,* SPIx
+ 322 000e 7047     		bx	lr	@
+ 323              	.L30:
+ 324 0010 9BB2     		uxth	r3, r3	@ D.6902, SPIx_4(D)->CR1
+ 325 0012 43F04003 		orr	r3, r3, #64	@ D.6902, D.6902,
+ 326 0016 0380     		strh	r3, [r0]	@ movhi	@ D.6902,* SPIx
+ 327 0018 7047     		bx	lr	@
+ 329 001a 00BF     		.section	.text.I2S_Cmd,"ax",%progbits
+ 330              		.align	2
+ 331              		.global	I2S_Cmd
+ 332              		.thumb
+ 333              		.thumb_func
+ 335              	I2S_Cmd:
+ 336              		@ args = 0, pretend = 0, frame = 0
+ 337              		@ frame_needed = 0, uses_anonymous_args = 0
+ 338              		@ link register save eliminated.
+ 339 0000 838B     		ldrh	r3, [r0, #28]	@,
+ 340 0002 29B9     		cbnz	r1, .L34	@ NewState,
+ 341 0004 23F48063 		bic	r3, r3, #1024	@ D.6905, SPIx_4(D)->I2SCFGR,
+ 342 0008 1B04     		lsls	r3, r3, #16	@ D.6905, D.6905,
+ 343 000a 1B0C     		lsrs	r3, r3, #16	@ D.6905, D.6905,
+ 344 000c 8383     		strh	r3, [r0, #28]	@ movhi	@ D.6905,
+ 345 000e 7047     		bx	lr	@
+ 346              	.L34:
+ 347 0010 9BB2     		uxth	r3, r3	@ D.6905, SPIx_4(D)->I2SCFGR
+ 348 0012 43F48063 		orr	r3, r3, #1024	@ D.6905, D.6905,
+ 349 0016 8383     		strh	r3, [r0, #28]	@ movhi	@ D.6905,
+ 350 0018 7047     		bx	lr	@
+ 352 001a 00BF     		.section	.text.SPI_I2S_ITConfig,"ax",%progbits
+ 353              		.align	2
+ 354              		.global	SPI_I2S_ITConfig
+ 355              		.thumb
+ 356              		.thumb_func
+ 358              	SPI_I2S_ITConfig:
+ 359              		@ args = 0, pretend = 0, frame = 0
+ 360              		@ frame_needed = 0, uses_anonymous_args = 0
+ 361              		@ link register save eliminated.
+ 362 0000 0123     		movs	r3, #1	@ tmp125,
+ 363 0002 0909     		lsrs	r1, r1, #4	@ D.6909, SPI_I2S_IT,
+ 364 0004 03FA01F1 		lsl	r1, r3, r1	@ D.6909, tmp125, D.6909
+ 365 0008 8388     		ldrh	r3, [r0, #4]	@,
+ 366 000a 89B2     		uxth	r1, r1	@ itmask, D.6909
+ 367 000c 9BB2     		uxth	r3, r3	@ D.6910, SPIx_9(D)->CR2
+ 368 000e 1AB9     		cbnz	r2, .L38	@ NewState,
+ 369 0010 23EA0101 		bic	r1, r3, r1	@ D.6910, D.6910, itmask
+ 370 0014 8180     		strh	r1, [r0, #4]	@ movhi	@ D.6910,
+ 371 0016 7047     		bx	lr	@
+ 372              	.L38:
+ 373 0018 1943     		orrs	r1, r1, r3	@, D.6910, itmask, D.6910
+ 374 001a 8180     		strh	r1, [r0, #4]	@ movhi	@ D.6910,
+ 375 001c 7047     		bx	lr	@
+ 377 001e 00BF     		.section	.text.SPI_I2S_DMACmd,"ax",%progbits
+ 378              		.align	2
+ 379              		.global	SPI_I2S_DMACmd
+ 380              		.thumb
+ 381              		.thumb_func
+ 383              	SPI_I2S_DMACmd:
+ 384              		@ args = 0, pretend = 0, frame = 0
+ 385              		@ frame_needed = 0, uses_anonymous_args = 0
+ 386              		@ link register save eliminated.
+ 387 0000 8388     		ldrh	r3, [r0, #4]	@,
+ 388 0002 9BB2     		uxth	r3, r3	@ D.6913, SPIx_4(D)->CR2
+ 389 0004 1AB9     		cbnz	r2, .L42	@ NewState,
+ 390 0006 23EA0101 		bic	r1, r3, r1	@ D.6913, D.6913, SPI_I2S_DMAReq
+ 391 000a 8180     		strh	r1, [r0, #4]	@ movhi	@ D.6913,
+ 392 000c 7047     		bx	lr	@
+ 393              	.L42:
+ 394 000e 1943     		orrs	r1, r1, r3	@, D.6913, SPI_I2S_DMAReq, D.6913
+ 395 0010 8180     		strh	r1, [r0, #4]	@ movhi	@ D.6913,
+ 396 0012 7047     		bx	lr	@
+ 398              		.section	.text.SPI_I2S_SendData,"ax",%progbits
+ 399              		.align	2
+ 400              		.global	SPI_I2S_SendData
+ 401              		.thumb
+ 402              		.thumb_func
+ 404              	SPI_I2S_SendData:
+ 405              		@ args = 0, pretend = 0, frame = 0
+ 406              		@ frame_needed = 0, uses_anonymous_args = 0
+ 407              		@ link register save eliminated.
+ 408 0000 8181     		strh	r1, [r0, #12]	@ movhi	@ Data, SPIx_2(D)->DR
+ 409 0002 7047     		bx	lr	@
+ 411              		.section	.text.SPI_I2S_ReceiveData,"ax",%progbits
+ 412              		.align	2
+ 413              		.global	SPI_I2S_ReceiveData
+ 414              		.thumb
+ 415              		.thumb_func
+ 417              	SPI_I2S_ReceiveData:
+ 418              		@ args = 0, pretend = 0, frame = 0
+ 419              		@ frame_needed = 0, uses_anonymous_args = 0
+ 420              		@ link register save eliminated.
+ 421 0000 8089     		ldrh	r0, [r0, #12]	@, SPIx_2(D)->DR
+ 422 0002 80B2     		uxth	r0, r0	@, SPIx_2(D)->DR
+ 423 0004 7047     		bx	lr	@
+ 425 0006 00BF     		.section	.text.SPI_NSSInternalSoftwareConfig,"ax",%progbits
+ 426              		.align	2
+ 427              		.global	SPI_NSSInternalSoftwareConfig
+ 428              		.thumb
+ 429              		.thumb_func
+ 431              	SPI_NSSInternalSoftwareConfig:
+ 432              		@ args = 0, pretend = 0, frame = 0
+ 433              		@ frame_needed = 0, uses_anonymous_args = 0
+ 434              		@ link register save eliminated.
+ 435 0000 4FF6FF63 		movw	r3, #65279	@ tmp116,
+ 436 0004 9942     		cmp	r1, r3	@ SPI_NSSInternalSoft, tmp116
+ 437 0006 0388     		ldrh	r3, [r0]	@,* SPIx
+ 438 0008 04D0     		beq	.L46	@,
+ 439 000a 9BB2     		uxth	r3, r3	@ D.6921, SPIx_4(D)->CR1
+ 440 000c 43F48073 		orr	r3, r3, #256	@ D.6921, D.6921,
+ 441 0010 0380     		strh	r3, [r0]	@ movhi	@ D.6921,* SPIx
+ 442 0012 7047     		bx	lr	@
+ 443              	.L46:
+ 444 0014 23F48073 		bic	r3, r3, #256	@ D.6921, SPIx_4(D)->CR1,
+ 445 0018 1B04     		lsls	r3, r3, #16	@ D.6921, D.6921,
+ 446 001a 1B0C     		lsrs	r3, r3, #16	@ D.6921, D.6921,
+ 447 001c 0380     		strh	r3, [r0]	@ movhi	@ D.6921,* SPIx
+ 448 001e 7047     		bx	lr	@
+ 450              		.section	.text.SPI_SSOutputCmd,"ax",%progbits
+ 451              		.align	2
+ 452              		.global	SPI_SSOutputCmd
+ 453              		.thumb
+ 454              		.thumb_func
+ 456              	SPI_SSOutputCmd:
+ 457              		@ args = 0, pretend = 0, frame = 0
+ 458              		@ frame_needed = 0, uses_anonymous_args = 0
+ 459              		@ link register save eliminated.
+ 460 0000 8388     		ldrh	r3, [r0, #4]	@,
+ 461 0002 29B9     		cbnz	r1, .L51	@ NewState,
+ 462 0004 23F00403 		bic	r3, r3, #4	@ D.6924, SPIx_4(D)->CR2,
+ 463 0008 1B04     		lsls	r3, r3, #16	@ D.6924, D.6924,
+ 464 000a 1B0C     		lsrs	r3, r3, #16	@ D.6924, D.6924,
+ 465 000c 8380     		strh	r3, [r0, #4]	@ movhi	@ D.6924,
+ 466 000e 7047     		bx	lr	@
+ 467              	.L51:
+ 468 0010 9BB2     		uxth	r3, r3	@ D.6924, SPIx_4(D)->CR2
+ 469 0012 43F00403 		orr	r3, r3, #4	@ D.6924, D.6924,
+ 470 0016 8380     		strh	r3, [r0, #4]	@ movhi	@ D.6924,
+ 471 0018 7047     		bx	lr	@
+ 473 001a 00BF     		.section	.text.SPI_DataSizeConfig,"ax",%progbits
+ 474              		.align	2
+ 475              		.global	SPI_DataSizeConfig
+ 476              		.thumb
+ 477              		.thumb_func
+ 479              	SPI_DataSizeConfig:
+ 480              		@ args = 0, pretend = 0, frame = 0
+ 481              		@ frame_needed = 0, uses_anonymous_args = 0
+ 482              		@ link register save eliminated.
+ 483 0000 0388     		ldrh	r3, [r0]	@, SPIx_2(D)->CR1
+ 484 0002 23F40063 		bic	r3, r3, #2048	@ D.6927, SPIx_2(D)->CR1,
+ 485 0006 1B04     		lsls	r3, r3, #16	@ D.6927, D.6927,
+ 486 0008 1B0C     		lsrs	r3, r3, #16	@ D.6927, D.6927,
+ 487 000a 0380     		strh	r3, [r0]	@ movhi	@ D.6927, SPIx_2(D)->CR1
+ 488 000c 0388     		ldrh	r3, [r0]	@, SPIx_2(D)->CR1
+ 489 000e 9BB2     		uxth	r3, r3	@ D.6927, SPIx_2(D)->CR1
+ 490 0010 1943     		orrs	r1, r1, r3	@, D.6927, SPI_DataSize, D.6927
+ 491 0012 0180     		strh	r1, [r0]	@ movhi	@ D.6927, SPIx_2(D)->CR1
+ 492 0014 7047     		bx	lr	@
+ 494 0016 00BF     		.section	.text.SPI_TransmitCRC,"ax",%progbits
+ 495              		.align	2
+ 496              		.global	SPI_TransmitCRC
+ 497              		.thumb
+ 498              		.thumb_func
+ 500              	SPI_TransmitCRC:
+ 501              		@ args = 0, pretend = 0, frame = 0
+ 502              		@ frame_needed = 0, uses_anonymous_args = 0
+ 503              		@ link register save eliminated.
+ 504 0000 0388     		ldrh	r3, [r0]	@, SPIx_2(D)->CR1
+ 505 0002 9BB2     		uxth	r3, r3	@ D.6930, SPIx_2(D)->CR1
+ 506 0004 43F48053 		orr	r3, r3, #4096	@ D.6930, D.6930,
+ 507 0008 0380     		strh	r3, [r0]	@ movhi	@ D.6930, SPIx_2(D)->CR1
+ 508 000a 7047     		bx	lr	@
+ 510              		.section	.text.SPI_CalculateCRC,"ax",%progbits
+ 511              		.align	2
+ 512              		.global	SPI_CalculateCRC
+ 513              		.thumb
+ 514              		.thumb_func
+ 516              	SPI_CalculateCRC:
+ 517              		@ args = 0, pretend = 0, frame = 0
+ 518              		@ frame_needed = 0, uses_anonymous_args = 0
+ 519              		@ link register save eliminated.
+ 520 0000 0388     		ldrh	r3, [r0]	@,* SPIx
+ 521 0002 29B9     		cbnz	r1, .L57	@ NewState,
+ 522 0004 23F40053 		bic	r3, r3, #8192	@ D.6933, SPIx_4(D)->CR1,
+ 523 0008 1B04     		lsls	r3, r3, #16	@ D.6933, D.6933,
+ 524 000a 1B0C     		lsrs	r3, r3, #16	@ D.6933, D.6933,
+ 525 000c 0380     		strh	r3, [r0]	@ movhi	@ D.6933,* SPIx
+ 526 000e 7047     		bx	lr	@
+ 527              	.L57:
+ 528 0010 9BB2     		uxth	r3, r3	@ D.6933, SPIx_4(D)->CR1
+ 529 0012 43F40053 		orr	r3, r3, #8192	@ D.6933, D.6933,
+ 530 0016 0380     		strh	r3, [r0]	@ movhi	@ D.6933,* SPIx
+ 531 0018 7047     		bx	lr	@
+ 533 001a 00BF     		.section	.text.SPI_GetCRC,"ax",%progbits
+ 534              		.align	2
+ 535              		.global	SPI_GetCRC
+ 536              		.thumb
+ 537              		.thumb_func
+ 539              	SPI_GetCRC:
+ 540              		@ args = 0, pretend = 0, frame = 0
+ 541              		@ frame_needed = 0, uses_anonymous_args = 0
+ 542              		@ link register save eliminated.
+ 543 0000 0129     		cmp	r1, #1	@ SPI_CRC,
+ 544 0002 14BF     		ite	ne
+ 545 0004 008B     		ldrhne	r0, [r0, #24]	@, SPIx_4(D)->TXCRCR
+ 546 0006 808A     		ldrheq	r0, [r0, #20]	@, SPIx_4(D)->RXCRCR
+ 547 0008 80B2     		uxth	r0, r0	@ crcreg, SPIx_4(D)->RXCRCR
+ 548 000a 7047     		bx	lr	@
+ 550              		.section	.text.SPI_GetCRCPolynomial,"ax",%progbits
+ 551              		.align	2
+ 552              		.global	SPI_GetCRCPolynomial
+ 553              		.thumb
+ 554              		.thumb_func
+ 556              	SPI_GetCRCPolynomial:
+ 557              		@ args = 0, pretend = 0, frame = 0
+ 558              		@ frame_needed = 0, uses_anonymous_args = 0
+ 559              		@ link register save eliminated.
+ 560 0000 008A     		ldrh	r0, [r0, #16]	@, SPIx_2(D)->CRCPR
+ 561 0002 80B2     		uxth	r0, r0	@, SPIx_2(D)->CRCPR
+ 562 0004 7047     		bx	lr	@
+ 564 0006 00BF     		.section	.text.SPI_BiDirectionalLineConfig,"ax",%progbits
+ 565              		.align	2
+ 566              		.global	SPI_BiDirectionalLineConfig
+ 567              		.thumb
+ 568              		.thumb_func
+ 570              	SPI_BiDirectionalLineConfig:
+ 571              		@ args = 0, pretend = 0, frame = 0
+ 572              		@ frame_needed = 0, uses_anonymous_args = 0
+ 573              		@ link register save eliminated.
+ 574 0000 B1F5804F 		cmp	r1, #16384	@ SPI_Direction,
+ 575 0004 0388     		ldrh	r3, [r0]	@,* SPIx
+ 576 0006 05D0     		beq	.L65	@,
+ 577 0008 23F48043 		bic	r3, r3, #16384	@ D.6941, SPIx_4(D)->CR1,
+ 578 000c 1B04     		lsls	r3, r3, #16	@ D.6941, D.6941,
+ 579 000e 1B0C     		lsrs	r3, r3, #16	@ D.6941, D.6941,
+ 580 0010 0380     		strh	r3, [r0]	@ movhi	@ D.6941,* SPIx
+ 581 0012 7047     		bx	lr	@
+ 582              	.L65:
+ 583 0014 9BB2     		uxth	r3, r3	@ D.6941, SPIx_4(D)->CR1
+ 584 0016 43F48043 		orr	r3, r3, #16384	@ D.6941, D.6941,
+ 585 001a 0380     		strh	r3, [r0]	@ movhi	@ D.6941,* SPIx
+ 586 001c 7047     		bx	lr	@
+ 588 001e 00BF     		.section	.text.SPI_I2S_GetFlagStatus,"ax",%progbits
+ 589              		.align	2
+ 590              		.global	SPI_I2S_GetFlagStatus
+ 591              		.thumb
+ 592              		.thumb_func
+ 594              	SPI_I2S_GetFlagStatus:
+ 595              		@ args = 0, pretend = 0, frame = 0
+ 596              		@ frame_needed = 0, uses_anonymous_args = 0
+ 597              		@ link register save eliminated.
+ 598 0000 0389     		ldrh	r3, [r0, #8]	@, SPIx_3(D)->SR
+ 599 0002 1942     		tst	r1, r3	@ SPI_I2S_FLAG, SPIx_3(D)->SR
+ 600 0004 0CBF     		ite	eq	@
+ 601 0006 0020     		moveq	r0, #0	@,
+ 602 0008 0120     		movne	r0, #1	@,
+ 603 000a 7047     		bx	lr	@
+ 605              		.section	.text.SPI_I2S_ClearFlag,"ax",%progbits
+ 606              		.align	2
+ 607              		.global	SPI_I2S_ClearFlag
+ 608              		.thumb
+ 609              		.thumb_func
+ 611              	SPI_I2S_ClearFlag:
+ 612              		@ args = 0, pretend = 0, frame = 0
+ 613              		@ frame_needed = 0, uses_anonymous_args = 0
+ 614              		@ link register save eliminated.
+ 615 0000 C943     		mvns	r1, r1	@ tmp113, SPI_I2S_FLAG
+ 616 0002 89B2     		uxth	r1, r1	@ D.6949, tmp113
+ 617 0004 0181     		strh	r1, [r0, #8]	@ movhi	@ D.6949, SPIx_4(D)->SR
+ 618 0006 7047     		bx	lr	@
+ 620              		.section	.text.SPI_I2S_GetITStatus,"ax",%progbits
+ 621              		.align	2
+ 622              		.global	SPI_I2S_GetITStatus
+ 623              		.thumb
+ 624              		.thumb_func
+ 626              	SPI_I2S_GetITStatus:
+ 627              		@ args = 0, pretend = 0, frame = 0
+ 628              		@ frame_needed = 0, uses_anonymous_args = 0
+ 629              		@ link register save eliminated.
+ 630 0000 01F00F03 		and	r3, r1, #15	@ D.6953, SPI_I2S_IT,
+ 631 0004 0122     		movs	r2, #1	@ tmp134,
+ 632 0006 02FA03F3 		lsl	r3, r2, r3	@ D.6953, tmp134, D.6953
+ 633 000a 10B4     		push	{r4}	@
+ 634 000c 8488     		ldrh	r4, [r0, #4]	@, SPIx_12(D)->CR2
+ 635 000e 0089     		ldrh	r0, [r0, #8]	@, SPIx_12(D)->SR
+ 636 0010 A4B2     		uxth	r4, r4	@ D.6955, SPIx_12(D)->CR2
+ 637 0012 80B2     		uxth	r0, r0	@ D.6955, SPIx_12(D)->SR
+ 638 0014 1840     		ands	r0, r0, r3	@ tmp138, D.6955, D.6953
+ 639 0016 05D0     		beq	.L69	@,
+ 640 0018 0909     		lsrs	r1, r1, #4	@ D.6953, SPI_I2S_IT,
+ 641 001a 8A40     		lsls	r2, r2, r1	@ D.6953, tmp134, D.6953
+ 642 001c 1442     		tst	r4, r2	@ D.6955, D.6953
+ 643 001e 0CBF     		ite	eq	@
+ 644 0020 0020     		moveq	r0, #0	@, bitstatus
+ 645 0022 0120     		movne	r0, #1	@, bitstatus
+ 646              	.L69:
+ 647 0024 5DF8044B 		ldr	r4, [sp], #4	@,
+ 648 0028 7047     		bx	lr	@
+ 650 002a 00BF     		.section	.text.SPI_I2S_ClearITPendingBit,"ax",%progbits
+ 651              		.align	2
+ 652              		.global	SPI_I2S_ClearITPendingBit
+ 653              		.thumb
+ 654              		.thumb_func
+ 656              	SPI_I2S_ClearITPendingBit:
+ 657              		@ args = 0, pretend = 0, frame = 0
+ 658              		@ frame_needed = 0, uses_anonymous_args = 0
+ 659              		@ link register save eliminated.
+ 660 0000 01F00F01 		and	r1, r1, #15	@ D.6960, SPI_I2S_IT,
+ 661 0004 0123     		movs	r3, #1	@ tmp120,
+ 662 0006 8B40     		lsls	r3, r3, r1	@ D.6960, tmp120, D.6960
+ 663 0008 DB43     		mvns	r3, r3	@ tmp122, D.6960
+ 664 000a 9BB2     		uxth	r3, r3	@ D.6961, tmp122
+ 665 000c 0381     		strh	r3, [r0, #8]	@ movhi	@ D.6961, SPIx_8(D)->SR
+ 666 000e 7047     		bx	lr	@
+ 668              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f10x_spi.c
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:79     .text.SPI_I2S_DeInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:84     .text.SPI_I2S_DeInit:00000000 SPI_I2S_DeInit
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:125    .text.SPI_I2S_DeInit:00000060 $d
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:130    .text.SPI_Init:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:135    .text.SPI_Init:00000000 SPI_Init
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:171    .text.I2S_Init:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:176    .text.I2S_Init:00000000 I2S_Init
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:261    .text.I2S_Init:000000b0 $d
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:264    .text.SPI_StructInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:269    .text.SPI_StructInit:00000000 SPI_StructInit
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:287    .text.I2S_StructInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:292    .text.I2S_StructInit:00000000 I2S_StructInit
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:307    .text.SPI_Cmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:312    .text.SPI_Cmd:00000000 SPI_Cmd
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:330    .text.I2S_Cmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:335    .text.I2S_Cmd:00000000 I2S_Cmd
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:353    .text.SPI_I2S_ITConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:358    .text.SPI_I2S_ITConfig:00000000 SPI_I2S_ITConfig
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:378    .text.SPI_I2S_DMACmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:383    .text.SPI_I2S_DMACmd:00000000 SPI_I2S_DMACmd
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:399    .text.SPI_I2S_SendData:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:404    .text.SPI_I2S_SendData:00000000 SPI_I2S_SendData
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:412    .text.SPI_I2S_ReceiveData:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:417    .text.SPI_I2S_ReceiveData:00000000 SPI_I2S_ReceiveData
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:426    .text.SPI_NSSInternalSoftwareConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:431    .text.SPI_NSSInternalSoftwareConfig:00000000 SPI_NSSInternalSoftwareConfig
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:451    .text.SPI_SSOutputCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:456    .text.SPI_SSOutputCmd:00000000 SPI_SSOutputCmd
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:474    .text.SPI_DataSizeConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:479    .text.SPI_DataSizeConfig:00000000 SPI_DataSizeConfig
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:495    .text.SPI_TransmitCRC:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:500    .text.SPI_TransmitCRC:00000000 SPI_TransmitCRC
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:511    .text.SPI_CalculateCRC:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:516    .text.SPI_CalculateCRC:00000000 SPI_CalculateCRC
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:534    .text.SPI_GetCRC:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:539    .text.SPI_GetCRC:00000000 SPI_GetCRC
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:551    .text.SPI_GetCRCPolynomial:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:556    .text.SPI_GetCRCPolynomial:00000000 SPI_GetCRCPolynomial
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:565    .text.SPI_BiDirectionalLineConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:570    .text.SPI_BiDirectionalLineConfig:00000000 SPI_BiDirectionalLineConfig
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:589    .text.SPI_I2S_GetFlagStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:594    .text.SPI_I2S_GetFlagStatus:00000000 SPI_I2S_GetFlagStatus
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:606    .text.SPI_I2S_ClearFlag:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:611    .text.SPI_I2S_ClearFlag:00000000 SPI_I2S_ClearFlag
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:621    .text.SPI_I2S_GetITStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:626    .text.SPI_I2S_GetITStatus:00000000 SPI_I2S_GetITStatus
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:651    .text.SPI_I2S_ClearITPendingBit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccayGn8H.s:656    .text.SPI_I2S_ClearITPendingBit:00000000 SPI_I2S_ClearITPendingBit
+
+UNDEFINED SYMBOLS
+RCC_APB1PeriphResetCmd
+RCC_APB2PeriphResetCmd
+RCC_GetClocksFreq

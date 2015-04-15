@@ -3,7 +3,6 @@
 
 # system Directories
 /Debug
-/Release
 /.settings
 /out
 

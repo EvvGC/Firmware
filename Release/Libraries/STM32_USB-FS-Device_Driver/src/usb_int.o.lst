@@ -1,0 +1,312 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"usb_int.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32_USB-FS-Device_Driver/src/usb_int.d
+  31              	@ -MF Libraries/STM32_USB-FS-Device_Driver/src/usb_int.d -MP
+  32              	@ -MT Libraries/STM32_USB-FS-Device_Driver/src/usb_int.d
+  33              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32_USB-FS-Device_Driver/src/usb_int.c -mcpu=cortex-m3
+  35              	@ -mthumb -auxbase-strip Libraries/STM32_USB-FS-Device_Driver/src/usb_int.o
+  36              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  37              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  38              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  39              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  40              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  41              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  42              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  43              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  44              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  45              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  46              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  47              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  48              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  49              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  50              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  51              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  52              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  53              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  54              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  55              	@ -freorder-functions -frerun-cse-after-loop
+  56              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  57              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  58              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  59              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  60              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  61              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  62              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  63              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  64              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  65              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  66              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  67              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  68              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  69              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  70              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  71              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  72              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  73              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  74              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  75              	@ -munaligned-access -mvectorize-with-neon-quad
+  76              	
+  77              		.section	.text.CTR_LP,"ax",%progbits
+  78              		.align	2
+  79              		.global	CTR_LP
+  80              		.thumb
+  81              		.thumb_func
+  83              	CTR_LP:
+  84              		@ args = 0, pretend = 0, frame = 8
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}	@
+  87 0004 0023     		movs	r3, #0	@ tmp205,
+  88 0006 82B0     		sub	sp, sp, #8	@,,
+  89 0008 DFF86491 		ldr	r9, .L80+12	@ tmp366,
+  90 000c DFF87081 		ldr	r8, .L80+28	@ tmp369,
+  91 0010 544E     		ldr	r6, .L80	@ tmp370,
+  92 0012 ADF80630 		strh	r3, [sp, #6]	@ movhi	@ tmp205, wEPVal
+  93              	.L2:
+  94 0016 D8F80030 		ldr	r3, [r8]	@ D.7167, MEM[(volatile unsigned int *)1073765444B]
+  95 001a 534C     		ldr	r4, .L80+4	@ tmp212,
+  96 001c 9AB2     		uxth	r2, r3	@ wIstr.29, D.7167
+  97 001e 13F4004F 		tst	r3, #32768	@ D.7167,
+  98 0022 524F     		ldr	r7, .L80+8	@ tmp365,
+  99 0024 4BF6BF70 		movw	r0, #49087	@ _wRegVal,
+ 100 0028 5149     		ldr	r1, .L80+12	@ tmp362,
+ 101 002a A9F80020 		strh	r2, [r9]	@ movhi	@ wIstr.29, wIstr
+ 102 002e DFF834A1 		ldr	r10, .L80	@ tmp367,
+ 103 0032 00F08B80 		beq	.L1	@,
+ 104 0036 0B88     		ldrh	r3, [r1]	@, wIstr
+ 105 0038 4E4D     		ldr	r5, .L80+16	@ tmp368,
+ 106 003a 03F00F03 		and	r3, r3, #15	@ EPindex.1, wIstr,
+ 107 003e 9A00     		lsls	r2, r3, #2	@ D.7167, EPindex.1,
+ 108 0040 02F18042 		add	r2, r2, #1073741824	@ D.7169, D.7167,
+ 109 0044 02F5B842 		add	r2, r2, #23552	@ D.7169, D.7169,
+ 110 0048 2B70     		strb	r3, [r5]	@ EPindex.1, EPindex
+ 111 004a 6BBB     		cbnz	r3, .L3	@ EPindex.1,
+ 112 004c 2368     		ldr	r3, [r4]	@ D.7167, MEM[(volatile unsigned int *)1073765376B]
+ 113 004e 9BB2     		uxth	r3, r3	@ SaveRState.3, D.7167
+ 114 0050 3380     		strh	r3, [r6]	@ movhi	@ SaveRState.3, SaveRState
+ 115 0052 3388     		ldrh	r3, [r6]	@, SaveRState
+ 116 0054 03F03003 		and	r3, r3, #48	@ SaveTState.5, SaveRState,
+ 117 0058 3B80     		strh	r3, [r7]	@ movhi	@ SaveTState.5, SaveTState
+ 118 005a 3388     		ldrh	r3, [r6]	@, SaveRState
+ 119 005c 03F44053 		and	r3, r3, #12288	@ SaveRState.7, SaveRState,
+ 120 0060 3380     		strh	r3, [r6]	@ movhi	@ SaveRState.7, SaveRState
+ 121 0062 2368     		ldr	r3, [r4]	@ D.7167, MEM[(volatile unsigned int *)1073765376B]
+ 122 0064 1840     		ands	r0, r0, r3	@, _wRegVal, _wRegVal, D.7167
+ 123 0066 80F40050 		eor	r0, r0, #8192	@ _wRegVal, _wRegVal,
+ 124 006a 80F02000 		eor	r0, r0, #32	@ _wRegVal, _wRegVal,
+ 125 006e 40F40040 		orr	r0, r0, #32768	@ D.7167, _wRegVal,
+ 126 0072 40F08000 		orr	r0, r0, #128	@ D.7167, D.7167,
+ 127 0076 2060     		str	r0, [r4]	@ D.7167, MEM[(volatile unsigned int *)1073765376B]
+ 128 0078 0B88     		ldrh	r3, [r1]	@, wIstr
+ 129 007a DB06     		lsls	r3, r3, #27	@, wIstr,
+ 130 007c 3DD5     		bpl	.L77	@,
+ 131 007e 2368     		ldr	r3, [r4]	@ D.7167, MEM[(volatile unsigned int *)1073765376B]
+ 132 0080 9BB2     		uxth	r3, r3	@ wEPVal.13, D.7167
+ 133 0082 ADF80630 		strh	r3, [sp, #6]	@ movhi	@ wEPVal.13, wEPVal
+ 134 0086 BDF80630 		ldrh	r3, [sp, #6]	@, wEPVal
+ 135 008a 1D05     		lsls	r5, r3, #20	@, wEPVal,
+ 136 008c 61D4     		bmi	.L78	@,
+ 137 008e BDF80630 		ldrh	r3, [sp, #6]	@, wEPVal
+ 138 0092 1BB2     		sxth	r3, r3	@ wEPVal.19, wEPVal
+ 139 0094 002B     		cmp	r3, #0	@ wEPVal.19,
+ 140 0096 BEDA     		bge	.L2	@,
+ 141 0098 2268     		ldr	r2, [r4]	@ D.7167, MEM[(volatile unsigned int *)1073765376B]
+ 142 009a 40F68F73 		movw	r3, #3983	@ D.7167,
+ 143 009e 1340     		ands	r3, r3, r2	@, D.7167, D.7167, D.7167
+ 144 00a0 2360     		str	r3, [r4]	@ D.7167, MEM[(volatile unsigned int *)1073765376B]
+ 145 00a2 FFF7FEFF 		bl	Out0_Process	@
+ 146 00a6 2FE0     		b	.L74	@
+ 147              	.L3:
+ 148 00a8 1168     		ldr	r1, [r2]	@ D.7167, *_121
+ 149 00aa 89B2     		uxth	r1, r1	@ wEPVal.25, D.7167
+ 150 00ac ADF80610 		strh	r1, [sp, #6]	@ movhi	@ wEPVal.25, wEPVal
+ 151 00b0 BDF80610 		ldrh	r1, [sp, #6]	@, wEPVal
+ 152 00b4 09B2     		sxth	r1, r1	@ wEPVal.26, wEPVal
+ 153 00b6 0029     		cmp	r1, #0	@ wEPVal.26,
+ 154 00b8 14DB     		blt	.L79	@,
+ 155              	.L21:
+ 156 00ba BDF80630 		ldrh	r3, [sp, #6]	@, wEPVal
+ 157 00be 1B06     		lsls	r3, r3, #24	@, wEPVal,
+ 158 00c0 A9D5     		bpl	.L2	@,
+ 159 00c2 2978     		ldrb	r1, [r5]	@ zero_extendqisi2	@ EPindex.2, EPindex
+ 160 00c4 2C48     		ldr	r0, .L80+20	@ tmp358,
+ 161 00c6 8B00     		lsls	r3, r1, #2	@ D.7167, EPindex.2,
+ 162 00c8 03F18043 		add	r3, r3, #1073741824	@ D.7169, D.7167,
+ 163 00cc 03F5B843 		add	r3, r3, #23552	@ D.7169, D.7169,
+ 164 00d0 1C68     		ldr	r4, [r3]	@ D.7167, *_138
+ 165 00d2 48F60F72 		movw	r2, #36623	@ D.7167,
+ 166 00d6 0139     		subs	r1, r1, #1	@ tmp359, EPindex.2,
+ 167 00d8 2240     		ands	r2, r2, r4	@, D.7167, D.7167, D.7167
+ 168 00da 1A60     		str	r2, [r3]	@ D.7167, *_138
+ 169 00dc 50F82130 		ldr	r3, [r0, r1, lsl #2]	@ tmp360, pEpInt_IN
+ 170 00e0 9847     		blx	r3	@ tmp360
+ 171 00e2 98E7     		b	.L2	@
+ 172              	.L79:
+ 173 00e4 1468     		ldr	r4, [r2]	@ D.7167, *_121
+ 174 00e6 2548     		ldr	r0, .L80+24	@ tmp346,
+ 175 00e8 40F68F71 		movw	r1, #3983	@ D.7167,
+ 176 00ec 2140     		ands	r1, r1, r4	@, D.7167, D.7167, D.7167
+ 177 00ee 013B     		subs	r3, r3, #1	@ tmp347, EPindex.1,
+ 178 00f0 50F82330 		ldr	r3, [r0, r3, lsl #2]	@ tmp348, pEpInt_OUT
+ 179 00f4 1160     		str	r1, [r2]	@ D.7167, *_121
+ 180 00f6 9847     		blx	r3	@ tmp348
+ 181 00f8 DFE7     		b	.L21	@
+ 182              	.L77:
+ 183 00fa 2268     		ldr	r2, [r4]	@ D.7167, MEM[(volatile unsigned int *)1073765376B]
+ 184 00fc 48F60F73 		movw	r3, #36623	@ D.7167,
+ 185 0100 1340     		ands	r3, r3, r2	@, D.7167, D.7167, D.7167
+ 186 0102 2360     		str	r3, [r4]	@ D.7167, MEM[(volatile unsigned int *)1073765376B]
+ 187 0104 FFF7FEFF 		bl	In0_Process	@
+ 188              	.L74:
+ 189 0108 2168     		ldr	r1, [r4]	@ D.7167,
+ 190 010a BAF80020 		ldrh	r2, [r10]	@, SaveRState
+ 191 010e 4BF6BF73 		movw	r3, #49087	@ _wRegVal,
+ 192 0112 D404     		lsls	r4, r2, #19	@, SaveRState,
+ 193 0114 BAF80020 		ldrh	r2, [r10]	@, SaveRState
+ 194 0118 01EA0303 		and	r3, r1, r3	@ _wRegVal, D.7167, _wRegVal
+ 195 011c 48BF     		it	mi
+ 196 011e 83F48053 		eormi	r3, r3, #4096	@ _wRegVal, _wRegVal,
+ 197 0122 9004     		lsls	r0, r2, #18	@, SaveRState,
+ 198 0124 3A88     		ldrh	r2, [r7]	@, SaveTState
+ 199 0126 48BF     		it	mi
+ 200 0128 83F40053 		eormi	r3, r3, #8192	@ _wRegVal, _wRegVal,
+ 201 012c D106     		lsls	r1, r2, #27	@, SaveTState,
+ 202 012e 3A88     		ldrh	r2, [r7]	@, SaveTState
+ 203 0130 48BF     		it	mi
+ 204 0132 83F01003 		eormi	r3, r3, #16	@ _wRegVal, _wRegVal,
+ 205 0136 9206     		lsls	r2, r2, #26	@, SaveTState,
+ 206 0138 48BF     		it	mi
+ 207 013a 83F02003 		eormi	r3, r3, #32	@ _wRegVal, _wRegVal,
+ 208 013e 43F40043 		orr	r3, r3, #32768	@ tmp337, _wRegVal,
+ 209 0142 43F08003 		orr	r3, r3, #128	@ tmp337, tmp337,
+ 210 0146 084A     		ldr	r2, .L80+4	@ tmp338,
+ 211 0148 9BB2     		uxth	r3, r3	@ D.7167, tmp337
+ 212 014a 1360     		str	r3, [r2]	@ D.7167,
+ 213              	.L1:
+ 214 014c 02B0     		add	sp, sp, #8	@,,
+ 215              		@ sp needed	@
+ 216 014e BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}	@
+ 217              	.L78:
+ 218 0152 2268     		ldr	r2, [r4]	@ D.7167, MEM[(volatile unsigned int *)1073765376B]
+ 219 0154 40F68F73 		movw	r3, #3983	@ D.7167,
+ 220 0158 1340     		ands	r3, r3, r2	@, D.7167, D.7167, D.7167
+ 221 015a 2360     		str	r3, [r4]	@ D.7167, MEM[(volatile unsigned int *)1073765376B]
+ 222 015c FFF7FEFF 		bl	Setup0_Process	@
+ 223 0160 D2E7     		b	.L74	@
+ 224              	.L81:
+ 225 0162 00BF     		.align	2
+ 226              	.L80:
+ 227 0164 00000000 		.word	SaveRState
+ 228 0168 005C0040 		.word	1073765376
+ 229 016c 00000000 		.word	SaveTState
+ 230 0170 00000000 		.word	wIstr
+ 231 0174 00000000 		.word	EPindex
+ 232 0178 00000000 		.word	pEpInt_IN
+ 233 017c 00000000 		.word	pEpInt_OUT
+ 234 0180 445C0040 		.word	1073765444
+ 236              		.section	.text.CTR_HP,"ax",%progbits
+ 237              		.align	2
+ 238              		.global	CTR_HP
+ 239              		.thumb
+ 240              		.thumb_func
+ 242              	CTR_HP:
+ 243              		@ args = 0, pretend = 0, frame = 0
+ 244              		@ frame_needed = 0, uses_anonymous_args = 0
+ 245 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}	@
+ 246 0002 174D     		ldr	r5, .L92	@ tmp156,
+ 247 0004 174C     		ldr	r4, .L92+4	@ tmp157,
+ 248 0006 184F     		ldr	r7, .L92+8	@ tmp159,
+ 249 0008 2E46     		mov	r6, r5	@ tmp158, tmp156
+ 250              	.L83:
+ 251 000a 2368     		ldr	r3, [r4]	@ D.7174, MEM[(volatile unsigned int *)1073765444B]
+ 252 000c 47F6FF71 		movw	r1, #32767	@ tmp137,
+ 253 0010 9AB2     		uxth	r2, r3	@ wIstr.35, D.7174
+ 254 0012 1B04     		lsls	r3, r3, #16	@, D.7174,
+ 255 0014 2A80     		strh	r2, [r5]	@ movhi	@ wIstr.35, wIstr
+ 256 0016 21D5     		bpl	.L82	@,
+ 257 0018 2160     		str	r1, [r4]	@ tmp137, MEM[(volatile unsigned int *)1073765444B]
+ 258 001a 3288     		ldrh	r2, [r6]	@, wIstr
+ 259 001c 02F00F02 		and	r2, r2, #15	@ EPindex.33, wIstr,
+ 260 0020 9300     		lsls	r3, r2, #2	@ D.7174, EPindex.33,
+ 261 0022 03F18043 		add	r3, r3, #1073741824	@ D.7176, D.7174,
+ 262 0026 3A70     		strb	r2, [r7]	@ EPindex.33, EPindex
+ 263 0028 03F5B843 		add	r3, r3, #23552	@ D.7176, D.7176,
+ 264 002c 1968     		ldr	r1, [r3]	@ D.7174, *_15
+ 265 002e 0804     		lsls	r0, r1, #16	@, D.7174,
+ 266 0030 0ED4     		bmi	.L91	@,
+ 267 0032 0906     		lsls	r1, r1, #24	@, D.7174,
+ 268 0034 E9D5     		bpl	.L83	@,
+ 269 0036 D3F800E0 		ldr	lr, [r3]	@ D.7174, *_15
+ 270 003a 0C48     		ldr	r0, .L92+12	@ tmp153,
+ 271 003c 48F60F71 		movw	r1, #36623	@ D.7174,
+ 272              	.L90:
+ 273 0040 0EEA0101 		and	r1, lr, r1	@ D.7174, D.7174, D.7174
+ 274 0044 013A     		subs	r2, r2, #1	@ tmp154, EPindex.33,
+ 275 0046 50F82220 		ldr	r2, [r0, r2, lsl #2]	@ tmp155,
+ 276 004a 1960     		str	r1, [r3]	@ D.7174,* D.7176
+ 277 004c 9047     		blx	r2	@ tmp155
+ 278 004e DCE7     		b	.L83	@
+ 279              	.L91:
+ 280 0050 D3F800E0 		ldr	lr, [r3]	@ D.7174, *_15
+ 281 0054 0648     		ldr	r0, .L92+16	@ tmp148,
+ 282 0056 40F68F71 		movw	r1, #3983	@ D.7174,
+ 283 005a F1E7     		b	.L90	@
+ 284              	.L82:
+ 285 005c F8BD     		pop	{r3, r4, r5, r6, r7, pc}	@
+ 286              	.L93:
+ 287 005e 00BF     		.align	2
+ 288              	.L92:
+ 289 0060 00000000 		.word	wIstr
+ 290 0064 445C0040 		.word	1073765444
+ 291 0068 00000000 		.word	EPindex
+ 292 006c 00000000 		.word	pEpInt_IN
+ 293 0070 00000000 		.word	pEpInt_OUT
+ 295              		.comm	SaveTState,2,2
+ 296              		.comm	SaveRState,2,2
+ 297              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_int.c
+C:\Users\Chris\AppData\Local\Temp\ccuoQa1h.s:78     .text.CTR_LP:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccuoQa1h.s:83     .text.CTR_LP:00000000 CTR_LP
+C:\Users\Chris\AppData\Local\Temp\ccuoQa1h.s:227    .text.CTR_LP:00000164 $d
+                            *COM*:00000002 SaveRState
+                            *COM*:00000002 SaveTState
+C:\Users\Chris\AppData\Local\Temp\ccuoQa1h.s:237    .text.CTR_HP:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccuoQa1h.s:242    .text.CTR_HP:00000000 CTR_HP
+C:\Users\Chris\AppData\Local\Temp\ccuoQa1h.s:289    .text.CTR_HP:00000060 $d
+
+UNDEFINED SYMBOLS
+Out0_Process
+In0_Process
+Setup0_Process
+wIstr
+EPindex
+pEpInt_IN
+pEpInt_OUT

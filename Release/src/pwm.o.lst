@@ -1,0 +1,1311 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"pwm.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/pwm.d -MF src/pwm.d -MP -MT src/pwm.d -D__USES_INITFINI__
+  31              	@ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER ../src/pwm.c -mcpu=cortex-m3
+  32              	@ -mthumb -auxbase-strip src/pwm.o -O2 -Wall -Wextra -Wstrict-prototypes
+  33              	@ -std=gnu99 -ffunction-sections -fdata-sections
+  34              	@ -fsingle-precision-constant -fverbose-asm
+  35              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  36              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  37              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  38              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  39              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  40              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  41              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  42              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  43              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  44              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  45              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  46              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  47              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  48              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  49              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  50              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  51              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  52              	@ -freorder-functions -frerun-cse-after-loop
+  53              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  54              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  55              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  56              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  57              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  58              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  59              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  60              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  61              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  62              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  63              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  64              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  65              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  66              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  67              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  68              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  69              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  70              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  71              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  72              	@ -munaligned-access -mvectorize-with-neon-quad
+  73              	
+  74              		.section	.text.Timer_Channel_Config,"ax",%progbits
+  75              		.align	2
+  76              		.thumb
+  77              		.thumb_func
+  79              	Timer_Channel_Config:
+  80              		@ args = 0, pretend = 0, frame = 0
+  81              		@ frame_needed = 0, uses_anonymous_args = 0
+  82 0000 38B5     		push	{r3, r4, r5, lr}	@
+  83 0002 0446     		mov	r4, r0	@ tim, tim
+  84 0004 0D46     		mov	r5, r1	@ OCInitStructure, OCInitStructure
+  85 0006 FFF7FEFF 		bl	TIM_OC1Init	@
+  86 000a 2046     		mov	r0, r4	@, tim
+  87 000c 2946     		mov	r1, r5	@, OCInitStructure
+  88 000e FFF7FEFF 		bl	TIM_OC2Init	@
+  89 0012 2046     		mov	r0, r4	@, tim
+  90 0014 2946     		mov	r1, r5	@, OCInitStructure
+  91 0016 FFF7FEFF 		bl	TIM_OC3Init	@
+  92 001a 2046     		mov	r0, r4	@, tim
+  93 001c 0821     		movs	r1, #8	@,
+  94 001e FFF7FEFF 		bl	TIM_OC1PreloadConfig	@
+  95 0022 2046     		mov	r0, r4	@, tim
+  96 0024 0821     		movs	r1, #8	@,
+  97 0026 FFF7FEFF 		bl	TIM_OC2PreloadConfig	@
+  98 002a 2046     		mov	r0, r4	@, tim
+  99 002c 0821     		movs	r1, #8	@,
+ 100 002e BDE83840 		pop	{r3, r4, r5, lr}	@
+ 101 0032 FFF7FEBF 		b	TIM_OC3PreloadConfig	@
+ 103 0036 00BF     		.section	.text.Timer_PWM_Advanced_Config,"ax",%progbits
+ 104              		.align	2
+ 105              		.thumb
+ 106              		.thumb_func
+ 108              	Timer_PWM_Advanced_Config:
+ 109              		@ args = 0, pretend = 0, frame = 48
+ 110              		@ frame_needed = 0, uses_anonymous_args = 0
+ 111 0000 F0B5     		push	{r4, r5, r6, r7, lr}	@
+ 112 0002 8DB0     		sub	sp, sp, #52	@,,
+ 113 0004 0024     		movs	r4, #0	@ tmp116,
+ 114 0006 0322     		movs	r2, #3	@ tmp114,
+ 115 0008 4FF47A73 		mov	r3, #1000	@ tmp118,
+ 116 000c 01A9     		add	r1, sp, #4	@,,
+ 117 000e 0546     		mov	r5, r0	@ tim, tim
+ 118 0010 ADF80420 		strh	r2, [sp, #4]	@ movhi	@ tmp114, TIM_TimeBaseInitStructure.TIM_Prescaler
+ 119 0014 ADF80830 		strh	r3, [sp, #8]	@ movhi	@ tmp118, TIM_TimeBaseInitStructure.TIM_Period
+ 120 0018 ADF80640 		strh	r4, [sp, #6]	@ movhi	@ tmp116, TIM_TimeBaseInitStructure.TIM_CounterMode
+ 121 001c ADF80A40 		strh	r4, [sp, #10]	@ movhi	@ tmp116, TIM_TimeBaseInitStructure.TIM_ClockDivision
+ 122 0020 8DF80C40 		strb	r4, [sp, #12]	@ tmp116, TIM_TimeBaseInitStructure.TIM_RepetitionCounter
+ 123 0024 FFF7FEFF 		bl	TIM_TimeBaseInit	@
+ 124 0028 1B4B     		ldr	r3, .L3	@ tmp130,
+ 125 002a 4FF4006E 		mov	lr, #2048	@ tmp125,
+ 126 002e D3F800C0 		ldr	ip, [r3]	@ timer_1_8_deadtime_register, timer_1_8_deadtime_register
+ 127 0032 2846     		mov	r0, r5	@, tim
+ 128 0034 4FF48076 		mov	r6, #256	@ tmp129,
+ 129 0038 4FF40052 		mov	r2, #8192	@ tmp136,
+ 130 003c 4FF48043 		mov	r3, #16384	@ tmp138,
+ 131 0040 04A9     		add	r1, sp, #16	@,,
+ 132 0042 4FF48067 		mov	r7, #1024	@ tmp127,
+ 133 0046 ADF816C0 		strh	ip, [sp, #22]	@ movhi	@ timer_1_8_deadtime_register, TIM_BDTRInitStructure.TIM_DeadTime
+ 134 004a ADF810E0 		strh	lr, [sp, #16]	@ movhi	@ tmp125, TIM_BDTRInitStructure.TIM_OSSRState
+ 135 004e ADF81A20 		strh	r2, [sp, #26]	@ movhi	@ tmp136, TIM_BDTRInitStructure.TIM_BreakPolarity
+ 136 0052 ADF81C30 		strh	r3, [sp, #28]	@ movhi	@ tmp138, TIM_BDTRInitStructure.TIM_AutomaticOutput
+ 137 0056 ADF81840 		strh	r4, [sp, #24]	@ movhi	@ tmp116, TIM_BDTRInitStructure.TIM_Break
+ 138 005a ADF81270 		strh	r7, [sp, #18]	@ movhi	@ tmp127, TIM_BDTRInitStructure.TIM_OSSIState
+ 139 005e ADF81460 		strh	r6, [sp, #20]	@ movhi	@ tmp129, TIM_BDTRInitStructure.TIM_LOCKLevel
+ 140 0062 FFF7FEFF 		bl	TIM_BDTRConfig	@
+ 141 0066 2846     		mov	r0, r5	@, tim
+ 142 0068 0122     		movs	r2, #1	@ tmp143,
+ 143 006a 0423     		movs	r3, #4	@ tmp145,
+ 144 006c 6025     		movs	r5, #96	@ tmp141,
+ 145 006e 08A9     		add	r1, sp, #32	@,,
+ 146 0070 ADF82640 		strh	r4, [sp, #38]	@ movhi	@ tmp116, TIM_OCInitStructure.TIM_Pulse
+ 147 0074 ADF82840 		strh	r4, [sp, #40]	@ movhi	@ tmp116, TIM_OCInitStructure.TIM_OCPolarity
+ 148 0078 ADF82A40 		strh	r4, [sp, #42]	@ movhi	@ tmp116, TIM_OCInitStructure.TIM_OCNPolarity
+ 149 007c ADF82C60 		strh	r6, [sp, #44]	@ movhi	@ tmp129, TIM_OCInitStructure.TIM_OCIdleState
+ 150 0080 ADF82E40 		strh	r4, [sp, #46]	@ movhi	@ tmp116, TIM_OCInitStructure.TIM_OCNIdleState
+ 151 0084 ADF82050 		strh	r5, [sp, #32]	@ movhi	@ tmp141, TIM_OCInitStructure.TIM_OCMode
+ 152 0088 ADF82220 		strh	r2, [sp, #34]	@ movhi	@ tmp143, TIM_OCInitStructure.TIM_OutputState
+ 153 008c ADF82430 		strh	r3, [sp, #36]	@ movhi	@ tmp145, TIM_OCInitStructure.TIM_OutputNState
+ 154 0090 FFF7FEFF 		bl	Timer_Channel_Config	@
+ 155 0094 0DB0     		add	sp, sp, #52	@,,
+ 156              		@ sp needed	@
+ 157 0096 F0BD     		pop	{r4, r5, r6, r7, pc}	@
+ 158              	.L4:
+ 159              		.align	2
+ 160              	.L3:
+ 161 0098 00000000 		.word	.LANCHOR0
+ 163              		.section	.text.Timer_PWM_General_Config,"ax",%progbits
+ 164              		.align	2
+ 165              		.thumb
+ 166              		.thumb_func
+ 168              	Timer_PWM_General_Config:
+ 169              		@ args = 0, pretend = 0, frame = 32
+ 170              		@ frame_needed = 0, uses_anonymous_args = 0
+ 171 0000 F0B5     		push	{r4, r5, r6, r7, lr}	@
+ 172 0002 89B0     		sub	sp, sp, #36	@,,
+ 173 0004 0D46     		mov	r5, r1	@ polarity, polarity
+ 174 0006 0024     		movs	r4, #0	@ tmp116,
+ 175 0008 4FF47A72 		mov	r2, #1000	@ tmp118,
+ 176 000c 4FF40073 		mov	r3, #512	@ tmp120,
+ 177 0010 0646     		mov	r6, r0	@ tim, tim
+ 178 0012 01A9     		add	r1, sp, #4	@,,
+ 179 0014 0327     		movs	r7, #3	@ tmp114,
+ 180 0016 ADF80820 		strh	r2, [sp, #8]	@ movhi	@ tmp118, TIM_TimeBaseInitStructure.TIM_Period
+ 181 001a ADF80A30 		strh	r3, [sp, #10]	@ movhi	@ tmp120, TIM_TimeBaseInitStructure.TIM_ClockDivision
+ 182 001e ADF80470 		strh	r7, [sp, #4]	@ movhi	@ tmp114, TIM_TimeBaseInitStructure.TIM_Prescaler
+ 183 0022 ADF80640 		strh	r4, [sp, #6]	@ movhi	@ tmp116, TIM_TimeBaseInitStructure.TIM_CounterMode
+ 184 0026 FFF7FEFF 		bl	TIM_TimeBaseInit	@
+ 185 002a 6022     		movs	r2, #96	@ tmp123,
+ 186 002c 0123     		movs	r3, #1	@ tmp125,
+ 187 002e 3046     		mov	r0, r6	@, tim
+ 188 0030 04A9     		add	r1, sp, #16	@,,
+ 189 0032 ADF81850 		strh	r5, [sp, #24]	@ movhi	@ polarity, TIM_OCInitStructure.TIM_OCPolarity
+ 190 0036 ADF81640 		strh	r4, [sp, #22]	@ movhi	@ tmp116, TIM_OCInitStructure.TIM_Pulse
+ 191 003a ADF81020 		strh	r2, [sp, #16]	@ movhi	@ tmp123, TIM_OCInitStructure.TIM_OCMode
+ 192 003e ADF81230 		strh	r3, [sp, #18]	@ movhi	@ tmp125, TIM_OCInitStructure.TIM_OutputState
+ 193 0042 FFF7FEFF 		bl	Timer_Channel_Config	@
+ 194 0046 09B0     		add	sp, sp, #36	@,,
+ 195              		@ sp needed	@
+ 196 0048 F0BD     		pop	{r4, r5, r6, r7, pc}	@
+ 198 004a 00BF     		.section	.text.MaxCntClear,"ax",%progbits
+ 199              		.align	2
+ 200              		.global	MaxCntClear
+ 201              		.thumb
+ 202              		.thumb_func
+ 204              	MaxCntClear:
+ 205              		@ args = 0, pretend = 0, frame = 0
+ 206              		@ frame_needed = 0, uses_anonymous_args = 0
+ 207              		@ link register save eliminated.
+ 208 0000 10B4     		push	{r4}	@
+ 209 0002 0948     		ldr	r0, .L7	@ tmp116,
+ 210 0004 094C     		ldr	r4, .L7+4	@ tmp110,
+ 211 0006 0A4A     		ldr	r2, .L7+8	@ tmp122,
+ 212 0008 0023     		movs	r3, #0	@ tmp111,
+ 213 000a 40F2E931 		movw	r1, #1001	@ tmp123,
+ 214 000e A360     		str	r3, [r4, #8]	@ tmp111, IrqCnt
+ 215 0010 6360     		str	r3, [r4, #4]	@ tmp111, IrqCnt
+ 216 0012 2360     		str	r3, [r4]	@ tmp111, IrqCnt
+ 217 0014 8360     		str	r3, [r0, #8]	@ tmp111, MaxCnt
+ 218 0016 4360     		str	r3, [r0, #4]	@ tmp111, MaxCnt
+ 219 0018 0360     		str	r3, [r0]	@ tmp111, MaxCnt
+ 220 001a 9160     		str	r1, [r2, #8]	@ tmp123, MinCnt
+ 221 001c 5160     		str	r1, [r2, #4]	@ tmp123, MinCnt
+ 222 001e 1160     		str	r1, [r2]	@ tmp123, MinCnt
+ 223 0020 5DF8044B 		ldr	r4, [sp], #4	@,
+ 224 0024 7047     		bx	lr	@
+ 225              	.L8:
+ 226 0026 00BF     		.align	2
+ 227              	.L7:
+ 228 0028 00000000 		.word	MaxCnt
+ 229 002c 00000000 		.word	IrqCnt
+ 230 0030 00000000 		.word	MinCnt
+ 232              		.section	.text.SetPWMData,"ax",%progbits
+ 233              		.align	2
+ 234              		.global	SetPWMData
+ 235              		.thumb
+ 236              		.thumb_func
+ 238              	SetPWMData:
+ 239              		@ args = 0, pretend = 0, frame = 0
+ 240              		@ frame_needed = 0, uses_anonymous_args = 0
+ 241              		@ link register save eliminated.
+ 242              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 243 0000 72B6     		cpsid i
+ 244              	@ 0 "" 2
+ 245              		.thumb
+ 246 0002 0B68     		ldr	r3, [r1]	@ D.7736, *pwm_3(D)
+ 247 0004 0360     		str	r3, [r0]	@ D.7736, *target_5(D)
+ 248 0006 4B68     		ldr	r3, [r1, #4]	@ D.7736, MEM[(int *)pwm_3(D) + 4B]
+ 249 0008 4360     		str	r3, [r0, #4]	@ D.7736, MEM[(int *)target_5(D) + 4B]
+ 250 000a 8B68     		ldr	r3, [r1, #8]	@ D.7736, MEM[(int *)pwm_3(D) + 8B]
+ 251 000c 8360     		str	r3, [r0, #8]	@ D.7736, MEM[(int *)target_5(D) + 8B]
+ 252              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 253 000e 62B6     		cpsie i
+ 254              	@ 0 "" 2
+ 255              		.thumb
+ 256 0010 7047     		bx	lr	@
+ 258 0012 00BF     		.section	.text.LimitYawPWM,"ax",%progbits
+ 259              		.align	2
+ 260              		.global	LimitYawPWM
+ 261              		.thumb
+ 262              		.thumb_func
+ 264              	LimitYawPWM:
+ 265              		@ args = 0, pretend = 0, frame = 0
+ 266              		@ frame_needed = 0, uses_anonymous_args = 0
+ 267              		@ link register save eliminated.
+ 268 0000 0D4A     		ldr	r2, .L16	@ tmp152,
+ 269 0002 30B4     		push	{r4, r5}	@
+ 270 0004 1368     		ldr	r3, [r2]	@ timer_4_5_deadtime_delay.0, timer_4_5_deadtime_delay
+ 271 0006 00F10C05 		add	r5, r0, #12	@ D.7767, ivtmp.61,
+ 272 000a C3F5FA74 		rsb	r4, r3, #500	@ D.7766, timer_4_5_deadtime_delay.0,
+ 273 000e 6400     		lsls	r4, r4, #1	@ maxVal, D.7766,
+ 274              	.L13:
+ 275 0010 0168     		ldr	r1, [r0]	@ D.7766, MEM[base: _20, offset: 0B]
+ 276 0012 CB1A     		subs	r3, r1, r3	@ D.7766, D.7766, D.7766
+ 277 0014 A342     		cmp	r3, r4	@ D.7766, maxVal
+ 278 0016 A8BF     		it	ge
+ 279 0018 2346     		movge	r3, r4	@ D.7766, maxVal
+ 280 001a 40F8043B 		str	r3, [r0], #4	@ D.7766, MEM[base: _18, offset: 4294967292B]
+ 281 001e 1168     		ldr	r1, [r2]	@ timer_4_5_deadtime_delay, timer_4_5_deadtime_delay
+ 282 0020 8B42     		cmp	r3, r1	@ D.7766, timer_4_5_deadtime_delay
+ 283 0022 B8BF     		it	lt	@
+ 284 0024 0023     		movlt	r3, #0	@, D.7766,
+ 285 0026 A842     		cmp	r0, r5	@ ivtmp.61, D.7767
+ 286 0028 40F8043C 		str	r3, [r0, #-4]	@ D.7766, MEM[base: _18, offset: 4294967292B]
+ 287 002c 01D0     		beq	.L10	@,
+ 288 002e 1368     		ldr	r3, [r2]	@ D.7766, timer_4_5_deadtime_delay
+ 289 0030 EEE7     		b	.L13	@
+ 290              	.L10:
+ 291 0032 30BC     		pop	{r4, r5}	@
+ 292 0034 7047     		bx	lr	@
+ 293              	.L17:
+ 294 0036 00BF     		.align	2
+ 295              	.L16:
+ 296 0038 00000000 		.word	.LANCHOR1
+ 298              		.section	.text.dist,"ax",%progbits
+ 299              		.align	2
+ 300              		.global	dist
+ 301              		.thumb
+ 302              		.thumb_func
+ 304              	dist:
+ 305              		@ args = 0, pretend = 0, frame = 0
+ 306              		@ frame_needed = 0, uses_anonymous_args = 0
+ 307              		@ link register save eliminated.
+ 308 0000 401A     		subs	r0, r0, r1	@ d, a, b
+ 309 0002 0028     		cmp	r0, #0	@ d
+ 310 0004 B8BF     		it	lt
+ 311 0006 4042     		rsblt	r0, r0, #0	@ d
+ 312 0008 0328     		cmp	r0, #3	@ d,
+ 313 000a D4BF     		ite	le
+ 314 000c 0020     		movle	r0, #0	@,
+ 315 000e 0120     		movgt	r0, #1	@,
+ 316 0010 7047     		bx	lr	@
+ 318              		.global	__aeabi_fcmpge
+ 319              		.global	__aeabi_f2d
+ 320              		.global	__aeabi_i2d
+ 321              		.global	__aeabi_dmul
+ 322              		.global	__aeabi_dadd
+ 323              		.global	__aeabi_d2iz
+ 324              		.global	__aeabi_fadd
+ 325 0012 00BF     		.section	.text.SetPWMOrg,"ax",%progbits
+ 326              		.align	2
+ 327              		.global	SetPWMOrg
+ 328              		.thumb
+ 329              		.thumb_func
+ 331              	SetPWMOrg:
+ 332              		@ args = 0, pretend = 0, frame = 0
+ 333              		@ frame_needed = 0, uses_anonymous_args = 0
+ 334 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}	@
+ 335 0004 304B     		ldr	r3, .L22	@ tmp135,
+ 336 0006 8046     		mov	r8, r0	@ pwm, pwm
+ 337 0008 D3F80090 		ldr	r9, [r3]	@ float	@ output, testPhase
+ 338 000c 0D46     		mov	r5, r1	@ output, output
+ 339 000e 4846     		mov	r0, r9	@, output
+ 340 0010 0021     		movs	r1, #0	@,
+ 341 0012 1446     		mov	r4, r2	@ level, level
+ 342 0014 FFF7FEFF 		bl	__aeabi_fcmpge	@
+ 343 0018 0028     		cmp	r0, #0	@
+ 344 001a 53D0     		beq	.L21	@
+ 345              	.L20:
+ 346 001c 4846     		mov	r0, r9	@, output
+ 347 001e FFF7FEFF 		bl	__aeabi_f2d	@
+ 348 0022 FFF7FEFF 		bl	sin	@
+ 349 0026 0646     		mov	r6, r0	@ D.7775,
+ 350 0028 2046     		mov	r0, r4	@, level
+ 351 002a 0F46     		mov	r7, r1	@ D.7775,
+ 352 002c FFF7FEFF 		bl	__aeabi_i2d	@
+ 353 0030 0022     		movs	r2, #0	@,
+ 354 0032 0446     		mov	r4, r0	@ D.7775,
+ 355 0034 0D46     		mov	r5, r1	@ D.7775,
+ 356 0036 254B     		ldr	r3, .L22+4	@,
+ 357 0038 3046     		mov	r0, r6	@, D.7775
+ 358 003a 3946     		mov	r1, r7	@, D.7775
+ 359 003c FFF7FEFF 		bl	__aeabi_dmul	@
+ 360 0040 2246     		mov	r2, r4	@, D.7775
+ 361 0042 2B46     		mov	r3, r5	@, D.7775
+ 362 0044 FFF7FEFF 		bl	__aeabi_dmul	@
+ 363 0048 0022     		movs	r2, #0	@,
+ 364 004a 214B     		ldr	r3, .L22+8	@,
+ 365 004c FFF7FEFF 		bl	__aeabi_dadd	@
+ 366 0050 FFF7FEFF 		bl	__aeabi_d2iz	@
+ 367 0054 1F49     		ldr	r1, .L22+12	@,
+ 368 0056 C8F80000 		str	r0, [r8]	@, *pwm_13(D)
+ 369 005a 4846     		mov	r0, r9	@, output
+ 370 005c FFF7FEFF 		bl	__aeabi_fadd	@
+ 371 0060 FFF7FEFF 		bl	__aeabi_f2d	@
+ 372 0064 FFF7FEFF 		bl	sin	@
+ 373 0068 0022     		movs	r2, #0	@,
+ 374 006a 184B     		ldr	r3, .L22+4	@,
+ 375 006c FFF7FEFF 		bl	__aeabi_dmul	@
+ 376 0070 0246     		mov	r2, r0	@ D.7775,
+ 377 0072 0B46     		mov	r3, r1	@ D.7775,
+ 378 0074 2046     		mov	r0, r4	@, D.7775
+ 379 0076 2946     		mov	r1, r5	@, D.7775
+ 380 0078 FFF7FEFF 		bl	__aeabi_dmul	@
+ 381 007c 0022     		movs	r2, #0	@,
+ 382 007e 144B     		ldr	r3, .L22+8	@,
+ 383 0080 FFF7FEFF 		bl	__aeabi_dadd	@
+ 384 0084 FFF7FEFF 		bl	__aeabi_d2iz	@
+ 385 0088 1349     		ldr	r1, .L22+16	@,
+ 386 008a C8F80400 		str	r0, [r8, #4]	@, MEM[(int *)pwm_13(D) + 4B]
+ 387 008e 4846     		mov	r0, r9	@, output
+ 388 0090 FFF7FEFF 		bl	__aeabi_fadd	@
+ 389 0094 FFF7FEFF 		bl	__aeabi_f2d	@
+ 390 0098 FFF7FEFF 		bl	sin	@
+ 391 009c 0022     		movs	r2, #0	@,
+ 392 009e 0B4B     		ldr	r3, .L22+4	@,
+ 393 00a0 FFF7FEFF 		bl	__aeabi_dmul	@
+ 394 00a4 0246     		mov	r2, r0	@ D.7775,
+ 395 00a6 0B46     		mov	r3, r1	@ D.7775,
+ 396 00a8 2046     		mov	r0, r4	@, D.7775
+ 397 00aa 2946     		mov	r1, r5	@, D.7775
+ 398 00ac FFF7FEFF 		bl	__aeabi_dmul	@
+ 399 00b0 0022     		movs	r2, #0	@,
+ 400 00b2 074B     		ldr	r3, .L22+8	@,
+ 401 00b4 FFF7FEFF 		bl	__aeabi_dadd	@
+ 402 00b8 FFF7FEFF 		bl	__aeabi_d2iz	@
+ 403 00bc C8F80800 		str	r0, [r8, #8]	@, MEM[(int *)pwm_13(D) + 8B]
+ 404 00c0 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}	@
+ 405              	.L21:
+ 406 00c4 A946     		mov	r9, r5	@ output, output
+ 407 00c6 A9E7     		b	.L20	@
+ 408              	.L23:
+ 409              		.align	2
+ 410              	.L22:
+ 411 00c8 00000000 		.word	.LANCHOR2
+ 412 00cc 00001440 		.word	1075052544
+ 413 00d0 00407F40 		.word	1082081280
+ 414 00d4 8FC20540 		.word	1074119311
+ 415 00d8 7B148640 		.word	1082528891
+ 417              		.global	__aeabi_i2f
+ 418              		.global	__aeabi_fmul
+ 419              		.global	__aeabi_f2iz
+ 420              		.section	.text.SetPWMOrgFaster,"ax",%progbits
+ 421              		.align	2
+ 422              		.global	SetPWMOrgFaster
+ 423              		.thumb
+ 424              		.thumb_func
+ 426              	SetPWMOrgFaster:
+ 427              		@ args = 0, pretend = 0, frame = 0
+ 428              		@ frame_needed = 0, uses_anonymous_args = 0
+ 429 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}	@
+ 430 0002 254B     		ldr	r3, .L27	@ tmp134,
+ 431 0004 0446     		mov	r4, r0	@ pwm, pwm
+ 432 0006 1E68     		ldr	r6, [r3]	@ float	@ phi, testPhase
+ 433 0008 0F46     		mov	r7, r1	@ phi, phi
+ 434 000a 3046     		mov	r0, r6	@, phi
+ 435 000c 0021     		movs	r1, #0	@,
+ 436 000e 1546     		mov	r5, r2	@ power, power
+ 437 0010 FFF7FEFF 		bl	__aeabi_fcmpge	@
+ 438 0014 0028     		cmp	r0, #0	@
+ 439 0016 3CD0     		beq	.L26	@
+ 440              	.L25:
+ 441 0018 05EB8500 		add	r0, r5, r5, lsl #2	@,, power, power,
+ 442 001c FFF7FEFF 		bl	__aeabi_i2f	@
+ 443 0020 1E49     		ldr	r1, .L27+4	@,
+ 444 0022 0546     		mov	r5, r0	@ tmp140,
+ 445 0024 3046     		mov	r0, r6	@, phi
+ 446 0026 FFF7FEFF 		bl	fmodf	@
+ 447 002a 0646     		mov	r6, r0	@ tmp142,
+ 448 002c FFF7FEFF 		bl	sinf	@
+ 449 0030 2946     		mov	r1, r5	@, tmp140
+ 450 0032 FFF7FEFF 		bl	__aeabi_fmul	@
+ 451 0036 4FF07C51 		mov	r1, #1056964608	@,
+ 452 003a FFF7FEFF 		bl	__aeabi_fadd	@
+ 453 003e FFF7FEFF 		bl	__aeabi_f2iz	@
+ 454 0042 00F5FA70 		add	r0, r0, #500	@ D.7780,,
+ 455 0046 1649     		ldr	r1, .L27+8	@,
+ 456 0048 2060     		str	r0, [r4]	@ D.7780, *pwm_15(D)
+ 457 004a 3046     		mov	r0, r6	@, tmp142
+ 458 004c FFF7FEFF 		bl	__aeabi_fadd	@
+ 459 0050 FFF7FEFF 		bl	sinf	@
+ 460 0054 2946     		mov	r1, r5	@, tmp140
+ 461 0056 FFF7FEFF 		bl	__aeabi_fmul	@
+ 462 005a 4FF07C51 		mov	r1, #1056964608	@,
+ 463 005e FFF7FEFF 		bl	__aeabi_fadd	@
+ 464 0062 FFF7FEFF 		bl	__aeabi_f2iz	@
+ 465 0066 00F5FA70 		add	r0, r0, #500	@ D.7780,,
+ 466 006a 0E49     		ldr	r1, .L27+12	@,
+ 467 006c 6060     		str	r0, [r4, #4]	@ D.7780, MEM[(int *)pwm_15(D) + 4B]
+ 468 006e 3046     		mov	r0, r6	@, tmp142
+ 469 0070 FFF7FEFF 		bl	__aeabi_fadd	@
+ 470 0074 FFF7FEFF 		bl	sinf	@
+ 471 0078 2946     		mov	r1, r5	@, tmp140
+ 472 007a FFF7FEFF 		bl	__aeabi_fmul	@
+ 473 007e 4FF07C51 		mov	r1, #1056964608	@,
+ 474 0082 FFF7FEFF 		bl	__aeabi_fadd	@
+ 475 0086 FFF7FEFF 		bl	__aeabi_f2iz	@
+ 476 008a 00F5FA70 		add	r0, r0, #500	@ D.7780,,
+ 477 008e A060     		str	r0, [r4, #8]	@ D.7780, MEM[(int *)pwm_15(D) + 8B]
+ 478 0090 F8BD     		pop	{r3, r4, r5, r6, r7, pc}	@
+ 479              	.L26:
+ 480 0092 3E46     		mov	r6, r7	@ phi, phi
+ 481 0094 C0E7     		b	.L25	@
+ 482              	.L28:
+ 483 0096 00BF     		.align	2
+ 484              	.L27:
+ 485 0098 00000000 		.word	.LANCHOR2
+ 486 009c DB0FC940 		.word	1086918619
+ 487 00a0 920A0640 		.word	1074137746
+ 488 00a4 920A8640 		.word	1082526354
+ 490              		.global	__aeabi_fdiv
+ 491              		.section	.text.SetPWMFastTable,"ax",%progbits
+ 492              		.align	2
+ 493              		.global	SetPWMFastTable
+ 494              		.thumb
+ 495              		.thumb_func
+ 497              	SetPWMFastTable:
+ 498              		@ args = 0, pretend = 0, frame = 0
+ 499              		@ frame_needed = 0, uses_anonymous_args = 0
+ 500 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}	@
+ 501 0002 324B     		ldr	r3, .L35	@ tmp142,
+ 502 0004 0446     		mov	r4, r0	@ pwm, pwm
+ 503 0006 1D68     		ldr	r5, [r3]	@ float	@ phi, testPhase
+ 504 0008 0F46     		mov	r7, r1	@ phi, phi
+ 505 000a 2846     		mov	r0, r5	@, phi
+ 506 000c 0021     		movs	r1, #0	@,
+ 507 000e 1646     		mov	r6, r2	@ power, power
+ 508 0010 FFF7FEFF 		bl	__aeabi_fcmpge	@
+ 509 0014 0028     		cmp	r0, #0	@
+ 510 0016 50D0     		beq	.L33	@
+ 511              	.L30:
+ 512 0018 2D49     		ldr	r1, .L35+4	@,
+ 513 001a 2846     		mov	r0, r5	@, phi
+ 514 001c FFF7FEFF 		bl	__aeabi_fdiv	@
+ 515 0020 4FF08941 		mov	r1, #1149239296	@,
+ 516 0024 FFF7FEFF 		bl	__aeabi_fmul	@
+ 517 0028 FFF7FEFF 		bl	Round	@
+ 518 002c FFF7FEFF 		bl	__aeabi_f2iz	@
+ 519 0030 284B     		ldr	r3, .L35+8	@ tmp148,
+ 520 0032 0340     		ands	r3, r3, r0	@, tmp148, tmp148,
+ 521 0034 002B     		cmp	r3, #0	@ tmp148,
+ 522 0036 42DB     		blt	.L34	@,
+ 523              	.L31:
+ 524 0038 002B     		cmp	r3, #0	@ phiInt
+ 525 003a B8BF     		it	lt
+ 526 003c 03F58063 		addlt	r3, r3, #1024	@ phiInt, phiInt,
+ 527 0040 2548     		ldr	r0, .L35+12	@ tmp156,
+ 528 0042 03F25511 		addw	r1, r3, #341	@ D.7786, phiInt,
+ 529 0046 03F2AB22 		addw	r2, r3, #683	@ D.7786, phiInt,
+ 530 004a C2F30902 		ubfx	r2, r2, #0, #10	@ D.7786, D.7786,,
+ 531 004e C1F30901 		ubfx	r1, r1, #0, #10	@ D.7786, D.7786,,
+ 532 0052 30F91350 		ldrsh	r5, [r0, r3, lsl #1]	@ D.7786, sinDataI16
+ 533 0056 30F91110 		ldrsh	r1, [r0, r1, lsl #1]	@ D.7786, sinDataI16
+ 534 005a 30F91230 		ldrsh	r3, [r0, r2, lsl #1]	@ D.7786, sinDataI16
+ 535 005e 06EB8602 		add	r2, r6, r6, lsl #2	@, tmp155, power, power,
+ 536 0062 02FB01F1 		mul	r1, r2, r1	@ D.7786, tmp155, D.7786
+ 537 0066 02FB03F3 		mul	r3, r2, r3	@ D.7786, tmp155, D.7786
+ 538 006a 02FB05F2 		mul	r2, r2, r5	@ D.7786, tmp155, D.7786
+ 539 006e 1B48     		ldr	r0, .L35+16	@ tmp163,
+ 540 0070 01F57F51 		add	r1, r1, #16320	@ D.7786, D.7786,
+ 541 0074 03F57F53 		add	r3, r3, #16320	@ D.7786, D.7786,
+ 542 0078 02F57F52 		add	r2, r2, #16320	@ D.7786, D.7786,
+ 543 007c 3F31     		adds	r1, r1, #63	@ D.7786, D.7786,
+ 544 007e 3F33     		adds	r3, r3, #63	@ D.7786, D.7786,
+ 545 0080 3F32     		adds	r2, r2, #63	@ D.7786, D.7786,
+ 546 0082 80FB0156 		smull	r5, r6, r0, r1	@, tmp176, tmp163, D.7786
+ 547 0086 80FB0375 		smull	r7, r5, r0, r3	@, tmp190, tmp163, D.7786
+ 548 008a 80FB0270 		smull	r7, r0, r0, r2	@, tmp162, tmp163, D.7786
+ 549 008e 0E44     		add	r6, r6, r1	@ tmp178, D.7786
+ 550 0090 1D44     		add	r5, r5, r3	@ tmp192, D.7786
+ 551 0092 1044     		add	r0, r0, r2	@ tmp164, D.7786
+ 552 0094 C917     		asrs	r1, r1, #31	@ tmp180, D.7786,
+ 553 0096 DB17     		asrs	r3, r3, #31	@ tmp194, D.7786,
+ 554 0098 D217     		asrs	r2, r2, #31	@ tmp166, D.7786,
+ 555 009a C1EBA631 		rsb	r1, r1, r6, asr #14	@, D.7786, tmp180, tmp178,
+ 556 009e C3EBA533 		rsb	r3, r3, r5, asr #14	@, D.7786, tmp194, tmp192,
+ 557 00a2 C2EBA032 		rsb	r2, r2, r0, asr #14	@, D.7786, tmp166, tmp164,
+ 558 00a6 01F5FA71 		add	r1, r1, #500	@ D.7786, D.7786,
+ 559 00aa 03F5FA73 		add	r3, r3, #500	@ D.7786, D.7786,
+ 560 00ae 02F5FA72 		add	r2, r2, #500	@ D.7786, D.7786,
+ 561 00b2 6160     		str	r1, [r4, #4]	@ D.7786, MEM[(int *)pwm_22(D) + 4B]
+ 562 00b4 A360     		str	r3, [r4, #8]	@ D.7786, MEM[(int *)pwm_22(D) + 8B]
+ 563 00b6 2260     		str	r2, [r4]	@ D.7786, *pwm_22(D)
+ 564 00b8 F8BD     		pop	{r3, r4, r5, r6, r7, pc}	@
+ 565              	.L33:
+ 566 00ba 3D46     		mov	r5, r7	@ phi, phi
+ 567 00bc ACE7     		b	.L30	@
+ 568              	.L34:
+ 569 00be 013B     		subs	r3, r3, #1	@ tmp148, tmp148,
+ 570 00c0 6FEA8353 		mvn	r3, r3, lsl #22	@ tmp151, tmp148,
+ 571 00c4 6FEA9353 		mvn	r3, r3, lsr #22	@ tmp151, tmp151,
+ 572 00c8 0133     		adds	r3, r3, #1	@ tmp148, tmp151,
+ 573 00ca B5E7     		b	.L31	@
+ 574              	.L36:
+ 575              		.align	2
+ 576              	.L35:
+ 577 00cc 00000000 		.word	.LANCHOR2
+ 578 00d0 DB0FC940 		.word	1086918619
+ 579 00d4 FF030080 		.word	-2147482625
+ 580 00d8 00000000 		.word	sinDataI16
+ 581 00dc 03000180 		.word	-2147418109
+ 583              		.section	.text.SetPWM,"ax",%progbits
+ 584              		.align	2
+ 585              		.global	SetPWM
+ 586              		.thumb
+ 587              		.thumb_func
+ 589              	SetPWM:
+ 590              		@ args = 0, pretend = 0, frame = 0
+ 591              		@ frame_needed = 0, uses_anonymous_args = 0
+ 592              		@ link register save eliminated.
+ 593 0000 FFF7FEBF 		b	SetPWMFastTable	@
+ 595              		.section	.text.ActivateIRQ,"ax",%progbits
+ 596              		.align	2
+ 597              		.global	ActivateIRQ
+ 598              		.thumb
+ 599              		.thumb_func
+ 601              	ActivateIRQ:
+ 602              		@ args = 0, pretend = 0, frame = 0
+ 603              		@ frame_needed = 0, uses_anonymous_args = 0
+ 604              		@ link register save eliminated.
+ 605              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 606 0000 72B6     		cpsid i
+ 607              	@ 0 "" 2
+ 608              		.thumb
+ 609 0002 038A     		ldrh	r3, [r0, #16]	@, tim_3(D)->SR
+ 610 0004 0122     		movs	r2, #1	@ tmp118,
+ 611 0006 23F00103 		bic	r3, r3, #1	@ D.7791, tim_3(D)->SR,
+ 612 000a 1B04     		lsls	r3, r3, #16	@ D.7791, D.7791,
+ 613 000c 1B0C     		lsrs	r3, r3, #16	@ D.7791, D.7791,
+ 614 000e 0382     		strh	r3, [r0, #16]	@ movhi	@ D.7791, tim_3(D)->SR
+ 615 0010 8281     		strh	r2, [r0, #12]	@ movhi	@ tmp118, tim_3(D)->DIER
+ 616              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 617 0012 62B6     		cpsie i
+ 618              	@ 0 "" 2
+ 619              		.thumb
+ 620 0014 7047     		bx	lr	@
+ 622 0016 00BF     		.section	.text.SetRollMotor,"ax",%progbits
+ 623              		.align	2
+ 624              		.global	SetRollMotor
+ 625              		.thumb
+ 626              		.thumb_func
+ 628              	SetRollMotor:
+ 629              		@ args = 0, pretend = 0, frame = 16
+ 630              		@ frame_needed = 0, uses_anonymous_args = 0
+ 631 0000 00B5     		push	{lr}	@
+ 632 0002 85B0     		sub	sp, sp, #20	@,,
+ 633 0004 0A46     		mov	r2, r1	@ power, power
+ 634 0006 0146     		mov	r1, r0	@, phi
+ 635 0008 01A8     		add	r0, sp, #4	@,,
+ 636 000a FFF7FEFF 		bl	SetPWMFastTable	@
+ 637              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 638 000e 72B6     		cpsid i
+ 639              	@ 0 "" 2
+ 640              		.thumb
+ 641 0010 094B     		ldr	r3, .L40	@ tmp118,
+ 642 0012 01A8     		add	r0, sp, #4	@,,
+ 643 0014 07C8     		ldmia	r0, {r0, r1, r2}	@,,,
+ 644 0016 83E80700 		stmia	r3, {r0, r1, r2}	@ tmp118,,,
+ 645              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 646 001a 62B6     		cpsie i
+ 647              	@ 0 "" 2
+ 648              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 649 001c 72B6     		cpsid i
+ 650              	@ 0 "" 2
+ 651              		.thumb
+ 652 001e 074A     		ldr	r2, .L40+4	@ tmp124,
+ 653 0020 0121     		movs	r1, #1	@ tmp132,
+ 654 0022 138A     		ldrh	r3, [r2, #16]	@, MEM[(struct TIM_TypeDef *)1073820672B].SR
+ 655 0024 23F00103 		bic	r3, r3, #1	@ D.7795, MEM[(struct TIM_TypeDef *)1073820672B].SR,
+ 656 0028 1B04     		lsls	r3, r3, #16	@ D.7795, D.7795,
+ 657 002a 1B0C     		lsrs	r3, r3, #16	@ D.7795, D.7795,
+ 658 002c 1382     		strh	r3, [r2, #16]	@ movhi	@ D.7795, MEM[(struct TIM_TypeDef *)1073820672B].SR
+ 659 002e 9181     		strh	r1, [r2, #12]	@ movhi	@ tmp132, MEM[(struct TIM_TypeDef *)1073820672B].DIER
+ 660              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 661 0030 62B6     		cpsie i
+ 662              	@ 0 "" 2
+ 663              		.thumb
+ 664 0032 05B0     		add	sp, sp, #20	@,,
+ 665              		@ sp needed	@
+ 666 0034 5DF804FB 		ldr	pc, [sp], #4	@
+ 667              	.L41:
+ 668              		.align	2
+ 669              	.L40:
+ 670 0038 00000000 		.word	.LANCHOR3
+ 671 003c 00340140 		.word	1073820672
+ 673              		.section	.text.SetPitchMotor,"ax",%progbits
+ 674              		.align	2
+ 675              		.global	SetPitchMotor
+ 676              		.thumb
+ 677              		.thumb_func
+ 679              	SetPitchMotor:
+ 680              		@ args = 0, pretend = 0, frame = 16
+ 681              		@ frame_needed = 0, uses_anonymous_args = 0
+ 682 0000 00B5     		push	{lr}	@
+ 683 0002 85B0     		sub	sp, sp, #20	@,,
+ 684 0004 0A46     		mov	r2, r1	@ power, power
+ 685 0006 0146     		mov	r1, r0	@, phi
+ 686 0008 01A8     		add	r0, sp, #4	@,,
+ 687 000a FFF7FEFF 		bl	SetPWMFastTable	@
+ 688              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 689 000e 72B6     		cpsid i
+ 690              	@ 0 "" 2
+ 691              		.thumb
+ 692 0010 094B     		ldr	r3, .L43	@ tmp118,
+ 693 0012 01A8     		add	r0, sp, #4	@,,
+ 694 0014 07C8     		ldmia	r0, {r0, r1, r2}	@,,,
+ 695 0016 83E80700 		stmia	r3, {r0, r1, r2}	@ tmp118,,,
+ 696              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 697 001a 62B6     		cpsie i
+ 698              	@ 0 "" 2
+ 699              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 700 001c 72B6     		cpsid i
+ 701              	@ 0 "" 2
+ 702              		.thumb
+ 703 001e 074A     		ldr	r2, .L43+4	@ tmp124,
+ 704 0020 0121     		movs	r1, #1	@ tmp132,
+ 705 0022 138A     		ldrh	r3, [r2, #16]	@, MEM[(struct TIM_TypeDef *)1073818624B].SR
+ 706 0024 23F00103 		bic	r3, r3, #1	@ D.7799, MEM[(struct TIM_TypeDef *)1073818624B].SR,
+ 707 0028 1B04     		lsls	r3, r3, #16	@ D.7799, D.7799,
+ 708 002a 1B0C     		lsrs	r3, r3, #16	@ D.7799, D.7799,
+ 709 002c 1382     		strh	r3, [r2, #16]	@ movhi	@ D.7799, MEM[(struct TIM_TypeDef *)1073818624B].SR
+ 710 002e 9181     		strh	r1, [r2, #12]	@ movhi	@ tmp132, MEM[(struct TIM_TypeDef *)1073818624B].DIER
+ 711              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 712 0030 62B6     		cpsie i
+ 713              	@ 0 "" 2
+ 714              		.thumb
+ 715 0032 05B0     		add	sp, sp, #20	@,,
+ 716              		@ sp needed	@
+ 717 0034 5DF804FB 		ldr	pc, [sp], #4	@
+ 718              	.L44:
+ 719              		.align	2
+ 720              	.L43:
+ 721 0038 00000000 		.word	.LANCHOR4
+ 722 003c 002C0140 		.word	1073818624
+ 724              		.section	.text.SetYawMotor,"ax",%progbits
+ 725              		.align	2
+ 726              		.global	SetYawMotor
+ 727              		.thumb
+ 728              		.thumb_func
+ 730              	SetYawMotor:
+ 731              		@ args = 0, pretend = 0, frame = 16
+ 732              		@ frame_needed = 0, uses_anonymous_args = 0
+ 733 0000 00B5     		push	{lr}	@
+ 734 0002 85B0     		sub	sp, sp, #20	@,,
+ 735 0004 0A46     		mov	r2, r1	@ power, power
+ 736 0006 0146     		mov	r1, r0	@, phi
+ 737 0008 01A8     		add	r0, sp, #4	@,,
+ 738 000a FFF7FEFF 		bl	SetPWMFastTable	@
+ 739 000e 01A8     		add	r0, sp, #4	@,,
+ 740 0010 FFF7FEFF 		bl	LimitYawPWM	@
+ 741              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 742 0014 72B6     		cpsid i
+ 743              	@ 0 "" 2
+ 744              		.thumb
+ 745 0016 0B4B     		ldr	r3, .L46	@ tmp119,
+ 746 0018 01A8     		add	r0, sp, #4	@,,
+ 747 001a 07C8     		ldmia	r0, {r0, r1, r2}	@,,,
+ 748 001c 83E80700 		stmia	r3, {r0, r1, r2}	@ tmp119,,,
+ 749              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 750 0020 62B6     		cpsie i
+ 751              	@ 0 "" 2
+ 752              		.thumb
+ 753 0022 094B     		ldr	r3, .L46+4	@ tmp125,
+ 754 0024 0022     		movs	r2, #0	@ tmp126,
+ 755 0026 1A60     		str	r2, [r3]	@ tmp126, g_YawOff
+ 756              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 757 0028 72B6     		cpsid i
+ 758              	@ 0 "" 2
+ 759              		.thumb
+ 760 002a 084A     		ldr	r2, .L46+8	@ tmp127,
+ 761 002c 0121     		movs	r1, #1	@ tmp135,
+ 762 002e 138A     		ldrh	r3, [r2, #16]	@, MEM[(struct TIM_TypeDef *)1073744896B].SR
+ 763 0030 23F00103 		bic	r3, r3, #1	@ D.7803, MEM[(struct TIM_TypeDef *)1073744896B].SR,
+ 764 0034 1B04     		lsls	r3, r3, #16	@ D.7803, D.7803,
+ 765 0036 1B0C     		lsrs	r3, r3, #16	@ D.7803, D.7803,
+ 766 0038 1382     		strh	r3, [r2, #16]	@ movhi	@ D.7803, MEM[(struct TIM_TypeDef *)1073744896B].SR
+ 767 003a 9181     		strh	r1, [r2, #12]	@ movhi	@ tmp135, MEM[(struct TIM_TypeDef *)1073744896B].DIER
+ 768              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 769 003c 62B6     		cpsie i
+ 770              	@ 0 "" 2
+ 771              		.thumb
+ 772 003e 05B0     		add	sp, sp, #20	@,,
+ 773              		@ sp needed	@
+ 774 0040 5DF804FB 		ldr	pc, [sp], #4	@
+ 775              	.L47:
+ 776              		.align	2
+ 777              	.L46:
+ 778 0044 00000000 		.word	.LANCHOR5
+ 779 0048 00000000 		.word	.LANCHOR6
+ 780 004c 000C0040 		.word	1073744896
+ 782              		.section	.text.TIM5_IRQHandler,"ax",%progbits
+ 783              		.align	2
+ 784              		.global	TIM5_IRQHandler
+ 785              		.thumb
+ 786              		.thumb_func
+ 788              	TIM5_IRQHandler:
+ 789              		@ args = 0, pretend = 0, frame = 0
+ 790              		@ frame_needed = 0, uses_anonymous_args = 0
+ 791              		@ link register save eliminated.
+ 792 0000 274A     		ldr	r2, .L60	@ tmp135,
+ 793 0002 F0B4     		push	{r4, r5, r6, r7}	@
+ 794 0004 138A     		ldrh	r3, [r2, #16]	@, MEM[(struct TIM_TypeDef *)1073744896B].SR
+ 795 0006 DB07     		lsls	r3, r3, #31	@, MEM[(struct TIM_TypeDef *)1073744896B].SR,
+ 796 0008 1BD5     		bpl	.L48	@,
+ 797 000a 138A     		ldrh	r3, [r2, #16]	@, MEM[(struct TIM_TypeDef *)1073744896B].SR
+ 798 000c 23F00103 		bic	r3, r3, #1	@ D.7806, MEM[(struct TIM_TypeDef *)1073744896B].SR,
+ 799 0010 1B04     		lsls	r3, r3, #16	@ D.7806, D.7806,
+ 800 0012 1B0C     		lsrs	r3, r3, #16	@ D.7806, D.7806,
+ 801 0014 1382     		strh	r3, [r2, #16]	@ movhi	@ D.7806, MEM[(struct TIM_TypeDef *)1073744896B].SR
+ 802              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 803 0016 72B6     		cpsid i
+ 804              	@ 0 "" 2
+ 805              		.thumb
+ 806 0018 224A     		ldr	r2, .L60+4	@ tmp150,
+ 807 001a 214B     		ldr	r3, .L60	@ tmp147,
+ 808 001c 9468     		ldr	r4, [r2, #8]	@ IrqCnt, IrqCnt
+ 809 001e 2249     		ldr	r1, .L60+8	@ tmp154,
+ 810 0020 9B8C     		ldrh	r3, [r3, #36]	@, MEM[(struct TIM_TypeDef *)1073744896B].CNT
+ 811 0022 8868     		ldr	r0, [r1, #8]	@ MaxCnt, MaxCnt
+ 812 0024 0134     		adds	r4, r4, #1	@ D.7807, IrqCnt,
+ 813 0026 9BB2     		uxth	r3, r3	@ cnt, MEM[(struct TIM_TypeDef *)1073744896B].CNT
+ 814 0028 9460     		str	r4, [r2, #8]	@ D.7807, IrqCnt
+ 815 002a 204A     		ldr	r2, .L60+12	@ tmp157,
+ 816 002c 8342     		cmp	r3, r0	@ cnt, MaxCnt
+ 817 002e C8BF     		it	gt
+ 818 0030 8B60     		strgt	r3, [r1, #8]	@ cnt, MaxCnt
+ 819 0032 9168     		ldr	r1, [r2, #8]	@ MinCnt, MinCnt
+ 820 0034 8B42     		cmp	r3, r1	@ cnt, MinCnt
+ 821 0036 B8BF     		it	lt
+ 822 0038 9360     		strlt	r3, [r2, #8]	@ cnt, MinCnt
+ 823 003a B3F5487F 		cmp	r3, #800	@ cnt,
+ 824 003e 02D3     		bcc	.L58	@,
+ 825              	.L52:
+ 826              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 827 0040 62B6     		cpsie i
+ 828              	@ 0 "" 2
+ 829              		.thumb
+ 830              	.L48:
+ 831 0042 F0BC     		pop	{r4, r5, r6, r7}	@
+ 832 0044 7047     		bx	lr	@
+ 833              	.L58:
+ 834 0046 1A4B     		ldr	r3, .L60+16	@ tmp160,
+ 835 0048 1B68     		ldr	r3, [r3]	@ g_YawOff, g_YawOff
+ 836 004a EBB9     		cbnz	r3, .L59	@ g_YawOff,
+ 837 004c 194B     		ldr	r3, .L60+20	@ tmp182,
+ 838 004e 1A4A     		ldr	r2, .L60+24	@ tmp180,
+ 839 0050 1B68     		ldr	r3, [r3]	@ timer_4_5_deadtime_delay, timer_4_5_deadtime_delay
+ 840 0052 1488     		ldrh	r4, [r2]	@ D.7806, g_Yaw
+ 841 0054 9088     		ldrh	r0, [r2, #4]	@ D.7806, g_Yaw
+ 842 0056 1189     		ldrh	r1, [r2, #8]	@ D.7806, g_Yaw
+ 843 0058 5B00     		lsls	r3, r3, #1	@ deadTime, timer_4_5_deadtime_delay,
+ 844 005a 9BB2     		uxth	r3, r3	@ D.7806, deadTime
+ 845 005c 174A     		ldr	r2, .L60+28	@ tmp186,
+ 846 005e 1F19     		adds	r7, r3, r4	@ tmp185, D.7806, D.7806
+ 847 0060 1E18     		adds	r6, r3, r0	@ tmp190, D.7806, D.7806
+ 848 0062 5D18     		adds	r5, r3, r1	@ tmp195, D.7806, D.7806
+ 849 0064 0E4B     		ldr	r3, .L60	@ tmp198,
+ 850 0066 BFB2     		uxth	r7, r7	@ D.7806, tmp185
+ 851 0068 B6B2     		uxth	r6, r6	@ D.7806, tmp190
+ 852 006a ADB2     		uxth	r5, r5	@ D.7806, tmp195
+ 853 006c 9786     		strh	r7, [r2, #52]	@ movhi	@ D.7806, MEM[(struct TIM_TypeDef *)1073743872B].CCR1
+ 854 006e 1687     		strh	r6, [r2, #56]	@ movhi	@ D.7806, MEM[(struct TIM_TypeDef *)1073743872B].CCR2
+ 855 0070 9587     		strh	r5, [r2, #60]	@ movhi	@ D.7806, MEM[(struct TIM_TypeDef *)1073743872B].CCR3
+ 856 0072 9C86     		strh	r4, [r3, #52]	@ movhi	@ D.7806, MEM[(struct TIM_TypeDef *)1073744896B].CCR1
+ 857 0074 1887     		strh	r0, [r3, #56]	@ movhi	@ D.7806, MEM[(struct TIM_TypeDef *)1073744896B].CCR2
+ 858 0076 9987     		strh	r1, [r3, #60]	@ movhi	@ D.7806, MEM[(struct TIM_TypeDef *)1073744896B].CCR3
+ 859              	.L54:
+ 860 0078 094A     		ldr	r2, .L60	@ tmp204,
+ 861 007a 9389     		ldrh	r3, [r2, #12]	@, MEM[(struct TIM_TypeDef *)1073744896B].DIER
+ 862 007c 23F00103 		bic	r3, r3, #1	@ D.7806, MEM[(struct TIM_TypeDef *)1073744896B].DIER,
+ 863 0080 1B04     		lsls	r3, r3, #16	@ D.7806, D.7806,
+ 864 0082 1B0C     		lsrs	r3, r3, #16	@ D.7806, D.7806,
+ 865 0084 9381     		strh	r3, [r2, #12]	@ movhi	@ D.7806, MEM[(struct TIM_TypeDef *)1073744896B].DIER
+ 866 0086 DBE7     		b	.L52	@
+ 867              	.L59:
+ 868 0088 0C49     		ldr	r1, .L60+28	@ tmp162,
+ 869 008a 054B     		ldr	r3, .L60	@ tmp171,
+ 870 008c 40F2E930 		movw	r0, #1001	@ tmp164,
+ 871 0090 0022     		movs	r2, #0	@ tmp173,
+ 872 0092 8886     		strh	r0, [r1, #52]	@ movhi	@ tmp164, MEM[(struct TIM_TypeDef *)1073743872B].CCR1
+ 873 0094 0887     		strh	r0, [r1, #56]	@ movhi	@ tmp164, MEM[(struct TIM_TypeDef *)1073743872B].CCR2
+ 874 0096 8887     		strh	r0, [r1, #60]	@ movhi	@ tmp164, MEM[(struct TIM_TypeDef *)1073743872B].CCR3
+ 875 0098 9A86     		strh	r2, [r3, #52]	@ movhi	@ tmp173, MEM[(struct TIM_TypeDef *)1073744896B].CCR1
+ 876 009a 1A87     		strh	r2, [r3, #56]	@ movhi	@ tmp173, MEM[(struct TIM_TypeDef *)1073744896B].CCR2
+ 877 009c 9A87     		strh	r2, [r3, #60]	@ movhi	@ tmp173, MEM[(struct TIM_TypeDef *)1073744896B].CCR3
+ 878 009e EBE7     		b	.L54	@
+ 879              	.L61:
+ 880              		.align	2
+ 881              	.L60:
+ 882 00a0 000C0040 		.word	1073744896
+ 883 00a4 00000000 		.word	IrqCnt
+ 884 00a8 00000000 		.word	MaxCnt
+ 885 00ac 00000000 		.word	MinCnt
+ 886 00b0 00000000 		.word	.LANCHOR6
+ 887 00b4 00000000 		.word	.LANCHOR1
+ 888 00b8 00000000 		.word	.LANCHOR5
+ 889 00bc 00080040 		.word	1073743872
+ 891              		.section	.text.TIM1_UP_IRQHandler,"ax",%progbits
+ 892              		.align	2
+ 893              		.global	TIM1_UP_IRQHandler
+ 894              		.thumb
+ 895              		.thumb_func
+ 897              	TIM1_UP_IRQHandler:
+ 898              		@ args = 0, pretend = 0, frame = 0
+ 899              		@ frame_needed = 0, uses_anonymous_args = 0
+ 900              		@ link register save eliminated.
+ 901 0000 174A     		ldr	r2, .L66	@ tmp126,
+ 902 0002 10B4     		push	{r4}	@
+ 903 0004 138A     		ldrh	r3, [r2, #16]	@, MEM[(struct TIM_TypeDef *)1073818624B].SR
+ 904 0006 23F00103 		bic	r3, r3, #1	@ D.7810, MEM[(struct TIM_TypeDef *)1073818624B].SR,
+ 905 000a 1B04     		lsls	r3, r3, #16	@ D.7810, D.7810,
+ 906 000c 1B0C     		lsrs	r3, r3, #16	@ D.7810, D.7810,
+ 907 000e 1382     		strh	r3, [r2, #16]	@ movhi	@ D.7810, MEM[(struct TIM_TypeDef *)1073818624B].SR
+ 908              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 909 0010 72B6     		cpsid i
+ 910              	@ 0 "" 2
+ 911              		.thumb
+ 912 0012 144A     		ldr	r2, .L66+4	@ tmp135,
+ 913 0014 124B     		ldr	r3, .L66	@ tmp132,
+ 914 0016 5468     		ldr	r4, [r2, #4]	@ IrqCnt, IrqCnt
+ 915 0018 1349     		ldr	r1, .L66+8	@ tmp139,
+ 916 001a 9B8C     		ldrh	r3, [r3, #36]	@, MEM[(struct TIM_TypeDef *)1073818624B].CNT
+ 917 001c 4868     		ldr	r0, [r1, #4]	@ MaxCnt, MaxCnt
+ 918 001e 0134     		adds	r4, r4, #1	@ D.7811, IrqCnt,
+ 919 0020 9BB2     		uxth	r3, r3	@ cnt, MEM[(struct TIM_TypeDef *)1073818624B].CNT
+ 920 0022 5460     		str	r4, [r2, #4]	@ D.7811, IrqCnt
+ 921 0024 114A     		ldr	r2, .L66+12	@ tmp142,
+ 922 0026 8342     		cmp	r3, r0	@ cnt, MaxCnt
+ 923 0028 C8BF     		it	gt
+ 924 002a 4B60     		strgt	r3, [r1, #4]	@ cnt, MaxCnt
+ 925 002c 5168     		ldr	r1, [r2, #4]	@ MinCnt, MinCnt
+ 926 002e 8B42     		cmp	r3, r1	@ cnt, MinCnt
+ 927 0030 B8BF     		it	lt
+ 928 0032 5360     		strlt	r3, [r2, #4]	@ cnt, MinCnt
+ 929 0034 B3F5487F 		cmp	r3, #800	@ cnt,
+ 930 0038 0DD2     		bcs	.L65	@,
+ 931 003a 0D4A     		ldr	r2, .L66+16	@ tmp145,
+ 932 003c 084B     		ldr	r3, .L66	@ tmp147,
+ 933 003e 1088     		ldrh	r0, [r2]	@ D.7810, g_Pitch
+ 934 0040 9188     		ldrh	r1, [r2, #4]	@ D.7810, g_Pitch
+ 935 0042 1289     		ldrh	r2, [r2, #8]	@ D.7810, g_Pitch
+ 936 0044 9886     		strh	r0, [r3, #52]	@ movhi	@ D.7810, MEM[(struct TIM_TypeDef *)1073818624B].CCR1
+ 937 0046 1987     		strh	r1, [r3, #56]	@ movhi	@ D.7810, MEM[(struct TIM_TypeDef *)1073818624B].CCR2
+ 938 0048 9A87     		strh	r2, [r3, #60]	@ movhi	@ D.7810, MEM[(struct TIM_TypeDef *)1073818624B].CCR3
+ 939 004a 9A89     		ldrh	r2, [r3, #12]	@, MEM[(struct TIM_TypeDef *)1073818624B].DIER
+ 940 004c 22F00102 		bic	r2, r2, #1	@ D.7810, MEM[(struct TIM_TypeDef *)1073818624B].DIER,
+ 941 0050 1204     		lsls	r2, r2, #16	@ D.7810, D.7810,
+ 942 0052 120C     		lsrs	r2, r2, #16	@ D.7810, D.7810,
+ 943 0054 9A81     		strh	r2, [r3, #12]	@ movhi	@ D.7810, MEM[(struct TIM_TypeDef *)1073818624B].DIER
+ 944              	.L65:
+ 945              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 946 0056 62B6     		cpsie i
+ 947              	@ 0 "" 2
+ 948              		.thumb
+ 949 0058 5DF8044B 		ldr	r4, [sp], #4	@,
+ 950 005c 7047     		bx	lr	@
+ 951              	.L67:
+ 952 005e 00BF     		.align	2
+ 953              	.L66:
+ 954 0060 002C0140 		.word	1073818624
+ 955 0064 00000000 		.word	IrqCnt
+ 956 0068 00000000 		.word	MaxCnt
+ 957 006c 00000000 		.word	MinCnt
+ 958 0070 00000000 		.word	.LANCHOR4
+ 960              		.section	.text.TIM8_UP_IRQHandler,"ax",%progbits
+ 961              		.align	2
+ 962              		.global	TIM8_UP_IRQHandler
+ 963              		.thumb
+ 964              		.thumb_func
+ 966              	TIM8_UP_IRQHandler:
+ 967              		@ args = 0, pretend = 0, frame = 0
+ 968              		@ frame_needed = 0, uses_anonymous_args = 0
+ 969              		@ link register save eliminated.
+ 970 0000 174A     		ldr	r2, .L72	@ tmp126,
+ 971 0002 10B4     		push	{r4}	@
+ 972 0004 138A     		ldrh	r3, [r2, #16]	@, MEM[(struct TIM_TypeDef *)1073820672B].SR
+ 973 0006 23F00103 		bic	r3, r3, #1	@ D.7814, MEM[(struct TIM_TypeDef *)1073820672B].SR,
+ 974 000a 1B04     		lsls	r3, r3, #16	@ D.7814, D.7814,
+ 975 000c 1B0C     		lsrs	r3, r3, #16	@ D.7814, D.7814,
+ 976 000e 1382     		strh	r3, [r2, #16]	@ movhi	@ D.7814, MEM[(struct TIM_TypeDef *)1073820672B].SR
+ 977              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 978 0010 72B6     		cpsid i
+ 979              	@ 0 "" 2
+ 980              		.thumb
+ 981 0012 144A     		ldr	r2, .L72+4	@ tmp135,
+ 982 0014 124B     		ldr	r3, .L72	@ tmp132,
+ 983 0016 1468     		ldr	r4, [r2]	@ IrqCnt, IrqCnt
+ 984 0018 1349     		ldr	r1, .L72+8	@ tmp139,
+ 985 001a 9B8C     		ldrh	r3, [r3, #36]	@, MEM[(struct TIM_TypeDef *)1073820672B].CNT
+ 986 001c 0868     		ldr	r0, [r1]	@ MaxCnt, MaxCnt
+ 987 001e 0134     		adds	r4, r4, #1	@ D.7815, IrqCnt,
+ 988 0020 9BB2     		uxth	r3, r3	@ cnt, MEM[(struct TIM_TypeDef *)1073820672B].CNT
+ 989 0022 1460     		str	r4, [r2]	@ D.7815, IrqCnt
+ 990 0024 114A     		ldr	r2, .L72+12	@ tmp142,
+ 991 0026 8342     		cmp	r3, r0	@ cnt, MaxCnt
+ 992 0028 C8BF     		it	gt
+ 993 002a 0B60     		strgt	r3, [r1]	@ cnt, MaxCnt
+ 994 002c 1168     		ldr	r1, [r2]	@ MinCnt, MinCnt
+ 995 002e 8B42     		cmp	r3, r1	@ cnt, MinCnt
+ 996 0030 B8BF     		it	lt
+ 997 0032 1360     		strlt	r3, [r2]	@ cnt, MinCnt
+ 998 0034 B3F5487F 		cmp	r3, #800	@ cnt,
+ 999 0038 0DD2     		bcs	.L71	@,
+ 1000 003a 0D4A     		ldr	r2, .L72+16	@ tmp145,
+ 1001 003c 084B     		ldr	r3, .L72	@ tmp147,
+ 1002 003e 1088     		ldrh	r0, [r2]	@ D.7814, g_Roll
+ 1003 0040 9188     		ldrh	r1, [r2, #4]	@ D.7814, g_Roll
+ 1004 0042 1289     		ldrh	r2, [r2, #8]	@ D.7814, g_Roll
+ 1005 0044 9886     		strh	r0, [r3, #52]	@ movhi	@ D.7814, MEM[(struct TIM_TypeDef *)1073820672B].CCR1
+ 1006 0046 1987     		strh	r1, [r3, #56]	@ movhi	@ D.7814, MEM[(struct TIM_TypeDef *)1073820672B].CCR2
+ 1007 0048 9A87     		strh	r2, [r3, #60]	@ movhi	@ D.7814, MEM[(struct TIM_TypeDef *)1073820672B].CCR3
+ 1008 004a 9A89     		ldrh	r2, [r3, #12]	@, MEM[(struct TIM_TypeDef *)1073820672B].DIER
+ 1009 004c 22F00102 		bic	r2, r2, #1	@ D.7814, MEM[(struct TIM_TypeDef *)1073820672B].DIER,
+ 1010 0050 1204     		lsls	r2, r2, #16	@ D.7814, D.7814,
+ 1011 0052 120C     		lsrs	r2, r2, #16	@ D.7814, D.7814,
+ 1012 0054 9A81     		strh	r2, [r3, #12]	@ movhi	@ D.7814, MEM[(struct TIM_TypeDef *)1073820672B].DIER
+ 1013              	.L71:
+ 1014              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 1015 0056 62B6     		cpsie i
+ 1016              	@ 0 "" 2
+ 1017              		.thumb
+ 1018 0058 5DF8044B 		ldr	r4, [sp], #4	@,
+ 1019 005c 7047     		bx	lr	@
+ 1020              	.L73:
+ 1021 005e 00BF     		.align	2
+ 1022              	.L72:
+ 1023 0060 00340140 		.word	1073820672
+ 1024 0064 00000000 		.word	IrqCnt
+ 1025 0068 00000000 		.word	MaxCnt
+ 1026 006c 00000000 		.word	MinCnt
+ 1027 0070 00000000 		.word	.LANCHOR3
+ 1029              		.section	.text.PWMOff,"ax",%progbits
+ 1030              		.align	2
+ 1031              		.global	PWMOff
+ 1032              		.thumb
+ 1033              		.thumb_func
+ 1035              	PWMOff:
+ 1036              		@ args = 0, pretend = 0, frame = 0
+ 1037              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1038 0000 10B5     		push	{r4, lr}	@
+ 1039 0002 4120     		movs	r0, #65	@,
+ 1040 0004 FFF7FEFF 		bl	DEBUG_PutChar	@
+ 1041              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 1042 0008 72B6     		cpsid i
+ 1043              	@ 0 "" 2
+ 1044              		.thumb
+ 1045 000a 0B4B     		ldr	r3, .L75	@ tmp110,
+ 1046 000c 0022     		movs	r2, #0	@ tmp111,
+ 1047 000e 1A60     		str	r2, [r3]	@ tmp111, MEM[(int *)&g_Roll]
+ 1048 0010 5A60     		str	r2, [r3, #4]	@ tmp111, MEM[(int *)&g_Roll + 4B]
+ 1049 0012 9A60     		str	r2, [r3, #8]	@ tmp111, MEM[(int *)&g_Roll + 8B]
+ 1050              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 1051 0014 62B6     		cpsie i
+ 1052              	@ 0 "" 2
+ 1053              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 1054 0016 72B6     		cpsid i
+ 1055              	@ 0 "" 2
+ 1056              		.thumb
+ 1057 0018 084B     		ldr	r3, .L75+4	@ tmp116,
+ 1058 001a 1A60     		str	r2, [r3]	@ tmp117, MEM[(int *)&g_Pitch]
+ 1059 001c 5A60     		str	r2, [r3, #4]	@ tmp117, MEM[(int *)&g_Pitch + 4B]
+ 1060 001e 9A60     		str	r2, [r3, #8]	@ tmp117, MEM[(int *)&g_Pitch + 8B]
+ 1061              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 1062 0020 62B6     		cpsie i
+ 1063              	@ 0 "" 2
+ 1064              		.thumb
+ 1065 0022 074C     		ldr	r4, .L75+8	@ tmp122,
+ 1066 0024 0748     		ldr	r0, .L75+12	@ tmp124,
+ 1067 0026 0849     		ldr	r1, .L75+16	@ tmp127,
+ 1068 0028 084A     		ldr	r2, .L75+20	@ tmp130,
+ 1069 002a 0123     		movs	r3, #1	@ tmp123,
+ 1070 002c 2360     		str	r3, [r4]	@ tmp123, g_YawOff
+ 1071 002e 8381     		strh	r3, [r0, #12]	@ movhi	@ tmp123, MEM[(struct TIM_TypeDef *)1073744896B].DIER
+ 1072 0030 8B81     		strh	r3, [r1, #12]	@ movhi	@ tmp123, MEM[(struct TIM_TypeDef *)1073818624B].DIER
+ 1073 0032 9381     		strh	r3, [r2, #12]	@ movhi	@ tmp123, MEM[(struct TIM_TypeDef *)1073820672B].DIER
+ 1074 0034 10BD     		pop	{r4, pc}	@
+ 1075              	.L76:
+ 1076 0036 00BF     		.align	2
+ 1077              	.L75:
+ 1078 0038 00000000 		.word	.LANCHOR3
+ 1079 003c 00000000 		.word	.LANCHOR4
+ 1080 0040 00000000 		.word	.LANCHOR6
+ 1081 0044 000C0040 		.word	1073744896
+ 1082 0048 002C0140 		.word	1073818624
+ 1083 004c 00340140 		.word	1073820672
+ 1085              		.section	.text.PWMConfig,"ax",%progbits
+ 1086              		.align	2
+ 1087              		.global	PWMConfig
+ 1088              		.thumb
+ 1089              		.thumb_func
+ 1091              	PWMConfig:
+ 1092              		@ args = 0, pretend = 0, frame = 8
+ 1093              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1094 0000 F0B5     		push	{r4, r5, r6, r7, lr}	@
+ 1095 0002 374F     		ldr	r7, .L78	@ tmp132,
+ 1096 0004 374B     		ldr	r3, .L78+4	@ tmp126,
+ 1097 0006 3849     		ldr	r1, .L78+8	@ tmp120,
+ 1098 0008 384D     		ldr	r5, .L78+12	@ tmp114,
+ 1099 000a 394E     		ldr	r6, .L78+16	@ tmp133,
+ 1100 000c 83B0     		sub	sp, sp, #12	@,,
+ 1101 000e 0024     		movs	r4, #0	@ tmp115,
+ 1102 0010 40F2E932 		movw	r2, #1001	@ tmp127,
+ 1103 0014 3846     		mov	r0, r7	@, tmp132
+ 1104 0016 9A60     		str	r2, [r3, #8]	@ tmp127, MinCnt
+ 1105 0018 5A60     		str	r2, [r3, #4]	@ tmp127, MinCnt
+ 1106 001a 1A60     		str	r2, [r3]	@ tmp127, MinCnt
+ 1107 001c 8C60     		str	r4, [r1, #8]	@ tmp115, MaxCnt
+ 1108 001e 4C60     		str	r4, [r1, #4]	@ tmp115, MaxCnt
+ 1109 0020 0C60     		str	r4, [r1]	@ tmp115, MaxCnt
+ 1110 0022 AC60     		str	r4, [r5, #8]	@ tmp115, IrqCnt
+ 1111 0024 6C60     		str	r4, [r5, #4]	@ tmp115, IrqCnt
+ 1112 0026 2C60     		str	r4, [r5]	@ tmp115, IrqCnt
+ 1113 0028 FFF7FEFF 		bl	Timer_PWM_Advanced_Config	@
+ 1114 002c 314D     		ldr	r5, .L78+20	@ tmp135,
+ 1115 002e 3046     		mov	r0, r6	@, tmp133
+ 1116 0030 FFF7FEFF 		bl	Timer_PWM_Advanced_Config	@
+ 1117 0034 2146     		mov	r1, r4	@, tmp115
+ 1118 0036 3048     		ldr	r0, .L78+24	@,
+ 1119 0038 FFF7FEFF 		bl	Timer_PWM_General_Config	@
+ 1120 003c 2846     		mov	r0, r5	@, tmp135
+ 1121 003e 0221     		movs	r1, #2	@,
+ 1122 0040 FFF7FEFF 		bl	Timer_PWM_General_Config	@
+ 1123 0044 2D4B     		ldr	r3, .L78+28	@ tmp136,
+ 1124 0046 01A8     		add	r0, sp, #4	@,,
+ 1125 0048 1B88     		ldrh	r3, [r3]	@ D.7820, timer_4_5_deadtime_delay
+ 1126 004a 03F5A871 		add	r1, r3, #336	@ tmp140, D.7820,
+ 1127 004e 03F29F22 		addw	r2, r3, #671	@ tmp143, D.7820,
+ 1128 0052 89B2     		uxth	r1, r1	@ D.7820, tmp140
+ 1129 0054 92B2     		uxth	r2, r2	@ D.7820, tmp143
+ 1130 0056 AB84     		strh	r3, [r5, #36]	@ movhi	@ D.7820, MEM[(struct TIM_TypeDef *)1073743872B].CNT
+ 1131 0058 B984     		strh	r1, [r7, #36]	@ movhi	@ D.7820, MEM[(struct TIM_TypeDef *)1073818624B].CNT
+ 1132 005a 0125     		movs	r5, #1	@ tmp152,
+ 1133 005c B284     		strh	r2, [r6, #36]	@ movhi	@ D.7820, MEM[(struct TIM_TypeDef *)1073820672B].CNT
+ 1134 005e 3223     		movs	r3, #50	@ tmp146,
+ 1135 0060 8DF80430 		strb	r3, [sp, #4]	@ tmp146, NVIC_InitStructure.NVIC_IRQChannel
+ 1136 0064 8DF80540 		strb	r4, [sp, #5]	@ tmp115, NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority
+ 1137 0068 8DF80640 		strb	r4, [sp, #6]	@ tmp115, NVIC_InitStructure.NVIC_IRQChannelSubPriority
+ 1138 006c 8DF80750 		strb	r5, [sp, #7]	@ tmp152, NVIC_InitStructure.NVIC_IRQChannelCmd
+ 1139 0070 FFF7FEFF 		bl	NVIC_Init	@
+ 1140 0074 01A8     		add	r0, sp, #4	@,,
+ 1141 0076 1923     		movs	r3, #25	@ tmp155,
+ 1142 0078 8DF80430 		strb	r3, [sp, #4]	@ tmp155, NVIC_InitStructure.NVIC_IRQChannel
+ 1143 007c 8DF80540 		strb	r4, [sp, #5]	@ tmp115, NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority
+ 1144 0080 8DF80640 		strb	r4, [sp, #6]	@ tmp115, NVIC_InitStructure.NVIC_IRQChannelSubPriority
+ 1145 0084 8DF80750 		strb	r5, [sp, #7]	@ tmp152, NVIC_InitStructure.NVIC_IRQChannelCmd
+ 1146 0088 FFF7FEFF 		bl	NVIC_Init	@
+ 1147 008c 2C23     		movs	r3, #44	@ tmp164,
+ 1148 008e 01A8     		add	r0, sp, #4	@,,
+ 1149 0090 8DF80750 		strb	r5, [sp, #7]	@ tmp152, NVIC_InitStructure.NVIC_IRQChannelCmd
+ 1150 0094 8DF80540 		strb	r4, [sp, #5]	@ tmp115, NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority
+ 1151 0098 8DF80640 		strb	r4, [sp, #6]	@ tmp115, NVIC_InitStructure.NVIC_IRQChannelSubPriority
+ 1152 009c 8DF80430 		strb	r3, [sp, #4]	@ tmp164, NVIC_InitStructure.NVIC_IRQChannel
+ 1153 00a0 FFF7FEFF 		bl	NVIC_Init	@
+ 1154              	@ 342 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 1155 00a4 72B6     		cpsid i
+ 1156              	@ 0 "" 2
+ 1157              		.thumb
+ 1158 00a6 164A     		ldr	r2, .L78+32	@ tmp177,
+ 1159 00a8 164B     		ldr	r3, .L78+36	@ tmp179,
+ 1160 00aa 1749     		ldr	r1, .L78+40	@ tmp173,
+ 1161 00ac 1748     		ldr	r0, .L78+44	@ tmp175,
+ 1162 00ae 0124     		movs	r4, #1	@ tmp174,
+ 1163 00b0 0C60     		str	r4, [r1]	@ tmp174, MEM[(volatile vu32 *)1107394560B]
+ 1164 00b2 0460     		str	r4, [r0]	@ tmp174, MEM[(volatile vu32 *)1107361792B]
+ 1165 00b4 2146     		mov	r1, r4	@, tmp174
+ 1166 00b6 1460     		str	r4, [r2]	@ tmp174, MEM[(volatile vu32 *)1109753856B]
+ 1167 00b8 0F48     		ldr	r0, .L78+24	@,
+ 1168 00ba 1C60     		str	r4, [r3]	@ tmp174, MEM[(volatile vu32 *)1109819392B]
+ 1169 00bc FFF7FEFF 		bl	TIM_CtrlPWMOutputs	@
+ 1170 00c0 2146     		mov	r1, r4	@, tmp174
+ 1171 00c2 0C48     		ldr	r0, .L78+20	@,
+ 1172 00c4 FFF7FEFF 		bl	TIM_CtrlPWMOutputs	@
+ 1173 00c8 2146     		mov	r1, r4	@, tmp174
+ 1174 00ca 0548     		ldr	r0, .L78	@,
+ 1175 00cc FFF7FEFF 		bl	TIM_CtrlPWMOutputs	@
+ 1176 00d0 2146     		mov	r1, r4	@, tmp174
+ 1177 00d2 0748     		ldr	r0, .L78+16	@,
+ 1178 00d4 FFF7FEFF 		bl	TIM_CtrlPWMOutputs	@
+ 1179              	@ 331 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 1180 00d8 62B6     		cpsie i
+ 1181              	@ 0 "" 2
+ 1182              		.thumb
+ 1183 00da 03B0     		add	sp, sp, #12	@,,
+ 1184              		@ sp needed	@
+ 1185 00dc F0BD     		pop	{r4, r5, r6, r7, pc}	@
+ 1186              	.L79:
+ 1187 00de 00BF     		.align	2
+ 1188              	.L78:
+ 1189 00e0 002C0140 		.word	1073818624
+ 1190 00e4 00000000 		.word	MinCnt
+ 1191 00e8 00000000 		.word	MaxCnt
+ 1192 00ec 00000000 		.word	IrqCnt
+ 1193 00f0 00340140 		.word	1073820672
+ 1194 00f4 00080040 		.word	1073743872
+ 1195 00f8 000C0040 		.word	1073744896
+ 1196 00fc 00000000 		.word	.LANCHOR1
+ 1197 0100 00802542 		.word	1109753856
+ 1198 0104 00802642 		.word	1109819392
+ 1199 0108 00800142 		.word	1107394560
+ 1200 010c 00000142 		.word	1107361792
+ 1202              		.comm	IrqCnt,12,4
+ 1203              		.comm	MinCnt,12,4
+ 1204              		.comm	MaxCnt,12,4
+ 1205              		.global	testPhase
+ 1206              		.global	timer_4_5_deadtime_delay
+ 1207              		.global	timer_1_8_deadtime_register
+ 1208              		.section	.data.testPhase,"aw",%progbits
+ 1209              		.align	2
+ 1210              		.set	.LANCHOR2,. + 0
+ 1213              	testPhase:
+ 1214 0000 EC51B8BD 		.word	-1111993876
+ 1215              		.section	.bss.g_Roll,"aw",%nobits
+ 1216              		.align	2
+ 1217              		.set	.LANCHOR3,. + 0
+ 1220              	g_Roll:
+ 1221 0000 00000000 		.space	12
+ 1221      00000000 
+ 1221      00000000 
+ 1222              		.section	.data.timer_4_5_deadtime_delay,"aw",%progbits
+ 1223              		.align	2
+ 1224              		.set	.LANCHOR1,. + 0
+ 1227              	timer_4_5_deadtime_delay:
+ 1228 0000 50000000 		.word	80
+ 1229              		.section	.bss.g_Pitch,"aw",%nobits
+ 1230              		.align	2
+ 1231              		.set	.LANCHOR4,. + 0
+ 1234              	g_Pitch:
+ 1235 0000 00000000 		.space	12
+ 1235      00000000 
+ 1235      00000000 
+ 1236              		.section	.data.g_YawOff,"aw",%progbits
+ 1237              		.align	2
+ 1238              		.set	.LANCHOR6,. + 0
+ 1241              	g_YawOff:
+ 1242 0000 01000000 		.word	1
+ 1243              		.section	.data.timer_1_8_deadtime_register,"aw",%progbits
+ 1244              		.align	2
+ 1245              		.set	.LANCHOR0,. + 0
+ 1248              	timer_1_8_deadtime_register:
+ 1249 0000 C8000000 		.word	200
+ 1250              		.section	.bss.g_Yaw,"aw",%nobits
+ 1251              		.align	2
+ 1252              		.set	.LANCHOR5,. + 0
+ 1255              	g_Yaw:
+ 1256 0000 00000000 		.space	12
+ 1256      00000000 
+ 1256      00000000 
+ 1257              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 pwm.c
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:75     .text.Timer_Channel_Config:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:79     .text.Timer_Channel_Config:00000000 Timer_Channel_Config
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:104    .text.Timer_PWM_Advanced_Config:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:108    .text.Timer_PWM_Advanced_Config:00000000 Timer_PWM_Advanced_Config
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:161    .text.Timer_PWM_Advanced_Config:00000098 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:164    .text.Timer_PWM_General_Config:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:168    .text.Timer_PWM_General_Config:00000000 Timer_PWM_General_Config
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:199    .text.MaxCntClear:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:204    .text.MaxCntClear:00000000 MaxCntClear
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:228    .text.MaxCntClear:00000028 $d
+                            *COM*:0000000c MaxCnt
+                            *COM*:0000000c IrqCnt
+                            *COM*:0000000c MinCnt
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:233    .text.SetPWMData:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:238    .text.SetPWMData:00000000 SetPWMData
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:259    .text.LimitYawPWM:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:264    .text.LimitYawPWM:00000000 LimitYawPWM
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:296    .text.LimitYawPWM:00000038 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:299    .text.dist:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:304    .text.dist:00000000 dist
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:326    .text.SetPWMOrg:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:331    .text.SetPWMOrg:00000000 SetPWMOrg
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:411    .text.SetPWMOrg:000000c8 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:421    .text.SetPWMOrgFaster:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:426    .text.SetPWMOrgFaster:00000000 SetPWMOrgFaster
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:485    .text.SetPWMOrgFaster:00000098 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:492    .text.SetPWMFastTable:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:497    .text.SetPWMFastTable:00000000 SetPWMFastTable
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:577    .text.SetPWMFastTable:000000cc $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:584    .text.SetPWM:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:589    .text.SetPWM:00000000 SetPWM
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:596    .text.ActivateIRQ:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:601    .text.ActivateIRQ:00000000 ActivateIRQ
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:623    .text.SetRollMotor:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:628    .text.SetRollMotor:00000000 SetRollMotor
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:670    .text.SetRollMotor:00000038 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:674    .text.SetPitchMotor:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:679    .text.SetPitchMotor:00000000 SetPitchMotor
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:721    .text.SetPitchMotor:00000038 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:725    .text.SetYawMotor:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:730    .text.SetYawMotor:00000000 SetYawMotor
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:778    .text.SetYawMotor:00000044 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:783    .text.TIM5_IRQHandler:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:788    .text.TIM5_IRQHandler:00000000 TIM5_IRQHandler
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:882    .text.TIM5_IRQHandler:000000a0 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:892    .text.TIM1_UP_IRQHandler:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:897    .text.TIM1_UP_IRQHandler:00000000 TIM1_UP_IRQHandler
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:954    .text.TIM1_UP_IRQHandler:00000060 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:961    .text.TIM8_UP_IRQHandler:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:966    .text.TIM8_UP_IRQHandler:00000000 TIM8_UP_IRQHandler
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1023   .text.TIM8_UP_IRQHandler:00000060 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1030   .text.PWMOff:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1035   .text.PWMOff:00000000 PWMOff
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1078   .text.PWMOff:00000038 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1086   .text.PWMConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1091   .text.PWMConfig:00000000 PWMConfig
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1189   .text.PWMConfig:000000e0 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1213   .data.testPhase:00000000 testPhase
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1227   .data.timer_4_5_deadtime_delay:00000000 timer_4_5_deadtime_delay
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1248   .data.timer_1_8_deadtime_register:00000000 timer_1_8_deadtime_register
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1209   .data.testPhase:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1216   .bss.g_Roll:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1220   .bss.g_Roll:00000000 g_Roll
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1223   .data.timer_4_5_deadtime_delay:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1230   .bss.g_Pitch:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1234   .bss.g_Pitch:00000000 g_Pitch
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1237   .data.g_YawOff:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1241   .data.g_YawOff:00000000 g_YawOff
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1244   .data.timer_1_8_deadtime_register:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1251   .bss.g_Yaw:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc1WuhQ6.s:1255   .bss.g_Yaw:00000000 g_Yaw
+
+UNDEFINED SYMBOLS
+TIM_OC1Init
+TIM_OC2Init
+TIM_OC3Init
+TIM_OC1PreloadConfig
+TIM_OC2PreloadConfig
+TIM_OC3PreloadConfig
+TIM_TimeBaseInit
+TIM_BDTRConfig
+__aeabi_fcmpge
+__aeabi_f2d
+__aeabi_i2d
+__aeabi_dmul
+__aeabi_dadd
+__aeabi_d2iz
+__aeabi_fadd
+sin
+__aeabi_i2f
+__aeabi_fmul
+__aeabi_f2iz
+fmodf
+sinf
+__aeabi_fdiv
+Round
+sinDataI16
+DEBUG_PutChar
+NVIC_Init
+TIM_CtrlPWMOutputs

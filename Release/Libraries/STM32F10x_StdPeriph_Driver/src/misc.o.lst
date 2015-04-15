@@ -1,0 +1,232 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"misc.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32F10x_StdPeriph_Driver/src/misc.d
+  31              	@ -MF Libraries/STM32F10x_StdPeriph_Driver/src/misc.d -MP
+  32              	@ -MT Libraries/STM32F10x_StdPeriph_Driver/src/misc.d -D__USES_INITFINI__
+  33              	@ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32F10x_StdPeriph_Driver/src/misc.c -mcpu=cortex-m3
+  35              	@ -mthumb -auxbase-strip Libraries/STM32F10x_StdPeriph_Driver/src/misc.o
+  36              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  37              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  38              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  39              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  40              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  41              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  42              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  43              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  44              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  45              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  46              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  47              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  48              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  49              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  50              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  51              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  52              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  53              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  54              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  55              	@ -freorder-functions -frerun-cse-after-loop
+  56              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  57              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  58              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  59              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  60              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  61              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  62              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  63              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  64              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  65              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  66              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  67              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  68              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  69              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  70              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  71              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  72              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  73              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  74              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  75              	@ -munaligned-access -mvectorize-with-neon-quad
+  76              	
+  77              		.section	.text.NVIC_PriorityGroupConfig,"ax",%progbits
+  78              		.align	2
+  79              		.global	NVIC_PriorityGroupConfig
+  80              		.thumb
+  81              		.thumb_func
+  83              	NVIC_PriorityGroupConfig:
+  84              		@ args = 0, pretend = 0, frame = 0
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86              		@ link register save eliminated.
+  87 0000 40F0BF60 		orr	r0, r0, #100139008	@ D.6637, NVIC_PriorityGroup,
+  88 0004 024B     		ldr	r3, .L2	@ tmp113,
+  89 0006 40F40030 		orr	r0, r0, #131072	@ D.6637, D.6637,
+  90 000a D860     		str	r0, [r3, #12]	@ D.6637, MEM[(struct SCB_Type *)3758157056B].AIRCR
+  91 000c 7047     		bx	lr	@
+  92              	.L3:
+  93 000e 00BF     		.align	2
+  94              	.L2:
+  95 0010 00ED00E0 		.word	-536810240
+  97              		.section	.text.NVIC_Init,"ax",%progbits
+  98              		.align	2
+  99              		.global	NVIC_Init
+ 100              		.thumb
+ 101              		.thumb_func
+ 103              	NVIC_Init:
+ 104              		@ args = 0, pretend = 0, frame = 0
+ 105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106              		@ link register save eliminated.
+ 107 0000 C378     		ldrb	r3, [r0, #3]	@ zero_extendqisi2	@ NVIC_InitStruct_3(D)->NVIC_IRQChannelCmd, NVIC_InitStruct_3
+ 108 0002 30B4     		push	{r4, r5}	@
+ 109 0004 5BB9     		cbnz	r3, .L8	@ NVIC_InitStruct_3(D)->NVIC_IRQChannelCmd,
+ 110 0006 0378     		ldrb	r3, [r0]	@ zero_extendqisi2	@ D.6641, NVIC_InitStruct_3(D)->NVIC_IRQChannel
+ 111 0008 0121     		movs	r1, #1	@ tmp163,
+ 112 000a 03F01F02 		and	r2, r3, #31	@ D.6643, D.6641,
+ 113 000e 9140     		lsls	r1, r1, r2	@ D.6642, tmp163, D.6643
+ 114 0010 30BC     		pop	{r4, r5}	@
+ 115 0012 5B09     		lsrs	r3, r3, #5	@ D.6643, D.6641,
+ 116 0014 144A     		ldr	r2, .L9	@ tmp164,
+ 117 0016 2033     		adds	r3, r3, #32	@ tmp165, D.6643,
+ 118 0018 42F82310 		str	r1, [r2, r3, lsl #2]	@ D.6642,
+ 119 001c 7047     		bx	lr	@
+ 120              	.L8:
+ 121 001e 134B     		ldr	r3, .L9+4	@ tmp144,
+ 122 0020 4478     		ldrb	r4, [r0, #1]	@ zero_extendqisi2	@ D.6642, NVIC_InitStruct_3(D)->NVIC_IRQChannelPreemptionPrio
+ 123 0022 DB68     		ldr	r3, [r3, #12]	@ D.6642, MEM[(struct SCB_Type *)3758157056B].AIRCR
+ 124 0024 0F22     		movs	r2, #15	@ tmp149,
+ 125 0026 DB43     		mvns	r3, r3	@ D.6642, D.6642
+ 126 0028 C3F30223 		ubfx	r3, r3, #8, #3	@ tmppriority, D.6642,,
+ 127 002c C3F10401 		rsb	r1, r3, #4	@ tmppre.1, tmppriority,
+ 128 0030 22FA03F3 		lsr	r3, r2, r3	@ tmpsub, tmp149, tmppriority
+ 129 0034 8C40     		lsls	r4, r4, r1	@ tmppriority, D.6642, tmppre.1
+ 130 0036 8578     		ldrb	r5, [r0, #2]	@ zero_extendqisi2	@ D.6642, NVIC_InitStruct_3(D)->NVIC_IRQChannelSubPriority
+ 131 0038 0178     		ldrb	r1, [r0]	@ zero_extendqisi2	@ D.6643, NVIC_InitStruct_3(D)->NVIC_IRQChannel
+ 132 003a 03EA0502 		and	r2, r3, r5	@ D.6642, tmpsub, D.6642
+ 133 003e 2243     		orrs	r2, r2, r4	@, tmppriority, D.6642, tmppriority
+ 134 0040 01F16043 		add	r3, r1, #-536870912	@ tmp153, D.6643,
+ 135 0044 1201     		lsls	r2, r2, #4	@ tmppriority, tmppriority,
+ 136 0046 D2B2     		uxtb	r2, r2	@ D.6641, tmppriority
+ 137 0048 03F56143 		add	r3, r3, #57600	@ tmp153, tmp153,
+ 138 004c 83F80023 		strb	r2, [r3, #768]	@ D.6641, MEM[(struct NVIC_Type *)3758153984B].IP
+ 139 0050 0378     		ldrb	r3, [r0]	@ zero_extendqisi2	@ D.6641, NVIC_InitStruct_3(D)->NVIC_IRQChannel
+ 140 0052 0121     		movs	r1, #1	@ tmp158,
+ 141 0054 03F01F02 		and	r2, r3, #31	@ D.6643, D.6641,
+ 142 0058 9140     		lsls	r1, r1, r2	@ D.6642, tmp158, D.6643
+ 143 005a 30BC     		pop	{r4, r5}	@
+ 144 005c 024A     		ldr	r2, .L9	@ tmp152,
+ 145 005e 5B09     		lsrs	r3, r3, #5	@ D.6643, D.6641,
+ 146 0060 42F82310 		str	r1, [r2, r3, lsl #2]	@ D.6642,
+ 147 0064 7047     		bx	lr	@
+ 148              	.L10:
+ 149 0066 00BF     		.align	2
+ 150              	.L9:
+ 151 0068 00E100E0 		.word	-536813312
+ 152 006c 00ED00E0 		.word	-536810240
+ 154              		.section	.text.NVIC_SetVectorTable,"ax",%progbits
+ 155              		.align	2
+ 156              		.global	NVIC_SetVectorTable
+ 157              		.thumb
+ 158              		.thumb_func
+ 160              	NVIC_SetVectorTable:
+ 161              		@ args = 0, pretend = 0, frame = 0
+ 162              		@ frame_needed = 0, uses_anonymous_args = 0
+ 163              		@ link register save eliminated.
+ 164 0000 21F06041 		bic	r1, r1, #-536870912	@ D.6646, Offset,
+ 165 0004 21F07F01 		bic	r1, r1, #127	@ D.6646, D.6646,
+ 166 0008 014B     		ldr	r3, .L12	@ tmp116,
+ 167 000a 0843     		orrs	r0, r0, r1	@, D.6646, NVIC_VectTab, D.6646
+ 168 000c 9860     		str	r0, [r3, #8]	@ D.6646, MEM[(struct SCB_Type *)3758157056B].VTOR
+ 169 000e 7047     		bx	lr	@
+ 170              	.L13:
+ 171              		.align	2
+ 172              	.L12:
+ 173 0010 00ED00E0 		.word	-536810240
+ 175              		.section	.text.NVIC_SystemLPConfig,"ax",%progbits
+ 176              		.align	2
+ 177              		.global	NVIC_SystemLPConfig
+ 178              		.thumb
+ 179              		.thumb_func
+ 181              	NVIC_SystemLPConfig:
+ 182              		@ args = 0, pretend = 0, frame = 0
+ 183              		@ frame_needed = 0, uses_anonymous_args = 0
+ 184              		@ link register save eliminated.
+ 185 0000 044B     		ldr	r3, .L18	@ tmp119,
+ 186 0002 1A69     		ldr	r2, [r3, #16]	@ D.6649,
+ 187 0004 19B9     		cbnz	r1, .L17	@ NewState,
+ 188 0006 22EA0000 		bic	r0, r2, r0	@ D.6649, D.6649, LowPowerMode
+ 189 000a 1861     		str	r0, [r3, #16]	@ D.6649,
+ 190 000c 7047     		bx	lr	@
+ 191              	.L17:
+ 192 000e 1043     		orrs	r0, r0, r2	@, D.6649, LowPowerMode, D.6649
+ 193 0010 1861     		str	r0, [r3, #16]	@ D.6649,
+ 194 0012 7047     		bx	lr	@
+ 195              	.L19:
+ 196              		.align	2
+ 197              	.L18:
+ 198 0014 00ED00E0 		.word	-536810240
+ 200              		.section	.text.SysTick_CLKSourceConfig,"ax",%progbits
+ 201              		.align	2
+ 202              		.global	SysTick_CLKSourceConfig
+ 203              		.thumb
+ 204              		.thumb_func
+ 206              	SysTick_CLKSourceConfig:
+ 207              		@ args = 0, pretend = 0, frame = 0
+ 208              		@ frame_needed = 0, uses_anonymous_args = 0
+ 209              		@ link register save eliminated.
+ 210 0000 044B     		ldr	r3, .L23	@ tmp115,
+ 211 0002 0428     		cmp	r0, #4	@ SysTick_CLKSource,
+ 212 0004 1A68     		ldr	r2, [r3]	@ D.6652,
+ 213 0006 0CBF     		ite	eq
+ 214 0008 42F00402 		orreq	r2, r2, #4	@ D.6652, D.6652,
+ 215 000c 22F00402 		bicne	r2, r2, #4	@ D.6652, D.6652,
+ 216 0010 1A60     		str	r2, [r3]	@ D.6652,
+ 217 0012 7047     		bx	lr	@
+ 218              	.L24:
+ 219              		.align	2
+ 220              	.L23:
+ 221 0014 10E000E0 		.word	-536813552
+ 223              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 misc.c
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:78     .text.NVIC_PriorityGroupConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:83     .text.NVIC_PriorityGroupConfig:00000000 NVIC_PriorityGroupConfig
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:95     .text.NVIC_PriorityGroupConfig:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:98     .text.NVIC_Init:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:103    .text.NVIC_Init:00000000 NVIC_Init
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:151    .text.NVIC_Init:00000068 $d
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:155    .text.NVIC_SetVectorTable:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:160    .text.NVIC_SetVectorTable:00000000 NVIC_SetVectorTable
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:173    .text.NVIC_SetVectorTable:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:176    .text.NVIC_SystemLPConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:181    .text.NVIC_SystemLPConfig:00000000 NVIC_SystemLPConfig
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:198    .text.NVIC_SystemLPConfig:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:201    .text.SysTick_CLKSourceConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:206    .text.SysTick_CLKSourceConfig:00000000 SysTick_CLKSourceConfig
+C:\Users\Chris\AppData\Local\Temp\ccuoKl1b.s:221    .text.SysTick_CLKSourceConfig:00000014 $d
+
+NO UNDEFINED SYMBOLS

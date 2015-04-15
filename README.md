@@ -1,3 +1,6 @@
+# EvvGC - Edited by me to be more suitable for a potentiometer RC input #
+# The pitch offset angle is now directly proportional to the RC input, instead of accumulating #
+
 # EvvGC - Open Source 3 axis gimbal controller #
 
 #### NOTICE: BUILDABLE, currently in TESTING, runs on both 1.2 and 1.3 hardware

@@ -1,0 +1,188 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"adc.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/adc.d -MF src/adc.d -MP -MT src/adc.d -D__USES_INITFINI__
+  31              	@ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER ../src/adc.c -mcpu=cortex-m3
+  32              	@ -mthumb -auxbase-strip src/adc.o -O2 -Wall -Wextra -Wstrict-prototypes
+  33              	@ -std=gnu99 -ffunction-sections -fdata-sections
+  34              	@ -fsingle-precision-constant -fverbose-asm
+  35              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  36              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  37              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  38              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  39              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  40              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  41              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  42              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  43              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  44              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  45              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  46              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  47              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  48              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  49              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  50              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  51              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  52              	@ -freorder-functions -frerun-cse-after-loop
+  53              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  54              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  55              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  56              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  57              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  58              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  59              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  60              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  61              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  62              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  63              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  64              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  65              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  66              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  67              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  68              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  69              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  70              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  71              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  72              	@ -munaligned-access -mvectorize-with-neon-quad
+  73              	
+  74              		.section	.text.ADC_Config,"ax",%progbits
+  75              		.align	2
+  76              		.global	ADC_Config
+  77              		.thumb
+  78              		.thumb_func
+  80              	ADC_Config:
+  81              		@ args = 0, pretend = 0, frame = 24
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83 0000 30B5     		push	{r4, r5, lr}	@
+  84 0002 87B0     		sub	sp, sp, #28	@,,
+  85 0004 0823     		movs	r3, #8	@ tmp113,
+  86 0006 0024     		movs	r4, #0	@ tmp114,
+  87 0008 6946     		mov	r1, sp	@,
+  88 000a 1C48     		ldr	r0, .L7	@,
+  89 000c ADF80030 		strh	r3, [sp]	@ movhi	@ tmp113, GPIO_InitStructure.GPIO_Pin
+  90 0010 8DF80340 		strb	r4, [sp, #3]	@ tmp114, GPIO_InitStructure.GPIO_Mode
+  91 0014 FFF7FEFF 		bl	GPIO_Init	@
+  92 0018 4FF40040 		mov	r0, #32768	@,
+  93 001c FFF7FEFF 		bl	RCC_ADCCLKConfig	@
+  94 0020 0121     		movs	r1, #1	@,
+  95 0022 4FF40070 		mov	r0, #512	@,
+  96 0026 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd	@
+  97 002a 1548     		ldr	r0, .L7+4	@,
+  98 002c FFF7FEFF 		bl	ADC_DeInit	@
+  99 0030 0125     		movs	r5, #1	@ tmp126,
+ 100 0032 4FF46023 		mov	r3, #917504	@ tmp124,
+ 101 0036 1248     		ldr	r0, .L7+4	@,
+ 102 0038 01A9     		add	r1, sp, #4	@,,
+ 103 003a 0393     		str	r3, [sp, #12]	@ tmp124, ADC_InitStructure.ADC_ExternalTrigConv
+ 104 003c 0194     		str	r4, [sp, #4]	@ tmp114, ADC_InitStructure.ADC_Mode
+ 105 003e 8DF80840 		strb	r4, [sp, #8]	@ tmp114, ADC_InitStructure.ADC_ScanConvMode
+ 106 0042 8DF80940 		strb	r4, [sp, #9]	@ tmp114, ADC_InitStructure.ADC_ContinuousConvMode
+ 107 0046 0494     		str	r4, [sp, #16]	@ tmp114, ADC_InitStructure.ADC_DataAlign
+ 108 0048 8DF81450 		strb	r5, [sp, #20]	@ tmp126, ADC_InitStructure.ADC_NbrOfChannel
+ 109 004c FFF7FEFF 		bl	ADC_Init	@
+ 110 0050 0B48     		ldr	r0, .L7+4	@,
+ 111 0052 2946     		mov	r1, r5	@, tmp126
+ 112 0054 FFF7FEFF 		bl	ADC_Cmd	@
+ 113 0058 0948     		ldr	r0, .L7+4	@,
+ 114 005a FFF7FEFF 		bl	ADC_ResetCalibration	@
+ 115              	.L3:
+ 116 005e 0848     		ldr	r0, .L7+4	@,
+ 117 0060 FFF7FEFF 		bl	ADC_GetResetCalibrationStatus	@
+ 118 0064 0028     		cmp	r0, #0	@
+ 119 0066 FAD1     		bne	.L3	@
+ 120 0068 0548     		ldr	r0, .L7+4	@,
+ 121 006a FFF7FEFF 		bl	ADC_StartCalibration	@
+ 122              	.L5:
+ 123 006e 0448     		ldr	r0, .L7+4	@,
+ 124 0070 FFF7FEFF 		bl	ADC_GetCalibrationStatus	@
+ 125 0074 0028     		cmp	r0, #0	@
+ 126 0076 FAD1     		bne	.L5	@
+ 127 0078 07B0     		add	sp, sp, #28	@,,
+ 128              		@ sp needed	@
+ 129 007a 30BD     		pop	{r4, r5, pc}	@
+ 130              	.L8:
+ 131              		.align	2
+ 132              	.L7:
+ 133 007c 00100140 		.word	1073811456
+ 134 0080 00240140 		.word	1073816576
+ 136              		.section	.text.readADC1,"ax",%progbits
+ 137              		.align	2
+ 138              		.global	readADC1
+ 139              		.thumb
+ 140              		.thumb_func
+ 142              	readADC1:
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145 0000 0146     		mov	r1, r0	@ channel, channel
+ 146 0002 08B5     		push	{r3, lr}	@
+ 147 0004 0948     		ldr	r0, .L12	@,
+ 148 0006 0122     		movs	r2, #1	@,
+ 149 0008 0323     		movs	r3, #3	@,
+ 150 000a FFF7FEFF 		bl	ADC_RegularChannelConfig	@
+ 151 000e 0748     		ldr	r0, .L12	@,
+ 152 0010 0121     		movs	r1, #1	@,
+ 153 0012 FFF7FEFF 		bl	ADC_SoftwareStartConvCmd	@
+ 154              	.L11:
+ 155 0016 0548     		ldr	r0, .L12	@,
+ 156 0018 0221     		movs	r1, #2	@,
+ 157 001a FFF7FEFF 		bl	ADC_GetFlagStatus	@
+ 158 001e 0028     		cmp	r0, #0	@
+ 159 0020 F9D0     		beq	.L11	@
+ 160 0022 0248     		ldr	r0, .L12	@,
+ 161 0024 BDE80840 		pop	{r3, lr}	@
+ 162 0028 FFF7FEBF 		b	ADC_GetConversionValue	@
+ 163              	.L13:
+ 164              		.align	2
+ 165              	.L12:
+ 166 002c 00240140 		.word	1073816576
+ 168              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 adc.c
+C:\Users\Chris\AppData\Local\Temp\cc4eVSAm.s:75     .text.ADC_Config:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc4eVSAm.s:80     .text.ADC_Config:00000000 ADC_Config
+C:\Users\Chris\AppData\Local\Temp\cc4eVSAm.s:133    .text.ADC_Config:0000007c $d
+C:\Users\Chris\AppData\Local\Temp\cc4eVSAm.s:137    .text.readADC1:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc4eVSAm.s:142    .text.readADC1:00000000 readADC1
+C:\Users\Chris\AppData\Local\Temp\cc4eVSAm.s:166    .text.readADC1:0000002c $d
+
+UNDEFINED SYMBOLS
+GPIO_Init
+RCC_ADCCLKConfig
+RCC_APB2PeriphClockCmd
+ADC_DeInit
+ADC_Init
+ADC_Cmd
+ADC_ResetCalibration
+ADC_GetResetCalibrationStatus
+ADC_StartCalibration
+ADC_GetCalibrationStatus
+ADC_RegularChannelConfig
+ADC_SoftwareStartConvCmd
+ADC_GetFlagStatus
+ADC_GetConversionValue

@@ -1,0 +1,203 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"fasttrig.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/fasttrig.d -MF src/fasttrig.d -MP -MT src/fasttrig.d
+  31              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  32              	@ ../src/fasttrig.c -mcpu=cortex-m3 -mthumb -auxbase-strip src/fasttrig.o
+  33              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  34              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  35              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  36              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  37              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  38              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  39              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  40              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  41              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  42              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  43              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  44              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  45              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  46              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  47              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  48              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  49              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  50              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  51              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  52              	@ -freorder-functions -frerun-cse-after-loop
+  53              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  54              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  55              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  56              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  57              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  58              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  59              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  60              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  61              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  62              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  63              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  64              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  65              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  66              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  67              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  68              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  69              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  70              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  71              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  72              	@ -munaligned-access -mvectorize-with-neon-quad
+  73              	
+  74              		.global	__aeabi_fmul
+  75              		.global	__aeabi_f2iz
+  76              		.global	__aeabi_i2f
+  77              		.section	.text.InitSinArray,"ax",%progbits
+  78              		.align	2
+  79              		.global	InitSinArray
+  80              		.thumb
+  81              		.thumb_func
+  83              	InitSinArray:
+  84              		@ args = 0, pretend = 0, frame = 0
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86 0000 38B5     		push	{r3, r4, r5, lr}	@
+  87 0002 0020     		movs	r0, #0	@ D.4831,
+  88 0004 0E4D     		ldr	r5, .L6	@ ivtmp.16,
+  89 0006 0024     		movs	r4, #0	@ i,
+  90 0008 0BE0     		b	.L3	@
+  91              	.L5:
+  92 000a 2046     		mov	r0, r4	@, i
+  93 000c FFF7FEFF 		bl	__aeabi_i2f	@
+  94 0010 0C49     		ldr	r1, .L6+4	@,
+  95 0012 FFF7FEFF 		bl	__aeabi_fmul	@
+  96 0016 4FF06A51 		mov	r1, #981467136	@,
+  97 001a FFF7FEFF 		bl	__aeabi_fmul	@
+  98 001e FFF7FEFF 		bl	sinf	@
+  99              	.L3:
+ 100 0022 0949     		ldr	r1, .L6+8	@,
+ 101 0024 FFF7FEFF 		bl	__aeabi_fmul	@
+ 102 0028 FFF7FEFF 		bl	Round	@
+ 103 002c FFF7FEFF 		bl	__aeabi_f2iz	@
+ 104 0030 0134     		adds	r4, r4, #1	@ i, i,
+ 105 0032 B4F5806F 		cmp	r4, #1024	@ i,
+ 106 0036 25F8020F 		strh	r0, [r5, #2]!	@ movhi	@, MEM[base: _15, offset: 0B]
+ 107 003a E6D1     		bne	.L5	@,
+ 108 003c 38BD     		pop	{r3, r4, r5, pc}	@
+ 109              	.L7:
+ 110 003e 00BF     		.align	2
+ 111              	.L6:
+ 112 0040 FEFFFFFF 		.word	sinDataI16-2
+ 113 0044 DB0FC940 		.word	1086918619
+ 114 0048 00FEFF46 		.word	1191181824
+ 116              		.global	__aeabi_fcmpge
+ 117              		.global	__aeabi_fdiv
+ 118              		.section	.text.fastSin,"ax",%progbits
+ 119              		.align	2
+ 120              		.global	fastSin
+ 121              		.thumb
+ 122              		.thumb_func
+ 124              	fastSin:
+ 125              		@ args = 0, pretend = 0, frame = 0
+ 126              		@ frame_needed = 0, uses_anonymous_args = 0
+ 127 0000 10B5     		push	{r4, lr}	@
+ 128 0002 0021     		movs	r1, #0	@,
+ 129 0004 0446     		mov	r4, r0	@ x, x
+ 130 0006 FFF7FEFF 		bl	__aeabi_fcmpge	@
+ 131 000a B0B1     		cbz	r0, .L15	@,
+ 132 000c 1E49     		ldr	r1, .L18	@,
+ 133 000e 2046     		mov	r0, r4	@, x
+ 134 0010 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 135 0014 4FF08941 		mov	r1, #1149239296	@,
+ 136 0018 FFF7FEFF 		bl	__aeabi_fmul	@
+ 137 001c FFF7FEFF 		bl	__aeabi_f2iz	@
+ 138 0020 1A4B     		ldr	r3, .L18+4	@ ix,
+ 139 0022 1B4A     		ldr	r2, .L18+8	@ tmp130,
+ 140 0024 0340     		ands	r3, r3, r0	@, ix, ix,
+ 141 0026 002B     		cmp	r3, #0	@ ix,
+ 142 0028 20DB     		blt	.L16	@,
+ 143              	.L11:
+ 144 002a 32F91300 		ldrsh	r0, [r2, r3, lsl #1]	@, sinDataI16
+ 145 002e FFF7FEFF 		bl	__aeabi_i2f	@
+ 146 0032 1849     		ldr	r1, .L18+12	@,
+ 147 0034 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 148 0038 10BD     		pop	{r4, pc}	@
+ 149              	.L15:
+ 150 003a 1349     		ldr	r1, .L18	@,
+ 151 003c 04F10040 		add	r0, r4, #-2147483648	@ D.4836, x,
+ 152 0040 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 153 0044 4FF08941 		mov	r1, #1149239296	@,
+ 154 0048 FFF7FEFF 		bl	__aeabi_fmul	@
+ 155 004c FFF7FEFF 		bl	__aeabi_f2iz	@
+ 156 0050 0E4B     		ldr	r3, .L18+4	@ ix,
+ 157 0052 0F4A     		ldr	r2, .L18+8	@ tmp143,
+ 158 0054 0340     		ands	r3, r3, r0	@, ix, ix,
+ 159 0056 002B     		cmp	r3, #0	@ ix,
+ 160 0058 0FDB     		blt	.L17	@,
+ 161              	.L13:
+ 162 005a 32F91300 		ldrsh	r0, [r2, r3, lsl #1]	@ D.4837, sinDataI16
+ 163 005e 4042     		negs	r0, r0	@, D.4837
+ 164 0060 FFF7FEFF 		bl	__aeabi_i2f	@
+ 165 0064 0B49     		ldr	r1, .L18+12	@,
+ 166 0066 FFF7FEFF 		bl	__aeabi_fdiv	@
+ 167 006a 10BD     		pop	{r4, pc}	@
+ 168              	.L16:
+ 169 006c 013B     		subs	r3, r3, #1	@ ix, ix,
+ 170 006e 6FEA8353 		mvn	r3, r3, lsl #22	@ tmp138, ix,
+ 171 0072 6FEA9353 		mvn	r3, r3, lsr #22	@ tmp138, tmp138,
+ 172 0076 0133     		adds	r3, r3, #1	@ ix, tmp138,
+ 173 0078 D7E7     		b	.L11	@
+ 174              	.L17:
+ 175 007a 013B     		subs	r3, r3, #1	@ ix, ix,
+ 176 007c 6FEA8353 		mvn	r3, r3, lsl #22	@ tmp152, ix,
+ 177 0080 6FEA9353 		mvn	r3, r3, lsr #22	@ tmp152, tmp152,
+ 178 0084 0133     		adds	r3, r3, #1	@ ix, tmp152,
+ 179 0086 E8E7     		b	.L13	@
+ 180              	.L19:
+ 181              		.align	2
+ 182              	.L18:
+ 183 0088 DB0FC940 		.word	1086918619
+ 184 008c FF030080 		.word	-2147482625
+ 185 0090 00000000 		.word	sinDataI16
+ 186 0094 00FEFF46 		.word	1191181824
+ 188              		.comm	sinDataI16,2048,4
+ 189              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 fasttrig.c
+C:\Users\Chris\AppData\Local\Temp\ccYhh8x6.s:78     .text.InitSinArray:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccYhh8x6.s:83     .text.InitSinArray:00000000 InitSinArray
+C:\Users\Chris\AppData\Local\Temp\ccYhh8x6.s:112    .text.InitSinArray:00000040 $d
+                            *COM*:00000800 sinDataI16
+C:\Users\Chris\AppData\Local\Temp\ccYhh8x6.s:119    .text.fastSin:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccYhh8x6.s:124    .text.fastSin:00000000 fastSin
+C:\Users\Chris\AppData\Local\Temp\ccYhh8x6.s:183    .text.fastSin:00000088 $d
+
+UNDEFINED SYMBOLS
+__aeabi_fmul
+__aeabi_f2iz
+__aeabi_i2f
+sinf
+Round
+__aeabi_fcmpge
+__aeabi_fdiv

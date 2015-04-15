@@ -1,0 +1,148 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"stm32f10x_dbgmcu.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_dbgmcu.d
+  31              	@ -MF Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_dbgmcu.d -MP
+  32              	@ -MT Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_dbgmcu.d
+  33              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_dbgmcu.c
+  35              	@ -mcpu=cortex-m3 -mthumb
+  36              	@ -auxbase-strip Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_dbgmcu.o
+  37              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  38              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  39              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  40              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  41              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  42              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  43              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  44              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  45              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  46              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  47              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  48              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  49              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  50              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  51              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  52              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  53              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  54              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  55              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  56              	@ -freorder-functions -frerun-cse-after-loop
+  57              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  58              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  59              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  60              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  61              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  62              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  63              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  64              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  65              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  66              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  67              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  68              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  69              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  70              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  71              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  72              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  73              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  74              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  75              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  76              	@ -munaligned-access -mvectorize-with-neon-quad
+  77              	
+  78              		.section	.text.DBGMCU_GetREVID,"ax",%progbits
+  79              		.align	2
+  80              		.global	DBGMCU_GetREVID
+  81              		.thumb
+  82              		.thumb_func
+  84              	DBGMCU_GetREVID:
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+  88 0000 014B     		ldr	r3, .L2	@ tmp113,
+  89 0002 1868     		ldr	r0, [r3]	@ D.6594, MEM[(struct DBGMCU_TypeDef *)3758366720B].IDCODE
+  90 0004 000C     		lsrs	r0, r0, #16	@, D.6594,
+  91 0006 7047     		bx	lr	@
+  92              	.L3:
+  93              		.align	2
+  94              	.L2:
+  95 0008 002004E0 		.word	-536600576
+  97              		.section	.text.DBGMCU_GetDEVID,"ax",%progbits
+  98              		.align	2
+  99              		.global	DBGMCU_GetDEVID
+ 100              		.thumb
+ 101              		.thumb_func
+ 103              	DBGMCU_GetDEVID:
+ 104              		@ args = 0, pretend = 0, frame = 0
+ 105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106              		@ link register save eliminated.
+ 107 0000 024B     		ldr	r3, .L5	@ tmp113,
+ 108 0002 1868     		ldr	r0, [r3]	@ D.6598, MEM[(struct DBGMCU_TypeDef *)3758366720B].IDCODE
+ 109 0004 C0F30B00 		ubfx	r0, r0, #0, #12	@, D.6598,,
+ 110 0008 7047     		bx	lr	@
+ 111              	.L6:
+ 112 000a 00BF     		.align	2
+ 113              	.L5:
+ 114 000c 002004E0 		.word	-536600576
+ 116              		.section	.text.DBGMCU_Config,"ax",%progbits
+ 117              		.align	2
+ 118              		.global	DBGMCU_Config
+ 119              		.thumb
+ 120              		.thumb_func
+ 122              	DBGMCU_Config:
+ 123              		@ args = 0, pretend = 0, frame = 0
+ 124              		@ frame_needed = 0, uses_anonymous_args = 0
+ 125              		@ link register save eliminated.
+ 126 0000 044B     		ldr	r3, .L12	@ tmp117,
+ 127 0002 5A68     		ldr	r2, [r3, #4]	@ D.6602,
+ 128 0004 19B9     		cbnz	r1, .L11	@ NewState,
+ 129 0006 22EA0000 		bic	r0, r2, r0	@ D.6602, D.6602, DBGMCU_Periph
+ 130 000a 5860     		str	r0, [r3, #4]	@ D.6602,
+ 131 000c 7047     		bx	lr	@
+ 132              	.L11:
+ 133 000e 1043     		orrs	r0, r0, r2	@, D.6602, DBGMCU_Periph, D.6602
+ 134 0010 5860     		str	r0, [r3, #4]	@ D.6602,
+ 135 0012 7047     		bx	lr	@
+ 136              	.L13:
+ 137              		.align	2
+ 138              	.L12:
+ 139 0014 002004E0 		.word	-536600576
+ 141              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f10x_dbgmcu.c
+C:\Users\Chris\AppData\Local\Temp\ccmnjkKo.s:79     .text.DBGMCU_GetREVID:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccmnjkKo.s:84     .text.DBGMCU_GetREVID:00000000 DBGMCU_GetREVID
+C:\Users\Chris\AppData\Local\Temp\ccmnjkKo.s:95     .text.DBGMCU_GetREVID:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccmnjkKo.s:98     .text.DBGMCU_GetDEVID:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccmnjkKo.s:103    .text.DBGMCU_GetDEVID:00000000 DBGMCU_GetDEVID
+C:\Users\Chris\AppData\Local\Temp\ccmnjkKo.s:114    .text.DBGMCU_GetDEVID:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccmnjkKo.s:117    .text.DBGMCU_Config:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccmnjkKo.s:122    .text.DBGMCU_Config:00000000 DBGMCU_Config
+C:\Users\Chris\AppData\Local\Temp\ccmnjkKo.s:139    .text.DBGMCU_Config:00000014 $d
+
+NO UNDEFINED SYMBOLS

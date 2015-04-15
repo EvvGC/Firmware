@@ -1,0 +1,736 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"stm32f10x_sdio.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.d
+  31              	@ -MF Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.d -MP
+  32              	@ -MT Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.d
+  33              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c
+  35              	@ -mcpu=cortex-m3 -mthumb
+  36              	@ -auxbase-strip Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.o
+  37              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  38              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  39              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  40              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  41              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  42              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  43              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  44              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  45              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  46              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  47              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  48              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  49              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  50              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  51              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  52              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  53              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  54              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  55              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  56              	@ -freorder-functions -frerun-cse-after-loop
+  57              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  58              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  59              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  60              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  61              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  62              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  63              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  64              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  65              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  66              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  67              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  68              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  69              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  70              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  71              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  72              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  73              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  74              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  75              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  76              	@ -munaligned-access -mvectorize-with-neon-quad
+  77              	
+  78              		.section	.text.SDIO_DeInit,"ax",%progbits
+  79              		.align	2
+  80              		.global	SDIO_DeInit
+  81              		.thumb
+  82              		.thumb_func
+  84              	SDIO_DeInit:
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+  88 0000 064B     		ldr	r3, .L2	@ tmp110,
+  89 0002 0749     		ldr	r1, .L2+4	@ tmp125,
+  90 0004 0022     		movs	r2, #0	@ tmp111,
+  91 0006 1A60     		str	r2, [r3]	@ tmp111, MEM[(struct SDIO_TypeDef *)1073840128B].POWER
+  92 0008 5A60     		str	r2, [r3, #4]	@ tmp111, MEM[(struct SDIO_TypeDef *)1073840128B].CLKCR
+  93 000a 9A60     		str	r2, [r3, #8]	@ tmp111, MEM[(struct SDIO_TypeDef *)1073840128B].ARG
+  94 000c DA60     		str	r2, [r3, #12]	@ tmp111, MEM[(struct SDIO_TypeDef *)1073840128B].CMD
+  95 000e 5A62     		str	r2, [r3, #36]	@ tmp111, MEM[(struct SDIO_TypeDef *)1073840128B].DTIMER
+  96 0010 9A62     		str	r2, [r3, #40]	@ tmp111, MEM[(struct SDIO_TypeDef *)1073840128B].DLEN
+  97 0012 DA62     		str	r2, [r3, #44]	@ tmp111, MEM[(struct SDIO_TypeDef *)1073840128B].DCTRL
+  98 0014 9963     		str	r1, [r3, #56]	@ tmp125, MEM[(struct SDIO_TypeDef *)1073840128B].ICR
+  99 0016 DA63     		str	r2, [r3, #60]	@ tmp111, MEM[(struct SDIO_TypeDef *)1073840128B].MASK
+ 100 0018 7047     		bx	lr	@
+ 101              	.L3:
+ 102 001a 00BF     		.align	2
+ 103              	.L2:
+ 104 001c 00800140 		.word	1073840128
+ 105 0020 FF07C000 		.word	12584959
+ 107              		.section	.text.SDIO_Init,"ax",%progbits
+ 108              		.align	2
+ 109              		.global	SDIO_Init
+ 110              		.thumb
+ 111              		.thumb_func
+ 113              	SDIO_Init:
+ 114              		@ args = 0, pretend = 0, frame = 0
+ 115              		@ frame_needed = 0, uses_anonymous_args = 0
+ 116              		@ link register save eliminated.
+ 117 0000 30B4     		push	{r4, r5}	@
+ 118 0002 8368     		ldr	r3, [r0, #8]	@ SDIO_InitStruct_4(D)->SDIO_ClockPowerSave, SDIO_InitStruct_4(D)->SDIO_ClockPowe
+ 119 0004 4468     		ldr	r4, [r0, #4]	@ SDIO_InitStruct_4(D)->SDIO_ClockBypass, SDIO_InitStruct_4(D)->SDIO_ClockBypass
+ 120 0006 094A     		ldr	r2, .L5	@ tmp126,
+ 121 0008 C168     		ldr	r1, [r0, #12]	@ SDIO_InitStruct_4(D)->SDIO_BusWide, SDIO_InitStruct_4(D)->SDIO_BusWide
+ 122 000a 5568     		ldr	r5, [r2, #4]	@ tmpreg, MEM[(struct SDIO_TypeDef *)1073840128B].CLKCR
+ 123 000c 2343     		orrs	r3, r3, r4	@, D.6827, SDIO_InitStruct_4(D)->SDIO_ClockPowerSave, SDIO_InitStruct_4(D)->SDIO_C
+ 124 000e 0468     		ldr	r4, [r0]	@ SDIO_InitStruct_4(D)->SDIO_ClockEdge, SDIO_InitStruct_4(D)->SDIO_ClockEdge
+ 125 0010 0B43     		orrs	r3, r3, r1	@, D.6827, D.6827, SDIO_InitStruct_4(D)->SDIO_BusWide
+ 126 0012 0169     		ldr	r1, [r0, #16]	@ SDIO_InitStruct_4(D)->SDIO_HardwareFlowControl, SDIO_InitStruct_4(D)->SDIO_Har
+ 127 0014 1C43     		orrs	r4, r4, r3	@, D.6827, SDIO_InitStruct_4(D)->SDIO_ClockEdge, D.6827
+ 128 0016 25F4FD43 		bic	r3, r5, #32384	@ tmpreg, tmpreg,
+ 129 001a 2143     		orrs	r1, r1, r4	@, D.6827, SDIO_InitStruct_4(D)->SDIO_HardwareFlowControl, D.6827
+ 130 001c 007D     		ldrb	r0, [r0, #20]	@ zero_extendqisi2	@ D.6827, SDIO_InitStruct_4(D)->SDIO_ClockDiv
+ 131 001e 23F07F03 		bic	r3, r3, #127	@ tmpreg, tmpreg,
+ 132 0022 0B43     		orrs	r3, r3, r1	@, D.6827, tmpreg, D.6827
+ 133 0024 0343     		orrs	r3, r3, r0	@, tmpreg, D.6827, D.6827
+ 134 0026 5360     		str	r3, [r2, #4]	@ tmpreg, MEM[(struct SDIO_TypeDef *)1073840128B].CLKCR
+ 135 0028 30BC     		pop	{r4, r5}	@
+ 136 002a 7047     		bx	lr	@
+ 137              	.L6:
+ 138              		.align	2
+ 139              	.L5:
+ 140 002c 00800140 		.word	1073840128
+ 142              		.section	.text.SDIO_StructInit,"ax",%progbits
+ 143              		.align	2
+ 144              		.global	SDIO_StructInit
+ 145              		.thumb
+ 146              		.thumb_func
+ 148              	SDIO_StructInit:
+ 149              		@ args = 0, pretend = 0, frame = 0
+ 150              		@ frame_needed = 0, uses_anonymous_args = 0
+ 151              		@ link register save eliminated.
+ 152 0000 0023     		movs	r3, #0	@ tmp111,
+ 153 0002 0375     		strb	r3, [r0, #20]	@ tmp111, SDIO_InitStruct_2(D)->SDIO_ClockDiv
+ 154 0004 0360     		str	r3, [r0]	@ tmp111, SDIO_InitStruct_2(D)->SDIO_ClockEdge
+ 155 0006 4360     		str	r3, [r0, #4]	@ tmp111, SDIO_InitStruct_2(D)->SDIO_ClockBypass
+ 156 0008 8360     		str	r3, [r0, #8]	@ tmp111, SDIO_InitStruct_2(D)->SDIO_ClockPowerSave
+ 157 000a C360     		str	r3, [r0, #12]	@ tmp111, SDIO_InitStruct_2(D)->SDIO_BusWide
+ 158 000c 0361     		str	r3, [r0, #16]	@ tmp111, SDIO_InitStruct_2(D)->SDIO_HardwareFlowControl
+ 159 000e 7047     		bx	lr	@
+ 161              		.section	.text.SDIO_ClockCmd,"ax",%progbits
+ 162              		.align	2
+ 163              		.global	SDIO_ClockCmd
+ 164              		.thumb
+ 165              		.thumb_func
+ 167              	SDIO_ClockCmd:
+ 168              		@ args = 0, pretend = 0, frame = 0
+ 169              		@ frame_needed = 0, uses_anonymous_args = 0
+ 170              		@ link register save eliminated.
+ 171 0000 014B     		ldr	r3, .L9	@ tmp112,
+ 172 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1110442144B]
+ 173 0004 7047     		bx	lr	@
+ 174              	.L10:
+ 175 0006 00BF     		.align	2
+ 176              	.L9:
+ 177 0008 A0003042 		.word	1110442144
+ 179              		.section	.text.SDIO_SetPowerState,"ax",%progbits
+ 180              		.align	2
+ 181              		.global	SDIO_SetPowerState
+ 182              		.thumb
+ 183              		.thumb_func
+ 185              	SDIO_SetPowerState:
+ 186              		@ args = 0, pretend = 0, frame = 0
+ 187              		@ frame_needed = 0, uses_anonymous_args = 0
+ 188              		@ link register save eliminated.
+ 189 0000 014B     		ldr	r3, .L12	@ tmp111,
+ 190 0002 1860     		str	r0, [r3]	@ SDIO_PowerState, MEM[(struct SDIO_TypeDef *)1073840128B].POWER
+ 191 0004 7047     		bx	lr	@
+ 192              	.L13:
+ 193 0006 00BF     		.align	2
+ 194              	.L12:
+ 195 0008 00800140 		.word	1073840128
+ 197              		.section	.text.SDIO_GetPowerState,"ax",%progbits
+ 198              		.align	2
+ 199              		.global	SDIO_GetPowerState
+ 200              		.thumb
+ 201              		.thumb_func
+ 203              	SDIO_GetPowerState:
+ 204              		@ args = 0, pretend = 0, frame = 0
+ 205              		@ frame_needed = 0, uses_anonymous_args = 0
+ 206              		@ link register save eliminated.
+ 207 0000 024B     		ldr	r3, .L15	@ tmp113,
+ 208 0002 1868     		ldr	r0, [r3]	@ D.6837, MEM[(struct SDIO_TypeDef *)1073840128B].POWER
+ 209 0004 00F00300 		and	r0, r0, #3	@, D.6837,
+ 210 0008 7047     		bx	lr	@
+ 211              	.L16:
+ 212 000a 00BF     		.align	2
+ 213              	.L15:
+ 214 000c 00800140 		.word	1073840128
+ 216              		.section	.text.SDIO_ITConfig,"ax",%progbits
+ 217              		.align	2
+ 218              		.global	SDIO_ITConfig
+ 219              		.thumb
+ 220              		.thumb_func
+ 222              	SDIO_ITConfig:
+ 223              		@ args = 0, pretend = 0, frame = 0
+ 224              		@ frame_needed = 0, uses_anonymous_args = 0
+ 225              		@ link register save eliminated.
+ 226 0000 044B     		ldr	r3, .L22	@ tmp117,
+ 227 0002 DA6B     		ldr	r2, [r3, #60]	@ D.6841,
+ 228 0004 19B9     		cbnz	r1, .L21	@ NewState,
+ 229 0006 22EA0000 		bic	r0, r2, r0	@ D.6841, D.6841, SDIO_IT
+ 230 000a D863     		str	r0, [r3, #60]	@ D.6841,
+ 231 000c 7047     		bx	lr	@
+ 232              	.L21:
+ 233 000e 1043     		orrs	r0, r0, r2	@, D.6841, SDIO_IT, D.6841
+ 234 0010 D863     		str	r0, [r3, #60]	@ D.6841,
+ 235 0012 7047     		bx	lr	@
+ 236              	.L23:
+ 237              		.align	2
+ 238              	.L22:
+ 239 0014 00800140 		.word	1073840128
+ 241              		.section	.text.SDIO_DMACmd,"ax",%progbits
+ 242              		.align	2
+ 243              		.global	SDIO_DMACmd
+ 244              		.thumb
+ 245              		.thumb_func
+ 247              	SDIO_DMACmd:
+ 248              		@ args = 0, pretend = 0, frame = 0
+ 249              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250              		@ link register save eliminated.
+ 251 0000 014B     		ldr	r3, .L25	@ tmp112,
+ 252 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1110443404B]
+ 253 0004 7047     		bx	lr	@
+ 254              	.L26:
+ 255 0006 00BF     		.align	2
+ 256              	.L25:
+ 257 0008 8C053042 		.word	1110443404
+ 259              		.section	.text.SDIO_SendCommand,"ax",%progbits
+ 260              		.align	2
+ 261              		.global	SDIO_SendCommand
+ 262              		.thumb
+ 263              		.thumb_func
+ 265              	SDIO_SendCommand:
+ 266              		@ args = 0, pretend = 0, frame = 0
+ 267              		@ frame_needed = 0, uses_anonymous_args = 0
+ 268              		@ link register save eliminated.
+ 269 0000 0268     		ldr	r2, [r0]	@ D.6847, SDIO_CmdInitStruct_2(D)->SDIO_Argument
+ 270 0002 094B     		ldr	r3, .L28	@ tmp122,
+ 271 0004 30B4     		push	{r4, r5}	@
+ 272 0006 9A60     		str	r2, [r3, #8]	@ D.6847, MEM[(struct SDIO_TypeDef *)1073840128B].ARG
+ 273 0008 011D     		adds	r1, r0, #4	@,,
+ 274 000a DA68     		ldr	r2, [r3, #12]	@ tmpreg, MEM[(struct SDIO_TypeDef *)1073840128B].CMD
+ 275 000c 32C9     		ldmia	r1, {r1, r4, r5}	@,,,
+ 276 000e 0069     		ldr	r0, [r0, #16]	@ SDIO_CmdInitStruct_2(D)->SDIO_CPSM, SDIO_CmdInitStruct_2(D)->SDIO_CPSM
+ 277 0010 2143     		orrs	r1, r1, r4	@, D.6847, SDIO_CmdInitStruct_2(D)->SDIO_CmdIndex, SDIO_CmdInitStruct_2(D)->SDIO_R
+ 278 0012 2943     		orrs	r1, r1, r5	@, D.6847, D.6847, SDIO_CmdInitStruct_2(D)->SDIO_Wait
+ 279 0014 22F4FF62 		bic	r2, r2, #2040	@ tmpreg, tmpreg,
+ 280 0018 0143     		orrs	r1, r1, r0	@, D.6847, D.6847, SDIO_CmdInitStruct_2(D)->SDIO_CPSM
+ 281 001a 22F00702 		bic	r2, r2, #7	@ tmpreg, tmpreg,
+ 282 001e 0A43     		orrs	r2, r2, r1	@, tmpreg, tmpreg, D.6847
+ 283 0020 DA60     		str	r2, [r3, #12]	@ tmpreg, MEM[(struct SDIO_TypeDef *)1073840128B].CMD
+ 284 0022 30BC     		pop	{r4, r5}	@
+ 285 0024 7047     		bx	lr	@
+ 286              	.L29:
+ 287 0026 00BF     		.align	2
+ 288              	.L28:
+ 289 0028 00800140 		.word	1073840128
+ 291              		.section	.text.SDIO_CmdStructInit,"ax",%progbits
+ 292              		.align	2
+ 293              		.global	SDIO_CmdStructInit
+ 294              		.thumb
+ 295              		.thumb_func
+ 297              	SDIO_CmdStructInit:
+ 298              		@ args = 0, pretend = 0, frame = 0
+ 299              		@ frame_needed = 0, uses_anonymous_args = 0
+ 300              		@ link register save eliminated.
+ 301 0000 0023     		movs	r3, #0	@ tmp111,
+ 302 0002 0360     		str	r3, [r0]	@ tmp111, SDIO_CmdInitStruct_2(D)->SDIO_Argument
+ 303 0004 4360     		str	r3, [r0, #4]	@ tmp111, SDIO_CmdInitStruct_2(D)->SDIO_CmdIndex
+ 304 0006 8360     		str	r3, [r0, #8]	@ tmp111, SDIO_CmdInitStruct_2(D)->SDIO_Response
+ 305 0008 C360     		str	r3, [r0, #12]	@ tmp111, SDIO_CmdInitStruct_2(D)->SDIO_Wait
+ 306 000a 0361     		str	r3, [r0, #16]	@ tmp111, SDIO_CmdInitStruct_2(D)->SDIO_CPSM
+ 307 000c 7047     		bx	lr	@
+ 309 000e 00BF     		.section	.text.SDIO_GetCommandResponse,"ax",%progbits
+ 310              		.align	2
+ 311              		.global	SDIO_GetCommandResponse
+ 312              		.thumb
+ 313              		.thumb_func
+ 315              	SDIO_GetCommandResponse:
+ 316              		@ args = 0, pretend = 0, frame = 0
+ 317              		@ frame_needed = 0, uses_anonymous_args = 0
+ 318              		@ link register save eliminated.
+ 319 0000 014B     		ldr	r3, .L32	@ tmp113,
+ 320 0002 1869     		ldr	r0, [r3, #16]	@ D.6852, MEM[(struct SDIO_TypeDef *)1073840128B].RESPCMD
+ 321 0004 C0B2     		uxtb	r0, r0	@, D.6852
+ 322 0006 7047     		bx	lr	@
+ 323              	.L33:
+ 324              		.align	2
+ 325              	.L32:
+ 326 0008 00800140 		.word	1073840128
+ 328              		.section	.text.SDIO_GetResponse,"ax",%progbits
+ 329              		.align	2
+ 330              		.global	SDIO_GetResponse
+ 331              		.thumb
+ 332              		.thumb_func
+ 334              	SDIO_GetResponse:
+ 335              		@ args = 0, pretend = 0, frame = 8
+ 336              		@ frame_needed = 0, uses_anonymous_args = 0
+ 337              		@ link register save eliminated.
+ 338 0000 044B     		ldr	r3, .L35	@ tmp.0,
+ 339 0002 82B0     		sub	sp, sp, #8	@,,
+ 340 0004 0344     		add	r3, r3, r0	@ tmp.0, SDIO_RESP
+ 341 0006 0022     		movs	r2, #0	@ tmp116,
+ 342 0008 0192     		str	r2, [sp, #4]	@ tmp116, tmp
+ 343 000a 0193     		str	r3, [sp, #4]	@ tmp.0, tmp
+ 344 000c 019B     		ldr	r3, [sp, #4]	@ tmp.1, tmp
+ 345 000e 1868     		ldr	r0, [r3]	@ D.6856, *tmp.2_7
+ 346 0010 02B0     		add	sp, sp, #8	@,,
+ 347              		@ sp needed	@
+ 348 0012 7047     		bx	lr	@
+ 349              	.L36:
+ 350              		.align	2
+ 351              	.L35:
+ 352 0014 14800140 		.word	1073840148
+ 354              		.section	.text.SDIO_DataConfig,"ax",%progbits
+ 355              		.align	2
+ 356              		.global	SDIO_DataConfig
+ 357              		.thumb
+ 358              		.thumb_func
+ 360              	SDIO_DataConfig:
+ 361              		@ args = 0, pretend = 0, frame = 0
+ 362              		@ frame_needed = 0, uses_anonymous_args = 0
+ 363              		@ link register save eliminated.
+ 364 0000 0268     		ldr	r2, [r0]	@ D.6859, SDIO_DataInitStruct_2(D)->SDIO_DataTimeOut
+ 365 0002 094B     		ldr	r3, .L38	@ tmp123,
+ 366 0004 30B4     		push	{r4, r5}	@
+ 367 0006 5A62     		str	r2, [r3, #36]	@ D.6859, MEM[(struct SDIO_TypeDef *)1073840128B].DTIMER
+ 368 0008 4268     		ldr	r2, [r0, #4]	@ D.6859, SDIO_DataInitStruct_2(D)->SDIO_DataLength
+ 369 000a 9A62     		str	r2, [r3, #40]	@ D.6859, MEM[(struct SDIO_TypeDef *)1073840128B].DLEN
+ 370 000c C168     		ldr	r1, [r0, #12]	@ SDIO_DataInitStruct_2(D)->SDIO_TransferDir, SDIO_DataInitStruct_2(D)->SDIO_Tra
+ 371 000e 8268     		ldr	r2, [r0, #8]	@ SDIO_DataInitStruct_2(D)->SDIO_DataBlockSize, SDIO_DataInitStruct_2(D)->SDIO_Da
+ 372 0010 0569     		ldr	r5, [r0, #16]	@ SDIO_DataInitStruct_2(D)->SDIO_TransferMode, SDIO_DataInitStruct_2(D)->SDIO_Tr
+ 373 0012 4469     		ldr	r4, [r0, #20]	@ SDIO_DataInitStruct_2(D)->SDIO_DPSM, SDIO_DataInitStruct_2(D)->SDIO_DPSM
+ 374 0014 0A43     		orrs	r2, r2, r1	@, D.6859, SDIO_DataInitStruct_2(D)->SDIO_DataBlockSize, SDIO_DataInitStruct_2(D)-
+ 375 0016 D86A     		ldr	r0, [r3, #44]	@ tmpreg, MEM[(struct SDIO_TypeDef *)1073840128B].DCTRL
+ 376 0018 2A43     		orrs	r2, r2, r5	@, D.6859, D.6859, SDIO_DataInitStruct_2(D)->SDIO_TransferMode
+ 377 001a 2243     		orrs	r2, r2, r4	@, D.6859, D.6859, SDIO_DataInitStruct_2(D)->SDIO_DPSM
+ 378 001c 20F0F700 		bic	r0, r0, #247	@ tmpreg, tmpreg,
+ 379 0020 0243     		orrs	r2, r2, r0	@, tmpreg, D.6859, tmpreg
+ 380 0022 DA62     		str	r2, [r3, #44]	@ tmpreg, MEM[(struct SDIO_TypeDef *)1073840128B].DCTRL
+ 381 0024 30BC     		pop	{r4, r5}	@
+ 382 0026 7047     		bx	lr	@
+ 383              	.L39:
+ 384              		.align	2
+ 385              	.L38:
+ 386 0028 00800140 		.word	1073840128
+ 388              		.section	.text.SDIO_DataStructInit,"ax",%progbits
+ 389              		.align	2
+ 390              		.global	SDIO_DataStructInit
+ 391              		.thumb
+ 392              		.thumb_func
+ 394              	SDIO_DataStructInit:
+ 395              		@ args = 0, pretend = 0, frame = 0
+ 396              		@ frame_needed = 0, uses_anonymous_args = 0
+ 397              		@ link register save eliminated.
+ 398 0000 0023     		movs	r3, #0	@ tmp112,
+ 399 0002 4FF0FF32 		mov	r2, #-1	@ tmp111,
+ 400 0006 80E80C00 		stmia	r0, {r2, r3}	@ SDIO_DataInitStruct,,
+ 401 000a 8360     		str	r3, [r0, #8]	@ tmp112, SDIO_DataInitStruct_2(D)->SDIO_DataBlockSize
+ 402 000c C360     		str	r3, [r0, #12]	@ tmp112, SDIO_DataInitStruct_2(D)->SDIO_TransferDir
+ 403 000e 0361     		str	r3, [r0, #16]	@ tmp112, SDIO_DataInitStruct_2(D)->SDIO_TransferMode
+ 404 0010 4361     		str	r3, [r0, #20]	@ tmp112, SDIO_DataInitStruct_2(D)->SDIO_DPSM
+ 405 0012 7047     		bx	lr	@
+ 407              		.section	.text.SDIO_GetDataCounter,"ax",%progbits
+ 408              		.align	2
+ 409              		.global	SDIO_GetDataCounter
+ 410              		.thumb
+ 411              		.thumb_func
+ 413              	SDIO_GetDataCounter:
+ 414              		@ args = 0, pretend = 0, frame = 0
+ 415              		@ frame_needed = 0, uses_anonymous_args = 0
+ 416              		@ link register save eliminated.
+ 417 0000 014B     		ldr	r3, .L42	@ tmp112,
+ 418 0002 186B     		ldr	r0, [r3, #48]	@ D.6864, MEM[(struct SDIO_TypeDef *)1073840128B].DCOUNT
+ 419 0004 7047     		bx	lr	@
+ 420              	.L43:
+ 421 0006 00BF     		.align	2
+ 422              	.L42:
+ 423 0008 00800140 		.word	1073840128
+ 425              		.section	.text.SDIO_ReadData,"ax",%progbits
+ 426              		.align	2
+ 427              		.global	SDIO_ReadData
+ 428              		.thumb
+ 429              		.thumb_func
+ 431              	SDIO_ReadData:
+ 432              		@ args = 0, pretend = 0, frame = 0
+ 433              		@ frame_needed = 0, uses_anonymous_args = 0
+ 434              		@ link register save eliminated.
+ 435 0000 014B     		ldr	r3, .L45	@ tmp112,
+ 436 0002 D3F88000 		ldr	r0, [r3, #128]	@ D.6867, MEM[(struct SDIO_TypeDef *)1073840128B].FIFO
+ 437 0006 7047     		bx	lr	@
+ 438              	.L46:
+ 439              		.align	2
+ 440              	.L45:
+ 441 0008 00800140 		.word	1073840128
+ 443              		.section	.text.SDIO_WriteData,"ax",%progbits
+ 444              		.align	2
+ 445              		.global	SDIO_WriteData
+ 446              		.thumb
+ 447              		.thumb_func
+ 449              	SDIO_WriteData:
+ 450              		@ args = 0, pretend = 0, frame = 0
+ 451              		@ frame_needed = 0, uses_anonymous_args = 0
+ 452              		@ link register save eliminated.
+ 453 0000 014B     		ldr	r3, .L48	@ tmp111,
+ 454 0002 C3F88000 		str	r0, [r3, #128]	@ Data, MEM[(struct SDIO_TypeDef *)1073840128B].FIFO
+ 455 0006 7047     		bx	lr	@
+ 456              	.L49:
+ 457              		.align	2
+ 458              	.L48:
+ 459 0008 00800140 		.word	1073840128
+ 461              		.section	.text.SDIO_GetFIFOCount,"ax",%progbits
+ 462              		.align	2
+ 463              		.global	SDIO_GetFIFOCount
+ 464              		.thumb
+ 465              		.thumb_func
+ 467              	SDIO_GetFIFOCount:
+ 468              		@ args = 0, pretend = 0, frame = 0
+ 469              		@ frame_needed = 0, uses_anonymous_args = 0
+ 470              		@ link register save eliminated.
+ 471 0000 014B     		ldr	r3, .L51	@ tmp112,
+ 472 0002 986C     		ldr	r0, [r3, #72]	@ D.6872, MEM[(struct SDIO_TypeDef *)1073840128B].FIFOCNT
+ 473 0004 7047     		bx	lr	@
+ 474              	.L52:
+ 475 0006 00BF     		.align	2
+ 476              	.L51:
+ 477 0008 00800140 		.word	1073840128
+ 479              		.section	.text.SDIO_StartSDIOReadWait,"ax",%progbits
+ 480              		.align	2
+ 481              		.global	SDIO_StartSDIOReadWait
+ 482              		.thumb
+ 483              		.thumb_func
+ 485              	SDIO_StartSDIOReadWait:
+ 486              		@ args = 0, pretend = 0, frame = 0
+ 487              		@ frame_needed = 0, uses_anonymous_args = 0
+ 488              		@ link register save eliminated.
+ 489 0000 014B     		ldr	r3, .L54	@ tmp112,
+ 490 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1110443424B]
+ 491 0004 7047     		bx	lr	@
+ 492              	.L55:
+ 493 0006 00BF     		.align	2
+ 494              	.L54:
+ 495 0008 A0053042 		.word	1110443424
+ 497              		.section	.text.SDIO_StopSDIOReadWait,"ax",%progbits
+ 498              		.align	2
+ 499              		.global	SDIO_StopSDIOReadWait
+ 500              		.thumb
+ 501              		.thumb_func
+ 503              	SDIO_StopSDIOReadWait:
+ 504              		@ args = 0, pretend = 0, frame = 0
+ 505              		@ frame_needed = 0, uses_anonymous_args = 0
+ 506              		@ link register save eliminated.
+ 507 0000 014B     		ldr	r3, .L57	@ tmp112,
+ 508 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1110443428B]
+ 509 0004 7047     		bx	lr	@
+ 510              	.L58:
+ 511 0006 00BF     		.align	2
+ 512              	.L57:
+ 513 0008 A4053042 		.word	1110443428
+ 515              		.section	.text.SDIO_SetSDIOReadWaitMode,"ax",%progbits
+ 516              		.align	2
+ 517              		.global	SDIO_SetSDIOReadWaitMode
+ 518              		.thumb
+ 519              		.thumb_func
+ 521              	SDIO_SetSDIOReadWaitMode:
+ 522              		@ args = 0, pretend = 0, frame = 0
+ 523              		@ frame_needed = 0, uses_anonymous_args = 0
+ 524              		@ link register save eliminated.
+ 525 0000 014B     		ldr	r3, .L60	@ tmp111,
+ 526 0002 1860     		str	r0, [r3]	@ SDIO_ReadWaitMode, MEM[(volatile uint32_t *)1110443432B]
+ 527 0004 7047     		bx	lr	@
+ 528              	.L61:
+ 529 0006 00BF     		.align	2
+ 530              	.L60:
+ 531 0008 A8053042 		.word	1110443432
+ 533              		.section	.text.SDIO_SetSDIOOperation,"ax",%progbits
+ 534              		.align	2
+ 535              		.global	SDIO_SetSDIOOperation
+ 536              		.thumb
+ 537              		.thumb_func
+ 539              	SDIO_SetSDIOOperation:
+ 540              		@ args = 0, pretend = 0, frame = 0
+ 541              		@ frame_needed = 0, uses_anonymous_args = 0
+ 542              		@ link register save eliminated.
+ 543 0000 014B     		ldr	r3, .L63	@ tmp112,
+ 544 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1110443436B]
+ 545 0004 7047     		bx	lr	@
+ 546              	.L64:
+ 547 0006 00BF     		.align	2
+ 548              	.L63:
+ 549 0008 AC053042 		.word	1110443436
+ 551              		.section	.text.SDIO_SendSDIOSuspendCmd,"ax",%progbits
+ 552              		.align	2
+ 553              		.global	SDIO_SendSDIOSuspendCmd
+ 554              		.thumb
+ 555              		.thumb_func
+ 557              	SDIO_SendSDIOSuspendCmd:
+ 558              		@ args = 0, pretend = 0, frame = 0
+ 559              		@ frame_needed = 0, uses_anonymous_args = 0
+ 560              		@ link register save eliminated.
+ 561 0000 014B     		ldr	r3, .L66	@ tmp112,
+ 562 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1110442412B]
+ 563 0004 7047     		bx	lr	@
+ 564              	.L67:
+ 565 0006 00BF     		.align	2
+ 566              	.L66:
+ 567 0008 AC013042 		.word	1110442412
+ 569              		.section	.text.SDIO_CommandCompletionCmd,"ax",%progbits
+ 570              		.align	2
+ 571              		.global	SDIO_CommandCompletionCmd
+ 572              		.thumb
+ 573              		.thumb_func
+ 575              	SDIO_CommandCompletionCmd:
+ 576              		@ args = 0, pretend = 0, frame = 0
+ 577              		@ frame_needed = 0, uses_anonymous_args = 0
+ 578              		@ link register save eliminated.
+ 579 0000 014B     		ldr	r3, .L69	@ tmp112,
+ 580 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1110442416B]
+ 581 0004 7047     		bx	lr	@
+ 582              	.L70:
+ 583 0006 00BF     		.align	2
+ 584              	.L69:
+ 585 0008 B0013042 		.word	1110442416
+ 587              		.section	.text.SDIO_CEATAITCmd,"ax",%progbits
+ 588              		.align	2
+ 589              		.global	SDIO_CEATAITCmd
+ 590              		.thumb
+ 591              		.thumb_func
+ 593              	SDIO_CEATAITCmd:
+ 594              		@ args = 0, pretend = 0, frame = 0
+ 595              		@ frame_needed = 0, uses_anonymous_args = 0
+ 596              		@ link register save eliminated.
+ 597 0000 00F00100 		and	r0, r0, #1	@ tmp114, NewState,
+ 598 0004 024B     		ldr	r3, .L72	@ tmp117,
+ 599 0006 80F00100 		eor	r0, r0, #1	@ D.6893, tmp114,
+ 600 000a 1860     		str	r0, [r3]	@ D.6893, MEM[(volatile uint32_t *)1110442420B]
+ 601 000c 7047     		bx	lr	@
+ 602              	.L73:
+ 603 000e 00BF     		.align	2
+ 604              	.L72:
+ 605 0010 B4013042 		.word	1110442420
+ 607              		.section	.text.SDIO_SendCEATACmd,"ax",%progbits
+ 608              		.align	2
+ 609              		.global	SDIO_SendCEATACmd
+ 610              		.thumb
+ 611              		.thumb_func
+ 613              	SDIO_SendCEATACmd:
+ 614              		@ args = 0, pretend = 0, frame = 0
+ 615              		@ frame_needed = 0, uses_anonymous_args = 0
+ 616              		@ link register save eliminated.
+ 617 0000 014B     		ldr	r3, .L75	@ tmp112,
+ 618 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1110442424B]
+ 619 0004 7047     		bx	lr	@
+ 620              	.L76:
+ 621 0006 00BF     		.align	2
+ 622              	.L75:
+ 623 0008 B8013042 		.word	1110442424
+ 625              		.section	.text.SDIO_GetFlagStatus,"ax",%progbits
+ 626              		.align	2
+ 627              		.global	SDIO_GetFlagStatus
+ 628              		.thumb
+ 629              		.thumb_func
+ 631              	SDIO_GetFlagStatus:
+ 632              		@ args = 0, pretend = 0, frame = 0
+ 633              		@ frame_needed = 0, uses_anonymous_args = 0
+ 634              		@ link register save eliminated.
+ 635 0000 034B     		ldr	r3, .L78	@ tmp116,
+ 636 0002 5B6B     		ldr	r3, [r3, #52]	@ D.6899, MEM[(struct SDIO_TypeDef *)1073840128B].STA
+ 637 0004 1842     		tst	r0, r3	@ SDIO_FLAG, D.6899
+ 638 0006 0CBF     		ite	eq	@
+ 639 0008 0020     		moveq	r0, #0	@,
+ 640 000a 0120     		movne	r0, #1	@,
+ 641 000c 7047     		bx	lr	@
+ 642              	.L79:
+ 643 000e 00BF     		.align	2
+ 644              	.L78:
+ 645 0010 00800140 		.word	1073840128
+ 647              		.section	.text.SDIO_ClearFlag,"ax",%progbits
+ 648              		.align	2
+ 649              		.global	SDIO_ClearFlag
+ 650              		.thumb
+ 651              		.thumb_func
+ 653              	SDIO_ClearFlag:
+ 654              		@ args = 0, pretend = 0, frame = 0
+ 655              		@ frame_needed = 0, uses_anonymous_args = 0
+ 656              		@ link register save eliminated.
+ 657 0000 014B     		ldr	r3, .L81	@ tmp111,
+ 658 0002 9863     		str	r0, [r3, #56]	@ SDIO_FLAG, MEM[(struct SDIO_TypeDef *)1073840128B].ICR
+ 659 0004 7047     		bx	lr	@
+ 660              	.L82:
+ 661 0006 00BF     		.align	2
+ 662              	.L81:
+ 663 0008 00800140 		.word	1073840128
+ 665              		.section	.text.SDIO_GetITStatus,"ax",%progbits
+ 666              		.align	2
+ 667              		.global	SDIO_GetITStatus
+ 668              		.thumb
+ 669              		.thumb_func
+ 671              	SDIO_GetITStatus:
+ 672              		@ args = 0, pretend = 0, frame = 0
+ 673              		@ frame_needed = 0, uses_anonymous_args = 0
+ 674              		@ link register save eliminated.
+ 675 0000 034B     		ldr	r3, .L84	@ tmp116,
+ 676 0002 5B6B     		ldr	r3, [r3, #52]	@ D.6906, MEM[(struct SDIO_TypeDef *)1073840128B].STA
+ 677 0004 1842     		tst	r0, r3	@ SDIO_IT, D.6906
+ 678 0006 0CBF     		ite	eq	@
+ 679 0008 0020     		moveq	r0, #0	@,
+ 680 000a 0120     		movne	r0, #1	@,
+ 681 000c 7047     		bx	lr	@
+ 682              	.L85:
+ 683 000e 00BF     		.align	2
+ 684              	.L84:
+ 685 0010 00800140 		.word	1073840128
+ 687              		.section	.text.SDIO_ClearITPendingBit,"ax",%progbits
+ 688              		.align	2
+ 689              		.global	SDIO_ClearITPendingBit
+ 690              		.thumb
+ 691              		.thumb_func
+ 693              	SDIO_ClearITPendingBit:
+ 694              		@ args = 0, pretend = 0, frame = 0
+ 695              		@ frame_needed = 0, uses_anonymous_args = 0
+ 696              		@ link register save eliminated.
+ 697 0000 014B     		ldr	r3, .L87	@ tmp111,
+ 698 0002 9863     		str	r0, [r3, #56]	@ SDIO_IT, MEM[(struct SDIO_TypeDef *)1073840128B].ICR
+ 699 0004 7047     		bx	lr	@
+ 700              	.L88:
+ 701 0006 00BF     		.align	2
+ 702              	.L87:
+ 703 0008 00800140 		.word	1073840128
+ 705              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f10x_sdio.c
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:79     .text.SDIO_DeInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:84     .text.SDIO_DeInit:00000000 SDIO_DeInit
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:104    .text.SDIO_DeInit:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:108    .text.SDIO_Init:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:113    .text.SDIO_Init:00000000 SDIO_Init
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:140    .text.SDIO_Init:0000002c $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:143    .text.SDIO_StructInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:148    .text.SDIO_StructInit:00000000 SDIO_StructInit
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:162    .text.SDIO_ClockCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:167    .text.SDIO_ClockCmd:00000000 SDIO_ClockCmd
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:177    .text.SDIO_ClockCmd:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:180    .text.SDIO_SetPowerState:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:185    .text.SDIO_SetPowerState:00000000 SDIO_SetPowerState
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:195    .text.SDIO_SetPowerState:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:198    .text.SDIO_GetPowerState:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:203    .text.SDIO_GetPowerState:00000000 SDIO_GetPowerState
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:214    .text.SDIO_GetPowerState:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:217    .text.SDIO_ITConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:222    .text.SDIO_ITConfig:00000000 SDIO_ITConfig
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:239    .text.SDIO_ITConfig:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:242    .text.SDIO_DMACmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:247    .text.SDIO_DMACmd:00000000 SDIO_DMACmd
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:257    .text.SDIO_DMACmd:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:260    .text.SDIO_SendCommand:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:265    .text.SDIO_SendCommand:00000000 SDIO_SendCommand
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:289    .text.SDIO_SendCommand:00000028 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:292    .text.SDIO_CmdStructInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:297    .text.SDIO_CmdStructInit:00000000 SDIO_CmdStructInit
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:310    .text.SDIO_GetCommandResponse:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:315    .text.SDIO_GetCommandResponse:00000000 SDIO_GetCommandResponse
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:326    .text.SDIO_GetCommandResponse:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:329    .text.SDIO_GetResponse:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:334    .text.SDIO_GetResponse:00000000 SDIO_GetResponse
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:352    .text.SDIO_GetResponse:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:355    .text.SDIO_DataConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:360    .text.SDIO_DataConfig:00000000 SDIO_DataConfig
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:386    .text.SDIO_DataConfig:00000028 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:389    .text.SDIO_DataStructInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:394    .text.SDIO_DataStructInit:00000000 SDIO_DataStructInit
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:408    .text.SDIO_GetDataCounter:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:413    .text.SDIO_GetDataCounter:00000000 SDIO_GetDataCounter
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:423    .text.SDIO_GetDataCounter:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:426    .text.SDIO_ReadData:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:431    .text.SDIO_ReadData:00000000 SDIO_ReadData
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:441    .text.SDIO_ReadData:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:444    .text.SDIO_WriteData:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:449    .text.SDIO_WriteData:00000000 SDIO_WriteData
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:459    .text.SDIO_WriteData:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:462    .text.SDIO_GetFIFOCount:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:467    .text.SDIO_GetFIFOCount:00000000 SDIO_GetFIFOCount
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:477    .text.SDIO_GetFIFOCount:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:480    .text.SDIO_StartSDIOReadWait:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:485    .text.SDIO_StartSDIOReadWait:00000000 SDIO_StartSDIOReadWait
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:495    .text.SDIO_StartSDIOReadWait:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:498    .text.SDIO_StopSDIOReadWait:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:503    .text.SDIO_StopSDIOReadWait:00000000 SDIO_StopSDIOReadWait
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:513    .text.SDIO_StopSDIOReadWait:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:516    .text.SDIO_SetSDIOReadWaitMode:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:521    .text.SDIO_SetSDIOReadWaitMode:00000000 SDIO_SetSDIOReadWaitMode
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:531    .text.SDIO_SetSDIOReadWaitMode:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:534    .text.SDIO_SetSDIOOperation:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:539    .text.SDIO_SetSDIOOperation:00000000 SDIO_SetSDIOOperation
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:549    .text.SDIO_SetSDIOOperation:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:552    .text.SDIO_SendSDIOSuspendCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:557    .text.SDIO_SendSDIOSuspendCmd:00000000 SDIO_SendSDIOSuspendCmd
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:567    .text.SDIO_SendSDIOSuspendCmd:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:570    .text.SDIO_CommandCompletionCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:575    .text.SDIO_CommandCompletionCmd:00000000 SDIO_CommandCompletionCmd
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:585    .text.SDIO_CommandCompletionCmd:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:588    .text.SDIO_CEATAITCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:593    .text.SDIO_CEATAITCmd:00000000 SDIO_CEATAITCmd
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:605    .text.SDIO_CEATAITCmd:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:608    .text.SDIO_SendCEATACmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:613    .text.SDIO_SendCEATACmd:00000000 SDIO_SendCEATACmd
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:623    .text.SDIO_SendCEATACmd:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:626    .text.SDIO_GetFlagStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:631    .text.SDIO_GetFlagStatus:00000000 SDIO_GetFlagStatus
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:645    .text.SDIO_GetFlagStatus:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:648    .text.SDIO_ClearFlag:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:653    .text.SDIO_ClearFlag:00000000 SDIO_ClearFlag
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:663    .text.SDIO_ClearFlag:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:666    .text.SDIO_GetITStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:671    .text.SDIO_GetITStatus:00000000 SDIO_GetITStatus
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:685    .text.SDIO_GetITStatus:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:688    .text.SDIO_ClearITPendingBit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:693    .text.SDIO_ClearITPendingBit:00000000 SDIO_ClearITPendingBit
+C:\Users\Chris\AppData\Local\Temp\ccOq4wKw.s:703    .text.SDIO_ClearITPendingBit:00000008 $d
+
+NO UNDEFINED SYMBOLS

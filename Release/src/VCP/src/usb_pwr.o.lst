@@ -1,0 +1,431 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"usb_pwr.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/VCP/src/usb_pwr.d -MF src/VCP/src/usb_pwr.d -MP
+  31              	@ -MT src/VCP/src/usb_pwr.d -D__USES_INITFINI__ -D STM32F10X_HD
+  32              	@ -D USE_STDPERIPH_DRIVER ../src/VCP/src/usb_pwr.c -mcpu=cortex-m3 -mthumb
+  33              	@ -auxbase-strip src/VCP/src/usb_pwr.o -O2 -Wall -Wextra
+  34              	@ -Wstrict-prototypes -std=gnu99 -ffunction-sections -fdata-sections
+  35              	@ -fsingle-precision-constant -fverbose-asm
+  36              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  37              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  38              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  39              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  40              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  41              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  42              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  43              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  44              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  45              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  46              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  47              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  48              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  49              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  50              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  51              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  52              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  53              	@ -freorder-functions -frerun-cse-after-loop
+  54              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  55              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  56              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  57              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  58              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  59              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  60              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  61              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  62              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  63              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  64              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  65              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  66              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  67              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  68              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  69              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  70              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  71              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  72              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  73              	@ -munaligned-access -mvectorize-with-neon-quad
+  74              	
+  75              		.section	.text.PowerOn,"ax",%progbits
+  76              		.align	2
+  77              		.global	PowerOn
+  78              		.thumb
+  79              		.thumb_func
+  81              	PowerOn:
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84 0000 38B5     		push	{r3, r4, r5, lr}	@
+  85 0002 0120     		movs	r0, #1	@,
+  86 0004 FFF7FEFF 		bl	USB_Cable_Config	@
+  87 0008 064D     		ldr	r5, .L2	@ tmp115,
+  88 000a 074B     		ldr	r3, .L2+4	@ tmp111,
+  89 000c 074C     		ldr	r4, .L2+8	@ tmp117,
+  90 000e 0022     		movs	r2, #0	@ tmp114,
+  91 0010 4FF4E051 		mov	r1, #7168	@ tmp119,
+  92 0014 0120     		movs	r0, #1	@ tmp112,
+  93 0016 1860     		str	r0, [r3]	@ tmp112, MEM[(volatile unsigned int *)1073765440B]
+  94 0018 1A60     		str	r2, [r3]	@ tmp114, MEM[(volatile unsigned int *)1073765440B]
+  95 001a 1046     		mov	r0, r2	@, tmp114
+  96 001c 2A60     		str	r2, [r5]	@ tmp114, MEM[(volatile unsigned int *)1073765444B]
+  97 001e 2180     		strh	r1, [r4]	@ movhi	@ tmp119, wInterrupt_Mask
+  98 0020 1960     		str	r1, [r3]	@ tmp119, MEM[(volatile unsigned int *)1073765440B]
+  99 0022 38BD     		pop	{r3, r4, r5, pc}	@
+ 100              	.L3:
+ 101              		.align	2
+ 102              	.L2:
+ 103 0024 445C0040 		.word	1073765444
+ 104 0028 405C0040 		.word	1073765440
+ 105 002c 00000000 		.word	wInterrupt_Mask
+ 107              		.section	.text.PowerOff,"ax",%progbits
+ 108              		.align	2
+ 109              		.global	PowerOff
+ 110              		.thumb
+ 111              		.thumb_func
+ 113              	PowerOff:
+ 114              		@ args = 0, pretend = 0, frame = 0
+ 115              		@ frame_needed = 0, uses_anonymous_args = 0
+ 116 0000 38B5     		push	{r3, r4, r5, lr}	@
+ 117 0002 064D     		ldr	r5, .L5	@ tmp111,
+ 118 0004 064B     		ldr	r3, .L5+4	@ tmp113,
+ 119 0006 0024     		movs	r4, #0	@ tmp114,
+ 120 0008 0122     		movs	r2, #1	@ tmp112,
+ 121 000a 2A60     		str	r2, [r5]	@ tmp112, MEM[(volatile unsigned int *)1073765440B]
+ 122 000c 2046     		mov	r0, r4	@, tmp114
+ 123 000e 1C60     		str	r4, [r3]	@ tmp114, MEM[(volatile unsigned int *)1073765444B]
+ 124 0010 FFF7FEFF 		bl	USB_Cable_Config	@
+ 125 0014 0323     		movs	r3, #3	@ tmp116,
+ 126 0016 2046     		mov	r0, r4	@, tmp114
+ 127 0018 2B60     		str	r3, [r5]	@ tmp116, MEM[(volatile unsigned int *)1073765440B]
+ 128 001a 38BD     		pop	{r3, r4, r5, pc}	@
+ 129              	.L6:
+ 130              		.align	2
+ 131              	.L5:
+ 132 001c 405C0040 		.word	1073765440
+ 133 0020 445C0040 		.word	1073765444
+ 135              		.section	.text.Suspend,"ax",%progbits
+ 136              		.align	2
+ 137              		.global	Suspend
+ 138              		.thumb
+ 139              		.thumb_func
+ 141              	Suspend:
+ 142              		@ args = 0, pretend = 0, frame = 8
+ 143              		@ frame_needed = 0, uses_anonymous_args = 0
+ 144              		@ link register save eliminated.
+ 145 0000 70B4     		push	{r4, r5, r6}	@
+ 146 0002 324A     		ldr	r2, .L20	@ tmp159,
+ 147 0004 83B0     		sub	sp, sp, #12	@,,
+ 148 0006 0023     		movs	r3, #0	@ tmp158,
+ 149 0008 0193     		str	r3, [sp, #4]	@ tmp158, savePWR_CR
+ 150 000a 1468     		ldr	r4, [r2]	@ D.7136, MEM[(volatile unsigned int *)1073765440B]
+ 151 000c 3049     		ldr	r1, .L20+4	@ tmp199,
+ 152 000e 403A     		subs	r2, r2, #64	@ ivtmp.29, ivtmp.29,
+ 153 0010 A4B2     		uxth	r4, r4	@ wCNTR, D.7136
+ 154              	.L9:
+ 155 0012 52F8040B 		ldr	r0, [r2], #4	@ D.7136, *_11
+ 156 0016 80B2     		uxth	r0, r0	@ D.7138, D.7136
+ 157 0018 41F82300 		str	r0, [r1, r3, lsl #2]	@ D.7138, EP
+ 158 001c 0133     		adds	r3, r3, #1	@ i, i,
+ 159 001e 082B     		cmp	r3, #8	@ i,
+ 160 0020 F7D1     		bne	.L9	@,
+ 161 0022 24F00105 		bic	r5, r4, #1	@ tmp167, wCNTR,
+ 162 0026 294B     		ldr	r3, .L20	@ tmp162,
+ 163 0028 44F48060 		orr	r0, r4, #1024	@ D.7136, wCNTR,
+ 164 002c ADB2     		uxth	r5, r5	@ D.7140, tmp167
+ 165 002e 0446     		mov	r4, r0	@ D.7136, D.7136
+ 166 0030 45F48066 		orr	r6, r5, #1024	@ D.7136, D.7140,
+ 167 0034 40F00100 		orr	r0, r0, #1	@ D.7136, D.7136,
+ 168 0038 264A     		ldr	r2, .L20+8	@ tmp200,
+ 169 003a 1C60     		str	r4, [r3]	@ D.7136, MEM[(volatile unsigned int *)1073765440B]
+ 170 003c 1860     		str	r0, [r3]	@ D.7136, MEM[(volatile unsigned int *)1073765440B]
+ 171 003e 1E60     		str	r6, [r3]	@ D.7136, MEM[(volatile unsigned int *)1073765440B]
+ 172              	.L11:
+ 173 0040 1368     		ldr	r3, [r2]	@ D.7136, MEM[(volatile unsigned int *)1073765444B]
+ 174 0042 2448     		ldr	r0, .L20+8	@ tmp170,
+ 175 0044 5E05     		lsls	r6, r3, #21	@, D.7136,
+ 176 0046 FBD5     		bpl	.L11	@,
+ 177 0048 4FF6FF33 		movw	r3, #64511	@ tmp174,
+ 178 004c 224A     		ldr	r2, .L20+12	@ ivtmp.21,
+ 179 004e 0360     		str	r3, [r0]	@ tmp174, MEM[(volatile unsigned int *)1073765444B]
+ 180 0050 0023     		movs	r3, #0	@ i,
+ 181              	.L13:
+ 182 0052 51F82300 		ldr	r0, [r1, r3, lsl #2]	@ D.7138, EP
+ 183 0056 0133     		adds	r3, r3, #1	@ i, i,
+ 184 0058 80B2     		uxth	r0, r0	@ D.7136, D.7138
+ 185 005a 082B     		cmp	r3, #8	@ i,
+ 186 005c 42F8040B 		str	r0, [r2], #4	@ D.7136, *_30
+ 187 0060 F7D1     		bne	.L13	@,
+ 188 0062 1A4B     		ldr	r3, .L20	@ tmp177,
+ 189 0064 45F48165 		orr	r5, r5, #1032	@ D.7136, D.7140,
+ 190 0068 1D60     		str	r5, [r3]	@ D.7136, MEM[(volatile unsigned int *)1073765440B]
+ 191 006a 1968     		ldr	r1, [r3]	@ D.7136, MEM[(volatile unsigned int *)1073765440B]
+ 192 006c 1B4A     		ldr	r2, .L20+16	@ tmp181,
+ 193 006e 89B2     		uxth	r1, r1	@ wCNTR, D.7136
+ 194 0070 41F00401 		orr	r1, r1, #4	@ D.7136, wCNTR,
+ 195 0074 1960     		str	r1, [r3]	@ D.7136, MEM[(volatile unsigned int *)1073765440B]
+ 196 0076 1068     		ldr	r0, [r2]	@ savePWR_CR.1, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 197 0078 1949     		ldr	r1, .L20+20	@ tmp184,
+ 198 007a 0190     		str	r0, [sp, #4]	@ savePWR_CR.1, savePWR_CR
+ 199 007c 1468     		ldr	r4, [r2]	@ tmpreg, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 200 007e 1548     		ldr	r0, .L20+8	@ tmp186,
+ 201 0080 24F00304 		bic	r4, r4, #3	@ tmpreg, tmpreg,
+ 202 0084 44F00104 		orr	r4, r4, #1	@ tmpreg, tmpreg,
+ 203 0088 1460     		str	r4, [r2]	@ tmpreg, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 204 008a 0C69     		ldr	r4, [r1, #16]	@ D.7138, MEM[(struct SCB_Type *)3758157056B].SCR
+ 205 008c 44F00404 		orr	r4, r4, #4	@ D.7138, D.7138,
+ 206 0090 0C61     		str	r4, [r1, #16]	@ D.7138, MEM[(struct SCB_Type *)3758157056B].SCR
+ 207 0092 0468     		ldr	r4, [r0]	@ D.7136, MEM[(volatile unsigned int *)1073765444B]
+ 208 0094 E404     		lsls	r4, r4, #19	@, D.7136,
+ 209 0096 10D5     		bpl	.L19	@,
+ 210 0098 4EF6FF74 		movw	r4, #61439	@ tmp192,
+ 211 009c 0460     		str	r4, [r0]	@ tmp192, MEM[(volatile unsigned int *)1073765444B]
+ 212 009e 1C68     		ldr	r4, [r3]	@ D.7136, MEM[(volatile unsigned int *)1073765440B]
+ 213 00a0 4FF6F770 		movw	r0, #65527	@ D.7136,
+ 214 00a4 2040     		ands	r0, r0, r4	@, D.7136, D.7136, D.7136
+ 215 00a6 1860     		str	r0, [r3]	@ D.7136, MEM[(volatile unsigned int *)1073765440B]
+ 216 00a8 019B     		ldr	r3, [sp, #4]	@ savePWR_CR.2, savePWR_CR
+ 217 00aa 1360     		str	r3, [r2]	@ savePWR_CR.2, MEM[(struct PWR_TypeDef *)1073770496B].CR
+ 218 00ac 0B69     		ldr	r3, [r1, #16]	@ D.7138, MEM[(struct SCB_Type *)3758157056B].SCR
+ 219 00ae 23F00403 		bic	r3, r3, #4	@ D.7138, D.7138,
+ 220 00b2 0B61     		str	r3, [r1, #16]	@ D.7138, MEM[(struct SCB_Type *)3758157056B].SCR
+ 221 00b4 03B0     		add	sp, sp, #12	@,,
+ 222              		@ sp needed	@
+ 223 00b6 70BC     		pop	{r4, r5, r6}	@
+ 224 00b8 7047     		bx	lr	@
+ 225              	.L19:
+ 226              	@ 338 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmInstr.h" 1
+ 227 00ba 30BF     		wfi
+ 228              	@ 0 "" 2
+ 229              		.thumb
+ 230 00bc 084B     		ldr	r3, .L20+20	@ tmp189,
+ 231 00be 1A69     		ldr	r2, [r3, #16]	@ D.7138, MEM[(struct SCB_Type *)3758157056B].SCR
+ 232 00c0 22F00402 		bic	r2, r2, #4	@ D.7138, D.7138,
+ 233 00c4 1A61     		str	r2, [r3, #16]	@ D.7138, MEM[(struct SCB_Type *)3758157056B].SCR
+ 234 00c6 03B0     		add	sp, sp, #12	@,,
+ 235              		@ sp needed	@
+ 236 00c8 70BC     		pop	{r4, r5, r6}	@
+ 237 00ca 7047     		bx	lr	@
+ 238              	.L21:
+ 239              		.align	2
+ 240              	.L20:
+ 241 00cc 405C0040 		.word	1073765440
+ 242 00d0 00000000 		.word	EP
+ 243 00d4 445C0040 		.word	1073765444
+ 244 00d8 005C0040 		.word	1073765376
+ 245 00dc 00700040 		.word	1073770496
+ 246 00e0 00ED00E0 		.word	-536810240
+ 248              		.section	.text.Resume_Init,"ax",%progbits
+ 249              		.align	2
+ 250              		.global	Resume_Init
+ 251              		.thumb
+ 252              		.thumb_func
+ 254              	Resume_Init:
+ 255              		@ args = 0, pretend = 0, frame = 0
+ 256              		@ frame_needed = 0, uses_anonymous_args = 0
+ 257 0000 10B5     		push	{r4, lr}	@
+ 258 0002 064C     		ldr	r4, .L23	@ tmp114,
+ 259 0004 4FF6FB73 		movw	r3, #65531	@ D.7143,
+ 260 0008 2268     		ldr	r2, [r4]	@ D.7143, MEM[(volatile unsigned int *)1073765440B]
+ 261 000a 1340     		ands	r3, r3, r2	@, D.7143, D.7143, D.7143
+ 262 000c 2360     		str	r3, [r4]	@ D.7143, MEM[(volatile unsigned int *)1073765440B]
+ 263 000e FFF7FEFF 		bl	Leave_LowPowerMode	@
+ 264 0012 4FF43643 		mov	r3, #46592	@ tmp118,
+ 265 0016 2360     		str	r3, [r4]	@ tmp118, MEM[(volatile unsigned int *)1073765440B]
+ 266 0018 10BD     		pop	{r4, pc}	@
+ 267              	.L24:
+ 268 001a 00BF     		.align	2
+ 269              	.L23:
+ 270 001c 405C0040 		.word	1073765440
+ 272              		.section	.text.Resume,"ax",%progbits
+ 273              		.align	2
+ 274              		.global	Resume
+ 275              		.thumb
+ 276              		.thumb_func
+ 278              	Resume:
+ 279              		@ args = 0, pretend = 0, frame = 0
+ 280              		@ frame_needed = 0, uses_anonymous_args = 0
+ 281 0000 38B5     		push	{r3, r4, r5, lr}	@
+ 282 0002 324C     		ldr	r4, .L43	@ tmp213,
+ 283 0004 0728     		cmp	r0, #7	@ eResumeSetVal,
+ 284 0006 18BF     		it	ne
+ 285 0008 2070     		strbne	r0, [r4]	@ eResumeSetVal, ResumeS.eState
+ 286 000a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2	@ ResumeS.eState, ResumeS.eState
+ 287 000c 052B     		cmp	r3, #5	@ ResumeS.eState,
+ 288 000e 4BD8     		bhi	.L27	@
+ 289 0010 DFE803F0 		tbb	[pc, r3]	@ ResumeS.eState
+ 290              	.L29:
+ 291 0014 18       		.byte	(.L28-.L29)/2
+ 292 0015 1F       		.byte	(.L30-.L29)/2
+ 293 0016 30       		.byte	(.L31-.L29)/2
+ 294 0017 35       		.byte	(.L32-.L29)/2
+ 295 0018 3F       		.byte	(.L33-.L29)/2
+ 296 0019 03       		.byte	(.L34-.L29)/2
+ 297              		.align	1
+ 298              	.L34:
+ 299 001a 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2	@ ResumeS.bESOFcnt, ResumeS.bESOFcnt
+ 300 001c 2B49     		ldr	r1, .L43	@ tmp191,
+ 301 001e 013B     		subs	r3, r3, #1	@ tmp195, ResumeS.bESOFcnt,
+ 302 0020 DBB2     		uxtb	r3, r3	@ D.7147, tmp195
+ 303 0022 6370     		strb	r3, [r4, #1]	@ D.7147, ResumeS.bESOFcnt
+ 304 0024 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2	@ ResumeS.bESOFcnt, ResumeS.bESOFcnt
+ 305 0026 03F0FF02 		and	r2, r3, #255	@ D.7147, ResumeS.bESOFcnt,
+ 306 002a 002B     		cmp	r3, #0	@ ResumeS.bESOFcnt
+ 307 002c 3ED1     		bne	.L25	@
+ 308 002e 2848     		ldr	r0, .L43+4	@ tmp202,
+ 309 0030 4FF6EF73 		movw	r3, #65519	@ D.7148,
+ 310 0034 0568     		ldr	r5, [r0]	@ D.7148, MEM[(volatile unsigned int *)1073765440B]
+ 311 0036 274C     		ldr	r4, .L43+8	@ tmp208,
+ 312 0038 2B40     		ands	r3, r3, r5	@, D.7148, D.7148, D.7148
+ 313 003a 0625     		movs	r5, #6	@ tmp206,
+ 314 003c 0360     		str	r3, [r0]	@ D.7148, MEM[(volatile unsigned int *)1073765440B]
+ 315 003e 0D70     		strb	r5, [r1]	@ tmp206, ResumeS.eState
+ 316 0040 2260     		str	r2, [r4]	@ D.7147, remotewakeupon
+ 317 0042 38BD     		pop	{r3, r4, r5, pc}	@
+ 318              	.L28:
+ 319 0044 234B     		ldr	r3, .L43+8	@ tmp140,
+ 320 0046 1B68     		ldr	r3, [r3]	@ remotewakeupon.3, remotewakeupon
+ 321 0048 002B     		cmp	r3, #0	@ remotewakeupon.3
+ 322 004a 30D0     		beq	.L42	@
+ 323 004c 0523     		movs	r3, #5	@ tmp150,
+ 324 004e 2370     		strb	r3, [r4]	@ tmp150,
+ 325 0050 38BD     		pop	{r3, r4, r5, pc}	@
+ 326              	.L30:
+ 327 0052 1F4D     		ldr	r5, .L43+4	@ tmp152,
+ 328 0054 4FF6FB73 		movw	r3, #65531	@ D.7148,
+ 329 0058 2A68     		ldr	r2, [r5]	@ D.7148, MEM[(volatile unsigned int *)1073765440B]
+ 330 005a 1340     		ands	r3, r3, r2	@, D.7148, D.7148, D.7148
+ 331 005c 2B60     		str	r3, [r5]	@ D.7148, MEM[(volatile unsigned int *)1073765440B]
+ 332 005e FFF7FEFF 		bl	Leave_LowPowerMode	@
+ 333 0062 1C4B     		ldr	r3, .L43+8	@ tmp160,
+ 334 0064 4FF43640 		mov	r0, #46592	@ tmp156,
+ 335 0068 0421     		movs	r1, #4	@ tmp158,
+ 336 006a 0122     		movs	r2, #1	@ tmp161,
+ 337 006c 2860     		str	r0, [r5]	@ tmp156, MEM[(volatile unsigned int *)1073765440B]
+ 338 006e 2170     		strb	r1, [r4]	@ tmp158, ResumeS.eState
+ 339 0070 1A60     		str	r2, [r3]	@ tmp161, remotewakeupon
+ 340 0072 38BD     		pop	{r3, r4, r5, pc}	@
+ 341              	.L31:
+ 342 0074 0222     		movs	r2, #2	@ tmp163,
+ 343 0076 0323     		movs	r3, #3	@ tmp166,
+ 344 0078 6270     		strb	r2, [r4, #1]	@ tmp163, ResumeS.bESOFcnt
+ 345 007a 2370     		strb	r3, [r4]	@ tmp166,
+ 346 007c 38BD     		pop	{r3, r4, r5, pc}	@
+ 347              	.L32:
+ 348 007e 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2	@ ResumeS.bESOFcnt, ResumeS.bESOFcnt
+ 349 0080 124A     		ldr	r2, .L43	@ tmp168,
+ 350 0082 013B     		subs	r3, r3, #1	@ tmp172, ResumeS.bESOFcnt,
+ 351 0084 DBB2     		uxtb	r3, r3	@ D.7147, tmp172
+ 352 0086 6370     		strb	r3, [r4, #1]	@ D.7147, ResumeS.bESOFcnt
+ 353 0088 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2	@ ResumeS.bESOFcnt, ResumeS.bESOFcnt
+ 354 008a 7BB9     		cbnz	r3, .L25	@ ResumeS.bESOFcnt,
+ 355 008c 0423     		movs	r3, #4	@ tmp180,
+ 356 008e 1370     		strb	r3, [r2]	@ tmp180, ResumeS.eState
+ 357 0090 38BD     		pop	{r3, r4, r5, pc}	@
+ 358              	.L33:
+ 359 0092 0F4B     		ldr	r3, .L43+4	@ tmp182,
+ 360 0094 0521     		movs	r1, #5	@ tmp186,
+ 361 0096 1868     		ldr	r0, [r3]	@ D.7148, MEM[(volatile unsigned int *)1073765440B]
+ 362 0098 0A22     		movs	r2, #10	@ tmp189,
+ 363 009a 80B2     		uxth	r0, r0	@ wCNTR, D.7148
+ 364 009c 40F01000 		orr	r0, r0, #16	@ D.7148, wCNTR,
+ 365 00a0 1860     		str	r0, [r3]	@ D.7148, MEM[(volatile unsigned int *)1073765440B]
+ 366 00a2 2170     		strb	r1, [r4]	@ tmp186, ResumeS.eState
+ 367 00a4 6270     		strb	r2, [r4, #1]	@ tmp189, ResumeS.bESOFcnt
+ 368 00a6 38BD     		pop	{r3, r4, r5, pc}	@
+ 369              	.L27:
+ 370 00a8 0623     		movs	r3, #6	@ tmp211,
+ 371 00aa 2370     		strb	r3, [r4]	@ tmp211,
+ 372              	.L25:
+ 373 00ac 38BD     		pop	{r3, r4, r5, pc}	@
+ 374              	.L42:
+ 375 00ae 084D     		ldr	r5, .L43+4	@ tmp141,
+ 376 00b0 4FF6FB73 		movw	r3, #65531	@ D.7148,
+ 377 00b4 2A68     		ldr	r2, [r5]	@ D.7148, MEM[(volatile unsigned int *)1073765440B]
+ 378 00b6 1340     		ands	r3, r3, r2	@, D.7148, D.7148, D.7148
+ 379 00b8 2B60     		str	r3, [r5]	@ D.7148, MEM[(volatile unsigned int *)1073765440B]
+ 380 00ba FFF7FEFF 		bl	Leave_LowPowerMode	@
+ 381 00be 4FF43642 		mov	r2, #46592	@ tmp145,
+ 382 00c2 0623     		movs	r3, #6	@ tmp147,
+ 383 00c4 2A60     		str	r2, [r5]	@ tmp145, MEM[(volatile unsigned int *)1073765440B]
+ 384 00c6 2370     		strb	r3, [r4]	@ tmp147,
+ 385 00c8 38BD     		pop	{r3, r4, r5, pc}	@
+ 386              	.L44:
+ 387 00ca 00BF     		.align	2
+ 388              	.L43:
+ 389 00cc 00000000 		.word	ResumeS
+ 390 00d0 405C0040 		.word	1073765440
+ 391 00d4 00000000 		.word	.LANCHOR0
+ 393              		.global	remotewakeupon
+ 394              		.comm	ResumeS,2,4
+ 395              		.comm	EP,32,4
+ 396              		.global	fSuspendEnabled
+ 397              		.global	bDeviceState
+ 398              		.section	.data.fSuspendEnabled,"aw",%progbits
+ 401              	fSuspendEnabled:
+ 402 0000 01       		.byte	1
+ 403              		.section	.bss.bDeviceState,"aw",%nobits
+ 404              		.align	2
+ 407              	bDeviceState:
+ 408 0000 00000000 		.space	4
+ 409              		.section	.bss.remotewakeupon,"aw",%nobits
+ 410              		.align	2
+ 411              		.set	.LANCHOR0,. + 0
+ 414              	remotewakeupon:
+ 415 0000 00000000 		.space	4
+ 416              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_pwr.c
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:76     .text.PowerOn:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:81     .text.PowerOn:00000000 PowerOn
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:103    .text.PowerOn:00000024 $d
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:108    .text.PowerOff:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:113    .text.PowerOff:00000000 PowerOff
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:132    .text.PowerOff:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:136    .text.Suspend:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:141    .text.Suspend:00000000 Suspend
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:241    .text.Suspend:000000cc $d
+                            *COM*:00000020 EP
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:249    .text.Resume_Init:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:254    .text.Resume_Init:00000000 Resume_Init
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:270    .text.Resume_Init:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:273    .text.Resume:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:278    .text.Resume:00000000 Resume
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:291    .text.Resume:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:297    .text.Resume:0000001a $t
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:389    .text.Resume:000000cc $d
+                            *COM*:00000002 ResumeS
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:414    .bss.remotewakeupon:00000000 remotewakeupon
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:401    .data.fSuspendEnabled:00000000 fSuspendEnabled
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:407    .bss.bDeviceState:00000000 bDeviceState
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:404    .bss.bDeviceState:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc0IuQIa.s:410    .bss.remotewakeupon:00000000 $d
+
+UNDEFINED SYMBOLS
+USB_Cable_Config
+wInterrupt_Mask
+Leave_LowPowerMode

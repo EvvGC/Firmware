@@ -227,6 +227,7 @@ void Get_RC_Step(float *Step, float *RCSmooth)
         {
             Step[PITCH] = 0;
         }
+
     }
     else
     {

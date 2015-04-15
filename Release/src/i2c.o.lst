@@ -1,0 +1,435 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"i2c.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/i2c.d -MF src/i2c.d -MP -MT src/i2c.d -D__USES_INITFINI__
+  31              	@ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER ../src/i2c.c -mcpu=cortex-m3
+  32              	@ -mthumb -auxbase-strip src/i2c.o -O2 -Wall -Wextra -Wstrict-prototypes
+  33              	@ -std=gnu99 -ffunction-sections -fdata-sections
+  34              	@ -fsingle-precision-constant -fverbose-asm
+  35              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  36              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  37              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  38              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  39              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  40              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  41              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  42              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  43              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  44              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  45              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  46              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  47              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  48              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  49              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  50              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  51              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  52              	@ -freorder-functions -frerun-cse-after-loop
+  53              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  54              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  55              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  56              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  57              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  58              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  59              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  60              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  61              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  62              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  63              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  64              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  65              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  66              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  67              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  68              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  69              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  70              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  71              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  72              	@ -munaligned-access -mvectorize-with-neon-quad
+  73              	
+  74              		.section	.text.I2C_delay,"ax",%progbits
+  75              		.align	2
+  76              		.global	I2C_delay
+  77              		.thumb
+  78              		.thumb_func
+  80              	I2C_delay:
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84 0000 0120     		movs	r0, #1	@,
+  85 0002 FFF7FEBF 		b	Delay_us	@
+  87 0006 00BF     		.section	.text.I2C1_Start,"ax",%progbits
+  88              		.align	2
+  89              		.global	I2C1_Start
+  90              		.thumb
+  91              		.thumb_func
+  93              	I2C1_Start:
+  94              		@ args = 0, pretend = 0, frame = 0
+  95              		@ frame_needed = 0, uses_anonymous_args = 0
+  96 0000 10B5     		push	{r4, lr}	@
+  97 0002 124C     		ldr	r4, .L3	@ tmp110,
+  98 0004 4FF40061 		mov	r1, #2048	@,
+  99 0008 2046     		mov	r0, r4	@, tmp110
+ 100 000a 0122     		movs	r2, #1	@,
+ 101 000c FFF7FEFF 		bl	GPIO_WriteBit	@
+ 102 0010 2046     		mov	r0, r4	@, tmp110
+ 103 0012 4FF48061 		mov	r1, #1024	@,
+ 104 0016 0122     		movs	r2, #1	@,
+ 105 0018 FFF7FEFF 		bl	GPIO_WriteBit	@
+ 106 001c 0120     		movs	r0, #1	@,
+ 107 001e FFF7FEFF 		bl	Delay_us	@
+ 108 0022 2046     		mov	r0, r4	@, tmp110
+ 109 0024 4FF40061 		mov	r1, #2048	@,
+ 110 0028 0022     		movs	r2, #0	@,
+ 111 002a FFF7FEFF 		bl	GPIO_WriteBit	@
+ 112 002e 0120     		movs	r0, #1	@,
+ 113 0030 FFF7FEFF 		bl	Delay_us	@
+ 114 0034 2046     		mov	r0, r4	@, tmp110
+ 115 0036 4FF48061 		mov	r1, #1024	@,
+ 116 003a 0022     		movs	r2, #0	@,
+ 117 003c FFF7FEFF 		bl	GPIO_WriteBit	@
+ 118 0040 BDE81040 		pop	{r4, lr}	@
+ 119 0044 0120     		movs	r0, #1	@,
+ 120 0046 FFF7FEBF 		b	Delay_us	@
+ 121              	.L4:
+ 122 004a 00BF     		.align	2
+ 123              	.L3:
+ 124 004c 000C0140 		.word	1073810432
+ 126              		.section	.text.I2C1_Stop,"ax",%progbits
+ 127              		.align	2
+ 128              		.global	I2C1_Stop
+ 129              		.thumb
+ 130              		.thumb_func
+ 132              	I2C1_Stop:
+ 133              		@ args = 0, pretend = 0, frame = 0
+ 134              		@ frame_needed = 0, uses_anonymous_args = 0
+ 135 0000 10B5     		push	{r4, lr}	@
+ 136 0002 134C     		ldr	r4, .L6	@ tmp110,
+ 137 0004 4FF48061 		mov	r1, #1024	@,
+ 138 0008 2046     		mov	r0, r4	@, tmp110
+ 139 000a 0022     		movs	r2, #0	@,
+ 140 000c FFF7FEFF 		bl	GPIO_WriteBit	@
+ 141 0010 0120     		movs	r0, #1	@,
+ 142 0012 FFF7FEFF 		bl	Delay_us	@
+ 143 0016 2046     		mov	r0, r4	@, tmp110
+ 144 0018 4FF40061 		mov	r1, #2048	@,
+ 145 001c 0022     		movs	r2, #0	@,
+ 146 001e FFF7FEFF 		bl	GPIO_WriteBit	@
+ 147 0022 0120     		movs	r0, #1	@,
+ 148 0024 FFF7FEFF 		bl	Delay_us	@
+ 149 0028 2046     		mov	r0, r4	@, tmp110
+ 150 002a 4FF48061 		mov	r1, #1024	@,
+ 151 002e 0122     		movs	r2, #1	@,
+ 152 0030 FFF7FEFF 		bl	GPIO_WriteBit	@
+ 153 0034 0120     		movs	r0, #1	@,
+ 154 0036 FFF7FEFF 		bl	Delay_us	@
+ 155 003a 2046     		mov	r0, r4	@, tmp110
+ 156 003c 4FF40061 		mov	r1, #2048	@,
+ 157 0040 0122     		movs	r2, #1	@,
+ 158 0042 FFF7FEFF 		bl	GPIO_WriteBit	@
+ 159 0046 BDE81040 		pop	{r4, lr}	@
+ 160 004a 0120     		movs	r0, #1	@,
+ 161 004c FFF7FEBF 		b	Delay_us	@
+ 162              	.L7:
+ 163              		.align	2
+ 164              	.L6:
+ 165 0050 000C0140 		.word	1073810432
+ 167              		.section	.text.I2C1_Ack,"ax",%progbits
+ 168              		.align	2
+ 169              		.global	I2C1_Ack
+ 170              		.thumb
+ 171              		.thumb_func
+ 173              	I2C1_Ack:
+ 174              		@ args = 0, pretend = 0, frame = 0
+ 175              		@ frame_needed = 0, uses_anonymous_args = 0
+ 176 0000 10B5     		push	{r4, lr}	@
+ 177 0002 134C     		ldr	r4, .L9	@ tmp110,
+ 178 0004 4FF48061 		mov	r1, #1024	@,
+ 179 0008 2046     		mov	r0, r4	@, tmp110
+ 180 000a 0022     		movs	r2, #0	@,
+ 181 000c FFF7FEFF 		bl	GPIO_WriteBit	@
+ 182 0010 0120     		movs	r0, #1	@,
+ 183 0012 FFF7FEFF 		bl	Delay_us	@
+ 184 0016 2046     		mov	r0, r4	@, tmp110
+ 185 0018 4FF40061 		mov	r1, #2048	@,
+ 186 001c 0022     		movs	r2, #0	@,
+ 187 001e FFF7FEFF 		bl	GPIO_WriteBit	@
+ 188 0022 0120     		movs	r0, #1	@,
+ 189 0024 FFF7FEFF 		bl	Delay_us	@
+ 190 0028 2046     		mov	r0, r4	@, tmp110
+ 191 002a 4FF48061 		mov	r1, #1024	@,
+ 192 002e 0122     		movs	r2, #1	@,
+ 193 0030 FFF7FEFF 		bl	GPIO_WriteBit	@
+ 194 0034 0120     		movs	r0, #1	@,
+ 195 0036 FFF7FEFF 		bl	Delay_us	@
+ 196 003a 2046     		mov	r0, r4	@, tmp110
+ 197 003c 4FF48061 		mov	r1, #1024	@,
+ 198 0040 0022     		movs	r2, #0	@,
+ 199 0042 FFF7FEFF 		bl	GPIO_WriteBit	@
+ 200 0046 BDE81040 		pop	{r4, lr}	@
+ 201 004a 0120     		movs	r0, #1	@,
+ 202 004c FFF7FEBF 		b	Delay_us	@
+ 203              	.L10:
+ 204              		.align	2
+ 205              	.L9:
+ 206 0050 000C0140 		.word	1073810432
+ 208              		.section	.text.I2C1_NoAck,"ax",%progbits
+ 209              		.align	2
+ 210              		.global	I2C1_NoAck
+ 211              		.thumb
+ 212              		.thumb_func
+ 214              	I2C1_NoAck:
+ 215              		@ args = 0, pretend = 0, frame = 0
+ 216              		@ frame_needed = 0, uses_anonymous_args = 0
+ 217 0000 10B5     		push	{r4, lr}	@
+ 218 0002 134C     		ldr	r4, .L12	@ tmp110,
+ 219 0004 4FF48061 		mov	r1, #1024	@,
+ 220 0008 2046     		mov	r0, r4	@, tmp110
+ 221 000a 0022     		movs	r2, #0	@,
+ 222 000c FFF7FEFF 		bl	GPIO_WriteBit	@
+ 223 0010 0120     		movs	r0, #1	@,
+ 224 0012 FFF7FEFF 		bl	Delay_us	@
+ 225 0016 2046     		mov	r0, r4	@, tmp110
+ 226 0018 4FF40061 		mov	r1, #2048	@,
+ 227 001c 0122     		movs	r2, #1	@,
+ 228 001e FFF7FEFF 		bl	GPIO_WriteBit	@
+ 229 0022 0120     		movs	r0, #1	@,
+ 230 0024 FFF7FEFF 		bl	Delay_us	@
+ 231 0028 2046     		mov	r0, r4	@, tmp110
+ 232 002a 4FF48061 		mov	r1, #1024	@,
+ 233 002e 0122     		movs	r2, #1	@,
+ 234 0030 FFF7FEFF 		bl	GPIO_WriteBit	@
+ 235 0034 0120     		movs	r0, #1	@,
+ 236 0036 FFF7FEFF 		bl	Delay_us	@
+ 237 003a 2046     		mov	r0, r4	@, tmp110
+ 238 003c 4FF48061 		mov	r1, #1024	@,
+ 239 0040 0022     		movs	r2, #0	@,
+ 240 0042 FFF7FEFF 		bl	GPIO_WriteBit	@
+ 241 0046 BDE81040 		pop	{r4, lr}	@
+ 242 004a 0120     		movs	r0, #1	@,
+ 243 004c FFF7FEBF 		b	Delay_us	@
+ 244              	.L13:
+ 245              		.align	2
+ 246              	.L12:
+ 247 0050 000C0140 		.word	1073810432
+ 249              		.section	.text.I2C1_SendByte,"ax",%progbits
+ 250              		.align	2
+ 251              		.global	I2C1_SendByte
+ 252              		.thumb
+ 253              		.thumb_func
+ 255              	I2C1_SendByte:
+ 256              		@ args = 0, pretend = 0, frame = 0
+ 257              		@ frame_needed = 0, uses_anonymous_args = 0
+ 258 0000 38B5     		push	{r3, r4, r5, lr}	@
+ 259 0002 0446     		mov	r4, r0	@ SendByte, SendByte
+ 260 0004 0825     		movs	r5, #8	@ D.6695,
+ 261 0006 14E0     		b	.L17	@
+ 262              	.L15:
+ 263 0008 0022     		movs	r2, #0	@,
+ 264 000a FFF7FEFF 		bl	GPIO_WriteBit	@
+ 265              	.L18:
+ 266 000e 0120     		movs	r0, #1	@,
+ 267 0010 FFF7FEFF 		bl	Delay_us	@
+ 268 0014 0122     		movs	r2, #1	@,
+ 269 0016 1448     		ldr	r0, .L21	@,
+ 270 0018 4FF48061 		mov	r1, #1024	@,
+ 271 001c FFF7FEFF 		bl	GPIO_WriteBit	@
+ 272 0020 0120     		movs	r0, #1	@,
+ 273 0022 FFF7FEFF 		bl	Delay_us	@
+ 274 0026 6A1E     		subs	r2, r5, #1	@ tmp120, D.6695,
+ 275 0028 6400     		lsls	r4, r4, #1	@ tmp118, SendByte,
+ 276 002a 12F0FF05 		ands	r5, r2, #255	@ D.6695, tmp120,
+ 277 002e E4B2     		uxtb	r4, r4	@ SendByte, tmp118
+ 278 0030 11D0     		beq	.L20	@,
+ 279              	.L17:
+ 280 0032 4FF48061 		mov	r1, #1024	@,
+ 281 0036 0C48     		ldr	r0, .L21	@,
+ 282 0038 0022     		movs	r2, #0	@,
+ 283 003a FFF7FEFF 		bl	GPIO_WriteBit	@
+ 284 003e 0120     		movs	r0, #1	@,
+ 285 0040 FFF7FEFF 		bl	Delay_us	@
+ 286 0044 2306     		lsls	r3, r4, #24	@, SendByte,
+ 287 0046 0848     		ldr	r0, .L21	@,
+ 288 0048 4FF40061 		mov	r1, #2048	@,
+ 289 004c DCD5     		bpl	.L15	@,
+ 290 004e 0122     		movs	r2, #1	@,
+ 291 0050 FFF7FEFF 		bl	GPIO_WriteBit	@
+ 292 0054 DBE7     		b	.L18	@
+ 293              	.L20:
+ 294 0056 2A46     		mov	r2, r5	@, D.6695
+ 295 0058 0348     		ldr	r0, .L21	@,
+ 296 005a 4FF48061 		mov	r1, #1024	@,
+ 297 005e BDE83840 		pop	{r3, r4, r5, lr}	@
+ 298 0062 FFF7FEBF 		b	GPIO_WriteBit	@
+ 299              	.L22:
+ 300 0066 00BF     		.align	2
+ 301              	.L21:
+ 302 0068 000C0140 		.word	1073810432
+ 304              		.section	.text.I2C1_ReceiveByte,"ax",%progbits
+ 305              		.align	2
+ 306              		.global	I2C1_ReceiveByte
+ 307              		.thumb
+ 308              		.thumb_func
+ 310              	I2C1_ReceiveByte:
+ 311              		@ args = 0, pretend = 0, frame = 0
+ 312              		@ frame_needed = 0, uses_anonymous_args = 0
+ 313 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}	@
+ 314 0002 1B48     		ldr	r0, .L29	@,
+ 315 0004 4FF40061 		mov	r1, #2048	@,
+ 316 0008 0122     		movs	r2, #1	@,
+ 317 000a FFF7FEFF 		bl	GPIO_WriteBit	@
+ 318 000e 0827     		movs	r7, #8	@ D.6709,
+ 319 0010 0026     		movs	r6, #0	@ ReceiveByte,
+ 320              	.L28:
+ 321 0012 4FF48061 		mov	r1, #1024	@,
+ 322 0016 0022     		movs	r2, #0	@,
+ 323 0018 1548     		ldr	r0, .L29	@,
+ 324 001a FFF7FEFF 		bl	GPIO_WriteBit	@
+ 325 001e 0120     		movs	r0, #1	@,
+ 326 0020 FFF7FEFF 		bl	Delay_us	@
+ 327 0024 1248     		ldr	r0, .L29	@,
+ 328 0026 4FF48061 		mov	r1, #1024	@,
+ 329 002a 0122     		movs	r2, #1	@,
+ 330 002c FFF7FEFF 		bl	GPIO_WriteBit	@
+ 331 0030 7600     		lsls	r6, r6, #1	@ tmp121, ReceiveByte,
+ 332 0032 F6B2     		uxtb	r6, r6	@ ReceiveByte, tmp121
+ 333 0034 0825     		movs	r5, #8	@ D.6710,
+ 334 0036 0024     		movs	r4, #0	@ data,
+ 335              	.L25:
+ 336 0038 0D48     		ldr	r0, .L29	@,
+ 337 003a 4FF40061 		mov	r1, #2048	@,
+ 338 003e FFF7FEFF 		bl	GPIO_ReadInputDataBit	@
+ 339 0042 6B1E     		subs	r3, r5, #1	@ tmp127, D.6710,
+ 340 0044 2044     		add	r0, r0, r4	@ tmp126, data
+ 341 0046 13F0FF05 		ands	r5, r3, #255	@ D.6710, tmp127,
+ 342 004a C4B2     		uxtb	r4, r0	@ data, tmp126
+ 343 004c F4D1     		bne	.L25	@,
+ 344 004e 032C     		cmp	r4, #3	@ data,
+ 345 0050 07F1FF32 		add	r2, r7, #-1	@ tmp129, D.6709,
+ 346 0054 88BF     		it	hi
+ 347 0056 46F00106 		orrhi	r6, r6, #1	@ ReceiveByte, ReceiveByte,
+ 348 005a 12F0FF07 		ands	r7, r2, #255	@ D.6709, tmp129,
+ 349 005e D8D1     		bne	.L28	@,
+ 350 0060 3A46     		mov	r2, r7	@, D.6709
+ 351 0062 0348     		ldr	r0, .L29	@,
+ 352 0064 4FF48061 		mov	r1, #1024	@,
+ 353 0068 FFF7FEFF 		bl	GPIO_WriteBit	@
+ 354 006c 3046     		mov	r0, r6	@, ReceiveByte
+ 355 006e F8BD     		pop	{r3, r4, r5, r6, r7, pc}	@
+ 356              	.L30:
+ 357              		.align	2
+ 358              	.L29:
+ 359 0070 000C0140 		.word	1073810432
+ 361              		.section	.text.I2C1_WaitAck,"ax",%progbits
+ 362              		.align	2
+ 363              		.global	I2C1_WaitAck
+ 364              		.thumb
+ 365              		.thumb_func
+ 367              	I2C1_WaitAck:
+ 368              		@ args = 0, pretend = 0, frame = 0
+ 369              		@ frame_needed = 0, uses_anonymous_args = 0
+ 370 0000 08B5     		push	{r3, lr}	@
+ 371 0002 4FF48061 		mov	r1, #1024	@,
+ 372 0006 0022     		movs	r2, #0	@,
+ 373 0008 1748     		ldr	r0, .L34	@,
+ 374 000a FFF7FEFF 		bl	GPIO_WriteBit	@
+ 375 000e 0120     		movs	r0, #1	@,
+ 376 0010 FFF7FEFF 		bl	Delay_us	@
+ 377 0014 4FF40061 		mov	r1, #2048	@,
+ 378 0018 0122     		movs	r2, #1	@,
+ 379 001a 1348     		ldr	r0, .L34	@,
+ 380 001c FFF7FEFF 		bl	GPIO_WriteBit	@
+ 381 0020 0120     		movs	r0, #1	@,
+ 382 0022 FFF7FEFF 		bl	Delay_us	@
+ 383 0026 4FF48061 		mov	r1, #1024	@,
+ 384 002a 0122     		movs	r2, #1	@,
+ 385 002c 0E48     		ldr	r0, .L34	@,
+ 386 002e FFF7FEFF 		bl	GPIO_WriteBit	@
+ 387 0032 0120     		movs	r0, #1	@,
+ 388 0034 FFF7FEFF 		bl	Delay_us	@
+ 389 0038 0B48     		ldr	r0, .L34	@,
+ 390 003a 4FF40061 		mov	r1, #2048	@,
+ 391 003e FFF7FEFF 		bl	GPIO_ReadInputDataBit	@
+ 392 0042 0128     		cmp	r0, #1	@ tmp117,
+ 393 0044 07D0     		beq	.L33	@,
+ 394              	.L32:
+ 395 0046 BDE80840 		pop	{r3, lr}	@
+ 396 004a 0748     		ldr	r0, .L34	@,
+ 397 004c 4FF48061 		mov	r1, #1024	@,
+ 398 0050 0022     		movs	r2, #0	@,
+ 399 0052 FFF7FEBF 		b	GPIO_WriteBit	@
+ 400              	.L33:
+ 401 0056 054B     		ldr	r3, .L34+4	@ tmp118,
+ 402 0058 1860     		str	r0, [r3]	@ tmp117, I2Cerror
+ 403 005a FFF7FEFF 		bl	DEBUG_LEDon	@
+ 404 005e 044B     		ldr	r3, .L34+8	@ tmp120,
+ 405 0060 1A68     		ldr	r2, [r3]	@ I2Cerrorcount, I2Cerrorcount
+ 406 0062 0132     		adds	r2, r2, #1	@ I2Cerrorcount.5, I2Cerrorcount,
+ 407 0064 1A60     		str	r2, [r3]	@ I2Cerrorcount.5, I2Cerrorcount
+ 408 0066 EEE7     		b	.L32	@
+ 409              	.L35:
+ 410              		.align	2
+ 411              	.L34:
+ 412 0068 000C0140 		.word	1073810432
+ 413 006c 00000000 		.word	I2Cerror
+ 414 0070 00000000 		.word	I2Cerrorcount
+ 416              		.comm	I2Cerrorcount,4,4
+ 417              		.comm	I2Cerror,4,4
+ 418              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 i2c.c
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:75     .text.I2C_delay:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:80     .text.I2C_delay:00000000 I2C_delay
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:88     .text.I2C1_Start:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:93     .text.I2C1_Start:00000000 I2C1_Start
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:124    .text.I2C1_Start:0000004c $d
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:127    .text.I2C1_Stop:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:132    .text.I2C1_Stop:00000000 I2C1_Stop
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:165    .text.I2C1_Stop:00000050 $d
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:168    .text.I2C1_Ack:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:173    .text.I2C1_Ack:00000000 I2C1_Ack
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:206    .text.I2C1_Ack:00000050 $d
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:209    .text.I2C1_NoAck:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:214    .text.I2C1_NoAck:00000000 I2C1_NoAck
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:247    .text.I2C1_NoAck:00000050 $d
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:250    .text.I2C1_SendByte:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:255    .text.I2C1_SendByte:00000000 I2C1_SendByte
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:302    .text.I2C1_SendByte:00000068 $d
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:305    .text.I2C1_ReceiveByte:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:310    .text.I2C1_ReceiveByte:00000000 I2C1_ReceiveByte
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:359    .text.I2C1_ReceiveByte:00000070 $d
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:362    .text.I2C1_WaitAck:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:367    .text.I2C1_WaitAck:00000000 I2C1_WaitAck
+C:\Users\Chris\AppData\Local\Temp\ccHadyMi.s:412    .text.I2C1_WaitAck:00000068 $d
+                            *COM*:00000004 I2Cerror
+                            *COM*:00000004 I2Cerrorcount
+
+UNDEFINED SYMBOLS
+Delay_us
+GPIO_WriteBit
+GPIO_ReadInputDataBit
+DEBUG_LEDon

@@ -1,0 +1,538 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"newlib_stubs.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/newlib_stubs.d -MF src/newlib_stubs.d -MP -MT src/newlib_stubs.d
+  31              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  32              	@ ../src/newlib_stubs.c -mcpu=cortex-m3 -mthumb
+  33              	@ -auxbase-strip src/newlib_stubs.o -O2 -Wall -Wextra -Wstrict-prototypes
+  34              	@ -std=gnu99 -ffunction-sections -fdata-sections
+  35              	@ -fsingle-precision-constant -fverbose-asm
+  36              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  37              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  38              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  39              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  40              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  41              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  42              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  43              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  44              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  45              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  46              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  47              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  48              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  49              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  50              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  51              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  52              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  53              	@ -freorder-functions -frerun-cse-after-loop
+  54              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  55              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  56              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  57              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  58              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  59              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  60              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  61              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  62              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  63              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  64              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  65              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  66              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  67              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  68              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  69              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  70              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  71              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  72              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  73              	@ -munaligned-access -mvectorize-with-neon-quad
+  74              	
+  75              		.section	.text._close,"ax",%progbits
+  76              		.align	2
+  77              		.global	_close
+  78              		.thumb
+  79              		.thumb_func
+  81              	_close:
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84              		@ link register save eliminated.
+  85 0000 4FF0FF30 		mov	r0, #-1	@,
+  86 0004 7047     		bx	lr	@
+  88 0006 00BF     		.section	.text._execve,"ax",%progbits
+  89              		.align	2
+  90              		.global	_execve
+  91              		.thumb
+  92              		.thumb_func
+  94              	_execve:
+  95              		@ args = 0, pretend = 0, frame = 0
+  96              		@ frame_needed = 0, uses_anonymous_args = 0
+  97              		@ link register save eliminated.
+  98 0000 024B     		ldr	r3, .L3	@ tmp114,
+  99 0002 0C22     		movs	r2, #12	@ tmp115,
+ 100 0004 1A60     		str	r2, [r3]	@ tmp115, errno
+ 101 0006 4FF0FF30 		mov	r0, #-1	@,
+ 102 000a 7047     		bx	lr	@
+ 103              	.L4:
+ 104              		.align	2
+ 105              	.L3:
+ 106 000c 00000000 		.word	errno
+ 108              		.section	.text._fork,"ax",%progbits
+ 109              		.align	2
+ 110              		.global	_fork
+ 111              		.thumb
+ 112              		.thumb_func
+ 114              	_fork:
+ 115              		@ args = 0, pretend = 0, frame = 0
+ 116              		@ frame_needed = 0, uses_anonymous_args = 0
+ 117              		@ link register save eliminated.
+ 118 0000 024B     		ldr	r3, .L6	@ tmp111,
+ 119 0002 0B22     		movs	r2, #11	@ tmp112,
+ 120 0004 1A60     		str	r2, [r3]	@ tmp112, errno
+ 121 0006 4FF0FF30 		mov	r0, #-1	@,
+ 122 000a 7047     		bx	lr	@
+ 123              	.L7:
+ 124              		.align	2
+ 125              	.L6:
+ 126 000c 00000000 		.word	errno
+ 128              		.section	.text._fstat,"ax",%progbits
+ 129              		.align	2
+ 130              		.global	_fstat
+ 131              		.thumb
+ 132              		.thumb_func
+ 134              	_fstat:
+ 135              		@ args = 0, pretend = 0, frame = 0
+ 136              		@ frame_needed = 0, uses_anonymous_args = 0
+ 137              		@ link register save eliminated.
+ 138 0000 4FF40053 		mov	r3, #8192	@ tmp113,
+ 139 0004 4B60     		str	r3, [r1, #4]	@ tmp113, st_2(D)->st_mode
+ 140 0006 0020     		movs	r0, #0	@,
+ 141 0008 7047     		bx	lr	@
+ 143 000a 00BF     		.section	.text._getpid,"ax",%progbits
+ 144              		.align	2
+ 145              		.global	_getpid
+ 146              		.thumb
+ 147              		.thumb_func
+ 149              	_getpid:
+ 150              		@ args = 0, pretend = 0, frame = 0
+ 151              		@ frame_needed = 0, uses_anonymous_args = 0
+ 152              		@ link register save eliminated.
+ 153 0000 0120     		movs	r0, #1	@,
+ 154 0002 7047     		bx	lr	@
+ 156              		.section	.text._isatty,"ax",%progbits
+ 157              		.align	2
+ 158              		.global	_isatty
+ 159              		.thumb
+ 160              		.thumb_func
+ 162              	_isatty:
+ 163              		@ args = 0, pretend = 0, frame = 0
+ 164              		@ frame_needed = 0, uses_anonymous_args = 0
+ 165              		@ link register save eliminated.
+ 166 0000 0228     		cmp	r0, #2	@ file,
+ 167 0002 04D9     		bls	.L14	@,
+ 168 0004 034B     		ldr	r3, .L16	@ tmp114,
+ 169 0006 0922     		movs	r2, #9	@ tmp115,
+ 170 0008 1A60     		str	r2, [r3]	@ tmp115, errno
+ 171 000a 0020     		movs	r0, #0	@ D.7302,
+ 172 000c 7047     		bx	lr	@
+ 173              	.L14:
+ 174 000e 0120     		movs	r0, #1	@ D.7302,
+ 175 0010 7047     		bx	lr	@
+ 176              	.L17:
+ 177 0012 00BF     		.align	2
+ 178              	.L16:
+ 179 0014 00000000 		.word	errno
+ 181              		.section	.text._kill,"ax",%progbits
+ 182              		.align	2
+ 183              		.global	_kill
+ 184              		.thumb
+ 185              		.thumb_func
+ 187              	_kill:
+ 188              		@ args = 0, pretend = 0, frame = 0
+ 189              		@ frame_needed = 0, uses_anonymous_args = 0
+ 190              		@ link register save eliminated.
+ 191 0000 024B     		ldr	r3, .L19	@ tmp113,
+ 192 0002 1622     		movs	r2, #22	@ tmp114,
+ 193 0004 1A60     		str	r2, [r3]	@ tmp114, errno
+ 194 0006 4FF0FF30 		mov	r0, #-1	@,
+ 195 000a 7047     		bx	lr	@
+ 196              	.L20:
+ 197              		.align	2
+ 198              	.L19:
+ 199 000c 00000000 		.word	errno
+ 201              		.section	.text._link,"ax",%progbits
+ 202              		.align	2
+ 203              		.global	_link
+ 204              		.thumb
+ 205              		.thumb_func
+ 207              	_link:
+ 208              		@ args = 0, pretend = 0, frame = 0
+ 209              		@ frame_needed = 0, uses_anonymous_args = 0
+ 210              		@ link register save eliminated.
+ 211 0000 024B     		ldr	r3, .L22	@ tmp113,
+ 212 0002 1F22     		movs	r2, #31	@ tmp114,
+ 213 0004 1A60     		str	r2, [r3]	@ tmp114, errno
+ 214 0006 4FF0FF30 		mov	r0, #-1	@,
+ 215 000a 7047     		bx	lr	@
+ 216              	.L23:
+ 217              		.align	2
+ 218              	.L22:
+ 219 000c 00000000 		.word	errno
+ 221              		.section	.text._lseek,"ax",%progbits
+ 222              		.align	2
+ 223              		.global	_lseek
+ 224              		.thumb
+ 225              		.thumb_func
+ 227              	_lseek:
+ 228              		@ args = 0, pretend = 0, frame = 0
+ 229              		@ frame_needed = 0, uses_anonymous_args = 0
+ 230              		@ link register save eliminated.
+ 231 0000 0020     		movs	r0, #0	@,
+ 232 0002 7047     		bx	lr	@
+ 234              		.section	.text._read,"ax",%progbits
+ 235              		.align	2
+ 236              		.global	_read
+ 237              		.thumb
+ 238              		.thumb_func
+ 240              	_read:
+ 241              		@ args = 0, pretend = 0, frame = 0
+ 242              		@ frame_needed = 0, uses_anonymous_args = 0
+ 243              		@ link register save eliminated.
+ 244 0000 70B4     		push	{r4, r5, r6}	@
+ 245 0002 78B9     		cbnz	r0, .L35	@ file,
+ 246 0004 002A     		cmp	r2, #0	@ len,
+ 247 0006 0BDD     		ble	.L28	@,
+ 248 0008 094C     		ldr	r4, .L36	@ tmp157,
+ 249 000a 8E18     		adds	r6, r1, r2	@ D.7324, ptr, len
+ 250 000c 2546     		mov	r5, r4	@ tmp158, tmp157
+ 251              	.L30:
+ 252 000e 2388     		ldrh	r3, [r4]	@, MEM[(struct USART_TypeDef *)1073761280B].SR
+ 253 0010 9B06     		lsls	r3, r3, #26	@, MEM[(struct USART_TypeDef *)1073761280B].SR,
+ 254 0012 FCD5     		bpl	.L30	@,
+ 255 0014 AB88     		ldrh	r3, [r5, #4]	@, MEM[(struct USART_TypeDef *)1073761280B].DR
+ 256 0016 01F8013B 		strb	r3, [r1], #1	@ MEM[(struct USART_TypeDef *)1073761280B].DR, MEM[base: ptr_17, offset: 4294967
+ 257 001a B142     		cmp	r1, r6	@ ptr, D.7324
+ 258 001c F7D1     		bne	.L30	@,
+ 259 001e 1046     		mov	r0, r2	@ D.7321, len
+ 260              	.L28:
+ 261 0020 70BC     		pop	{r4, r5, r6}	@
+ 262 0022 7047     		bx	lr	@
+ 263              	.L35:
+ 264 0024 034B     		ldr	r3, .L36+4	@ tmp153,
+ 265 0026 0922     		movs	r2, #9	@ tmp154,
+ 266 0028 1A60     		str	r2, [r3]	@ tmp154, errno
+ 267 002a 4FF0FF30 		mov	r0, #-1	@ D.7321,
+ 268 002e F7E7     		b	.L28	@
+ 269              	.L37:
+ 270              		.align	2
+ 271              	.L36:
+ 272 0030 004C0040 		.word	1073761280
+ 273 0034 00000000 		.word	errno
+ 275              		.section	.text._stat,"ax",%progbits
+ 276              		.align	2
+ 277              		.global	_stat
+ 278              		.thumb
+ 279              		.thumb_func
+ 281              	_stat:
+ 282              		@ args = 0, pretend = 0, frame = 0
+ 283              		@ frame_needed = 0, uses_anonymous_args = 0
+ 284              		@ link register save eliminated.
+ 285 0000 4FF40053 		mov	r3, #8192	@ tmp113,
+ 286 0004 4B60     		str	r3, [r1, #4]	@ tmp113, st_2(D)->st_mode
+ 287 0006 0020     		movs	r0, #0	@,
+ 288 0008 7047     		bx	lr	@
+ 290 000a 00BF     		.section	.text._times,"ax",%progbits
+ 291              		.align	2
+ 292              		.global	_times
+ 293              		.thumb
+ 294              		.thumb_func
+ 296              	_times:
+ 297              		@ args = 0, pretend = 0, frame = 0
+ 298              		@ frame_needed = 0, uses_anonymous_args = 0
+ 299              		@ link register save eliminated.
+ 300 0000 4FF0FF30 		mov	r0, #-1	@,
+ 301 0004 7047     		bx	lr	@
+ 303 0006 00BF     		.section	.text._unlink,"ax",%progbits
+ 304              		.align	2
+ 305              		.global	_unlink
+ 306              		.thumb
+ 307              		.thumb_func
+ 309              	_unlink:
+ 310              		@ args = 0, pretend = 0, frame = 0
+ 311              		@ frame_needed = 0, uses_anonymous_args = 0
+ 312              		@ link register save eliminated.
+ 313 0000 024B     		ldr	r3, .L41	@ tmp112,
+ 314 0002 0222     		movs	r2, #2	@ tmp113,
+ 315 0004 1A60     		str	r2, [r3]	@ tmp113, errno
+ 316 0006 4FF0FF30 		mov	r0, #-1	@,
+ 317 000a 7047     		bx	lr	@
+ 318              	.L42:
+ 319              		.align	2
+ 320              	.L41:
+ 321 000c 00000000 		.word	errno
+ 323              		.section	.text._wait,"ax",%progbits
+ 324              		.align	2
+ 325              		.global	_wait
+ 326              		.thumb
+ 327              		.thumb_func
+ 329              	_wait:
+ 330              		@ args = 0, pretend = 0, frame = 0
+ 331              		@ frame_needed = 0, uses_anonymous_args = 0
+ 332              		@ link register save eliminated.
+ 333 0000 024B     		ldr	r3, .L44	@ tmp112,
+ 334 0002 0A22     		movs	r2, #10	@ tmp113,
+ 335 0004 1A60     		str	r2, [r3]	@ tmp113, errno
+ 336 0006 4FF0FF30 		mov	r0, #-1	@,
+ 337 000a 7047     		bx	lr	@
+ 338              	.L45:
+ 339              		.align	2
+ 340              	.L44:
+ 341 000c 00000000 		.word	errno
+ 343              		.section	.text._write,"ax",%progbits
+ 344              		.align	2
+ 345              		.global	_write
+ 346              		.thumb
+ 347              		.thumb_func
+ 349              	_write:
+ 350              		@ args = 0, pretend = 0, frame = 0
+ 351              		@ frame_needed = 0, uses_anonymous_args = 0
+ 352              		@ link register save eliminated.
+ 353 0000 0128     		cmp	r0, #1	@ file,
+ 354 0002 70B4     		push	{r4, r5, r6}	@
+ 355 0004 18D0     		beq	.L48	@,
+ 356 0006 0228     		cmp	r0, #2	@ file,
+ 357 0008 0FD1     		bne	.L61	@,
+ 358 000a 002A     		cmp	r2, #0	@ len,
+ 359 000c 0ADD     		ble	.L52	@,
+ 360 000e 124C     		ldr	r4, .L63	@ tmp152,
+ 361 0010 8E18     		adds	r6, r1, r2	@ D.7354, ptr, len
+ 362 0012 2546     		mov	r5, r4	@ tmp153, tmp152
+ 363              	.L57:
+ 364 0014 2388     		ldrh	r3, [r4]	@, MEM[(struct USART_TypeDef *)1073761280B].SR
+ 365 0016 5B06     		lsls	r3, r3, #25	@, MEM[(struct USART_TypeDef *)1073761280B].SR,
+ 366 0018 FCD5     		bpl	.L57	@,
+ 367 001a 11F8013B 		ldrb	r3, [r1], #1	@ zero_extendqisi2	@ D.7355, MEM[base: ptr_26, offset: 4294967295B]
+ 368 001e B142     		cmp	r1, r6	@ ptr, D.7354
+ 369 0020 AB80     		strh	r3, [r5, #4]	@ movhi	@ D.7355, MEM[(struct USART_TypeDef *)1073761280B].DR
+ 370 0022 F7D1     		bne	.L57	@,
+ 371              	.L52:
+ 372 0024 1046     		mov	r0, r2	@ D.7353, len
+ 373              	.L62:
+ 374 0026 70BC     		pop	{r4, r5, r6}	@
+ 375 0028 7047     		bx	lr	@
+ 376              	.L61:
+ 377 002a 0C4B     		ldr	r3, .L63+4	@ tmp145,
+ 378 002c 0922     		movs	r2, #9	@ tmp146,
+ 379 002e 4FF0FF30 		mov	r0, #-1	@ D.7353,
+ 380 0032 1A60     		str	r2, [r3]	@ tmp146, errno
+ 381 0034 70BC     		pop	{r4, r5, r6}	@
+ 382 0036 7047     		bx	lr	@
+ 383              	.L48:
+ 384 0038 002A     		cmp	r2, #0	@ len,
+ 385 003a F3DD     		ble	.L52	@,
+ 386 003c 064C     		ldr	r4, .L63	@ tmp149,
+ 387 003e 8E18     		adds	r6, r1, r2	@ D.7354, ptr, len
+ 388 0040 2546     		mov	r5, r4	@ tmp150, tmp149
+ 389              	.L54:
+ 390 0042 2388     		ldrh	r3, [r4]	@, MEM[(struct USART_TypeDef *)1073761280B].SR
+ 391 0044 5806     		lsls	r0, r3, #25	@, MEM[(struct USART_TypeDef *)1073761280B].SR,
+ 392 0046 FCD5     		bpl	.L54	@,
+ 393 0048 11F8013B 		ldrb	r3, [r1], #1	@ zero_extendqisi2	@ D.7355, MEM[base: ptr_17, offset: 4294967295B]
+ 394 004c B142     		cmp	r1, r6	@ ptr, D.7354
+ 395 004e AB80     		strh	r3, [r5, #4]	@ movhi	@ D.7355, MEM[(struct USART_TypeDef *)1073761280B].DR
+ 396 0050 F7D1     		bne	.L54	@,
+ 397 0052 1046     		mov	r0, r2	@ D.7353, len
+ 398 0054 E7E7     		b	.L62	@
+ 399              	.L64:
+ 400 0056 00BF     		.align	2
+ 401              	.L63:
+ 402 0058 004C0040 		.word	1073761280
+ 403 005c 00000000 		.word	errno
+ 405              		.section	.text._exit,"ax",%progbits
+ 406              		.align	2
+ 407              		.global	_exit
+ 408              		.thumb
+ 409              		.thumb_func
+ 411              	_exit:
+ 412              		@ Volatile: function does not return.
+ 413              		@ args = 0, pretend = 0, frame = 0
+ 414              		@ frame_needed = 0, uses_anonymous_args = 0
+ 415 0000 08B5     		push	{r3, lr}	@
+ 416 0002 0120     		movs	r0, #1	@,
+ 417 0004 0249     		ldr	r1, .L67	@,
+ 418 0006 0422     		movs	r2, #4	@,
+ 419 0008 FFF7FEFF 		bl	_write	@
+ 420              	.L66:
+ 421 000c FEE7     		b	.L66	@
+ 422              	.L68:
+ 423 000e 00BF     		.align	2
+ 424              	.L67:
+ 425 0010 00000000 		.word	.LC0
+ 427              		.section	.text._sbrk,"ax",%progbits
+ 428              		.align	2
+ 429              		.global	_sbrk
+ 430              		.thumb
+ 431              		.thumb_func
+ 433              	_sbrk:
+ 434              		@ args = 0, pretend = 0, frame = 0
+ 435              		@ frame_needed = 0, uses_anonymous_args = 0
+ 436 0000 0D4B     		ldr	r3, .L76	@ tmp127,
+ 437 0002 10B5     		push	{r4, lr}	@
+ 438 0004 1A68     		ldr	r2, [r3]	@ heap_end.0, heap_end
+ 439 0006 0446     		mov	r4, r0	@ incr, incr
+ 440 0008 92B1     		cbz	r2, .L74	@ heap_end.0,
+ 441 000a 1046     		mov	r0, r2	@ D.7363, heap_end.0
+ 442              	.L70:
+ 443              	@ 455 "C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include/core_cmFunc.h" 1
+ 444 000c EFF30881 		MRS r1, msp	@ result
+ 445              	
+ 446              	@ 0 "" 2
+ 447              		.thumb
+ 448 0010 0219     		adds	r2, r0, r4	@ heap_end.2, D.7363, incr
+ 449 0012 8A42     		cmp	r2, r1	@ heap_end.2, result
+ 450 0014 01D8     		bhi	.L75	@,
+ 451 0016 1A60     		str	r2, [r3]	@ heap_end.2, heap_end
+ 452 0018 10BD     		pop	{r4, pc}	@
+ 453              	.L75:
+ 454 001a 0849     		ldr	r1, .L76+4	@,
+ 455 001c 1922     		movs	r2, #25	@,
+ 456 001e 0220     		movs	r0, #2	@,
+ 457 0020 FFF7FEFF 		bl	_write	@
+ 458 0024 064B     		ldr	r3, .L76+8	@ tmp123,
+ 459 0026 0C22     		movs	r2, #12	@ tmp124,
+ 460 0028 1A60     		str	r2, [r3]	@ tmp124, errno
+ 461 002a 4FF0FF30 		mov	r0, #-1	@ D.7363,
+ 462 002e 10BD     		pop	{r4, pc}	@
+ 463              	.L74:
+ 464 0030 0448     		ldr	r0, .L76+12	@ tmp120,
+ 465 0032 1860     		str	r0, [r3]	@ tmp120, heap_end
+ 466 0034 EAE7     		b	.L70	@
+ 467              	.L77:
+ 468 0036 00BF     		.align	2
+ 469              	.L76:
+ 470 0038 00000000 		.word	.LANCHOR0
+ 471 003c 08000000 		.word	.LC1
+ 472 0040 00000000 		.word	errno
+ 473 0044 00000000 		.word	_ebss
+ 475              		.section	.text._init,"ax",%progbits
+ 476              		.align	2
+ 477              		.weak	_init
+ 478              		.thumb
+ 479              		.thumb_func
+ 481              	_init:
+ 482              		@ args = 0, pretend = 0, frame = 0
+ 483              		@ frame_needed = 0, uses_anonymous_args = 0
+ 484              		@ link register save eliminated.
+ 485 0000 7047     		bx	lr	@
+ 487              		.global	environ
+ 488              		.global	__env
+ 489 0002 00BF     		.section	.data.environ,"aw",%progbits
+ 490              		.align	2
+ 493              	environ:
+ 494 0000 00000000 		.word	__env
+ 495              		.section	.bss.__env,"aw",%nobits
+ 496              		.align	2
+ 499              	__env:
+ 500 0000 00000000 		.space	4
+ 501              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 502              		.align	2
+ 503              	.LC0:
+ 504 0000 65786974 		.ascii	"exit\000"
+ 504      00
+ 505 0005 000000   		.space	3
+ 506              	.LC1:
+ 507 0008 48656170 		.ascii	"Heap and stack collision\012\000"
+ 507      20616E64 
+ 507      20737461 
+ 507      636B2063 
+ 507      6F6C6C69 
+ 508 0022 0000     		.section	.bss.heap_end.7120,"aw",%nobits
+ 509              		.align	2
+ 510              		.set	.LANCHOR0,. + 0
+ 513              	heap_end.7120:
+ 514 0000 00000000 		.space	4
+ 515              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 newlib_stubs.c
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:76     .text._close:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:81     .text._close:00000000 _close
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:89     .text._execve:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:94     .text._execve:00000000 _execve
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:106    .text._execve:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:109    .text._fork:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:114    .text._fork:00000000 _fork
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:126    .text._fork:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:129    .text._fstat:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:134    .text._fstat:00000000 _fstat
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:144    .text._getpid:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:149    .text._getpid:00000000 _getpid
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:157    .text._isatty:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:162    .text._isatty:00000000 _isatty
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:179    .text._isatty:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:182    .text._kill:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:187    .text._kill:00000000 _kill
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:199    .text._kill:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:202    .text._link:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:207    .text._link:00000000 _link
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:219    .text._link:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:222    .text._lseek:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:227    .text._lseek:00000000 _lseek
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:235    .text._read:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:240    .text._read:00000000 _read
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:272    .text._read:00000030 $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:276    .text._stat:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:281    .text._stat:00000000 _stat
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:291    .text._times:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:296    .text._times:00000000 _times
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:304    .text._unlink:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:309    .text._unlink:00000000 _unlink
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:321    .text._unlink:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:324    .text._wait:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:329    .text._wait:00000000 _wait
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:341    .text._wait:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:344    .text._write:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:349    .text._write:00000000 _write
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:402    .text._write:00000058 $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:406    .text._exit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:411    .text._exit:00000000 _exit
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:425    .text._exit:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:428    .text._sbrk:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:433    .text._sbrk:00000000 _sbrk
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:470    .text._sbrk:00000038 $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:476    .text._init:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:481    .text._init:00000000 _init
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:493    .data.environ:00000000 environ
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:499    .bss.__env:00000000 __env
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:490    .data.environ:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:496    .bss.__env:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:502    .rodata.str1.4:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:509    .bss.heap_end.7120:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cczOxPGF.s:513    .bss.heap_end.7120:00000000 heap_end.7120
+
+UNDEFINED SYMBOLS
+errno
+_ebss

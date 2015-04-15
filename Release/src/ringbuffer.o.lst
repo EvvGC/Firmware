@@ -1,0 +1,386 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"ringbuffer.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/ringbuffer.d -MF src/ringbuffer.d -MP -MT src/ringbuffer.d
+  31              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  32              	@ ../src/ringbuffer.c -mcpu=cortex-m3 -mthumb
+  33              	@ -auxbase-strip src/ringbuffer.o -O2 -Wall -Wextra -Wstrict-prototypes
+  34              	@ -std=gnu99 -ffunction-sections -fdata-sections
+  35              	@ -fsingle-precision-constant -fverbose-asm
+  36              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  37              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  38              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  39              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  40              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  41              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  42              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  43              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  44              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  45              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  46              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  47              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  48              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  49              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  50              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  51              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  52              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  53              	@ -freorder-functions -frerun-cse-after-loop
+  54              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  55              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  56              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  57              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  58              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  59              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  60              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  61              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  62              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  63              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  64              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  65              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  66              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  67              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  68              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  69              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  70              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  71              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  72              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  73              	@ -munaligned-access -mvectorize-with-neon-quad
+  74              	
+  75              		.section	.text.RingBufferInit,"ax",%progbits
+  76              		.align	2
+  77              		.global	RingBufferInit
+  78              		.thumb
+  79              		.thumb_func
+  81              	RingBufferInit:
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84              		@ link register save eliminated.
+  85 0000 0023     		movs	r3, #0	@ tmp112,
+  86 0002 0360     		str	r3, [r0]	@ tmp112, rb_2(D)->Read
+  87 0004 C0F80C12 		str	r1, [r0, #524]	@ callback, rb_2(D)->CallBack
+  88 0008 4360     		str	r3, [r0, #4]	@ tmp112, rb_2(D)->Write
+  89 000a 8360     		str	r3, [r0, #8]	@ tmp112, rb_2(D)->Overrun
+  90 000c 7047     		bx	lr	@
+  92 000e 00BF     		.section	.text.RingBufferSize,"ax",%progbits
+  93              		.align	2
+  94              		.global	RingBufferSize
+  95              		.thumb
+  96              		.thumb_func
+  98              	RingBufferSize:
+  99              		@ args = 0, pretend = 0, frame = 0
+ 100              		@ frame_needed = 0, uses_anonymous_args = 0
+ 101              		@ link register save eliminated.
+ 102 0000 4FF40070 		mov	r0, #512	@,
+ 103 0004 7047     		bx	lr	@
+ 105 0006 00BF     		.section	.text.RingBufferFillLevel,"ax",%progbits
+ 106              		.align	2
+ 107              		.global	RingBufferFillLevel
+ 108              		.thumb
+ 109              		.thumb_func
+ 111              	RingBufferFillLevel:
+ 112              		@ args = 0, pretend = 0, frame = 0
+ 113              		@ frame_needed = 0, uses_anonymous_args = 0
+ 114              		@ link register save eliminated.
+ 115 0000 4268     		ldr	r2, [r0, #4]	@ D.4654, rb_2(D)->Write
+ 116 0002 0368     		ldr	r3, [r0]	@ D.4654, rb_2(D)->Read
+ 117 0004 0748     		ldr	r0, .L7	@ D.4654,
+ 118 0006 D31A     		subs	r3, r2, r3	@ D.4654, D.4654, D.4654
+ 119 0008 03F50073 		add	r3, r3, #512	@ D.4654, D.4654,
+ 120 000c 1840     		ands	r0, r0, r3	@, D.4654, D.4654, D.4654
+ 121 000e 0028     		cmp	r0, #0	@ D.4654,
+ 122 0010 00DB     		blt	.L6	@,
+ 123 0012 7047     		bx	lr	@
+ 124              	.L6:
+ 125 0014 0138     		subs	r0, r0, #1	@ D.4654, D.4654,
+ 126 0016 6FEAC050 		mvn	r0, r0, lsl #23	@ tmp123, D.4654,
+ 127 001a 6FEAD050 		mvn	r0, r0, lsr #23	@ tmp123, tmp123,
+ 128 001e 0130     		adds	r0, r0, #1	@ D.4654, tmp123,
+ 129 0020 7047     		bx	lr	@
+ 130              	.L8:
+ 131 0022 00BF     		.align	2
+ 132              	.L7:
+ 133 0024 FF010080 		.word	-2147483137
+ 135              		.section	.text.RingBufferPut,"ax",%progbits
+ 136              		.align	2
+ 137              		.global	RingBufferPut
+ 138              		.thumb
+ 139              		.thumb_func
+ 141              	RingBufferPut:
+ 142              		@ args = 0, pretend = 0, frame = 0
+ 143              		@ frame_needed = 0, uses_anonymous_args = 0
+ 144 0000 38B5     		push	{r3, r4, r5, lr}	@
+ 145 0002 32B3     		cbz	r2, .L10	@ block,
+ 146 0004 40F2FF15 		movw	r5, #511	@ tmp152,
+ 147 0008 01E0     		b	.L13	@
+ 148              	.L12:
+ 149 000a AB42     		cmp	r3, r5	@ D.4657, tmp152
+ 150 000c 10D1     		bne	.L11	@,
+ 151              	.L13:
+ 152 000e 4468     		ldr	r4, [r0, #4]	@ D.4657, rb_7(D)->Write
+ 153 0010 0268     		ldr	r2, [r0]	@ D.4657, rb_7(D)->Read
+ 154 0012 1E4B     		ldr	r3, .L23	@ D.4657,
+ 155 0014 A21A     		subs	r2, r4, r2	@ D.4657, D.4657, D.4657
+ 156 0016 02F50072 		add	r2, r2, #512	@ D.4657, D.4657,
+ 157 001a 1340     		ands	r3, r3, r2	@, D.4657, D.4657, D.4657
+ 158 001c 002B     		cmp	r3, #0	@ D.4657,
+ 159 001e F4DA     		bge	.L12	@,
+ 160 0020 013B     		subs	r3, r3, #1	@ D.4657, D.4657,
+ 161 0022 6FEAC353 		mvn	r3, r3, lsl #23	@ tmp136, D.4657,
+ 162 0026 6FEAD353 		mvn	r3, r3, lsr #23	@ tmp136, tmp136,
+ 163 002a 0133     		adds	r3, r3, #1	@ D.4657, tmp136,
+ 164 002c AB42     		cmp	r3, r5	@ D.4657, tmp152
+ 165 002e EED0     		beq	.L13	@,
+ 166              	.L11:
+ 167 0030 4468     		ldr	r4, [r0, #4]	@ D.4657, rb_7(D)->Write
+ 168 0032 4268     		ldr	r2, [r0, #4]	@ D.4657, rb_7(D)->Write
+ 169 0034 40F2FF13 		movw	r3, #511	@ tmp150,
+ 170 0038 9A42     		cmp	r2, r3	@ D.4657, tmp150
+ 171 003a 16BF     		itet	ne
+ 172 003c 4368     		ldrne	r3, [r0, #4]	@ D.4657, rb_7(D)->Write
+ 173 003e 0023     		moveq	r3, #0	@ tmp151,
+ 174 0040 0133     		addne	r3, r3, #1	@ D.4657, D.4657,
+ 175 0042 0444     		add	r4, r4, r0	@ tmp148, rb
+ 176 0044 2173     		strb	r1, [r4, #12]	@ c, rb_7(D)->Buffer
+ 177 0046 4360     		str	r3, [r0, #4]	@ D.4657,
+ 178 0048 D0F80C32 		ldr	r3, [r0, #524]	@ D.4658, rb_7(D)->CallBack
+ 179 004c 03B1     		cbz	r3, .L9	@ D.4658,
+ 180 004e 9847     		blx	r3	@ D.4658
+ 181              	.L9:
+ 182 0050 38BD     		pop	{r3, r4, r5, pc}	@
+ 183              	.L10:
+ 184 0052 4468     		ldr	r4, [r0, #4]	@ D.4657, rb_7(D)->Write
+ 185 0054 0268     		ldr	r2, [r0]	@ D.4657, rb_7(D)->Read
+ 186 0056 0D4B     		ldr	r3, .L23	@ D.4657,
+ 187 0058 A21A     		subs	r2, r4, r2	@ D.4657, D.4657, D.4657
+ 188 005a 02F50072 		add	r2, r2, #512	@ D.4657, D.4657,
+ 189 005e 1340     		ands	r3, r3, r2	@, D.4657, D.4657, D.4657
+ 190 0060 002B     		cmp	r3, #0	@ D.4657,
+ 191 0062 07DB     		blt	.L21	@,
+ 192 0064 40F2FF12 		movw	r2, #511	@ tmp147,
+ 193 0068 9342     		cmp	r3, r2	@ D.4657, tmp147
+ 194 006a E1D1     		bne	.L11	@,
+ 195              	.L22:
+ 196 006c 8368     		ldr	r3, [r0, #8]	@ D.4657, rb_7(D)->Overrun
+ 197 006e 0133     		adds	r3, r3, #1	@ D.4657, D.4657,
+ 198 0070 8360     		str	r3, [r0, #8]	@ D.4657, rb_7(D)->Overrun
+ 199 0072 38BD     		pop	{r3, r4, r5, pc}	@
+ 200              	.L21:
+ 201 0074 013B     		subs	r3, r3, #1	@ D.4657, D.4657,
+ 202 0076 6FEAC353 		mvn	r3, r3, lsl #23	@ tmp145, D.4657,
+ 203 007a 6FEAD353 		mvn	r3, r3, lsr #23	@ tmp145, tmp145,
+ 204 007e 0133     		adds	r3, r3, #1	@ D.4657, tmp145,
+ 205 0080 40F2FF12 		movw	r2, #511	@ tmp147,
+ 206 0084 9342     		cmp	r3, r2	@ D.4657, tmp147
+ 207 0086 D3D1     		bne	.L11	@,
+ 208 0088 F0E7     		b	.L22	@
+ 209              	.L24:
+ 210 008a 00BF     		.align	2
+ 211              	.L23:
+ 212 008c FF010080 		.word	-2147483137
+ 214              		.section	.text.RingBufferPutBlock,"ax",%progbits
+ 215              		.align	2
+ 216              		.global	RingBufferPutBlock
+ 217              		.thumb
+ 218              		.thumb_func
+ 220              	RingBufferPutBlock:
+ 221              		@ args = 0, pretend = 0, frame = 0
+ 222              		@ frame_needed = 0, uses_anonymous_args = 0
+ 223 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}	@
+ 224 0002 0446     		mov	r4, r0	@ rb, rb
+ 225 0004 0F46     		mov	r7, r1	@ data, data
+ 226 0006 1646     		mov	r6, r2	@ dataLen, dataLen
+ 227 0008 EBB9     		cbnz	r3, .L29	@ block,
+ 228 000a 4168     		ldr	r1, [r0, #4]	@ D.4661, rb_7(D)->Write
+ 229 000c 0268     		ldr	r2, [r0]	@ D.4661, rb_7(D)->Read
+ 230 000e 2F4B     		ldr	r3, .L47	@ D.4661,
+ 231 0010 8A1A     		subs	r2, r1, r2	@ D.4661, D.4661, D.4661
+ 232 0012 02F50072 		add	r2, r2, #512	@ D.4661, D.4661,
+ 233 0016 1340     		ands	r3, r3, r2	@, D.4661, D.4661, D.4661
+ 234 0018 002B     		cmp	r3, #0	@ D.4661,
+ 235 001a 49DB     		blt	.L42	@,
+ 236 001c 3344     		add	r3, r3, r6	@ D.4661, dataLen
+ 237 001e B3F5007F 		cmp	r3, #512	@ D.4661,
+ 238 0022 1DDB     		blt	.L27	@,
+ 239              	.L46:
+ 240 0024 A268     		ldr	r2, [r4, #8]	@ D.4661, rb_7(D)->Overrun
+ 241 0026 D4F80C32 		ldr	r3, [r4, #524]	@ D.4662, rb_7(D)->CallBack
+ 242 002a 1644     		add	r6, r6, r2	@ D.4661, D.4661
+ 243 002c A660     		str	r6, [r4, #8]	@ D.4661, rb_7(D)->Overrun
+ 244 002e 73BB     		cbnz	r3, .L40	@ D.4662,
+ 245 0030 2EE0     		b	.L25	@
+ 246              	.L43:
+ 247 0032 013B     		subs	r3, r3, #1	@ D.4661, D.4661,
+ 248 0034 6FEAC353 		mvn	r3, r3, lsl #23	@ tmp154, D.4661,
+ 249 0038 6FEAD353 		mvn	r3, r3, lsr #23	@ tmp154, tmp154,
+ 250 003c 0133     		adds	r3, r3, #1	@ D.4661, tmp154,
+ 251 003e 3344     		add	r3, r3, r6	@ D.4661, dataLen
+ 252 0040 B3F5007F 		cmp	r3, #512	@ D.4661,
+ 253 0044 0CDB     		blt	.L27	@,
+ 254              	.L29:
+ 255 0046 6568     		ldr	r5, [r4, #4]	@ D.4661, rb_7(D)->Write
+ 256 0048 2068     		ldr	r0, [r4]	@ D.4661, rb_7(D)->Read
+ 257 004a 204B     		ldr	r3, .L47	@ D.4661,
+ 258 004c 281A     		subs	r0, r5, r0	@ D.4661, D.4661, D.4661
+ 259 004e 00F50070 		add	r0, r0, #512	@ D.4661, D.4661,
+ 260 0052 0340     		ands	r3, r3, r0	@, D.4661, D.4661, D.4661
+ 261 0054 002B     		cmp	r3, #0	@ D.4661,
+ 262 0056 ECDB     		blt	.L43	@,
+ 263 0058 3344     		add	r3, r3, r6	@ D.4661, dataLen
+ 264 005a B3F5007F 		cmp	r3, #512	@ D.4661,
+ 265 005e F2DA     		bge	.L29	@,
+ 266              	.L27:
+ 267 0060 6568     		ldr	r5, [r4, #4]	@ D.4661, rb_7(D)->Write
+ 268 0062 6068     		ldr	r0, [r4, #4]	@ D.4661,
+ 269 0064 C5F50075 		rsb	r5, r5, #512	@ free1, D.4661,
+ 270 0068 AE42     		cmp	r6, r5	@ dataLen, free1
+ 271 006a 12DD     		ble	.L44	@,
+ 272 006c 2044     		add	r0, r0, r4	@ tmp176, rb
+ 273 006e 761B     		subs	r6, r6, r5	@ len2, dataLen, free1
+ 274 0070 3946     		mov	r1, r7	@, data
+ 275 0072 2A46     		mov	r2, r5	@, free1
+ 276 0074 0C30     		adds	r0, r0, #12	@, tmp176,
+ 277 0076 FFF7FEFF 		bl	memcpy	@
+ 278 007a 7919     		adds	r1, r7, r5	@, data, free1
+ 279 007c 3246     		mov	r2, r6	@, len2
+ 280 007e 04F10C00 		add	r0, r4, #12	@, rb,
+ 281 0082 FFF7FEFF 		bl	memcpy	@
+ 282 0086 6660     		str	r6, [r4, #4]	@ len2,
+ 283              	.L35:
+ 284 0088 D4F80C32 		ldr	r3, [r4, #524]	@ D.4662, rb_7(D)->CallBack
+ 285 008c 03B1     		cbz	r3, .L25	@ D.4662,
+ 286              	.L40:
+ 287 008e 9847     		blx	r3	@ D.4662
+ 288              	.L25:
+ 289 0090 F8BD     		pop	{r3, r4, r5, r6, r7, pc}	@
+ 290              	.L44:
+ 291 0092 2044     		add	r0, r0, r4	@ tmp167, rb
+ 292 0094 3946     		mov	r1, r7	@, data
+ 293 0096 0C30     		adds	r0, r0, #12	@, tmp167,
+ 294 0098 3246     		mov	r2, r6	@, dataLen
+ 295 009a FFF7FEFF 		bl	memcpy	@
+ 296 009e 6368     		ldr	r3, [r4, #4]	@ D.4661, rb_7(D)->Write
+ 297 00a0 3344     		add	r3, r3, r6	@ D.4661, dataLen
+ 298 00a2 B3F5007F 		cmp	r3, #512	@ D.4661,
+ 299 00a6 0ED0     		beq	.L45	@,
+ 300 00a8 6368     		ldr	r3, [r4, #4]	@ D.4661, rb_7(D)->Write
+ 301 00aa 1E44     		add	r6, r6, r3	@ D.4661, D.4661
+ 302 00ac 6660     		str	r6, [r4, #4]	@ D.4661,
+ 303 00ae EBE7     		b	.L35	@
+ 304              	.L42:
+ 305 00b0 013B     		subs	r3, r3, #1	@ D.4661, D.4661,
+ 306 00b2 6FEAC353 		mvn	r3, r3, lsl #23	@ tmp163, D.4661,
+ 307 00b6 6FEAD353 		mvn	r3, r3, lsr #23	@ tmp163, tmp163,
+ 308 00ba 0133     		adds	r3, r3, #1	@ D.4661, tmp163,
+ 309 00bc 3344     		add	r3, r3, r6	@ D.4661, dataLen
+ 310 00be B3F5007F 		cmp	r3, #512	@ D.4661,
+ 311 00c2 CDDB     		blt	.L27	@,
+ 312 00c4 AEE7     		b	.L46	@
+ 313              	.L45:
+ 314 00c6 0023     		movs	r3, #0	@ tmp174,
+ 315 00c8 6360     		str	r3, [r4, #4]	@ tmp174, rb_7(D)->Write
+ 316 00ca DDE7     		b	.L35	@
+ 317              	.L48:
+ 318              		.align	2
+ 319              	.L47:
+ 320 00cc FF010080 		.word	-2147483137
+ 322              		.section	.text.RingBufferGet,"ax",%progbits
+ 323              		.align	2
+ 324              		.global	RingBufferGet
+ 325              		.thumb
+ 326              		.thumb_func
+ 328              	RingBufferGet:
+ 329              		@ args = 0, pretend = 0, frame = 0
+ 330              		@ frame_needed = 0, uses_anonymous_args = 0
+ 331              		@ link register save eliminated.
+ 332 0000 0168     		ldr	r1, [r0]	@ D.4678, rb_5(D)->Read
+ 333 0002 4268     		ldr	r2, [r0, #4]	@ D.4678, rb_5(D)->Write
+ 334 0004 0346     		mov	r3, r0	@ rb, rb
+ 335 0006 9142     		cmp	r1, r2	@ D.4678, D.4678
+ 336 0008 0ED0     		beq	.L52	@,
+ 337 000a 0068     		ldr	r0, [r0]	@ D.4678, rb_5(D)->Read
+ 338 000c 1968     		ldr	r1, [r3]	@ D.4678, rb_5(D)->Read
+ 339 000e 40F2FF12 		movw	r2, #511	@ tmp122,
+ 340 0012 1844     		add	r0, r0, r3	@ tmp121, rb
+ 341 0014 9142     		cmp	r1, r2	@ D.4678, tmp122
+ 342 0016 007B     		ldrb	r0, [r0, #12]	@ zero_extendqisi2	@ c, rb_5(D)->Buffer
+ 343 0018 03D0     		beq	.L53	@,
+ 344 001a 1A68     		ldr	r2, [r3]	@ D.4678, rb_5(D)->Read
+ 345 001c 0132     		adds	r2, r2, #1	@ D.4678, D.4678,
+ 346 001e 1A60     		str	r2, [r3]	@ D.4678,* rb
+ 347 0020 7047     		bx	lr	@
+ 348              	.L53:
+ 349 0022 0022     		movs	r2, #0	@ tmp123,
+ 350 0024 1A60     		str	r2, [r3]	@ tmp123,* rb
+ 351 0026 7047     		bx	lr	@
+ 352              	.L52:
+ 353 0028 4FF0FF30 		mov	r0, #-1	@ D.4678,
+ 354 002c 7047     		bx	lr	@
+ 356 002e 00BF     		.section	.text.RingBufferPeek,"ax",%progbits
+ 357              		.align	2
+ 358              		.global	RingBufferPeek
+ 359              		.thumb
+ 360              		.thumb_func
+ 362              	RingBufferPeek:
+ 363              		@ args = 0, pretend = 0, frame = 0
+ 364              		@ frame_needed = 0, uses_anonymous_args = 0
+ 365              		@ link register save eliminated.
+ 366 0000 0268     		ldr	r2, [r0]	@ D.4682, rb_3(D)->Read
+ 367 0002 4368     		ldr	r3, [r0, #4]	@ D.4682, rb_3(D)->Write
+ 368 0004 9A42     		cmp	r2, r3	@ D.4682, D.4682
+ 369 0006 03D0     		beq	.L56	@,
+ 370 0008 0368     		ldr	r3, [r0]	@ D.4682, rb_3(D)->Read
+ 371 000a 1844     		add	r0, r0, r3	@ tmp118, D.4682
+ 372 000c 007B     		ldrb	r0, [r0, #12]	@ zero_extendqisi2	@ D.4682, rb_3(D)->Buffer
+ 373 000e 7047     		bx	lr	@
+ 374              	.L56:
+ 375 0010 4FF0FF30 		mov	r0, #-1	@ D.4682,
+ 376 0014 7047     		bx	lr	@
+ 378 0016 00BF     		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 ringbuffer.c
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:76     .text.RingBufferInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:81     .text.RingBufferInit:00000000 RingBufferInit
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:93     .text.RingBufferSize:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:98     .text.RingBufferSize:00000000 RingBufferSize
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:106    .text.RingBufferFillLevel:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:111    .text.RingBufferFillLevel:00000000 RingBufferFillLevel
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:133    .text.RingBufferFillLevel:00000024 $d
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:136    .text.RingBufferPut:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:141    .text.RingBufferPut:00000000 RingBufferPut
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:212    .text.RingBufferPut:0000008c $d
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:215    .text.RingBufferPutBlock:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:220    .text.RingBufferPutBlock:00000000 RingBufferPutBlock
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:320    .text.RingBufferPutBlock:000000cc $d
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:323    .text.RingBufferGet:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:328    .text.RingBufferGet:00000000 RingBufferGet
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:357    .text.RingBufferPeek:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccC9Gg3E.s:362    .text.RingBufferPeek:00000000 RingBufferPeek
+
+UNDEFINED SYMBOLS
+memcpy

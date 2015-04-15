@@ -1,0 +1,133 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"usb_endp.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/VCP/src/usb_endp.d -MF src/VCP/src/usb_endp.d -MP
+  31              	@ -MT src/VCP/src/usb_endp.d -D__USES_INITFINI__ -D STM32F10X_HD
+  32              	@ -D USE_STDPERIPH_DRIVER ../src/VCP/src/usb_endp.c -mcpu=cortex-m3 -mthumb
+  33              	@ -auxbase-strip src/VCP/src/usb_endp.o -O2 -Wall -Wextra
+  34              	@ -Wstrict-prototypes -std=gnu99 -ffunction-sections -fdata-sections
+  35              	@ -fsingle-precision-constant -fverbose-asm
+  36              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  37              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  38              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  39              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  40              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  41              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  42              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  43              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  44              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  45              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  46              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  47              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  48              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  49              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  50              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  51              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  52              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  53              	@ -freorder-functions -frerun-cse-after-loop
+  54              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  55              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  56              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  57              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  58              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  59              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  60              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  61              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  62              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  63              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  64              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  65              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  66              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  67              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  68              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  69              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  70              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  71              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  72              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  73              	@ -munaligned-access -mvectorize-with-neon-quad
+  74              	
+  75              		.section	.text.EP1_IN_Callback,"ax",%progbits
+  76              		.align	2
+  77              		.weak	EP1_IN_Callback
+  78              		.thumb
+  79              		.thumb_func
+  81              	EP1_IN_Callback:
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84              		@ link register save eliminated.
+  85 0000 014B     		ldr	r3, .L2	@ tmp110,
+  86 0002 0022     		movs	r2, #0	@ tmp111,
+  87 0004 1A60     		str	r2, [r3]	@ tmp111, packetSent
+  88 0006 7047     		bx	lr	@
+  89              	.L3:
+  90              		.align	2
+  91              	.L2:
+  92 0008 00000000 		.word	packetSent
+  94              		.section	.text.EP3_OUT_Callback,"ax",%progbits
+  95              		.align	2
+  96              		.global	EP3_OUT_Callback
+  97              		.thumb
+  98              		.thumb_func
+ 100              	EP3_OUT_Callback:
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103 0000 08B5     		push	{r3, lr}	@
+ 104 0002 0320     		movs	r0, #3	@,
+ 105 0004 FFF7FEFF 		bl	GetEPRxCount	@
+ 106 0008 054B     		ldr	r3, .L5	@ tmp115,
+ 107 000a 0246     		mov	r2, r0	@ tmp114,
+ 108 000c 1A60     		str	r2, [r3]	@ tmp114, receiveLength
+ 109 000e 1A68     		ldr	r2, [r3]	@ receiveLength.1, receiveLength
+ 110 0010 0448     		ldr	r0, .L5+4	@,
+ 111 0012 4FF48871 		mov	r1, #272	@,
+ 112 0016 92B2     		uxth	r2, r2	@, receiveLength.1
+ 113 0018 BDE80840 		pop	{r3, lr}	@
+ 114 001c FFF7FEBF 		b	PMAToUserBufferCopy	@
+ 115              	.L6:
+ 116              		.align	2
+ 117              	.L5:
+ 118 0020 00000000 		.word	receiveLength
+ 119 0024 00000000 		.word	receiveBuffer
+ 121              		.comm	receiveLength,4,4
+ 122              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_endp.c
+C:\Users\Chris\AppData\Local\Temp\cct6XgTM.s:76     .text.EP1_IN_Callback:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cct6XgTM.s:81     .text.EP1_IN_Callback:00000000 EP1_IN_Callback
+C:\Users\Chris\AppData\Local\Temp\cct6XgTM.s:92     .text.EP1_IN_Callback:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\cct6XgTM.s:95     .text.EP3_OUT_Callback:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cct6XgTM.s:100    .text.EP3_OUT_Callback:00000000 EP3_OUT_Callback
+C:\Users\Chris\AppData\Local\Temp\cct6XgTM.s:118    .text.EP3_OUT_Callback:00000020 $d
+                            *COM*:00000004 receiveLength
+
+UNDEFINED SYMBOLS
+packetSent
+GetEPRxCount
+PMAToUserBufferCopy
+receiveBuffer

@@ -1,0 +1,1054 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"stm32f10x_flash.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_flash.d
+  31              	@ -MF Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_flash.d -MP
+  32              	@ -MT Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_flash.d
+  33              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_flash.c
+  35              	@ -mcpu=cortex-m3 -mthumb
+  36              	@ -auxbase-strip Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_flash.o
+  37              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  38              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  39              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  40              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  41              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  42              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  43              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  44              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  45              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  46              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  47              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  48              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  49              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  50              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  51              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  52              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  53              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  54              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  55              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  56              	@ -freorder-functions -frerun-cse-after-loop
+  57              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  58              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  59              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  60              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  61              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  62              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  63              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  64              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  65              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  66              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  67              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  68              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  69              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  70              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  71              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  72              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  73              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  74              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  75              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  76              	@ -munaligned-access -mvectorize-with-neon-quad
+  77              	
+  78              		.section	.text.FLASH_SetLatency,"ax",%progbits
+  79              		.align	2
+  80              		.global	FLASH_SetLatency
+  81              		.thumb
+  82              		.thumb_func
+  84              	FLASH_SetLatency:
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+  88 0000 034B     		ldr	r3, .L2	@ tmp114,
+  89 0002 1A68     		ldr	r2, [r3]	@ tmpreg, MEM[(struct FLASH_TypeDef *)1073881088B].ACR
+  90 0004 02F03802 		and	r2, r2, #56	@ tmpreg, tmpreg,
+  91 0008 1043     		orrs	r0, r0, r2	@, tmpreg, FLASH_Latency, tmpreg
+  92 000a 1860     		str	r0, [r3]	@ tmpreg, MEM[(struct FLASH_TypeDef *)1073881088B].ACR
+  93 000c 7047     		bx	lr	@
+  94              	.L3:
+  95 000e 00BF     		.align	2
+  96              	.L2:
+  97 0010 00200240 		.word	1073881088
+  99              		.section	.text.FLASH_HalfCycleAccessCmd,"ax",%progbits
+ 100              		.align	2
+ 101              		.global	FLASH_HalfCycleAccessCmd
+ 102              		.thumb
+ 103              		.thumb_func
+ 105              	FLASH_HalfCycleAccessCmd:
+ 106              		@ args = 0, pretend = 0, frame = 0
+ 107              		@ frame_needed = 0, uses_anonymous_args = 0
+ 108              		@ link register save eliminated.
+ 109 0000 044B     		ldr	r3, .L5	@ tmp115,
+ 110 0002 1A68     		ldr	r2, [r3]	@ D.7039, MEM[(struct FLASH_TypeDef *)1073881088B].ACR
+ 111 0004 22F00802 		bic	r2, r2, #8	@ D.7039, D.7039,
+ 112 0008 1A60     		str	r2, [r3]	@ D.7039, MEM[(struct FLASH_TypeDef *)1073881088B].ACR
+ 113 000a 1A68     		ldr	r2, [r3]	@ D.7039, MEM[(struct FLASH_TypeDef *)1073881088B].ACR
+ 114 000c 1043     		orrs	r0, r0, r2	@, D.7039, FLASH_HalfCycleAccess, D.7039
+ 115 000e 1860     		str	r0, [r3]	@ D.7039, MEM[(struct FLASH_TypeDef *)1073881088B].ACR
+ 116 0010 7047     		bx	lr	@
+ 117              	.L6:
+ 118 0012 00BF     		.align	2
+ 119              	.L5:
+ 120 0014 00200240 		.word	1073881088
+ 122              		.section	.text.FLASH_PrefetchBufferCmd,"ax",%progbits
+ 123              		.align	2
+ 124              		.global	FLASH_PrefetchBufferCmd
+ 125              		.thumb
+ 126              		.thumb_func
+ 128              	FLASH_PrefetchBufferCmd:
+ 129              		@ args = 0, pretend = 0, frame = 0
+ 130              		@ frame_needed = 0, uses_anonymous_args = 0
+ 131              		@ link register save eliminated.
+ 132 0000 044B     		ldr	r3, .L8	@ tmp115,
+ 133 0002 1A68     		ldr	r2, [r3]	@ D.7042, MEM[(struct FLASH_TypeDef *)1073881088B].ACR
+ 134 0004 22F01002 		bic	r2, r2, #16	@ D.7042, D.7042,
+ 135 0008 1A60     		str	r2, [r3]	@ D.7042, MEM[(struct FLASH_TypeDef *)1073881088B].ACR
+ 136 000a 1A68     		ldr	r2, [r3]	@ D.7042, MEM[(struct FLASH_TypeDef *)1073881088B].ACR
+ 137 000c 1043     		orrs	r0, r0, r2	@, D.7042, FLASH_PrefetchBuffer, D.7042
+ 138 000e 1860     		str	r0, [r3]	@ D.7042, MEM[(struct FLASH_TypeDef *)1073881088B].ACR
+ 139 0010 7047     		bx	lr	@
+ 140              	.L9:
+ 141 0012 00BF     		.align	2
+ 142              	.L8:
+ 143 0014 00200240 		.word	1073881088
+ 145              		.section	.text.FLASH_Unlock,"ax",%progbits
+ 146              		.align	2
+ 147              		.global	FLASH_Unlock
+ 148              		.thumb
+ 149              		.thumb_func
+ 151              	FLASH_Unlock:
+ 152              		@ args = 0, pretend = 0, frame = 0
+ 153              		@ frame_needed = 0, uses_anonymous_args = 0
+ 154              		@ link register save eliminated.
+ 155 0000 024B     		ldr	r3, .L11	@ tmp110,
+ 156 0002 0349     		ldr	r1, .L11+4	@ tmp111,
+ 157 0004 034A     		ldr	r2, .L11+8	@ tmp113,
+ 158 0006 5960     		str	r1, [r3, #4]	@ tmp111, MEM[(struct FLASH_TypeDef *)1073881088B].KEYR
+ 159 0008 5A60     		str	r2, [r3, #4]	@ tmp113, MEM[(struct FLASH_TypeDef *)1073881088B].KEYR
+ 160 000a 7047     		bx	lr	@
+ 161              	.L12:
+ 162              		.align	2
+ 163              	.L11:
+ 164 000c 00200240 		.word	1073881088
+ 165 0010 23016745 		.word	1164378403
+ 166 0014 AB89EFCD 		.word	-839939669
+ 168              		.section	.text.FLASH_UnlockBank1,"ax",%progbits
+ 169              		.align	2
+ 170              		.global	FLASH_UnlockBank1
+ 171              		.thumb
+ 172              		.thumb_func
+ 174              	FLASH_UnlockBank1:
+ 175              		@ args = 0, pretend = 0, frame = 0
+ 176              		@ frame_needed = 0, uses_anonymous_args = 0
+ 177              		@ link register save eliminated.
+ 178 0000 024B     		ldr	r3, .L14	@ tmp110,
+ 179 0002 0349     		ldr	r1, .L14+4	@ tmp111,
+ 180 0004 034A     		ldr	r2, .L14+8	@ tmp113,
+ 181 0006 5960     		str	r1, [r3, #4]	@ tmp111, MEM[(struct FLASH_TypeDef *)1073881088B].KEYR
+ 182 0008 5A60     		str	r2, [r3, #4]	@ tmp113, MEM[(struct FLASH_TypeDef *)1073881088B].KEYR
+ 183 000a 7047     		bx	lr	@
+ 184              	.L15:
+ 185              		.align	2
+ 186              	.L14:
+ 187 000c 00200240 		.word	1073881088
+ 188 0010 23016745 		.word	1164378403
+ 189 0014 AB89EFCD 		.word	-839939669
+ 191              		.section	.text.FLASH_Lock,"ax",%progbits
+ 192              		.align	2
+ 193              		.global	FLASH_Lock
+ 194              		.thumb
+ 195              		.thumb_func
+ 197              	FLASH_Lock:
+ 198              		@ args = 0, pretend = 0, frame = 0
+ 199              		@ frame_needed = 0, uses_anonymous_args = 0
+ 200              		@ link register save eliminated.
+ 201 0000 024B     		ldr	r3, .L17	@ tmp112,
+ 202 0002 1A69     		ldr	r2, [r3, #16]	@ D.7049, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 203 0004 42F08002 		orr	r2, r2, #128	@ D.7049, D.7049,
+ 204 0008 1A61     		str	r2, [r3, #16]	@ D.7049, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 205 000a 7047     		bx	lr	@
+ 206              	.L18:
+ 207              		.align	2
+ 208              	.L17:
+ 209 000c 00200240 		.word	1073881088
+ 211              		.section	.text.FLASH_LockBank1,"ax",%progbits
+ 212              		.align	2
+ 213              		.global	FLASH_LockBank1
+ 214              		.thumb
+ 215              		.thumb_func
+ 217              	FLASH_LockBank1:
+ 218              		@ args = 0, pretend = 0, frame = 0
+ 219              		@ frame_needed = 0, uses_anonymous_args = 0
+ 220              		@ link register save eliminated.
+ 221 0000 024B     		ldr	r3, .L20	@ tmp112,
+ 222 0002 1A69     		ldr	r2, [r3, #16]	@ D.7052, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 223 0004 42F08002 		orr	r2, r2, #128	@ D.7052, D.7052,
+ 224 0008 1A61     		str	r2, [r3, #16]	@ D.7052, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 225 000a 7047     		bx	lr	@
+ 226              	.L21:
+ 227              		.align	2
+ 228              	.L20:
+ 229 000c 00200240 		.word	1073881088
+ 231              		.section	.text.FLASH_GetUserOptionByte,"ax",%progbits
+ 232              		.align	2
+ 233              		.global	FLASH_GetUserOptionByte
+ 234              		.thumb
+ 235              		.thumb_func
+ 237              	FLASH_GetUserOptionByte:
+ 238              		@ args = 0, pretend = 0, frame = 0
+ 239              		@ frame_needed = 0, uses_anonymous_args = 0
+ 240              		@ link register save eliminated.
+ 241 0000 014B     		ldr	r3, .L23	@ tmp113,
+ 242 0002 D869     		ldr	r0, [r3, #28]	@ D.7055, MEM[(struct FLASH_TypeDef *)1073881088B].OBR
+ 243 0004 8008     		lsrs	r0, r0, #2	@, D.7055,
+ 244 0006 7047     		bx	lr	@
+ 245              	.L24:
+ 246              		.align	2
+ 247              	.L23:
+ 248 0008 00200240 		.word	1073881088
+ 250              		.section	.text.FLASH_GetWriteProtectionOptionByte,"ax",%progbits
+ 251              		.align	2
+ 252              		.global	FLASH_GetWriteProtectionOptionByte
+ 253              		.thumb
+ 254              		.thumb_func
+ 256              	FLASH_GetWriteProtectionOptionByte:
+ 257              		@ args = 0, pretend = 0, frame = 0
+ 258              		@ frame_needed = 0, uses_anonymous_args = 0
+ 259              		@ link register save eliminated.
+ 260 0000 014B     		ldr	r3, .L26	@ tmp112,
+ 261 0002 186A     		ldr	r0, [r3, #32]	@ D.7059, MEM[(struct FLASH_TypeDef *)1073881088B].WRPR
+ 262 0004 7047     		bx	lr	@
+ 263              	.L27:
+ 264 0006 00BF     		.align	2
+ 265              	.L26:
+ 266 0008 00200240 		.word	1073881088
+ 268              		.section	.text.FLASH_GetReadOutProtectionStatus,"ax",%progbits
+ 269              		.align	2
+ 270              		.global	FLASH_GetReadOutProtectionStatus
+ 271              		.thumb
+ 272              		.thumb_func
+ 274              	FLASH_GetReadOutProtectionStatus:
+ 275              		@ args = 0, pretend = 0, frame = 0
+ 276              		@ frame_needed = 0, uses_anonymous_args = 0
+ 277              		@ link register save eliminated.
+ 278 0000 024B     		ldr	r3, .L29	@ tmp115,
+ 279 0002 D869     		ldr	r0, [r3, #28]	@ D.7062, MEM[(struct FLASH_TypeDef *)1073881088B].OBR
+ 280 0004 C0F34000 		ubfx	r0, r0, #1, #1	@, D.7062,,
+ 281 0008 7047     		bx	lr	@
+ 282              	.L30:
+ 283 000a 00BF     		.align	2
+ 284              	.L29:
+ 285 000c 00200240 		.word	1073881088
+ 287              		.section	.text.FLASH_GetPrefetchBufferStatus,"ax",%progbits
+ 288              		.align	2
+ 289              		.global	FLASH_GetPrefetchBufferStatus
+ 290              		.thumb
+ 291              		.thumb_func
+ 293              	FLASH_GetPrefetchBufferStatus:
+ 294              		@ args = 0, pretend = 0, frame = 0
+ 295              		@ frame_needed = 0, uses_anonymous_args = 0
+ 296              		@ link register save eliminated.
+ 297 0000 024B     		ldr	r3, .L32	@ tmp115,
+ 298 0002 1868     		ldr	r0, [r3]	@ D.7067, MEM[(struct FLASH_TypeDef *)1073881088B].ACR
+ 299 0004 C0F34010 		ubfx	r0, r0, #5, #1	@, D.7067,,
+ 300 0008 7047     		bx	lr	@
+ 301              	.L33:
+ 302 000a 00BF     		.align	2
+ 303              	.L32:
+ 304 000c 00200240 		.word	1073881088
+ 306              		.section	.text.FLASH_ITConfig,"ax",%progbits
+ 307              		.align	2
+ 308              		.global	FLASH_ITConfig
+ 309              		.thumb
+ 310              		.thumb_func
+ 312              	FLASH_ITConfig:
+ 313              		@ args = 0, pretend = 0, frame = 0
+ 314              		@ frame_needed = 0, uses_anonymous_args = 0
+ 315              		@ link register save eliminated.
+ 316 0000 044B     		ldr	r3, .L39	@ tmp117,
+ 317 0002 1A69     		ldr	r2, [r3, #16]	@ D.7072,
+ 318 0004 19B9     		cbnz	r1, .L38	@ NewState,
+ 319 0006 22EA0000 		bic	r0, r2, r0	@ D.7072, D.7072, FLASH_IT
+ 320 000a 1861     		str	r0, [r3, #16]	@ D.7072,
+ 321 000c 7047     		bx	lr	@
+ 322              	.L38:
+ 323 000e 1043     		orrs	r0, r0, r2	@, D.7072, FLASH_IT, D.7072
+ 324 0010 1861     		str	r0, [r3, #16]	@ D.7072,
+ 325 0012 7047     		bx	lr	@
+ 326              	.L40:
+ 327              		.align	2
+ 328              	.L39:
+ 329 0014 00200240 		.word	1073881088
+ 331              		.section	.text.FLASH_GetFlagStatus,"ax",%progbits
+ 332              		.align	2
+ 333              		.global	FLASH_GetFlagStatus
+ 334              		.thumb
+ 335              		.thumb_func
+ 337              	FLASH_GetFlagStatus:
+ 338              		@ args = 0, pretend = 0, frame = 0
+ 339              		@ frame_needed = 0, uses_anonymous_args = 0
+ 340              		@ link register save eliminated.
+ 341 0000 0128     		cmp	r0, #1	@ FLASH_FLAG,
+ 342 0002 064B     		ldr	r3, .L45	@ tmp118,
+ 343 0004 05D0     		beq	.L44	@,
+ 344 0006 DB68     		ldr	r3, [r3, #12]	@ D.7075, MEM[(struct FLASH_TypeDef *)1073881088B].SR
+ 345 0008 1842     		tst	r0, r3	@ FLASH_FLAG, D.7075
+ 346 000a 0CBF     		ite	eq	@
+ 347 000c 0020     		moveq	r0, #0	@, bitstatus
+ 348 000e 0120     		movne	r0, #1	@, bitstatus
+ 349 0010 7047     		bx	lr	@
+ 350              	.L44:
+ 351 0012 D869     		ldr	r0, [r3, #28]	@ D.7075, MEM[(struct FLASH_TypeDef *)1073881088B].OBR
+ 352 0014 00F00100 		and	r0, r0, #1	@ bitstatus, D.7075,
+ 353 0018 7047     		bx	lr	@
+ 354              	.L46:
+ 355 001a 00BF     		.align	2
+ 356              	.L45:
+ 357 001c 00200240 		.word	1073881088
+ 359              		.section	.text.FLASH_ClearFlag,"ax",%progbits
+ 360              		.align	2
+ 361              		.global	FLASH_ClearFlag
+ 362              		.thumb
+ 363              		.thumb_func
+ 365              	FLASH_ClearFlag:
+ 366              		@ args = 0, pretend = 0, frame = 0
+ 367              		@ frame_needed = 0, uses_anonymous_args = 0
+ 368              		@ link register save eliminated.
+ 369 0000 014B     		ldr	r3, .L48	@ tmp111,
+ 370 0002 D860     		str	r0, [r3, #12]	@ FLASH_FLAG, MEM[(struct FLASH_TypeDef *)1073881088B].SR
+ 371 0004 7047     		bx	lr	@
+ 372              	.L49:
+ 373 0006 00BF     		.align	2
+ 374              	.L48:
+ 375 0008 00200240 		.word	1073881088
+ 377              		.section	.text.FLASH_GetStatus,"ax",%progbits
+ 378              		.align	2
+ 379              		.global	FLASH_GetStatus
+ 380              		.thumb
+ 381              		.thumb_func
+ 383              	FLASH_GetStatus:
+ 384              		@ args = 0, pretend = 0, frame = 0
+ 385              		@ frame_needed = 0, uses_anonymous_args = 0
+ 386              		@ link register save eliminated.
+ 387 0000 084B     		ldr	r3, .L56	@ tmp118,
+ 388 0002 DA68     		ldr	r2, [r3, #12]	@ D.7081, MEM[(struct FLASH_TypeDef *)1073881088B].SR
+ 389 0004 D107     		lsls	r1, r2, #31	@, D.7081,
+ 390 0006 0BD4     		bmi	.L52	@,
+ 391 0008 DA68     		ldr	r2, [r3, #12]	@ D.7081, MEM[(struct FLASH_TypeDef *)1073881088B].SR
+ 392 000a 5207     		lsls	r2, r2, #29	@, D.7081,
+ 393 000c 01D5     		bpl	.L55	@,
+ 394 000e 0220     		movs	r0, #2	@ flashstatus,
+ 395 0010 7047     		bx	lr	@
+ 396              	.L55:
+ 397 0012 DB68     		ldr	r3, [r3, #12]	@ D.7081, MEM[(struct FLASH_TypeDef *)1073881088B].SR
+ 398 0014 13F0100F 		tst	r3, #16	@ D.7081,
+ 399 0018 0CBF     		ite	eq	@
+ 400 001a 0420     		moveq	r0, #4	@, flashstatus,
+ 401 001c 0320     		movne	r0, #3	@, flashstatus,
+ 402 001e 7047     		bx	lr	@
+ 403              	.L52:
+ 404 0020 0120     		movs	r0, #1	@ flashstatus,
+ 405 0022 7047     		bx	lr	@
+ 406              	.L57:
+ 407              		.align	2
+ 408              	.L56:
+ 409 0024 00200240 		.word	1073881088
+ 411              		.section	.text.FLASH_GetBank1Status,"ax",%progbits
+ 412              		.align	2
+ 413              		.global	FLASH_GetBank1Status
+ 414              		.thumb
+ 415              		.thumb_func
+ 417              	FLASH_GetBank1Status:
+ 418              		@ args = 0, pretend = 0, frame = 0
+ 419              		@ frame_needed = 0, uses_anonymous_args = 0
+ 420              		@ link register save eliminated.
+ 421 0000 084B     		ldr	r3, .L65	@ tmp118,
+ 422 0002 DA68     		ldr	r2, [r3, #12]	@ D.7086, MEM[(struct FLASH_TypeDef *)1073881088B].SR
+ 423 0004 D107     		lsls	r1, r2, #31	@, D.7086,
+ 424 0006 0BD4     		bmi	.L61	@,
+ 425 0008 DA68     		ldr	r2, [r3, #12]	@ D.7086, MEM[(struct FLASH_TypeDef *)1073881088B].SR
+ 426 000a 5207     		lsls	r2, r2, #29	@, D.7086,
+ 427 000c 01D5     		bpl	.L64	@,
+ 428 000e 0220     		movs	r0, #2	@ flashstatus,
+ 429 0010 7047     		bx	lr	@
+ 430              	.L64:
+ 431 0012 DB68     		ldr	r3, [r3, #12]	@ D.7086, MEM[(struct FLASH_TypeDef *)1073881088B].SR
+ 432 0014 13F0100F 		tst	r3, #16	@ D.7086,
+ 433 0018 0CBF     		ite	eq	@
+ 434 001a 0420     		moveq	r0, #4	@, flashstatus,
+ 435 001c 0320     		movne	r0, #3	@, flashstatus,
+ 436 001e 7047     		bx	lr	@
+ 437              	.L61:
+ 438 0020 0120     		movs	r0, #1	@ flashstatus,
+ 439 0022 7047     		bx	lr	@
+ 440              	.L66:
+ 441              		.align	2
+ 442              	.L65:
+ 443 0024 00200240 		.word	1073881088
+ 445              		.section	.text.FLASH_WaitForLastOperation,"ax",%progbits
+ 446              		.align	2
+ 447              		.global	FLASH_WaitForLastOperation
+ 448              		.thumb
+ 449              		.thumb_func
+ 451              	FLASH_WaitForLastOperation:
+ 452              		@ args = 0, pretend = 0, frame = 0
+ 453              		@ frame_needed = 0, uses_anonymous_args = 0
+ 454 0000 10B5     		push	{r4, lr}	@
+ 455 0002 0446     		mov	r4, r0	@ Timeout, Timeout
+ 456 0004 FFF7FEFF 		bl	FLASH_GetBank1Status	@
+ 457 0008 0128     		cmp	r0, #1	@ status,
+ 458 000a 06D1     		bne	.L68	@,
+ 459              	.L80:
+ 460 000c 3CB1     		cbz	r4, .L71	@ Timeout,
+ 461 000e FFF7FEFF 		bl	FLASH_GetBank1Status	@
+ 462 0012 0128     		cmp	r0, #1	@ status,
+ 463 0014 04F1FF34 		add	r4, r4, #-1	@ Timeout, Timeout,
+ 464 0018 F8D0     		beq	.L80	@,
+ 465              	.L68:
+ 466 001a 04B1     		cbz	r4, .L71	@ Timeout,
+ 467 001c 10BD     		pop	{r4, pc}	@
+ 468              	.L71:
+ 469 001e 0520     		movs	r0, #5	@ status,
+ 470 0020 10BD     		pop	{r4, pc}	@
+ 472 0022 00BF     		.section	.text.FLASH_ErasePage,"ax",%progbits
+ 473              		.align	2
+ 474              		.global	FLASH_ErasePage
+ 475              		.thumb
+ 476              		.thumb_func
+ 478              	FLASH_ErasePage:
+ 479              		@ args = 0, pretend = 0, frame = 0
+ 480              		@ frame_needed = 0, uses_anonymous_args = 0
+ 481 0000 38B5     		push	{r3, r4, r5, lr}	@
+ 482 0002 0546     		mov	r5, r0	@ Page_Address, Page_Address
+ 483 0004 4FF43020 		mov	r0, #720896	@,
+ 484 0008 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 485 000c 0428     		cmp	r0, #4	@ status,
+ 486 000e 00D0     		beq	.L83	@,
+ 487 0010 38BD     		pop	{r3, r4, r5, pc}	@
+ 488              	.L83:
+ 489 0012 0A4C     		ldr	r4, .L84	@ tmp120,
+ 490 0014 4FF43020 		mov	r0, #720896	@,
+ 491 0018 2369     		ldr	r3, [r4, #16]	@ D.7096, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 492 001a 43F00203 		orr	r3, r3, #2	@ D.7096, D.7096,
+ 493 001e 2361     		str	r3, [r4, #16]	@ D.7096, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 494 0020 6561     		str	r5, [r4, #20]	@ Page_Address, MEM[(struct FLASH_TypeDef *)1073881088B].AR
+ 495 0022 2369     		ldr	r3, [r4, #16]	@ D.7096, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 496 0024 43F04003 		orr	r3, r3, #64	@ D.7096, D.7096,
+ 497 0028 2361     		str	r3, [r4, #16]	@ D.7096, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 498 002a FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 499 002e 2269     		ldr	r2, [r4, #16]	@ D.7096, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 500 0030 41F6FD73 		movw	r3, #8189	@ D.7096,
+ 501 0034 1340     		ands	r3, r3, r2	@, D.7096, D.7096, D.7096
+ 502 0036 2361     		str	r3, [r4, #16]	@ D.7096, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 503 0038 38BD     		pop	{r3, r4, r5, pc}	@
+ 504              	.L85:
+ 505 003a 00BF     		.align	2
+ 506              	.L84:
+ 507 003c 00200240 		.word	1073881088
+ 509              		.section	.text.FLASH_EraseAllPages,"ax",%progbits
+ 510              		.align	2
+ 511              		.global	FLASH_EraseAllPages
+ 512              		.thumb
+ 513              		.thumb_func
+ 515              	FLASH_EraseAllPages:
+ 516              		@ args = 0, pretend = 0, frame = 0
+ 517              		@ frame_needed = 0, uses_anonymous_args = 0
+ 518 0000 10B5     		push	{r4, lr}	@
+ 519 0002 4FF43020 		mov	r0, #720896	@,
+ 520 0006 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 521 000a 0428     		cmp	r0, #4	@ status,
+ 522 000c 00D0     		beq	.L88	@,
+ 523 000e 10BD     		pop	{r4, pc}	@
+ 524              	.L88:
+ 525 0010 094C     		ldr	r4, .L89	@ tmp119,
+ 526 0012 4FF43020 		mov	r0, #720896	@,
+ 527 0016 2369     		ldr	r3, [r4, #16]	@ D.7099, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 528 0018 43F00403 		orr	r3, r3, #4	@ D.7099, D.7099,
+ 529 001c 2361     		str	r3, [r4, #16]	@ D.7099, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 530 001e 2369     		ldr	r3, [r4, #16]	@ D.7099, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 531 0020 43F04003 		orr	r3, r3, #64	@ D.7099, D.7099,
+ 532 0024 2361     		str	r3, [r4, #16]	@ D.7099, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 533 0026 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 534 002a 2269     		ldr	r2, [r4, #16]	@ D.7099, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 535 002c 41F6FB73 		movw	r3, #8187	@ D.7099,
+ 536 0030 1340     		ands	r3, r3, r2	@, D.7099, D.7099, D.7099
+ 537 0032 2361     		str	r3, [r4, #16]	@ D.7099, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 538 0034 10BD     		pop	{r4, pc}	@
+ 539              	.L90:
+ 540 0036 00BF     		.align	2
+ 541              	.L89:
+ 542 0038 00200240 		.word	1073881088
+ 544              		.section	.text.FLASH_EraseOptionBytes,"ax",%progbits
+ 545              		.align	2
+ 546              		.global	FLASH_EraseOptionBytes
+ 547              		.thumb
+ 548              		.thumb_func
+ 550              	FLASH_EraseOptionBytes:
+ 551              		@ args = 0, pretend = 0, frame = 0
+ 552              		@ frame_needed = 0, uses_anonymous_args = 0
+ 553 0000 38B5     		push	{r3, r4, r5, lr}	@
+ 554 0002 1D4C     		ldr	r4, .L105	@ tmp127,
+ 555 0004 4FF43020 		mov	r0, #720896	@,
+ 556 0008 E369     		ldr	r3, [r4, #28]	@ D.7102, MEM[(struct FLASH_TypeDef *)1073881088B].OBR
+ 557 000a 13F0020F 		tst	r3, #2	@ D.7102,
+ 558 000e 0CBF     		ite	eq	@
+ 559 0010 A525     		moveq	r5, #165	@, rdptmp,
+ 560 0012 0025     		movne	r5, #0	@, rdptmp,
+ 561 0014 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 562 0018 0428     		cmp	r0, #4	@ status,
+ 563 001a 00D0     		beq	.L103	@,
+ 564              	.L93:
+ 565 001c 38BD     		pop	{r3, r4, r5, pc}	@
+ 566              	.L103:
+ 567 001e 174A     		ldr	r2, .L105+4	@ tmp131,
+ 568 0020 174B     		ldr	r3, .L105+8	@ tmp133,
+ 569 0022 A260     		str	r2, [r4, #8]	@ tmp131, MEM[(struct FLASH_TypeDef *)1073881088B].OPTKEYR
+ 570 0024 A360     		str	r3, [r4, #8]	@ tmp133, MEM[(struct FLASH_TypeDef *)1073881088B].OPTKEYR
+ 571 0026 2369     		ldr	r3, [r4, #16]	@ D.7102, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 572 0028 4FF43020 		mov	r0, #720896	@,
+ 573 002c 43F02003 		orr	r3, r3, #32	@ D.7102, D.7102,
+ 574 0030 2361     		str	r3, [r4, #16]	@ D.7102, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 575 0032 2369     		ldr	r3, [r4, #16]	@ D.7102, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 576 0034 43F04003 		orr	r3, r3, #64	@ D.7102, D.7102,
+ 577 0038 2361     		str	r3, [r4, #16]	@ D.7102, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 578 003a FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 579 003e 0428     		cmp	r0, #4	@ status,
+ 580 0040 07D0     		beq	.L104	@,
+ 581 0042 0528     		cmp	r0, #5	@ status,
+ 582 0044 EAD0     		beq	.L93	@,
+ 583              	.L102:
+ 584 0046 2269     		ldr	r2, [r4, #16]	@ D.7102,
+ 585 0048 41F6EF73 		movw	r3, #8175	@ D.7102,
+ 586 004c 1340     		ands	r3, r3, r2	@, D.7102, D.7102, D.7102
+ 587 004e 2361     		str	r3, [r4, #16]	@ D.7102,
+ 588 0050 38BD     		pop	{r3, r4, r5, pc}	@
+ 589              	.L104:
+ 590 0052 2269     		ldr	r2, [r4, #16]	@ D.7102, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 591 0054 41F6DF73 		movw	r3, #8159	@ D.7102,
+ 592 0058 1340     		ands	r3, r3, r2	@, D.7102, D.7102, D.7102
+ 593 005a 2361     		str	r3, [r4, #16]	@ D.7102, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 594 005c 2269     		ldr	r2, [r4, #16]	@ D.7102, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 595 005e 094B     		ldr	r3, .L105+12	@ tmp144,
+ 596 0060 42F01002 		orr	r2, r2, #16	@ D.7102, D.7102,
+ 597 0064 2261     		str	r2, [r4, #16]	@ D.7102, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 598 0066 4FF40050 		mov	r0, #8192	@,
+ 599 006a 1D80     		strh	r5, [r3]	@ movhi	@ rdptmp, MEM[(struct OB_TypeDef *)536868864B].RDP
+ 600 006c FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 601 0070 0528     		cmp	r0, #5	@ status,
+ 602 0072 E8D1     		bne	.L102	@,
+ 603 0074 D2E7     		b	.L93	@
+ 604              	.L106:
+ 605 0076 00BF     		.align	2
+ 606              	.L105:
+ 607 0078 00200240 		.word	1073881088
+ 608 007c 23016745 		.word	1164378403
+ 609 0080 AB89EFCD 		.word	-839939669
+ 610 0084 00F8FF1F 		.word	536868864
+ 612              		.section	.text.FLASH_ProgramWord,"ax",%progbits
+ 613              		.align	2
+ 614              		.global	FLASH_ProgramWord
+ 615              		.thumb
+ 616              		.thumb_func
+ 618              	FLASH_ProgramWord:
+ 619              		@ args = 0, pretend = 0, frame = 8
+ 620              		@ frame_needed = 0, uses_anonymous_args = 0
+ 621 0000 70B5     		push	{r4, r5, r6, lr}	@
+ 622 0002 0023     		movs	r3, #0	@ tmp127,
+ 623 0004 82B0     		sub	sp, sp, #8	@,,
+ 624 0006 0546     		mov	r5, r0	@ Address, Address
+ 625 0008 4FF40050 		mov	r0, #8192	@,
+ 626 000c 0C46     		mov	r4, r1	@ Data, Data
+ 627 000e 0193     		str	r3, [sp, #4]	@ tmp127, tmp
+ 628 0010 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 629 0014 0428     		cmp	r0, #4	@ status,
+ 630 0016 01D0     		beq	.L110	@,
+ 631              	.L108:
+ 632 0018 02B0     		add	sp, sp, #8	@,,
+ 633              		@ sp needed	@
+ 634 001a 70BD     		pop	{r4, r5, r6, pc}	@
+ 635              	.L110:
+ 636 001c 114E     		ldr	r6, .L112	@ tmp129,
+ 637 001e A3B2     		uxth	r3, r4	@ D.7106, Data
+ 638 0020 3269     		ldr	r2, [r6, #16]	@ D.7105, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 639 0022 4FF40050 		mov	r0, #8192	@,
+ 640 0026 42F00102 		orr	r2, r2, #1	@ D.7105, D.7105,
+ 641 002a 3261     		str	r2, [r6, #16]	@ D.7105, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 642 002c 2B80     		strh	r3, [r5]	@ movhi	@ D.7106, *Address.0_11
+ 643 002e FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 644 0032 0428     		cmp	r0, #4	@ status,
+ 645 0034 06D0     		beq	.L111	@,
+ 646 0036 3269     		ldr	r2, [r6, #16]	@ D.7105,
+ 647 0038 41F6FE73 		movw	r3, #8190	@ D.7105,
+ 648 003c 1340     		ands	r3, r3, r2	@, D.7105, D.7105, D.7105
+ 649 003e 3361     		str	r3, [r6, #16]	@ D.7105,
+ 650 0040 02B0     		add	sp, sp, #8	@,,
+ 651              		@ sp needed	@
+ 652 0042 70BD     		pop	{r4, r5, r6, pc}	@
+ 653              	.L111:
+ 654 0044 0235     		adds	r5, r5, #2	@ tmp.1, Address,
+ 655 0046 0195     		str	r5, [sp, #4]	@ tmp.1, tmp
+ 656 0048 019B     		ldr	r3, [sp, #4]	@ tmp.2, tmp
+ 657 004a 240C     		lsrs	r4, r4, #16	@ D.7106, Data,
+ 658 004c 1C80     		strh	r4, [r3]	@ movhi	@ D.7106, *tmp.3_20
+ 659 004e 4FF40050 		mov	r0, #8192	@,
+ 660 0052 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 661 0056 3269     		ldr	r2, [r6, #16]	@ D.7105,
+ 662 0058 41F6FE73 		movw	r3, #8190	@ D.7105,
+ 663 005c 1340     		ands	r3, r3, r2	@, D.7105, D.7105, D.7105
+ 664 005e 3361     		str	r3, [r6, #16]	@ D.7105,
+ 665 0060 DAE7     		b	.L108	@
+ 666              	.L113:
+ 667 0062 00BF     		.align	2
+ 668              	.L112:
+ 669 0064 00200240 		.word	1073881088
+ 671              		.section	.text.FLASH_ProgramHalfWord,"ax",%progbits
+ 672              		.align	2
+ 673              		.global	FLASH_ProgramHalfWord
+ 674              		.thumb
+ 675              		.thumb_func
+ 677              	FLASH_ProgramHalfWord:
+ 678              		@ args = 0, pretend = 0, frame = 0
+ 679              		@ frame_needed = 0, uses_anonymous_args = 0
+ 680 0000 70B5     		push	{r4, r5, r6, lr}	@
+ 681 0002 0446     		mov	r4, r0	@ Address, Address
+ 682 0004 4FF40050 		mov	r0, #8192	@,
+ 683 0008 0D46     		mov	r5, r1	@ Data, Data
+ 684 000a FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 685 000e 0428     		cmp	r0, #4	@ status,
+ 686 0010 00D0     		beq	.L116	@,
+ 687 0012 70BD     		pop	{r4, r5, r6, pc}	@
+ 688              	.L116:
+ 689 0014 074E     		ldr	r6, .L117	@ tmp120,
+ 690 0016 4FF40050 		mov	r0, #8192	@,
+ 691 001a 3369     		ldr	r3, [r6, #16]	@ D.7109, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 692 001c 43F00103 		orr	r3, r3, #1	@ D.7109, D.7109,
+ 693 0020 3361     		str	r3, [r6, #16]	@ D.7109, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 694 0022 2580     		strh	r5, [r4]	@ movhi	@ Data, *Address.4_10
+ 695 0024 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 696 0028 3269     		ldr	r2, [r6, #16]	@ D.7109, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 697 002a 41F6FE73 		movw	r3, #8190	@ D.7109,
+ 698 002e 1340     		ands	r3, r3, r2	@, D.7109, D.7109, D.7109
+ 699 0030 3361     		str	r3, [r6, #16]	@ D.7109, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 700 0032 70BD     		pop	{r4, r5, r6, pc}	@
+ 701              	.L118:
+ 702              		.align	2
+ 703              	.L117:
+ 704 0034 00200240 		.word	1073881088
+ 706              		.section	.text.FLASH_ProgramOptionByteData,"ax",%progbits
+ 707              		.align	2
+ 708              		.global	FLASH_ProgramOptionByteData
+ 709              		.thumb
+ 710              		.thumb_func
+ 712              	FLASH_ProgramOptionByteData:
+ 713              		@ args = 0, pretend = 0, frame = 0
+ 714              		@ frame_needed = 0, uses_anonymous_args = 0
+ 715 0000 70B5     		push	{r4, r5, r6, lr}	@
+ 716 0002 0546     		mov	r5, r0	@ Address, Address
+ 717 0004 4FF40050 		mov	r0, #8192	@,
+ 718 0008 0E46     		mov	r6, r1	@ Data, Data
+ 719 000a FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 720 000e 0428     		cmp	r0, #4	@ status,
+ 721 0010 00D0     		beq	.L124	@,
+ 722              	.L120:
+ 723 0012 70BD     		pop	{r4, r5, r6, pc}	@
+ 724              	.L124:
+ 725 0014 0A4C     		ldr	r4, .L125	@ tmp121,
+ 726 0016 0B4A     		ldr	r2, .L125+4	@ tmp122,
+ 727 0018 0B4B     		ldr	r3, .L125+8	@ tmp124,
+ 728 001a A260     		str	r2, [r4, #8]	@ tmp122, MEM[(struct FLASH_TypeDef *)1073881088B].OPTKEYR
+ 729 001c A360     		str	r3, [r4, #8]	@ tmp124, MEM[(struct FLASH_TypeDef *)1073881088B].OPTKEYR
+ 730 001e 2369     		ldr	r3, [r4, #16]	@ D.7112, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 731 0020 4FF40050 		mov	r0, #8192	@,
+ 732 0024 43F01003 		orr	r3, r3, #16	@ D.7112, D.7112,
+ 733 0028 2361     		str	r3, [r4, #16]	@ D.7112, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 734 002a 2E80     		strh	r6, [r5]	@ movhi	@ Data, *Address.5_12
+ 735 002c FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 736 0030 0528     		cmp	r0, #5	@ status,
+ 737 0032 EED0     		beq	.L120	@,
+ 738 0034 2269     		ldr	r2, [r4, #16]	@ D.7112, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 739 0036 41F6EF73 		movw	r3, #8175	@ D.7112,
+ 740 003a 1340     		ands	r3, r3, r2	@, D.7112, D.7112, D.7112
+ 741 003c 2361     		str	r3, [r4, #16]	@ D.7112, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 742 003e 70BD     		pop	{r4, r5, r6, pc}	@
+ 743              	.L126:
+ 744              		.align	2
+ 745              	.L125:
+ 746 0040 00200240 		.word	1073881088
+ 747 0044 23016745 		.word	1164378403
+ 748 0048 AB89EFCD 		.word	-839939669
+ 750              		.section	.text.FLASH_EnableWriteProtection,"ax",%progbits
+ 751              		.align	2
+ 752              		.global	FLASH_EnableWriteProtection
+ 753              		.thumb
+ 754              		.thumb_func
+ 756              	FLASH_EnableWriteProtection:
+ 757              		@ args = 0, pretend = 0, frame = 0
+ 758              		@ frame_needed = 0, uses_anonymous_args = 0
+ 759 0000 38B5     		push	{r3, r4, r5, lr}	@
+ 760 0002 0546     		mov	r5, r0	@ FLASH_Pages, FLASH_Pages
+ 761 0004 4FF40050 		mov	r0, #8192	@,
+ 762 0008 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 763 000c 0428     		cmp	r0, #4	@ status,
+ 764 000e 0446     		mov	r4, r0	@ status,
+ 765 0010 01D0     		beq	.L153	@,
+ 766              	.L143:
+ 767 0012 2046     		mov	r0, r4	@, status
+ 768 0014 38BD     		pop	{r3, r4, r5, pc}	@
+ 769              	.L153:
+ 770 0016 214B     		ldr	r3, .L154	@ tmp134,
+ 771 0018 2149     		ldr	r1, .L154+4	@ tmp135,
+ 772 001a 224A     		ldr	r2, .L154+8	@ tmp137,
+ 773 001c 9960     		str	r1, [r3, #8]	@ tmp135, MEM[(struct FLASH_TypeDef *)1073881088B].OPTKEYR
+ 774 001e 9A60     		str	r2, [r3, #8]	@ tmp137, MEM[(struct FLASH_TypeDef *)1073881088B].OPTKEYR
+ 775 0020 1969     		ldr	r1, [r3, #16]	@ D.7117, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 776 0022 ED43     		mvns	r5, r5	@ FLASH_Pages, FLASH_Pages
+ 777 0024 EAB2     		uxtb	r2, r5	@ WRP0_Data, FLASH_Pages
+ 778 0026 41F01001 		orr	r1, r1, #16	@ D.7117, D.7117,
+ 779 002a FF2A     		cmp	r2, #255	@ WRP0_Data,
+ 780 002c 1961     		str	r1, [r3, #16]	@ D.7117, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 781 002e 12D0     		beq	.L132	@,
+ 782 0030 1D4B     		ldr	r3, .L154+12	@ tmp142,
+ 783 0032 4FF40050 		mov	r0, #8192	@,
+ 784 0036 1A81     		strh	r2, [r3, #8]	@ movhi	@ WRP0_Data, MEM[(struct OB_TypeDef *)536868864B].WRP0
+ 785 0038 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 786 003c 0428     		cmp	r0, #4	@ status,
+ 787 003e 0AD0     		beq	.L132	@,
+ 788              	.L152:
+ 789 0040 0528     		cmp	r0, #5	@ status,
+ 790 0042 0446     		mov	r4, r0	@ status,
+ 791 0044 E5D0     		beq	.L143	@,
+ 792              	.L137:
+ 793 0046 154A     		ldr	r2, .L154	@ tmp157,
+ 794 0048 41F6EF73 		movw	r3, #8175	@ D.7117,
+ 795 004c 1169     		ldr	r1, [r2, #16]	@ D.7117, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 796 004e 2046     		mov	r0, r4	@, status
+ 797 0050 0B40     		ands	r3, r3, r1	@, D.7117, D.7117, D.7117
+ 798 0052 1361     		str	r3, [r2, #16]	@ D.7117, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 799 0054 38BD     		pop	{r3, r4, r5, pc}	@
+ 800              	.L132:
+ 801 0056 C5F30723 		ubfx	r3, r5, #8, #8	@ WRP1_Data, FLASH_Pages,,
+ 802 005a FF2B     		cmp	r3, #255	@ WRP1_Data,
+ 803 005c 07D0     		beq	.L131	@,
+ 804 005e 124A     		ldr	r2, .L154+12	@ tmp147,
+ 805 0060 4FF40050 		mov	r0, #8192	@,
+ 806 0064 5381     		strh	r3, [r2, #10]	@ movhi	@ WRP1_Data, MEM[(struct OB_TypeDef *)536868864B].WRP1
+ 807 0066 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 808 006a 0428     		cmp	r0, #4	@ status,
+ 809 006c E8D1     		bne	.L152	@,
+ 810              	.L131:
+ 811 006e C5F30743 		ubfx	r3, r5, #16, #8	@ WRP2_Data, FLASH_Pages,,
+ 812 0072 FF2B     		cmp	r3, #255	@ WRP2_Data,
+ 813 0074 07D0     		beq	.L135	@,
+ 814 0076 0C4A     		ldr	r2, .L154+12	@ tmp151,
+ 815 0078 4FF40050 		mov	r0, #8192	@,
+ 816 007c 9381     		strh	r3, [r2, #12]	@ movhi	@ WRP2_Data, MEM[(struct OB_TypeDef *)536868864B].WRP2
+ 817 007e FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 818 0082 0428     		cmp	r0, #4	@ tmp153,
+ 819 0084 DCD1     		bne	.L152	@,
+ 820              	.L135:
+ 821 0086 2D0E     		lsrs	r5, r5, #24	@ WRP3_Data, FLASH_Pages,
+ 822 0088 FF2D     		cmp	r5, #255	@ WRP3_Data,
+ 823 008a DCD0     		beq	.L137	@,
+ 824 008c 064B     		ldr	r3, .L154+12	@ tmp154,
+ 825 008e 4FF40050 		mov	r0, #8192	@,
+ 826 0092 DD81     		strh	r5, [r3, #14]	@ movhi	@ WRP3_Data, MEM[(struct OB_TypeDef *)536868864B].WRP3
+ 827 0094 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 828 0098 D2E7     		b	.L152	@
+ 829              	.L155:
+ 830 009a 00BF     		.align	2
+ 831              	.L154:
+ 832 009c 00200240 		.word	1073881088
+ 833 00a0 23016745 		.word	1164378403
+ 834 00a4 AB89EFCD 		.word	-839939669
+ 835 00a8 00F8FF1F 		.word	536868864
+ 837              		.section	.text.FLASH_ReadOutProtection,"ax",%progbits
+ 838              		.align	2
+ 839              		.global	FLASH_ReadOutProtection
+ 840              		.thumb
+ 841              		.thumb_func
+ 843              	FLASH_ReadOutProtection:
+ 844              		@ args = 0, pretend = 0, frame = 0
+ 845              		@ frame_needed = 0, uses_anonymous_args = 0
+ 846 0000 38B5     		push	{r3, r4, r5, lr}	@
+ 847 0002 0546     		mov	r5, r0	@ NewState, NewState
+ 848 0004 4FF43020 		mov	r0, #720896	@,
+ 849 0008 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 850 000c 0428     		cmp	r0, #4	@ status,
+ 851 000e 00D0     		beq	.L167	@,
+ 852              	.L157:
+ 853 0010 38BD     		pop	{r3, r4, r5, pc}	@
+ 854              	.L167:
+ 855 0012 1C4C     		ldr	r4, .L170	@ tmp126,
+ 856 0014 1C4A     		ldr	r2, .L170+4	@ tmp127,
+ 857 0016 1D4B     		ldr	r3, .L170+8	@ tmp129,
+ 858 0018 A260     		str	r2, [r4, #8]	@ tmp127, MEM[(struct FLASH_TypeDef *)1073881088B].OPTKEYR
+ 859 001a A360     		str	r3, [r4, #8]	@ tmp129, MEM[(struct FLASH_TypeDef *)1073881088B].OPTKEYR
+ 860 001c 2369     		ldr	r3, [r4, #16]	@ D.7120, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 861 001e 4FF43020 		mov	r0, #720896	@,
+ 862 0022 43F02003 		orr	r3, r3, #32	@ D.7120, D.7120,
+ 863 0026 2361     		str	r3, [r4, #16]	@ D.7120, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 864 0028 2369     		ldr	r3, [r4, #16]	@ D.7120, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 865 002a 43F04003 		orr	r3, r3, #64	@ D.7120, D.7120,
+ 866 002e 2361     		str	r3, [r4, #16]	@ D.7120, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 867 0030 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 868 0034 0428     		cmp	r0, #4	@ status,
+ 869 0036 07D0     		beq	.L168	@,
+ 870 0038 0528     		cmp	r0, #5	@ status,
+ 871 003a E9D0     		beq	.L157	@,
+ 872 003c 2269     		ldr	r2, [r4, #16]	@ D.7120, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 873 003e 41F6DF73 		movw	r3, #8159	@ D.7120,
+ 874 0042 1340     		ands	r3, r3, r2	@, D.7120, D.7120, D.7120
+ 875 0044 2361     		str	r3, [r4, #16]	@ D.7120, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 876 0046 38BD     		pop	{r3, r4, r5, pc}	@
+ 877              	.L168:
+ 878 0048 2269     		ldr	r2, [r4, #16]	@ D.7120, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 879 004a 41F6DF73 		movw	r3, #8159	@ D.7120,
+ 880 004e 1340     		ands	r3, r3, r2	@, D.7120, D.7120, D.7120
+ 881 0050 2361     		str	r3, [r4, #16]	@ D.7120, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 882 0052 2369     		ldr	r3, [r4, #16]	@ D.7120, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 883 0054 43F01003 		orr	r3, r3, #16	@ D.7120, D.7120,
+ 884 0058 2361     		str	r3, [r4, #16]	@ D.7120, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 885 005a 0D4B     		ldr	r3, .L170+12	@ tmp140,
+ 886 005c 75B9     		cbnz	r5, .L169	@ NewState,
+ 887 005e A522     		movs	r2, #165	@ tmp145,
+ 888 0060 1A80     		strh	r2, [r3]	@ movhi	@ tmp145,
+ 889              	.L160:
+ 890 0062 4FF43020 		mov	r0, #720896	@,
+ 891 0066 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 892 006a 0528     		cmp	r0, #5	@ status,
+ 893 006c D0D0     		beq	.L157	@,
+ 894 006e 054A     		ldr	r2, .L170	@ tmp147,
+ 895 0070 41F6EF73 		movw	r3, #8175	@ D.7120,
+ 896 0074 1169     		ldr	r1, [r2, #16]	@ D.7120, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 897 0076 0B40     		ands	r3, r3, r1	@, D.7120, D.7120, D.7120
+ 898 0078 1361     		str	r3, [r2, #16]	@ D.7120, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 899 007a 38BD     		pop	{r3, r4, r5, pc}	@
+ 900              	.L169:
+ 901 007c 0022     		movs	r2, #0	@ tmp142,
+ 902 007e 1A80     		strh	r2, [r3]	@ movhi	@ tmp142,
+ 903 0080 EFE7     		b	.L160	@
+ 904              	.L171:
+ 905 0082 00BF     		.align	2
+ 906              	.L170:
+ 907 0084 00200240 		.word	1073881088
+ 908 0088 23016745 		.word	1164378403
+ 909 008c AB89EFCD 		.word	-839939669
+ 910 0090 00F8FF1F 		.word	536868864
+ 912              		.section	.text.FLASH_UserOptionByteConfig,"ax",%progbits
+ 913              		.align	2
+ 914              		.global	FLASH_UserOptionByteConfig
+ 915              		.thumb
+ 916              		.thumb_func
+ 918              	FLASH_UserOptionByteConfig:
+ 919              		@ args = 0, pretend = 0, frame = 0
+ 920              		@ frame_needed = 0, uses_anonymous_args = 0
+ 921 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}	@
+ 922 0002 124C     		ldr	r4, .L178	@ tmp122,
+ 923 0004 124D     		ldr	r5, .L178+4	@ tmp123,
+ 924 0006 134B     		ldr	r3, .L178+8	@ tmp125,
+ 925 0008 A560     		str	r5, [r4, #8]	@ tmp123, MEM[(struct FLASH_TypeDef *)1073881088B].OPTKEYR
+ 926 000a 0746     		mov	r7, r0	@ OB_IWDG, OB_IWDG
+ 927 000c A360     		str	r3, [r4, #8]	@ tmp125, MEM[(struct FLASH_TypeDef *)1073881088B].OPTKEYR
+ 928 000e 4FF40050 		mov	r0, #8192	@,
+ 929 0012 0E46     		mov	r6, r1	@ OB_STOP, OB_STOP
+ 930 0014 1546     		mov	r5, r2	@ OB_STDBY, OB_STDBY
+ 931 0016 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 932 001a 0428     		cmp	r0, #4	@ status,
+ 933 001c 00D0     		beq	.L177	@,
+ 934              	.L173:
+ 935 001e F8BD     		pop	{r3, r4, r5, r6, r7, pc}	@
+ 936              	.L177:
+ 937 0020 2269     		ldr	r2, [r4, #16]	@ D.7123, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 938 0022 47F0F807 		orr	r7, r7, #248	@ tmp129, OB_IWDG,
+ 939 0026 0C4B     		ldr	r3, .L178+12	@ tmp134,
+ 940 0028 3E43     		orrs	r6, r6, r7	@, tmp131, OB_STOP, tmp129
+ 941 002a 42F01002 		orr	r2, r2, #16	@ D.7123, D.7123,
+ 942 002e 3543     		orrs	r5, r5, r6	@, D.7124, OB_STDBY, tmp131
+ 943 0030 2261     		str	r2, [r4, #16]	@ D.7123, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 944 0032 4FF40050 		mov	r0, #8192	@,
+ 945 0036 5D80     		strh	r5, [r3, #2]	@ movhi	@ D.7124, MEM[(struct OB_TypeDef *)536868864B].USER
+ 946 0038 FFF7FEFF 		bl	FLASH_WaitForLastOperation	@
+ 947 003c 0528     		cmp	r0, #5	@ status,
+ 948 003e EED0     		beq	.L173	@,
+ 949 0040 2269     		ldr	r2, [r4, #16]	@ D.7123, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 950 0042 41F6EF73 		movw	r3, #8175	@ D.7123,
+ 951 0046 1340     		ands	r3, r3, r2	@, D.7123, D.7123, D.7123
+ 952 0048 2361     		str	r3, [r4, #16]	@ D.7123, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 953 004a F8BD     		pop	{r3, r4, r5, r6, r7, pc}	@
+ 954              	.L179:
+ 955              		.align	2
+ 956              	.L178:
+ 957 004c 00200240 		.word	1073881088
+ 958 0050 23016745 		.word	1164378403
+ 959 0054 AB89EFCD 		.word	-839939669
+ 960 0058 00F8FF1F 		.word	536868864
+ 962              		.section	.text.FLASH_WaitForLastBank1Operation,"ax",%progbits
+ 963              		.align	2
+ 964              		.global	FLASH_WaitForLastBank1Operation
+ 965              		.thumb
+ 966              		.thumb_func
+ 968              	FLASH_WaitForLastBank1Operation:
+ 969              		@ args = 0, pretend = 0, frame = 0
+ 970              		@ frame_needed = 0, uses_anonymous_args = 0
+ 971 0000 10B5     		push	{r4, lr}	@
+ 972 0002 0446     		mov	r4, r0	@ Timeout, Timeout
+ 973 0004 FFF7FEFF 		bl	FLASH_GetBank1Status	@
+ 974 0008 0128     		cmp	r0, #1	@ status,
+ 975 000a 06D1     		bne	.L181	@,
+ 976              	.L193:
+ 977 000c 3CB1     		cbz	r4, .L184	@ Timeout,
+ 978 000e FFF7FEFF 		bl	FLASH_GetBank1Status	@
+ 979 0012 0128     		cmp	r0, #1	@ status,
+ 980 0014 04F1FF34 		add	r4, r4, #-1	@ Timeout, Timeout,
+ 981 0018 F8D0     		beq	.L193	@,
+ 982              	.L181:
+ 983 001a 04B1     		cbz	r4, .L184	@ Timeout,
+ 984 001c 10BD     		pop	{r4, pc}	@
+ 985              	.L184:
+ 986 001e 0520     		movs	r0, #5	@ status,
+ 987 0020 10BD     		pop	{r4, pc}	@
+ 989 0022 00BF     		.section	.text.FLASH_EraseAllBank1Pages,"ax",%progbits
+ 990              		.align	2
+ 991              		.global	FLASH_EraseAllBank1Pages
+ 992              		.thumb
+ 993              		.thumb_func
+ 995              	FLASH_EraseAllBank1Pages:
+ 996              		@ args = 0, pretend = 0, frame = 0
+ 997              		@ frame_needed = 0, uses_anonymous_args = 0
+ 998 0000 10B5     		push	{r4, lr}	@
+ 999 0002 4FF43020 		mov	r0, #720896	@,
+ 1000 0006 FFF7FEFF 		bl	FLASH_WaitForLastBank1Operation	@
+ 1001 000a 0428     		cmp	r0, #4	@ status,
+ 1002 000c 00D0     		beq	.L196	@,
+ 1003 000e 10BD     		pop	{r4, pc}	@
+ 1004              	.L196:
+ 1005 0010 094C     		ldr	r4, .L197	@ tmp119,
+ 1006 0012 4FF43020 		mov	r0, #720896	@,
+ 1007 0016 2369     		ldr	r3, [r4, #16]	@ D.7133, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 1008 0018 43F00403 		orr	r3, r3, #4	@ D.7133, D.7133,
+ 1009 001c 2361     		str	r3, [r4, #16]	@ D.7133, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 1010 001e 2369     		ldr	r3, [r4, #16]	@ D.7133, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 1011 0020 43F04003 		orr	r3, r3, #64	@ D.7133, D.7133,
+ 1012 0024 2361     		str	r3, [r4, #16]	@ D.7133, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 1013 0026 FFF7FEFF 		bl	FLASH_WaitForLastBank1Operation	@
+ 1014 002a 2269     		ldr	r2, [r4, #16]	@ D.7133, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 1015 002c 41F6FB73 		movw	r3, #8187	@ D.7133,
+ 1016 0030 1340     		ands	r3, r3, r2	@, D.7133, D.7133, D.7133
+ 1017 0032 2361     		str	r3, [r4, #16]	@ D.7133, MEM[(struct FLASH_TypeDef *)1073881088B].CR
+ 1018 0034 10BD     		pop	{r4, pc}	@
+ 1019              	.L198:
+ 1020 0036 00BF     		.align	2
+ 1021              	.L197:
+ 1022 0038 00200240 		.word	1073881088
+ 1024              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f10x_flash.c
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:79     .text.FLASH_SetLatency:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:84     .text.FLASH_SetLatency:00000000 FLASH_SetLatency
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:97     .text.FLASH_SetLatency:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:100    .text.FLASH_HalfCycleAccessCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:105    .text.FLASH_HalfCycleAccessCmd:00000000 FLASH_HalfCycleAccessCmd
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:120    .text.FLASH_HalfCycleAccessCmd:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:123    .text.FLASH_PrefetchBufferCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:128    .text.FLASH_PrefetchBufferCmd:00000000 FLASH_PrefetchBufferCmd
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:143    .text.FLASH_PrefetchBufferCmd:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:146    .text.FLASH_Unlock:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:151    .text.FLASH_Unlock:00000000 FLASH_Unlock
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:164    .text.FLASH_Unlock:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:169    .text.FLASH_UnlockBank1:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:174    .text.FLASH_UnlockBank1:00000000 FLASH_UnlockBank1
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:187    .text.FLASH_UnlockBank1:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:192    .text.FLASH_Lock:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:197    .text.FLASH_Lock:00000000 FLASH_Lock
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:209    .text.FLASH_Lock:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:212    .text.FLASH_LockBank1:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:217    .text.FLASH_LockBank1:00000000 FLASH_LockBank1
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:229    .text.FLASH_LockBank1:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:232    .text.FLASH_GetUserOptionByte:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:237    .text.FLASH_GetUserOptionByte:00000000 FLASH_GetUserOptionByte
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:248    .text.FLASH_GetUserOptionByte:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:251    .text.FLASH_GetWriteProtectionOptionByte:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:256    .text.FLASH_GetWriteProtectionOptionByte:00000000 FLASH_GetWriteProtectionOptionByte
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:266    .text.FLASH_GetWriteProtectionOptionByte:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:269    .text.FLASH_GetReadOutProtectionStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:274    .text.FLASH_GetReadOutProtectionStatus:00000000 FLASH_GetReadOutProtectionStatus
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:285    .text.FLASH_GetReadOutProtectionStatus:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:288    .text.FLASH_GetPrefetchBufferStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:293    .text.FLASH_GetPrefetchBufferStatus:00000000 FLASH_GetPrefetchBufferStatus
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:304    .text.FLASH_GetPrefetchBufferStatus:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:307    .text.FLASH_ITConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:312    .text.FLASH_ITConfig:00000000 FLASH_ITConfig
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:329    .text.FLASH_ITConfig:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:332    .text.FLASH_GetFlagStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:337    .text.FLASH_GetFlagStatus:00000000 FLASH_GetFlagStatus
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:357    .text.FLASH_GetFlagStatus:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:360    .text.FLASH_ClearFlag:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:365    .text.FLASH_ClearFlag:00000000 FLASH_ClearFlag
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:375    .text.FLASH_ClearFlag:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:378    .text.FLASH_GetStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:383    .text.FLASH_GetStatus:00000000 FLASH_GetStatus
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:409    .text.FLASH_GetStatus:00000024 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:412    .text.FLASH_GetBank1Status:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:417    .text.FLASH_GetBank1Status:00000000 FLASH_GetBank1Status
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:443    .text.FLASH_GetBank1Status:00000024 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:446    .text.FLASH_WaitForLastOperation:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:451    .text.FLASH_WaitForLastOperation:00000000 FLASH_WaitForLastOperation
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:473    .text.FLASH_ErasePage:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:478    .text.FLASH_ErasePage:00000000 FLASH_ErasePage
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:507    .text.FLASH_ErasePage:0000003c $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:510    .text.FLASH_EraseAllPages:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:515    .text.FLASH_EraseAllPages:00000000 FLASH_EraseAllPages
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:542    .text.FLASH_EraseAllPages:00000038 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:545    .text.FLASH_EraseOptionBytes:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:550    .text.FLASH_EraseOptionBytes:00000000 FLASH_EraseOptionBytes
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:607    .text.FLASH_EraseOptionBytes:00000078 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:613    .text.FLASH_ProgramWord:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:618    .text.FLASH_ProgramWord:00000000 FLASH_ProgramWord
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:669    .text.FLASH_ProgramWord:00000064 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:672    .text.FLASH_ProgramHalfWord:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:677    .text.FLASH_ProgramHalfWord:00000000 FLASH_ProgramHalfWord
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:704    .text.FLASH_ProgramHalfWord:00000034 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:707    .text.FLASH_ProgramOptionByteData:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:712    .text.FLASH_ProgramOptionByteData:00000000 FLASH_ProgramOptionByteData
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:746    .text.FLASH_ProgramOptionByteData:00000040 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:751    .text.FLASH_EnableWriteProtection:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:756    .text.FLASH_EnableWriteProtection:00000000 FLASH_EnableWriteProtection
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:832    .text.FLASH_EnableWriteProtection:0000009c $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:838    .text.FLASH_ReadOutProtection:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:843    .text.FLASH_ReadOutProtection:00000000 FLASH_ReadOutProtection
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:907    .text.FLASH_ReadOutProtection:00000084 $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:913    .text.FLASH_UserOptionByteConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:918    .text.FLASH_UserOptionByteConfig:00000000 FLASH_UserOptionByteConfig
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:957    .text.FLASH_UserOptionByteConfig:0000004c $d
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:963    .text.FLASH_WaitForLastBank1Operation:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:968    .text.FLASH_WaitForLastBank1Operation:00000000 FLASH_WaitForLastBank1Operation
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:990    .text.FLASH_EraseAllBank1Pages:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:995    .text.FLASH_EraseAllBank1Pages:00000000 FLASH_EraseAllBank1Pages
+C:\Users\Chris\AppData\Local\Temp\ccetxCzZ.s:1022   .text.FLASH_EraseAllBank1Pages:00000038 $d
+
+NO UNDEFINED SYMBOLS

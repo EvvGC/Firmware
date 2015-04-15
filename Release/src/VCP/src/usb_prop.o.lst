@@ -1,0 +1,701 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"usb_prop.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/VCP/src/usb_prop.d -MF src/VCP/src/usb_prop.d -MP
+  31              	@ -MT src/VCP/src/usb_prop.d -D__USES_INITFINI__ -D STM32F10X_HD
+  32              	@ -D USE_STDPERIPH_DRIVER ../src/VCP/src/usb_prop.c -mcpu=cortex-m3 -mthumb
+  33              	@ -auxbase-strip src/VCP/src/usb_prop.o -O2 -Wall -Wextra
+  34              	@ -Wstrict-prototypes -std=gnu99 -ffunction-sections -fdata-sections
+  35              	@ -fsingle-precision-constant -fverbose-asm
+  36              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  37              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  38              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  39              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  40              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  41              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  42              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  43              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  44              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  45              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  46              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  47              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  48              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  49              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  50              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  51              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  52              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  53              	@ -freorder-functions -frerun-cse-after-loop
+  54              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  55              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  56              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  57              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  58              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  59              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  60              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  61              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  62              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  63              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  64              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  65              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  66              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  67              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  68              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  69              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  70              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  71              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  72              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  73              	@ -munaligned-access -mvectorize-with-neon-quad
+  74              	
+  75              		.section	.text.Virtual_Com_Port_SetConfiguration,"ax",%progbits
+  76              		.align	2
+  77              		.global	Virtual_Com_Port_SetConfiguration
+  78              		.thumb
+  79              		.thumb_func
+  81              	Virtual_Com_Port_SetConfiguration:
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84              		@ link register save eliminated.
+  85 0000 034B     		ldr	r3, .L7	@ tmp111,
+  86 0002 9B7A     		ldrb	r3, [r3, #10]	@ zero_extendqisi2	@ Device_Info.Current_Configuration, Device_Info.Current_Con
+  87 0004 13B1     		cbz	r3, .L1	@ Device_Info.Current_Configuration,
+  88 0006 034B     		ldr	r3, .L7+4	@ tmp113,
+  89 0008 0522     		movs	r2, #5	@ tmp114,
+  90 000a 1A60     		str	r2, [r3]	@ tmp114, bDeviceState
+  91              	.L1:
+  92 000c 7047     		bx	lr	@
+  93              	.L8:
+  94 000e 00BF     		.align	2
+  95              	.L7:
+  96 0010 00000000 		.word	Device_Info
+  97 0014 00000000 		.word	bDeviceState
+  99              		.section	.text.Virtual_Com_Port_SetDeviceAddress,"ax",%progbits
+ 100              		.align	2
+ 101              		.global	Virtual_Com_Port_SetDeviceAddress
+ 102              		.thumb
+ 103              		.thumb_func
+ 105              	Virtual_Com_Port_SetDeviceAddress:
+ 106              		@ args = 0, pretend = 0, frame = 0
+ 107              		@ frame_needed = 0, uses_anonymous_args = 0
+ 108              		@ link register save eliminated.
+ 109 0000 014B     		ldr	r3, .L10	@ tmp110,
+ 110 0002 0422     		movs	r2, #4	@ tmp111,
+ 111 0004 1A60     		str	r2, [r3]	@ tmp111, bDeviceState
+ 112 0006 7047     		bx	lr	@
+ 113              	.L11:
+ 114              		.align	2
+ 115              	.L10:
+ 116 0008 00000000 		.word	bDeviceState
+ 118              		.section	.text.Virtual_Com_Port_Status_In,"ax",%progbits
+ 119              		.align	2
+ 120              		.global	Virtual_Com_Port_Status_In
+ 121              		.thumb
+ 122              		.thumb_func
+ 124              	Virtual_Com_Port_Status_In:
+ 125              		@ args = 0, pretend = 0, frame = 0
+ 126              		@ frame_needed = 0, uses_anonymous_args = 0
+ 127              		@ link register save eliminated.
+ 128 0000 034B     		ldr	r3, .L14	@ tmp111,
+ 129 0002 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2	@ Request, Request
+ 130 0004 202A     		cmp	r2, #32	@ Request,
+ 131 0006 04BF     		itt	eq
+ 132 0008 0022     		moveq	r2, #0	@ tmp114,
+ 133 000a 1A70     		strbeq	r2, [r3]	@ tmp114, Request
+ 134 000c 7047     		bx	lr	@
+ 135              	.L15:
+ 136 000e 00BF     		.align	2
+ 137              	.L14:
+ 138 0010 00000000 		.word	.LANCHOR0
+ 140              		.section	.text.Virtual_Com_Port_Status_Out,"ax",%progbits
+ 141              		.align	2
+ 142              		.global	Virtual_Com_Port_Status_Out
+ 143              		.thumb
+ 144              		.thumb_func
+ 146              	Virtual_Com_Port_Status_Out:
+ 147              		@ args = 0, pretend = 0, frame = 0
+ 148              		@ frame_needed = 0, uses_anonymous_args = 0
+ 149              		@ link register save eliminated.
+ 150 0000 7047     		bx	lr	@
+ 152 0002 00BF     		.section	.text.Virtual_Com_Port_Get_Interface_Setting,"ax",%progbits
+ 153              		.align	2
+ 154              		.global	Virtual_Com_Port_Get_Interface_Setting
+ 155              		.thumb
+ 156              		.thumb_func
+ 158              	Virtual_Com_Port_Get_Interface_Setting:
+ 159              		@ args = 0, pretend = 0, frame = 0
+ 160              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161              		@ link register save eliminated.
+ 162 0000 09B1     		cbz	r1, .L18	@ AlternateSetting,
+ 163              	.L20:
+ 164 0002 0220     		movs	r0, #2	@ D.7193,
+ 165 0004 7047     		bx	lr	@
+ 166              	.L18:
+ 167 0006 0128     		cmp	r0, #1	@ Interface,
+ 168 0008 FBD8     		bhi	.L20	@,
+ 169 000a 0846     		mov	r0, r1	@ D.7193, AlternateSetting
+ 170 000c 7047     		bx	lr	@
+ 172 000e 00BF     		.section	.text.Virtual_Com_Port_GetLineCoding,"ax",%progbits
+ 173              		.align	2
+ 174              		.global	Virtual_Com_Port_GetLineCoding
+ 175              		.thumb
+ 176              		.thumb_func
+ 178              	Virtual_Com_Port_GetLineCoding:
+ 179              		@ args = 0, pretend = 0, frame = 0
+ 180              		@ frame_needed = 0, uses_anonymous_args = 0
+ 181              		@ link register save eliminated.
+ 182 0000 08B1     		cbz	r0, .L24	@ Length,
+ 183 0002 0348     		ldr	r0, .L25	@ D.7196,
+ 184 0004 7047     		bx	lr	@
+ 185              	.L24:
+ 186 0006 034B     		ldr	r3, .L25+4	@ tmp116,
+ 187 0008 0822     		movs	r2, #8	@ tmp118,
+ 188 000a 1B68     		ldr	r3, [r3]	@ pInformation, pInformation
+ 189 000c 1A82     		strh	r2, [r3, #16]	@ movhi	@ tmp118, pInformation.8_5->Ctrl_Info.Usb_wLength
+ 190 000e 7047     		bx	lr	@
+ 191              	.L26:
+ 192              		.align	2
+ 193              	.L25:
+ 194 0010 00000000 		.word	.LANCHOR1
+ 195 0014 00000000 		.word	pInformation
+ 197              		.section	.text.Virtual_Com_Port_SetLineCoding,"ax",%progbits
+ 198              		.align	2
+ 199              		.global	Virtual_Com_Port_SetLineCoding
+ 200              		.thumb
+ 201              		.thumb_func
+ 203              	Virtual_Com_Port_SetLineCoding:
+ 204              		@ args = 0, pretend = 0, frame = 0
+ 205              		@ frame_needed = 0, uses_anonymous_args = 0
+ 206              		@ link register save eliminated.
+ 207 0000 08B1     		cbz	r0, .L30	@ Length,
+ 208 0002 0348     		ldr	r0, .L31	@ D.7199,
+ 209 0004 7047     		bx	lr	@
+ 210              	.L30:
+ 211 0006 034B     		ldr	r3, .L31+4	@ tmp116,
+ 212 0008 0822     		movs	r2, #8	@ tmp118,
+ 213 000a 1B68     		ldr	r3, [r3]	@ pInformation, pInformation
+ 214 000c 1A82     		strh	r2, [r3, #16]	@ movhi	@ tmp118, pInformation.9_5->Ctrl_Info.Usb_wLength
+ 215 000e 7047     		bx	lr	@
+ 216              	.L32:
+ 217              		.align	2
+ 218              	.L31:
+ 219 0010 00000000 		.word	.LANCHOR1
+ 220 0014 00000000 		.word	pInformation
+ 222              		.section	.text.Virtual_Com_Port_init,"ax",%progbits
+ 223              		.align	2
+ 224              		.global	Virtual_Com_Port_init
+ 225              		.thumb
+ 226              		.thumb_func
+ 228              	Virtual_Com_Port_init:
+ 229              		@ args = 0, pretend = 0, frame = 0
+ 230              		@ frame_needed = 0, uses_anonymous_args = 0
+ 231 0000 10B5     		push	{r4, lr}	@
+ 232 0002 FFF7FEFF 		bl	Get_SerialNum	@
+ 233 0006 054B     		ldr	r3, .L34	@ tmp112,
+ 234 0008 0024     		movs	r4, #0	@ tmp113,
+ 235 000a 1B68     		ldr	r3, [r3]	@ pInformation, pInformation
+ 236 000c 9C72     		strb	r4, [r3, #10]	@ tmp113, pInformation.0_3->Current_Configuration
+ 237 000e FFF7FEFF 		bl	PowerOn	@
+ 238 0012 FFF7FEFF 		bl	USB_SIL_Init	@
+ 239 0016 024B     		ldr	r3, .L34+4	@ tmp115,
+ 240 0018 1C60     		str	r4, [r3]	@ tmp113, bDeviceState
+ 241 001a 10BD     		pop	{r4, pc}	@
+ 242              	.L35:
+ 243              		.align	2
+ 244              	.L34:
+ 245 001c 00000000 		.word	pInformation
+ 246 0020 00000000 		.word	bDeviceState
+ 248              		.section	.text.Virtual_Com_Port_Reset,"ax",%progbits
+ 249              		.align	2
+ 250              		.global	Virtual_Com_Port_Reset
+ 251              		.thumb
+ 252              		.thumb_func
+ 254              	Virtual_Com_Port_Reset:
+ 255              		@ args = 0, pretend = 0, frame = 0
+ 256              		@ frame_needed = 0, uses_anonymous_args = 0
+ 257 0000 10B5     		push	{r4, lr}	@
+ 258 0002 FFF7FEFF 		bl	millis	@
+ 259 0006 344B     		ldr	r3, .L37	@ tmp116,
+ 260 0008 344A     		ldr	r2, .L37+4	@ tmp119,
+ 261 000a 1B68     		ldr	r3, [r3]	@ pInformation.2, pInformation
+ 262 000c D279     		ldrb	r2, [r2, #7]	@ zero_extendqisi2	@ Virtual_Com_Port_ConfigDescriptor, Virtual_Com_Port_ConfigD
+ 263 000e 3449     		ldr	r1, .L37+8	@ tmp115,
+ 264 0010 0024     		movs	r4, #0	@ tmp117,
+ 265 0012 5A72     		strb	r2, [r3, #9]	@ Virtual_Com_Port_ConfigDescriptor, pInformation.2_5->Current_Feature
+ 266 0014 9C72     		strb	r4, [r3, #10]	@ tmp117, pInformation.2_5->Current_Configuration
+ 267 0016 DC72     		strb	r4, [r3, #11]	@ tmp117, pInformation.2_5->Current_Interface
+ 268 0018 0860     		str	r0, [r1]	@, vcpBootBlockTime
+ 269 001a 2046     		mov	r0, r4	@, tmp117
+ 270 001c FFF7FEFF 		bl	SetBTABLE	@
+ 271 0020 2046     		mov	r0, r4	@, tmp117
+ 272 0022 4FF40071 		mov	r1, #512	@,
+ 273 0026 FFF7FEFF 		bl	SetEPType	@
+ 274 002a 2046     		mov	r0, r4	@, tmp117
+ 275 002c 1021     		movs	r1, #16	@,
+ 276 002e FFF7FEFF 		bl	SetEPTxStatus	@
+ 277 0032 2046     		mov	r0, r4	@, tmp117
+ 278 0034 4021     		movs	r1, #64	@,
+ 279 0036 FFF7FEFF 		bl	SetEPRxAddr	@
+ 280 003a 8021     		movs	r1, #128	@,
+ 281 003c 2046     		mov	r0, r4	@, tmp117
+ 282 003e FFF7FEFF 		bl	SetEPTxAddr	@
+ 283 0042 2046     		mov	r0, r4	@, tmp117
+ 284 0044 FFF7FEFF 		bl	Clear_Status_Out	@
+ 285 0048 264B     		ldr	r3, .L37+12	@ tmp124,
+ 286 004a 2046     		mov	r0, r4	@, tmp117
+ 287 004c 93F82C10 		ldrb	r1, [r3, #44]	@ zero_extendqisi2	@, Device_Property.MaxPacketSize
+ 288 0050 FFF7FEFF 		bl	SetEPRxCount	@
+ 289 0054 2046     		mov	r0, r4	@, tmp117
+ 290 0056 FFF7FEFF 		bl	SetEPRxValid	@
+ 291 005a 2146     		mov	r1, r4	@, tmp117
+ 292 005c 0120     		movs	r0, #1	@,
+ 293 005e FFF7FEFF 		bl	SetEPType	@
+ 294 0062 0120     		movs	r0, #1	@,
+ 295 0064 C021     		movs	r1, #192	@,
+ 296 0066 FFF7FEFF 		bl	SetEPTxAddr	@
+ 297 006a 0120     		movs	r0, #1	@,
+ 298 006c 2021     		movs	r1, #32	@,
+ 299 006e FFF7FEFF 		bl	SetEPTxStatus	@
+ 300 0072 2146     		mov	r1, r4	@, tmp117
+ 301 0074 0120     		movs	r0, #1	@,
+ 302 0076 FFF7FEFF 		bl	SetEPRxStatus	@
+ 303 007a 0220     		movs	r0, #2	@,
+ 304 007c 4FF4C061 		mov	r1, #1536	@,
+ 305 0080 FFF7FEFF 		bl	SetEPType	@
+ 306 0084 0220     		movs	r0, #2	@,
+ 307 0086 4FF48071 		mov	r1, #256	@,
+ 308 008a FFF7FEFF 		bl	SetEPTxAddr	@
+ 309 008e 2146     		mov	r1, r4	@, tmp117
+ 310 0090 0220     		movs	r0, #2	@,
+ 311 0092 FFF7FEFF 		bl	SetEPRxStatus	@
+ 312 0096 0220     		movs	r0, #2	@,
+ 313 0098 2021     		movs	r1, #32	@,
+ 314 009a FFF7FEFF 		bl	SetEPTxStatus	@
+ 315 009e 2146     		mov	r1, r4	@, tmp117
+ 316 00a0 0320     		movs	r0, #3	@,
+ 317 00a2 FFF7FEFF 		bl	SetEPType	@
+ 318 00a6 0320     		movs	r0, #3	@,
+ 319 00a8 4FF48871 		mov	r1, #272	@,
+ 320 00ac FFF7FEFF 		bl	SetEPRxAddr	@
+ 321 00b0 0320     		movs	r0, #3	@,
+ 322 00b2 4021     		movs	r1, #64	@,
+ 323 00b4 FFF7FEFF 		bl	SetEPRxCount	@
+ 324 00b8 0320     		movs	r0, #3	@,
+ 325 00ba 4FF44051 		mov	r1, #12288	@,
+ 326 00be FFF7FEFF 		bl	SetEPRxStatus	@
+ 327 00c2 2146     		mov	r1, r4	@, tmp117
+ 328 00c4 0320     		movs	r0, #3	@,
+ 329 00c6 FFF7FEFF 		bl	SetEPTxStatus	@
+ 330 00ca 2046     		mov	r0, r4	@, tmp117
+ 331 00cc FFF7FEFF 		bl	SetDeviceAddress	@
+ 332 00d0 054B     		ldr	r3, .L37+16	@ tmp128,
+ 333 00d2 0122     		movs	r2, #1	@ tmp129,
+ 334 00d4 1A60     		str	r2, [r3]	@ tmp129, bDeviceState
+ 335 00d6 10BD     		pop	{r4, pc}	@
+ 336              	.L38:
+ 337              		.align	2
+ 338              	.L37:
+ 339 00d8 00000000 		.word	pInformation
+ 340 00dc 00000000 		.word	Virtual_Com_Port_ConfigDescriptor
+ 341 00e0 00000000 		.word	.LANCHOR2
+ 342 00e4 00000000 		.word	.LANCHOR3
+ 343 00e8 00000000 		.word	bDeviceState
+ 345              		.section	.text.Virtual_Com_Port_Data_Setup,"ax",%progbits
+ 346              		.align	2
+ 347              		.global	Virtual_Com_Port_Data_Setup
+ 348              		.thumb
+ 349              		.thumb_func
+ 351              	Virtual_Com_Port_Data_Setup:
+ 352              		@ args = 0, pretend = 0, frame = 0
+ 353              		@ frame_needed = 0, uses_anonymous_args = 0
+ 354 0000 10B5     		push	{r4, lr}	@
+ 355 0002 0446     		mov	r4, r0	@ RequestNo, RequestNo
+ 356 0004 0120     		movs	r0, #1	@,
+ 357 0006 FFF7FEFF 		bl	SetVCPConnectMode	@
+ 358 000a 212C     		cmp	r4, #33	@ RequestNo,
+ 359 000c 03D0     		beq	.L49	@,
+ 360 000e 202C     		cmp	r4, #32	@ RequestNo,
+ 361 0010 10D0     		beq	.L50	@,
+ 362              	.L46:
+ 363 0012 0220     		movs	r0, #2	@ D.7208,
+ 364 0014 10BD     		pop	{r4, pc}	@
+ 365              	.L49:
+ 366 0016 0F4B     		ldr	r3, .L52	@ tmp121,
+ 367 0018 1A68     		ldr	r2, [r3]	@ pInformation.4, pInformation
+ 368 001a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2	@ pInformation.4_9->USBbmRequestType, pInformation.4_9->USBbmRequ
+ 369 001c 03F07F03 		and	r3, r3, #127	@ tmp125, pInformation.4_9->USBbmRequestType,
+ 370 0020 212B     		cmp	r3, #33	@ tmp125,
+ 371 0022 F6D1     		bne	.L46	@,
+ 372 0024 0C4B     		ldr	r3, .L52+4	@ CopyRoutine,
+ 373              	.L41:
+ 374 0026 0024     		movs	r4, #0	@ tmp132,
+ 375 0028 2046     		mov	r0, r4	@, tmp132
+ 376 002a 9361     		str	r3, [r2, #24]	@ CopyRoutine, _22->Ctrl_Info.CopyData
+ 377 002c 5482     		strh	r4, [r2, #18]	@ movhi	@ tmp132, _22->Ctrl_Info.Usb_wOffset
+ 378 002e 9847     		blx	r3	@ CopyRoutine
+ 379 0030 2046     		mov	r0, r4	@ D.7208, tmp132
+ 380 0032 10BD     		pop	{r4, pc}	@
+ 381              	.L50:
+ 382 0034 074B     		ldr	r3, .L52	@ tmp126,
+ 383 0036 1A68     		ldr	r2, [r3]	@ pInformation.4, pInformation
+ 384 0038 1378     		ldrb	r3, [r2]	@ zero_extendqisi2	@ pInformation.4_12->USBbmRequestType, pInformation.4_12->USBbmRe
+ 385 003a 03F07F03 		and	r3, r3, #127	@ tmp130, pInformation.4_12->USBbmRequestType,
+ 386 003e 212B     		cmp	r3, #33	@ tmp130,
+ 387 0040 03D0     		beq	.L51	@,
+ 388 0042 064B     		ldr	r3, .L52+8	@ tmp137,
+ 389 0044 0220     		movs	r0, #2	@ D.7208,
+ 390 0046 1C70     		strb	r4, [r3]	@ RequestNo, Request
+ 391 0048 10BD     		pop	{r4, pc}	@
+ 392              	.L51:
+ 393 004a 044B     		ldr	r3, .L52+8	@ tmp134,
+ 394 004c 1C70     		strb	r4, [r3]	@ RequestNo, Request
+ 395 004e 044B     		ldr	r3, .L52+12	@ CopyRoutine,
+ 396 0050 E9E7     		b	.L41	@
+ 397              	.L53:
+ 398 0052 00BF     		.align	2
+ 399              	.L52:
+ 400 0054 00000000 		.word	pInformation
+ 401 0058 00000000 		.word	Virtual_Com_Port_GetLineCoding
+ 402 005c 00000000 		.word	.LANCHOR0
+ 403 0060 00000000 		.word	Virtual_Com_Port_SetLineCoding
+ 405              		.section	.text.Virtual_Com_Port_NoData_Setup,"ax",%progbits
+ 406              		.align	2
+ 407              		.global	Virtual_Com_Port_NoData_Setup
+ 408              		.thumb
+ 409              		.thumb_func
+ 411              	Virtual_Com_Port_NoData_Setup:
+ 412              		@ args = 0, pretend = 0, frame = 0
+ 413              		@ frame_needed = 0, uses_anonymous_args = 0
+ 414 0000 10B5     		push	{r4, lr}	@
+ 415 0002 0446     		mov	r4, r0	@ RequestNo, RequestNo
+ 416 0004 0220     		movs	r0, #2	@,
+ 417 0006 FFF7FEFF 		bl	SetVCPConnectMode	@
+ 418 000a 084B     		ldr	r3, .L59	@ tmp118,
+ 419 000c 1B68     		ldr	r3, [r3]	@ pInformation, pInformation
+ 420 000e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2	@ pInformation.5_4->USBbmRequestType, pInformation.5_4->USBbmRequ
+ 421 0010 03F07F03 		and	r3, r3, #127	@ tmp122, pInformation.5_4->USBbmRequestType,
+ 422 0014 212B     		cmp	r3, #33	@ tmp122,
+ 423 0016 01D0     		beq	.L58	@,
+ 424 0018 0220     		movs	r0, #2	@ D.7213,
+ 425 001a 10BD     		pop	{r4, pc}	@
+ 426              	.L58:
+ 427 001c 04F0DF04 		and	r4, r4, #223	@ tmp124, RequestNo,
+ 428 0020 022C     		cmp	r4, #2	@ tmp124,
+ 429 0022 14BF     		ite	ne	@
+ 430 0024 0220     		movne	r0, #2	@, D.7213,
+ 431 0026 0020     		moveq	r0, #0	@, D.7213,
+ 432 0028 10BD     		pop	{r4, pc}	@
+ 433              	.L60:
+ 434 002a 00BF     		.align	2
+ 435              	.L59:
+ 436 002c 00000000 		.word	pInformation
+ 438              		.section	.text.Virtual_Com_Port_GetDeviceDescriptor,"ax",%progbits
+ 439              		.align	2
+ 440              		.global	Virtual_Com_Port_GetDeviceDescriptor
+ 441              		.thumb
+ 442              		.thumb_func
+ 444              	Virtual_Com_Port_GetDeviceDescriptor:
+ 445              		@ args = 0, pretend = 0, frame = 0
+ 446              		@ frame_needed = 0, uses_anonymous_args = 0
+ 447              		@ link register save eliminated.
+ 448 0000 0149     		ldr	r1, .L62	@,
+ 449 0002 FFF7FEBF 		b	Standard_GetDescriptorData	@
+ 450              	.L63:
+ 451 0006 00BF     		.align	2
+ 452              	.L62:
+ 453 0008 00000000 		.word	.LANCHOR4
+ 455              		.section	.text.Virtual_Com_Port_GetStringDescriptor,"ax",%progbits
+ 456              		.align	2
+ 457              		.global	Virtual_Com_Port_GetStringDescriptor
+ 458              		.thumb
+ 459              		.thumb_func
+ 461              	Virtual_Com_Port_GetStringDescriptor:
+ 462              		@ args = 0, pretend = 0, frame = 0
+ 463              		@ frame_needed = 0, uses_anonymous_args = 0
+ 464              		@ link register save eliminated.
+ 465 0000 054B     		ldr	r3, .L66	@ tmp118,
+ 466 0002 1B68     		ldr	r3, [r3]	@ pInformation, pInformation
+ 467 0004 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2	@ wValue0, pInformation.7_4->USBwValues.bw.bb0
+ 468 0006 042B     		cmp	r3, #4	@ wValue0,
+ 469 0008 04D8     		bhi	.L65	@,
+ 470 000a 0449     		ldr	r1, .L66+4	@ tmp119,
+ 471 000c 01EBC301 		add	r1, r1, r3, lsl #3	@,, tmp119, wValue0,
+ 472 0010 FFF7FEBF 		b	Standard_GetDescriptorData	@
+ 473              	.L65:
+ 474 0014 0020     		movs	r0, #0	@,
+ 475 0016 7047     		bx	lr	@
+ 476              	.L67:
+ 477              		.align	2
+ 478              	.L66:
+ 479 0018 00000000 		.word	pInformation
+ 480 001c 00000000 		.word	.LANCHOR5
+ 482              		.section	.text.Virtual_Com_Port_GetConfigDescriptor,"ax",%progbits
+ 483              		.align	2
+ 484              		.global	Virtual_Com_Port_GetConfigDescriptor
+ 485              		.thumb
+ 486              		.thumb_func
+ 488              	Virtual_Com_Port_GetConfigDescriptor:
+ 489              		@ args = 0, pretend = 0, frame = 0
+ 490              		@ frame_needed = 0, uses_anonymous_args = 0
+ 491 0000 10B5     		push	{r4, lr}	@
+ 492 0002 0446     		mov	r4, r0	@ Length, Length
+ 493 0004 FFF7FEFF 		bl	millis	@
+ 494 0008 064B     		ldr	r3, .L70	@ tmp116,
+ 495 000a 1B68     		ldr	r3, [r3]	@ vcpBootBlockTime, vcpBootBlockTime
+ 496 000c C01A     		subs	r0, r0, r3	@ D.7225,, vcpBootBlockTime
+ 497 000e B0F57A7F 		cmp	r0, #1000	@ D.7225,
+ 498 0012 01D9     		bls	.L69	@,
+ 499 0014 FFF7FEFF 		bl	bootloader	@
+ 500              	.L69:
+ 501 0018 2046     		mov	r0, r4	@, Length
+ 502 001a 0349     		ldr	r1, .L70+4	@,
+ 503 001c BDE81040 		pop	{r4, lr}	@
+ 504 0020 FFF7FEBF 		b	Standard_GetDescriptorData	@
+ 505              	.L71:
+ 506              		.align	2
+ 507              	.L70:
+ 508 0024 00000000 		.word	.LANCHOR2
+ 509 0028 00000000 		.word	.LANCHOR6
+ 511              		.global	String_Descriptor
+ 512              		.global	Config_Descriptor
+ 513              		.global	Device_Descriptor
+ 514              		.global	User_Standard_Requests
+ 515              		.global	Device_Property
+ 516              		.global	Device_Table
+ 517              		.global	linecoding
+ 518              		.global	Request
+ 519              		.section	.data.Config_Descriptor,"aw",%progbits
+ 520              		.align	2
+ 521              		.set	.LANCHOR6,. + 0
+ 524              	Config_Descriptor:
+ 525              	@ Descriptor:
+ 526 0000 00000000 		.word	Virtual_Com_Port_ConfigDescriptor
+ 527              	@ Descriptor_Size:
+ 528 0004 4300     		.short	67
+ 529 0006 0000     		.space	2
+ 530              		.section	.data.Device_Property,"aw",%progbits
+ 531              		.align	2
+ 532              		.set	.LANCHOR3,. + 0
+ 535              	Device_Property:
+ 536              	@ Init:
+ 537 0000 00000000 		.word	Virtual_Com_Port_init
+ 538              	@ Reset:
+ 539 0004 00000000 		.word	Virtual_Com_Port_Reset
+ 540              	@ Process_Status_IN:
+ 541 0008 00000000 		.word	Virtual_Com_Port_Status_In
+ 542              	@ Process_Status_OUT:
+ 543 000c 00000000 		.word	Virtual_Com_Port_Status_Out
+ 544              	@ Class_Data_Setup:
+ 545 0010 00000000 		.word	Virtual_Com_Port_Data_Setup
+ 546              	@ Class_NoData_Setup:
+ 547 0014 00000000 		.word	Virtual_Com_Port_NoData_Setup
+ 548              	@ Class_Get_Interface_Setting:
+ 549 0018 00000000 		.word	Virtual_Com_Port_Get_Interface_Setting
+ 550              	@ GetDeviceDescriptor:
+ 551 001c 00000000 		.word	Virtual_Com_Port_GetDeviceDescriptor
+ 552              	@ GetConfigDescriptor:
+ 553 0020 00000000 		.word	Virtual_Com_Port_GetConfigDescriptor
+ 554              	@ GetStringDescriptor:
+ 555 0024 00000000 		.word	Virtual_Com_Port_GetStringDescriptor
+ 556              	@ RxEP_buffer:
+ 557 0028 00000000 		.word	0
+ 558              	@ MaxPacketSize:
+ 559 002c 40       		.byte	64
+ 560 002d 000000   		.space	3
+ 561              		.section	.data.User_Standard_Requests,"aw",%progbits
+ 562              		.align	2
+ 565              	User_Standard_Requests:
+ 566              	@ User_GetConfiguration:
+ 567 0000 00000000 		.word	NOP_Process
+ 568              	@ User_SetConfiguration:
+ 569 0004 00000000 		.word	Virtual_Com_Port_SetConfiguration
+ 570              	@ User_GetInterface:
+ 571 0008 00000000 		.word	NOP_Process
+ 572              	@ User_SetInterface:
+ 573 000c 00000000 		.word	NOP_Process
+ 574              	@ User_GetStatus:
+ 575 0010 00000000 		.word	NOP_Process
+ 576              	@ User_ClearFeature:
+ 577 0014 00000000 		.word	NOP_Process
+ 578              	@ User_SetEndPointFeature:
+ 579 0018 00000000 		.word	NOP_Process
+ 580              	@ User_SetDeviceFeature:
+ 581 001c 00000000 		.word	NOP_Process
+ 582              	@ User_SetDeviceAddress:
+ 583 0020 00000000 		.word	Virtual_Com_Port_SetDeviceAddress
+ 584              		.section	.bss.vcpBootBlockTime,"aw",%nobits
+ 585              		.align	2
+ 586              		.set	.LANCHOR2,. + 0
+ 589              	vcpBootBlockTime:
+ 590 0000 00000000 		.space	4
+ 591              		.section	.data.Device_Descriptor,"aw",%progbits
+ 592              		.align	2
+ 593              		.set	.LANCHOR4,. + 0
+ 596              	Device_Descriptor:
+ 597              	@ Descriptor:
+ 598 0000 00000000 		.word	Virtual_Com_Port_DeviceDescriptor
+ 599              	@ Descriptor_Size:
+ 600 0004 1200     		.short	18
+ 601 0006 0000     		.space	2
+ 602              		.section	.data.String_Descriptor,"aw",%progbits
+ 603              		.align	2
+ 604              		.set	.LANCHOR5,. + 0
+ 607              	String_Descriptor:
+ 608              	@ Descriptor:
+ 609 0000 00000000 		.word	Virtual_Com_Port_StringLangID
+ 610              	@ Descriptor_Size:
+ 611 0004 0400     		.short	4
+ 612 0006 0000     		.space	2
+ 613              	@ Descriptor:
+ 614 0008 00000000 		.word	Virtual_Com_Port_StringVendor
+ 615              	@ Descriptor_Size:
+ 616 000c 2600     		.short	38
+ 617 000e 0000     		.space	2
+ 618              	@ Descriptor:
+ 619 0010 00000000 		.word	Virtual_Com_Port_StringProduct
+ 620              	@ Descriptor_Size:
+ 621 0014 3200     		.short	50
+ 622 0016 0000     		.space	2
+ 623              	@ Descriptor:
+ 624 0018 00000000 		.word	Virtual_Com_Port_StringSerial
+ 625              	@ Descriptor_Size:
+ 626 001c 1A00     		.short	26
+ 627 001e 0000     		.space	2
+ 628              		.section	.bss.Request,"aw",%nobits
+ 629              		.set	.LANCHOR0,. + 0
+ 632              	Request:
+ 633 0000 00       		.space	1
+ 634              		.section	.data.linecoding,"aw",%progbits
+ 635              		.align	2
+ 636              		.set	.LANCHOR1,. + 0
+ 639              	linecoding:
+ 640              	@ bitrate:
+ 641 0000 00C20100 		.word	115200
+ 642              	@ format:
+ 643 0004 00       		.byte	0
+ 644              	@ paritytype:
+ 645 0005 00       		.byte	0
+ 646              	@ datatype:
+ 647 0006 08       		.byte	8
+ 648 0007 00       		.space	1
+ 649              		.section	.data.Device_Table,"aw",%progbits
+ 650              		.align	2
+ 653              	Device_Table:
+ 654              	@ Total_Endpoint:
+ 655 0000 04       		.byte	4
+ 656              	@ Total_Configuration:
+ 657 0001 01       		.byte	1
+ 658 0002 0000     		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_prop.c
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:76     .text.Virtual_Com_Port_SetConfiguration:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:81     .text.Virtual_Com_Port_SetConfiguration:00000000 Virtual_Com_Port_SetConfiguration
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:96     .text.Virtual_Com_Port_SetConfiguration:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:100    .text.Virtual_Com_Port_SetDeviceAddress:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:105    .text.Virtual_Com_Port_SetDeviceAddress:00000000 Virtual_Com_Port_SetDeviceAddress
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:116    .text.Virtual_Com_Port_SetDeviceAddress:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:119    .text.Virtual_Com_Port_Status_In:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:124    .text.Virtual_Com_Port_Status_In:00000000 Virtual_Com_Port_Status_In
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:138    .text.Virtual_Com_Port_Status_In:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:141    .text.Virtual_Com_Port_Status_Out:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:146    .text.Virtual_Com_Port_Status_Out:00000000 Virtual_Com_Port_Status_Out
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:153    .text.Virtual_Com_Port_Get_Interface_Setting:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:158    .text.Virtual_Com_Port_Get_Interface_Setting:00000000 Virtual_Com_Port_Get_Interface_Setting
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:173    .text.Virtual_Com_Port_GetLineCoding:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:178    .text.Virtual_Com_Port_GetLineCoding:00000000 Virtual_Com_Port_GetLineCoding
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:194    .text.Virtual_Com_Port_GetLineCoding:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:198    .text.Virtual_Com_Port_SetLineCoding:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:203    .text.Virtual_Com_Port_SetLineCoding:00000000 Virtual_Com_Port_SetLineCoding
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:219    .text.Virtual_Com_Port_SetLineCoding:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:223    .text.Virtual_Com_Port_init:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:228    .text.Virtual_Com_Port_init:00000000 Virtual_Com_Port_init
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:245    .text.Virtual_Com_Port_init:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:249    .text.Virtual_Com_Port_Reset:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:254    .text.Virtual_Com_Port_Reset:00000000 Virtual_Com_Port_Reset
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:339    .text.Virtual_Com_Port_Reset:000000d8 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:346    .text.Virtual_Com_Port_Data_Setup:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:351    .text.Virtual_Com_Port_Data_Setup:00000000 Virtual_Com_Port_Data_Setup
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:400    .text.Virtual_Com_Port_Data_Setup:00000054 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:406    .text.Virtual_Com_Port_NoData_Setup:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:411    .text.Virtual_Com_Port_NoData_Setup:00000000 Virtual_Com_Port_NoData_Setup
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:436    .text.Virtual_Com_Port_NoData_Setup:0000002c $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:439    .text.Virtual_Com_Port_GetDeviceDescriptor:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:444    .text.Virtual_Com_Port_GetDeviceDescriptor:00000000 Virtual_Com_Port_GetDeviceDescriptor
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:453    .text.Virtual_Com_Port_GetDeviceDescriptor:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:456    .text.Virtual_Com_Port_GetStringDescriptor:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:461    .text.Virtual_Com_Port_GetStringDescriptor:00000000 Virtual_Com_Port_GetStringDescriptor
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:479    .text.Virtual_Com_Port_GetStringDescriptor:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:483    .text.Virtual_Com_Port_GetConfigDescriptor:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:488    .text.Virtual_Com_Port_GetConfigDescriptor:00000000 Virtual_Com_Port_GetConfigDescriptor
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:508    .text.Virtual_Com_Port_GetConfigDescriptor:00000024 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:607    .data.String_Descriptor:00000000 String_Descriptor
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:524    .data.Config_Descriptor:00000000 Config_Descriptor
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:596    .data.Device_Descriptor:00000000 Device_Descriptor
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:565    .data.User_Standard_Requests:00000000 User_Standard_Requests
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:535    .data.Device_Property:00000000 Device_Property
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:653    .data.Device_Table:00000000 Device_Table
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:639    .data.linecoding:00000000 linecoding
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:632    .bss.Request:00000000 Request
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:520    .data.Config_Descriptor:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:531    .data.Device_Property:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:562    .data.User_Standard_Requests:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:585    .bss.vcpBootBlockTime:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:589    .bss.vcpBootBlockTime:00000000 vcpBootBlockTime
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:592    .data.Device_Descriptor:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:603    .data.String_Descriptor:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:633    .bss.Request:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:635    .data.linecoding:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cc7KOD08.s:650    .data.Device_Table:00000000 $d
+
+UNDEFINED SYMBOLS
+Device_Info
+bDeviceState
+pInformation
+Get_SerialNum
+PowerOn
+USB_SIL_Init
+millis
+SetBTABLE
+SetEPType
+SetEPTxStatus
+SetEPRxAddr
+SetEPTxAddr
+Clear_Status_Out
+SetEPRxCount
+SetEPRxValid
+SetEPRxStatus
+SetDeviceAddress
+Virtual_Com_Port_ConfigDescriptor
+SetVCPConnectMode
+Standard_GetDescriptorData
+bootloader
+NOP_Process
+Virtual_Com_Port_DeviceDescriptor
+Virtual_Com_Port_StringLangID
+Virtual_Com_Port_StringVendor
+Virtual_Com_Port_StringProduct
+Virtual_Com_Port_StringSerial

@@ -1,0 +1,450 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"stm32f10x_rtc.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rtc.d
+  31              	@ -MF Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rtc.d -MP
+  32              	@ -MT Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rtc.d
+  33              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rtc.c
+  35              	@ -mcpu=cortex-m3 -mthumb
+  36              	@ -auxbase-strip Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rtc.o
+  37              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  38              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  39              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  40              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  41              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  42              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  43              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  44              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  45              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  46              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  47              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  48              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  49              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  50              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  51              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  52              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  53              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  54              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  55              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  56              	@ -freorder-functions -frerun-cse-after-loop
+  57              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  58              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  59              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  60              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  61              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  62              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  63              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  64              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  65              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  66              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  67              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  68              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  69              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  70              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  71              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  72              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  73              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  74              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  75              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  76              	@ -munaligned-access -mvectorize-with-neon-quad
+  77              	
+  78              		.section	.text.RTC_ITConfig,"ax",%progbits
+  79              		.align	2
+  80              		.global	RTC_ITConfig
+  81              		.thumb
+  82              		.thumb_func
+  84              	RTC_ITConfig:
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+  88 0000 054B     		ldr	r3, .L6	@ tmp117,
+  89 0002 1A88     		ldrh	r2, [r3]	@,
+  90 0004 92B2     		uxth	r2, r2	@ D.6730, MEM[(struct RTC_TypeDef *)1073752064B].CRH
+  91 0006 19B9     		cbnz	r1, .L5	@ NewState,
+  92 0008 22EA0000 		bic	r0, r2, r0	@ D.6730, D.6730, RTC_IT
+  93 000c 1880     		strh	r0, [r3]	@ movhi	@ D.6730,
+  94 000e 7047     		bx	lr	@
+  95              	.L5:
+  96 0010 1043     		orrs	r0, r0, r2	@, D.6730, RTC_IT, D.6730
+  97 0012 1880     		strh	r0, [r3]	@ movhi	@ D.6730,
+  98 0014 7047     		bx	lr	@
+  99              	.L7:
+ 100 0016 00BF     		.align	2
+ 101              	.L6:
+ 102 0018 00280040 		.word	1073752064
+ 104              		.section	.text.RTC_EnterConfigMode,"ax",%progbits
+ 105              		.align	2
+ 106              		.global	RTC_EnterConfigMode
+ 107              		.thumb
+ 108              		.thumb_func
+ 110              	RTC_EnterConfigMode:
+ 111              		@ args = 0, pretend = 0, frame = 0
+ 112              		@ frame_needed = 0, uses_anonymous_args = 0
+ 113              		@ link register save eliminated.
+ 114 0000 034B     		ldr	r3, .L9	@ tmp112,
+ 115 0002 9A88     		ldrh	r2, [r3, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 116 0004 92B2     		uxth	r2, r2	@ D.6733, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 117 0006 42F01002 		orr	r2, r2, #16	@ D.6733, D.6733,
+ 118 000a 9A80     		strh	r2, [r3, #4]	@ movhi	@ D.6733, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 119 000c 7047     		bx	lr	@
+ 120              	.L10:
+ 121 000e 00BF     		.align	2
+ 122              	.L9:
+ 123 0010 00280040 		.word	1073752064
+ 125              		.section	.text.RTC_ExitConfigMode,"ax",%progbits
+ 126              		.align	2
+ 127              		.global	RTC_ExitConfigMode
+ 128              		.thumb
+ 129              		.thumb_func
+ 131              	RTC_ExitConfigMode:
+ 132              		@ args = 0, pretend = 0, frame = 0
+ 133              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134              		@ link register save eliminated.
+ 135 0000 034A     		ldr	r2, .L12	@ tmp112,
+ 136 0002 9388     		ldrh	r3, [r2, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 137 0004 23F01003 		bic	r3, r3, #16	@ D.6736, MEM[(struct RTC_TypeDef *)1073752064B].CRL,
+ 138 0008 1B04     		lsls	r3, r3, #16	@ D.6736, D.6736,
+ 139 000a 1B0C     		lsrs	r3, r3, #16	@ D.6736, D.6736,
+ 140 000c 9380     		strh	r3, [r2, #4]	@ movhi	@ D.6736, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 141 000e 7047     		bx	lr	@
+ 142              	.L13:
+ 143              		.align	2
+ 144              	.L12:
+ 145 0010 00280040 		.word	1073752064
+ 147              		.section	.text.RTC_GetCounter,"ax",%progbits
+ 148              		.align	2
+ 149              		.global	RTC_GetCounter
+ 150              		.thumb
+ 151              		.thumb_func
+ 153              	RTC_GetCounter:
+ 154              		@ args = 0, pretend = 0, frame = 0
+ 155              		@ frame_needed = 0, uses_anonymous_args = 0
+ 156              		@ link register save eliminated.
+ 157 0000 084B     		ldr	r3, .L17	@ tmp122,
+ 158 0002 198B     		ldrh	r1, [r3, #24]	@, MEM[(struct RTC_TypeDef *)1073752064B].CNTH
+ 159 0004 988B     		ldrh	r0, [r3, #28]	@, MEM[(struct RTC_TypeDef *)1073752064B].CNTL
+ 160 0006 1A8B     		ldrh	r2, [r3, #24]	@, MEM[(struct RTC_TypeDef *)1073752064B].CNTH
+ 161 0008 89B2     		uxth	r1, r1	@ high1, MEM[(struct RTC_TypeDef *)1073752064B].CNTH
+ 162 000a 92B2     		uxth	r2, r2	@ high2, MEM[(struct RTC_TypeDef *)1073752064B].CNTH
+ 163 000c 9142     		cmp	r1, r2	@ high1, high2
+ 164 000e 80B2     		uxth	r0, r0	@ low, MEM[(struct RTC_TypeDef *)1073752064B].CNTL
+ 165 0010 04D0     		beq	.L15	@,
+ 166 0012 988B     		ldrh	r0, [r3, #28]	@, MEM[(struct RTC_TypeDef *)1073752064B].CNTL
+ 167 0014 80B2     		uxth	r0, r0	@ D.6741, MEM[(struct RTC_TypeDef *)1073752064B].CNTL
+ 168 0016 40EA0240 		orr	r0, r0, r2, lsl #16	@, D.6739, D.6741, high2,
+ 169 001a 7047     		bx	lr	@
+ 170              	.L15:
+ 171 001c 40EA0140 		orr	r0, r0, r1, lsl #16	@, D.6739, low, high1,
+ 172 0020 7047     		bx	lr	@
+ 173              	.L18:
+ 174 0022 00BF     		.align	2
+ 175              	.L17:
+ 176 0024 00280040 		.word	1073752064
+ 178              		.section	.text.RTC_SetCounter,"ax",%progbits
+ 179              		.align	2
+ 180              		.global	RTC_SetCounter
+ 181              		.thumb
+ 182              		.thumb_func
+ 184              	RTC_SetCounter:
+ 185              		@ args = 0, pretend = 0, frame = 0
+ 186              		@ frame_needed = 0, uses_anonymous_args = 0
+ 187              		@ link register save eliminated.
+ 188 0000 084B     		ldr	r3, .L20	@ tmp118,
+ 189 0002 020C     		lsrs	r2, r0, #16	@ D.6745, CounterValue,
+ 190 0004 9988     		ldrh	r1, [r3, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 191 0006 80B2     		uxth	r0, r0	@ D.6745, CounterValue
+ 192 0008 89B2     		uxth	r1, r1	@ D.6745, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 193 000a 41F01001 		orr	r1, r1, #16	@ D.6745, D.6745,
+ 194 000e 9980     		strh	r1, [r3, #4]	@ movhi	@ D.6745, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 195 0010 1A83     		strh	r2, [r3, #24]	@ movhi	@ D.6745, MEM[(struct RTC_TypeDef *)1073752064B].CNTH
+ 196 0012 9883     		strh	r0, [r3, #28]	@ movhi	@ D.6745, MEM[(struct RTC_TypeDef *)1073752064B].CNTL
+ 197 0014 9A88     		ldrh	r2, [r3, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 198 0016 22F01002 		bic	r2, r2, #16	@ D.6745, MEM[(struct RTC_TypeDef *)1073752064B].CRL,
+ 199 001a 1204     		lsls	r2, r2, #16	@ D.6745, D.6745,
+ 200 001c 120C     		lsrs	r2, r2, #16	@ D.6745, D.6745,
+ 201 001e 9A80     		strh	r2, [r3, #4]	@ movhi	@ D.6745, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 202 0020 7047     		bx	lr	@
+ 203              	.L21:
+ 204 0022 00BF     		.align	2
+ 205              	.L20:
+ 206 0024 00280040 		.word	1073752064
+ 208              		.section	.text.RTC_SetPrescaler,"ax",%progbits
+ 209              		.align	2
+ 210              		.global	RTC_SetPrescaler
+ 211              		.thumb
+ 212              		.thumb_func
+ 214              	RTC_SetPrescaler:
+ 215              		@ args = 0, pretend = 0, frame = 0
+ 216              		@ frame_needed = 0, uses_anonymous_args = 0
+ 217              		@ link register save eliminated.
+ 218 0000 084B     		ldr	r3, .L23	@ tmp119,
+ 219 0002 C0F30342 		ubfx	r2, r0, #16, #4	@ D.6749, PrescalerValue,,
+ 220 0006 9988     		ldrh	r1, [r3, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 221 0008 80B2     		uxth	r0, r0	@ D.6749, PrescalerValue
+ 222 000a 89B2     		uxth	r1, r1	@ D.6749, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 223 000c 41F01001 		orr	r1, r1, #16	@ D.6749, D.6749,
+ 224 0010 9980     		strh	r1, [r3, #4]	@ movhi	@ D.6749, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 225 0012 1A81     		strh	r2, [r3, #8]	@ movhi	@ D.6749, MEM[(struct RTC_TypeDef *)1073752064B].PRLH
+ 226 0014 9881     		strh	r0, [r3, #12]	@ movhi	@ D.6749, MEM[(struct RTC_TypeDef *)1073752064B].PRLL
+ 227 0016 9A88     		ldrh	r2, [r3, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 228 0018 22F01002 		bic	r2, r2, #16	@ D.6749, MEM[(struct RTC_TypeDef *)1073752064B].CRL,
+ 229 001c 1204     		lsls	r2, r2, #16	@ D.6749, D.6749,
+ 230 001e 120C     		lsrs	r2, r2, #16	@ D.6749, D.6749,
+ 231 0020 9A80     		strh	r2, [r3, #4]	@ movhi	@ D.6749, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 232 0022 7047     		bx	lr	@
+ 233              	.L24:
+ 234              		.align	2
+ 235              	.L23:
+ 236 0024 00280040 		.word	1073752064
+ 238              		.section	.text.RTC_SetAlarm,"ax",%progbits
+ 239              		.align	2
+ 240              		.global	RTC_SetAlarm
+ 241              		.thumb
+ 242              		.thumb_func
+ 244              	RTC_SetAlarm:
+ 245              		@ args = 0, pretend = 0, frame = 0
+ 246              		@ frame_needed = 0, uses_anonymous_args = 0
+ 247              		@ link register save eliminated.
+ 248 0000 084B     		ldr	r3, .L26	@ tmp118,
+ 249 0002 020C     		lsrs	r2, r0, #16	@ D.6753, AlarmValue,
+ 250 0004 9988     		ldrh	r1, [r3, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 251 0006 80B2     		uxth	r0, r0	@ D.6753, AlarmValue
+ 252 0008 89B2     		uxth	r1, r1	@ D.6753, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 253 000a 41F01001 		orr	r1, r1, #16	@ D.6753, D.6753,
+ 254 000e 9980     		strh	r1, [r3, #4]	@ movhi	@ D.6753, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 255 0010 1A84     		strh	r2, [r3, #32]	@ movhi	@ D.6753, MEM[(struct RTC_TypeDef *)1073752064B].ALRH
+ 256 0012 9884     		strh	r0, [r3, #36]	@ movhi	@ D.6753, MEM[(struct RTC_TypeDef *)1073752064B].ALRL
+ 257 0014 9A88     		ldrh	r2, [r3, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 258 0016 22F01002 		bic	r2, r2, #16	@ D.6753, MEM[(struct RTC_TypeDef *)1073752064B].CRL,
+ 259 001a 1204     		lsls	r2, r2, #16	@ D.6753, D.6753,
+ 260 001c 120C     		lsrs	r2, r2, #16	@ D.6753, D.6753,
+ 261 001e 9A80     		strh	r2, [r3, #4]	@ movhi	@ D.6753, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 262 0020 7047     		bx	lr	@
+ 263              	.L27:
+ 264 0022 00BF     		.align	2
+ 265              	.L26:
+ 266 0024 00280040 		.word	1073752064
+ 268              		.section	.text.RTC_GetDivider,"ax",%progbits
+ 269              		.align	2
+ 270              		.global	RTC_GetDivider
+ 271              		.thumb
+ 272              		.thumb_func
+ 274              	RTC_GetDivider:
+ 275              		@ args = 0, pretend = 0, frame = 0
+ 276              		@ frame_needed = 0, uses_anonymous_args = 0
+ 277              		@ link register save eliminated.
+ 278 0000 044B     		ldr	r3, .L29	@ tmp118,
+ 279 0002 188A     		ldrh	r0, [r3, #16]	@, MEM[(struct RTC_TypeDef *)1073752064B].DIVH
+ 280 0004 9B8A     		ldrh	r3, [r3, #20]	@, MEM[(struct RTC_TypeDef *)1073752064B].DIVL
+ 281 0006 00F00F00 		and	r0, r0, #15	@ D.6757, MEM[(struct RTC_TypeDef *)1073752064B].DIVH,
+ 282 000a 9BB2     		uxth	r3, r3	@ D.6756, MEM[(struct RTC_TypeDef *)1073752064B].DIVL
+ 283 000c 43EA0040 		orr	r0, r3, r0, lsl #16	@,, D.6756, D.6757,
+ 284 0010 7047     		bx	lr	@
+ 285              	.L30:
+ 286 0012 00BF     		.align	2
+ 287              	.L29:
+ 288 0014 00280040 		.word	1073752064
+ 290              		.section	.text.RTC_WaitForLastTask,"ax",%progbits
+ 291              		.align	2
+ 292              		.global	RTC_WaitForLastTask
+ 293              		.thumb
+ 294              		.thumb_func
+ 296              	RTC_WaitForLastTask:
+ 297              		@ args = 0, pretend = 0, frame = 0
+ 298              		@ frame_needed = 0, uses_anonymous_args = 0
+ 299              		@ link register save eliminated.
+ 300 0000 024A     		ldr	r2, .L34	@ tmp118,
+ 301              	.L33:
+ 302 0002 9388     		ldrh	r3, [r2, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 303 0004 9B06     		lsls	r3, r3, #26	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL,
+ 304 0006 FCD5     		bpl	.L33	@,
+ 305 0008 7047     		bx	lr	@
+ 306              	.L35:
+ 307 000a 00BF     		.align	2
+ 308              	.L34:
+ 309 000c 00280040 		.word	1073752064
+ 311              		.section	.text.RTC_WaitForSynchro,"ax",%progbits
+ 312              		.align	2
+ 313              		.global	RTC_WaitForSynchro
+ 314              		.thumb
+ 315              		.thumb_func
+ 317              	RTC_WaitForSynchro:
+ 318              		@ args = 0, pretend = 0, frame = 0
+ 319              		@ frame_needed = 0, uses_anonymous_args = 0
+ 320              		@ link register save eliminated.
+ 321 0000 0549     		ldr	r1, .L39	@ tmp114,
+ 322 0002 8B88     		ldrh	r3, [r1, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 323 0004 0A46     		mov	r2, r1	@ tmp126, tmp114
+ 324 0006 23F00803 		bic	r3, r3, #8	@ D.6763, MEM[(struct RTC_TypeDef *)1073752064B].CRL,
+ 325 000a 1B04     		lsls	r3, r3, #16	@ D.6763, D.6763,
+ 326 000c 1B0C     		lsrs	r3, r3, #16	@ D.6763, D.6763,
+ 327 000e 8B80     		strh	r3, [r1, #4]	@ movhi	@ D.6763, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 328              	.L38:
+ 329 0010 9388     		ldrh	r3, [r2, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 330 0012 1B07     		lsls	r3, r3, #28	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL,
+ 331 0014 FCD5     		bpl	.L38	@,
+ 332 0016 7047     		bx	lr	@
+ 333              	.L40:
+ 334              		.align	2
+ 335              	.L39:
+ 336 0018 00280040 		.word	1073752064
+ 338              		.section	.text.RTC_GetFlagStatus,"ax",%progbits
+ 339              		.align	2
+ 340              		.global	RTC_GetFlagStatus
+ 341              		.thumb
+ 342              		.thumb_func
+ 344              	RTC_GetFlagStatus:
+ 345              		@ args = 0, pretend = 0, frame = 0
+ 346              		@ frame_needed = 0, uses_anonymous_args = 0
+ 347              		@ link register save eliminated.
+ 348 0000 034B     		ldr	r3, .L42	@ tmp116,
+ 349 0002 9B88     		ldrh	r3, [r3, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 350 0004 1842     		tst	r0, r3	@ RTC_FLAG, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 351 0006 0CBF     		ite	eq	@
+ 352 0008 0020     		moveq	r0, #0	@,
+ 353 000a 0120     		movne	r0, #1	@,
+ 354 000c 7047     		bx	lr	@
+ 355              	.L43:
+ 356 000e 00BF     		.align	2
+ 357              	.L42:
+ 358 0010 00280040 		.word	1073752064
+ 360              		.section	.text.RTC_ClearFlag,"ax",%progbits
+ 361              		.align	2
+ 362              		.global	RTC_ClearFlag
+ 363              		.thumb
+ 364              		.thumb_func
+ 366              	RTC_ClearFlag:
+ 367              		@ args = 0, pretend = 0, frame = 0
+ 368              		@ frame_needed = 0, uses_anonymous_args = 0
+ 369              		@ link register save eliminated.
+ 370 0000 034B     		ldr	r3, .L45	@ tmp114,
+ 371 0002 9A88     		ldrh	r2, [r3, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 372 0004 92B2     		uxth	r2, r2	@ D.6771, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 373 0006 22EA0000 		bic	r0, r2, r0	@ D.6771, D.6771, RTC_FLAG
+ 374 000a 9880     		strh	r0, [r3, #4]	@ movhi	@ D.6771, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 375 000c 7047     		bx	lr	@
+ 376              	.L46:
+ 377 000e 00BF     		.align	2
+ 378              	.L45:
+ 379 0010 00280040 		.word	1073752064
+ 381              		.section	.text.RTC_GetITStatus,"ax",%progbits
+ 382              		.align	2
+ 383              		.global	RTC_GetITStatus
+ 384              		.thumb
+ 385              		.thumb_func
+ 387              	RTC_GetITStatus:
+ 388              		@ args = 0, pretend = 0, frame = 0
+ 389              		@ frame_needed = 0, uses_anonymous_args = 0
+ 390              		@ link register save eliminated.
+ 391 0000 064B     		ldr	r3, .L50	@ tmp120,
+ 392 0002 9A88     		ldrh	r2, [r3, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 393 0004 1B88     		ldrh	r3, [r3]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRH
+ 394 0006 92B2     		uxth	r2, r2	@ D.6774, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 395 0008 0340     		ands	r3, r0, r3	@ tmp127, RTC_IT, MEM[(struct RTC_TypeDef *)1073752064B].CRH
+ 396 000a 05D0     		beq	.L49	@,
+ 397 000c 1040     		ands	r0, r0, r2	@, tmp130, RTC_IT, D.6774
+ 398 000e C0B2     		uxtb	r0, r0	@ tmp132, tmp130
+ 399 0010 0030     		adds	r0, r0, #0	@ bitstatus, tmp132,
+ 400 0012 18BF     		it	ne
+ 401 0014 0120     		movne	r0, #1	@ bitstatus,
+ 402 0016 7047     		bx	lr	@
+ 403              	.L49:
+ 404 0018 1846     		mov	r0, r3	@ bitstatus, tmp127
+ 405 001a 7047     		bx	lr	@
+ 406              	.L51:
+ 407              		.align	2
+ 408              	.L50:
+ 409 001c 00280040 		.word	1073752064
+ 411              		.section	.text.RTC_ClearITPendingBit,"ax",%progbits
+ 412              		.align	2
+ 413              		.global	RTC_ClearITPendingBit
+ 414              		.thumb
+ 415              		.thumb_func
+ 417              	RTC_ClearITPendingBit:
+ 418              		@ args = 0, pretend = 0, frame = 0
+ 419              		@ frame_needed = 0, uses_anonymous_args = 0
+ 420              		@ link register save eliminated.
+ 421 0000 034B     		ldr	r3, .L53	@ tmp114,
+ 422 0002 9A88     		ldrh	r2, [r3, #4]	@, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 423 0004 92B2     		uxth	r2, r2	@ D.6779, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 424 0006 22EA0000 		bic	r0, r2, r0	@ D.6779, D.6779, RTC_IT
+ 425 000a 9880     		strh	r0, [r3, #4]	@ movhi	@ D.6779, MEM[(struct RTC_TypeDef *)1073752064B].CRL
+ 426 000c 7047     		bx	lr	@
+ 427              	.L54:
+ 428 000e 00BF     		.align	2
+ 429              	.L53:
+ 430 0010 00280040 		.word	1073752064
+ 432              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f10x_rtc.c
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:79     .text.RTC_ITConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:84     .text.RTC_ITConfig:00000000 RTC_ITConfig
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:102    .text.RTC_ITConfig:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:105    .text.RTC_EnterConfigMode:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:110    .text.RTC_EnterConfigMode:00000000 RTC_EnterConfigMode
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:123    .text.RTC_EnterConfigMode:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:126    .text.RTC_ExitConfigMode:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:131    .text.RTC_ExitConfigMode:00000000 RTC_ExitConfigMode
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:145    .text.RTC_ExitConfigMode:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:148    .text.RTC_GetCounter:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:153    .text.RTC_GetCounter:00000000 RTC_GetCounter
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:176    .text.RTC_GetCounter:00000024 $d
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:179    .text.RTC_SetCounter:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:184    .text.RTC_SetCounter:00000000 RTC_SetCounter
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:206    .text.RTC_SetCounter:00000024 $d
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:209    .text.RTC_SetPrescaler:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:214    .text.RTC_SetPrescaler:00000000 RTC_SetPrescaler
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:236    .text.RTC_SetPrescaler:00000024 $d
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:239    .text.RTC_SetAlarm:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:244    .text.RTC_SetAlarm:00000000 RTC_SetAlarm
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:266    .text.RTC_SetAlarm:00000024 $d
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:269    .text.RTC_GetDivider:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:274    .text.RTC_GetDivider:00000000 RTC_GetDivider
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:288    .text.RTC_GetDivider:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:291    .text.RTC_WaitForLastTask:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:296    .text.RTC_WaitForLastTask:00000000 RTC_WaitForLastTask
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:309    .text.RTC_WaitForLastTask:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:312    .text.RTC_WaitForSynchro:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:317    .text.RTC_WaitForSynchro:00000000 RTC_WaitForSynchro
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:336    .text.RTC_WaitForSynchro:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:339    .text.RTC_GetFlagStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:344    .text.RTC_GetFlagStatus:00000000 RTC_GetFlagStatus
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:358    .text.RTC_GetFlagStatus:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:361    .text.RTC_ClearFlag:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:366    .text.RTC_ClearFlag:00000000 RTC_ClearFlag
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:379    .text.RTC_ClearFlag:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:382    .text.RTC_GetITStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:387    .text.RTC_GetITStatus:00000000 RTC_GetITStatus
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:409    .text.RTC_GetITStatus:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:412    .text.RTC_ClearITPendingBit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:417    .text.RTC_ClearITPendingBit:00000000 RTC_ClearITPendingBit
+C:\Users\Chris\AppData\Local\Temp\ccSW7sfh.s:430    .text.RTC_ClearITPendingBit:00000010 $d
+
+NO UNDEFINED SYMBOLS

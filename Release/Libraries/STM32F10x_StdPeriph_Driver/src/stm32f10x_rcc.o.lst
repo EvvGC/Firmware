@@ -1,0 +1,943 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"stm32f10x_rcc.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.d
+  31              	@ -MF Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.d -MP
+  32              	@ -MT Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.d
+  33              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c
+  35              	@ -mcpu=cortex-m3 -mthumb
+  36              	@ -auxbase-strip Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.o
+  37              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  38              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  39              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  40              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  41              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  42              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  43              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  44              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  45              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  46              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  47              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  48              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  49              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  50              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  51              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  52              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  53              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  54              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  55              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  56              	@ -freorder-functions -frerun-cse-after-loop
+  57              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  58              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  59              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  60              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  61              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  62              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  63              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  64              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  65              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  66              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  67              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  68              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  69              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  70              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  71              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  72              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  73              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  74              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  75              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  76              	@ -munaligned-access -mvectorize-with-neon-quad
+  77              	
+  78              		.section	.text.RCC_DeInit,"ax",%progbits
+  79              		.align	2
+  80              		.global	RCC_DeInit
+  81              		.thumb
+  82              		.thumb_func
+  84              	RCC_DeInit:
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+  88 0000 0D4B     		ldr	r3, .L2	@ tmp120,
+  89 0002 0E4A     		ldr	r2, .L2+4	@ D.6956,
+  90 0004 1868     		ldr	r0, [r3]	@ D.6956, MEM[(struct RCC_TypeDef *)1073876992B].CR
+  91 0006 4FF41F01 		mov	r1, #10420224	@ tmp133,
+  92 000a 40F00100 		orr	r0, r0, #1	@ D.6956, D.6956,
+  93 000e 1860     		str	r0, [r3]	@ D.6956, MEM[(struct RCC_TypeDef *)1073876992B].CR
+  94 0010 5868     		ldr	r0, [r3, #4]	@ D.6956, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+  95 0012 0240     		ands	r2, r2, r0	@, D.6956, D.6956, D.6956
+  96 0014 5A60     		str	r2, [r3, #4]	@ D.6956, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+  97 0016 1A68     		ldr	r2, [r3]	@ D.6956, MEM[(struct RCC_TypeDef *)1073876992B].CR
+  98 0018 22F08472 		bic	r2, r2, #17301504	@ D.6956, D.6956,
+  99 001c 22F48032 		bic	r2, r2, #65536	@ D.6956, D.6956,
+ 100 0020 1A60     		str	r2, [r3]	@ D.6956, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 101 0022 1A68     		ldr	r2, [r3]	@ D.6956, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 102 0024 22F48022 		bic	r2, r2, #262144	@ D.6956, D.6956,
+ 103 0028 1A60     		str	r2, [r3]	@ D.6956, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 104 002a 5A68     		ldr	r2, [r3, #4]	@ D.6956, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 105 002c 22F4FE02 		bic	r2, r2, #8323072	@ D.6956, D.6956,
+ 106 0030 5A60     		str	r2, [r3, #4]	@ D.6956, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 107 0032 9960     		str	r1, [r3, #8]	@ tmp133, MEM[(struct RCC_TypeDef *)1073876992B].CIR
+ 108 0034 7047     		bx	lr	@
+ 109              	.L3:
+ 110 0036 00BF     		.align	2
+ 111              	.L2:
+ 112 0038 00100240 		.word	1073876992
+ 113 003c 0000FFF8 		.word	-117506048
+ 115              		.section	.text.RCC_HSEConfig,"ax",%progbits
+ 116              		.align	2
+ 117              		.global	RCC_HSEConfig
+ 118              		.thumb
+ 119              		.thumb_func
+ 121              	RCC_HSEConfig:
+ 122              		@ args = 0, pretend = 0, frame = 0
+ 123              		@ frame_needed = 0, uses_anonymous_args = 0
+ 124              		@ link register save eliminated.
+ 125 0000 0C4B     		ldr	r3, .L10	@ tmp119,
+ 126 0002 B0F5803F 		cmp	r0, #65536	@ RCC_HSE,
+ 127 0006 1A68     		ldr	r2, [r3]	@ D.6960, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 128 0008 22F48032 		bic	r2, r2, #65536	@ D.6960, D.6960,
+ 129 000c 1A60     		str	r2, [r3]	@ D.6960, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 130 000e 1A68     		ldr	r2, [r3]	@ D.6960, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 131 0010 22F48022 		bic	r2, r2, #262144	@ D.6960, D.6960,
+ 132 0014 1A60     		str	r2, [r3]	@ D.6960, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 133 0016 08D0     		beq	.L6	@,
+ 134 0018 B0F5802F 		cmp	r0, #262144	@ RCC_HSE,
+ 135 001c 04D1     		bne	.L9	@,
+ 136 001e 1A68     		ldr	r2, [r3]	@ D.6960, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 137 0020 42F4A022 		orr	r2, r2, #327680	@ D.6960, D.6960,
+ 138 0024 1A60     		str	r2, [r3]	@ D.6960,
+ 139 0026 7047     		bx	lr	@
+ 140              	.L9:
+ 141 0028 7047     		bx	lr	@
+ 142              	.L6:
+ 143 002a 1A68     		ldr	r2, [r3]	@ D.6960, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 144 002c 42F48032 		orr	r2, r2, #65536	@ D.6960, D.6960,
+ 145 0030 1A60     		str	r2, [r3]	@ D.6960,
+ 146 0032 7047     		bx	lr	@
+ 147              	.L11:
+ 148              		.align	2
+ 149              	.L10:
+ 150 0034 00100240 		.word	1073876992
+ 152              		.section	.text.RCC_WaitForHSEStartUp,"ax",%progbits
+ 153              		.align	2
+ 154              		.global	RCC_WaitForHSEStartUp
+ 155              		.thumb
+ 156              		.thumb_func
+ 158              	RCC_WaitForHSEStartUp:
+ 159              		@ args = 0, pretend = 0, frame = 8
+ 160              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161              		@ link register save eliminated.
+ 162 0000 82B0     		sub	sp, sp, #8	@,,
+ 163 0002 0023     		movs	r3, #0	@ tmp124,
+ 164 0004 0B4A     		ldr	r2, .L23	@ tmp132,
+ 165 0006 0193     		str	r3, [sp, #4]	@ tmp124, StartUpCounter
+ 166              	.L16:
+ 167 0008 1368     		ldr	r3, [r2]	@ statusreg, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 168 000a 9B03     		lsls	r3, r3, #14	@, statusreg,
+ 169 000c 0CD4     		bmi	.L22	@,
+ 170 000e 019B     		ldr	r3, [sp, #4]	@ StartUpCounter.0, StartUpCounter
+ 171 0010 0133     		adds	r3, r3, #1	@ StartUpCounter.1, StartUpCounter.0,
+ 172 0012 0193     		str	r3, [sp, #4]	@ StartUpCounter.1, StartUpCounter
+ 173 0014 019B     		ldr	r3, [sp, #4]	@ StartUpCounter.2, StartUpCounter
+ 174 0016 B3F5A06F 		cmp	r3, #1280	@ StartUpCounter.2,
+ 175 001a F5D1     		bne	.L16	@,
+ 176              	.L15:
+ 177 001c 054B     		ldr	r3, .L23	@ tmp127,
+ 178 001e 1868     		ldr	r0, [r3]	@ statusreg, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 179 0020 C0F34040 		ubfx	r0, r0, #17, #1	@ D.6965, statusreg,,
+ 180 0024 02B0     		add	sp, sp, #8	@,,
+ 181              		@ sp needed	@
+ 182 0026 7047     		bx	lr	@
+ 183              	.L22:
+ 184 0028 019B     		ldr	r3, [sp, #4]	@ StartUpCounter.0, StartUpCounter
+ 185 002a 0133     		adds	r3, r3, #1	@ StartUpCounter.1, StartUpCounter.0,
+ 186 002c 0193     		str	r3, [sp, #4]	@ StartUpCounter.1, StartUpCounter
+ 187 002e 019B     		ldr	r3, [sp, #4]	@ StartUpCounter.2, StartUpCounter
+ 188 0030 F4E7     		b	.L15	@
+ 189              	.L24:
+ 190 0032 00BF     		.align	2
+ 191              	.L23:
+ 192 0034 00100240 		.word	1073876992
+ 194              		.section	.text.RCC_AdjustHSICalibrationValue,"ax",%progbits
+ 195              		.align	2
+ 196              		.global	RCC_AdjustHSICalibrationValue
+ 197              		.thumb
+ 198              		.thumb_func
+ 200              	RCC_AdjustHSICalibrationValue:
+ 201              		@ args = 0, pretend = 0, frame = 0
+ 202              		@ frame_needed = 0, uses_anonymous_args = 0
+ 203              		@ link register save eliminated.
+ 204 0000 034B     		ldr	r3, .L26	@ tmp116,
+ 205 0002 1A68     		ldr	r2, [r3]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 206 0004 22F0F802 		bic	r2, r2, #248	@ tmpreg, tmpreg,
+ 207 0008 42EAC000 		orr	r0, r2, r0, lsl #3	@, tmpreg, tmpreg, HSICalibrationValue,
+ 208 000c 1860     		str	r0, [r3]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 209 000e 7047     		bx	lr	@
+ 210              	.L27:
+ 211              		.align	2
+ 212              	.L26:
+ 213 0010 00100240 		.word	1073876992
+ 215              		.section	.text.RCC_HSICmd,"ax",%progbits
+ 216              		.align	2
+ 217              		.global	RCC_HSICmd
+ 218              		.thumb
+ 219              		.thumb_func
+ 221              	RCC_HSICmd:
+ 222              		@ args = 0, pretend = 0, frame = 0
+ 223              		@ frame_needed = 0, uses_anonymous_args = 0
+ 224              		@ link register save eliminated.
+ 225 0000 014B     		ldr	r3, .L29	@ tmp112,
+ 226 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1111621632B]
+ 227 0004 7047     		bx	lr	@
+ 228              	.L30:
+ 229 0006 00BF     		.align	2
+ 230              	.L29:
+ 231 0008 00004242 		.word	1111621632
+ 233              		.section	.text.RCC_PLLConfig,"ax",%progbits
+ 234              		.align	2
+ 235              		.global	RCC_PLLConfig
+ 236              		.thumb
+ 237              		.thumb_func
+ 239              	RCC_PLLConfig:
+ 240              		@ args = 0, pretend = 0, frame = 0
+ 241              		@ frame_needed = 0, uses_anonymous_args = 0
+ 242              		@ link register save eliminated.
+ 243 0000 034B     		ldr	r3, .L32	@ tmp116,
+ 244 0002 5A68     		ldr	r2, [r3, #4]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 245 0004 22F47C12 		bic	r2, r2, #4128768	@ tmpreg, tmpreg,
+ 246 0008 1143     		orrs	r1, r1, r2	@, D.6974, RCC_PLLMul, tmpreg
+ 247 000a 0843     		orrs	r0, r0, r1	@, tmpreg, RCC_PLLSource, D.6974
+ 248 000c 5860     		str	r0, [r3, #4]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 249 000e 7047     		bx	lr	@
+ 250              	.L33:
+ 251              		.align	2
+ 252              	.L32:
+ 253 0010 00100240 		.word	1073876992
+ 255              		.section	.text.RCC_PLLCmd,"ax",%progbits
+ 256              		.align	2
+ 257              		.global	RCC_PLLCmd
+ 258              		.thumb
+ 259              		.thumb_func
+ 261              	RCC_PLLCmd:
+ 262              		@ args = 0, pretend = 0, frame = 0
+ 263              		@ frame_needed = 0, uses_anonymous_args = 0
+ 264              		@ link register save eliminated.
+ 265 0000 014B     		ldr	r3, .L35	@ tmp112,
+ 266 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1111621728B]
+ 267 0004 7047     		bx	lr	@
+ 268              	.L36:
+ 269 0006 00BF     		.align	2
+ 270              	.L35:
+ 271 0008 60004242 		.word	1111621728
+ 273              		.section	.text.RCC_SYSCLKConfig,"ax",%progbits
+ 274              		.align	2
+ 275              		.global	RCC_SYSCLKConfig
+ 276              		.thumb
+ 277              		.thumb_func
+ 279              	RCC_SYSCLKConfig:
+ 280              		@ args = 0, pretend = 0, frame = 0
+ 281              		@ frame_needed = 0, uses_anonymous_args = 0
+ 282              		@ link register save eliminated.
+ 283 0000 034B     		ldr	r3, .L38	@ tmp114,
+ 284 0002 5A68     		ldr	r2, [r3, #4]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 285 0004 22F00302 		bic	r2, r2, #3	@ tmpreg, tmpreg,
+ 286 0008 1043     		orrs	r0, r0, r2	@, tmpreg, RCC_SYSCLKSource, tmpreg
+ 287 000a 5860     		str	r0, [r3, #4]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 288 000c 7047     		bx	lr	@
+ 289              	.L39:
+ 290 000e 00BF     		.align	2
+ 291              	.L38:
+ 292 0010 00100240 		.word	1073876992
+ 294              		.section	.text.RCC_GetSYSCLKSource,"ax",%progbits
+ 295              		.align	2
+ 296              		.global	RCC_GetSYSCLKSource
+ 297              		.thumb
+ 298              		.thumb_func
+ 300              	RCC_GetSYSCLKSource:
+ 301              		@ args = 0, pretend = 0, frame = 0
+ 302              		@ frame_needed = 0, uses_anonymous_args = 0
+ 303              		@ link register save eliminated.
+ 304 0000 024B     		ldr	r3, .L41	@ tmp114,
+ 305 0002 5868     		ldr	r0, [r3, #4]	@ D.6982, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 306 0004 00F00C00 		and	r0, r0, #12	@, D.6982,
+ 307 0008 7047     		bx	lr	@
+ 308              	.L42:
+ 309 000a 00BF     		.align	2
+ 310              	.L41:
+ 311 000c 00100240 		.word	1073876992
+ 313              		.section	.text.RCC_HCLKConfig,"ax",%progbits
+ 314              		.align	2
+ 315              		.global	RCC_HCLKConfig
+ 316              		.thumb
+ 317              		.thumb_func
+ 319              	RCC_HCLKConfig:
+ 320              		@ args = 0, pretend = 0, frame = 0
+ 321              		@ frame_needed = 0, uses_anonymous_args = 0
+ 322              		@ link register save eliminated.
+ 323 0000 034B     		ldr	r3, .L44	@ tmp114,
+ 324 0002 5A68     		ldr	r2, [r3, #4]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 325 0004 22F0F002 		bic	r2, r2, #240	@ tmpreg, tmpreg,
+ 326 0008 1043     		orrs	r0, r0, r2	@, tmpreg, RCC_SYSCLK, tmpreg
+ 327 000a 5860     		str	r0, [r3, #4]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 328 000c 7047     		bx	lr	@
+ 329              	.L45:
+ 330 000e 00BF     		.align	2
+ 331              	.L44:
+ 332 0010 00100240 		.word	1073876992
+ 334              		.section	.text.RCC_PCLK1Config,"ax",%progbits
+ 335              		.align	2
+ 336              		.global	RCC_PCLK1Config
+ 337              		.thumb
+ 338              		.thumb_func
+ 340              	RCC_PCLK1Config:
+ 341              		@ args = 0, pretend = 0, frame = 0
+ 342              		@ frame_needed = 0, uses_anonymous_args = 0
+ 343              		@ link register save eliminated.
+ 344 0000 034B     		ldr	r3, .L47	@ tmp114,
+ 345 0002 5A68     		ldr	r2, [r3, #4]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 346 0004 22F4E062 		bic	r2, r2, #1792	@ tmpreg, tmpreg,
+ 347 0008 1043     		orrs	r0, r0, r2	@, tmpreg, RCC_HCLK, tmpreg
+ 348 000a 5860     		str	r0, [r3, #4]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 349 000c 7047     		bx	lr	@
+ 350              	.L48:
+ 351 000e 00BF     		.align	2
+ 352              	.L47:
+ 353 0010 00100240 		.word	1073876992
+ 355              		.section	.text.RCC_PCLK2Config,"ax",%progbits
+ 356              		.align	2
+ 357              		.global	RCC_PCLK2Config
+ 358              		.thumb
+ 359              		.thumb_func
+ 361              	RCC_PCLK2Config:
+ 362              		@ args = 0, pretend = 0, frame = 0
+ 363              		@ frame_needed = 0, uses_anonymous_args = 0
+ 364              		@ link register save eliminated.
+ 365 0000 034B     		ldr	r3, .L50	@ tmp115,
+ 366 0002 5A68     		ldr	r2, [r3, #4]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 367 0004 22F46052 		bic	r2, r2, #14336	@ tmpreg, tmpreg,
+ 368 0008 42EAC000 		orr	r0, r2, r0, lsl #3	@, tmpreg, tmpreg, RCC_HCLK,
+ 369 000c 5860     		str	r0, [r3, #4]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 370 000e 7047     		bx	lr	@
+ 371              	.L51:
+ 372              		.align	2
+ 373              	.L50:
+ 374 0010 00100240 		.word	1073876992
+ 376              		.section	.text.RCC_ITConfig,"ax",%progbits
+ 377              		.align	2
+ 378              		.global	RCC_ITConfig
+ 379              		.thumb
+ 380              		.thumb_func
+ 382              	RCC_ITConfig:
+ 383              		@ args = 0, pretend = 0, frame = 0
+ 384              		@ frame_needed = 0, uses_anonymous_args = 0
+ 385              		@ link register save eliminated.
+ 386 0000 044B     		ldr	r3, .L56	@ tmp117,
+ 387 0002 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2	@ MEM[(volatile uint8_t *)1073877001B],
+ 388 0004 19B9     		cbnz	r1, .L55	@ NewState,
+ 389 0006 22EA0000 		bic	r0, r2, r0	@ D.6994, MEM[(volatile uint8_t *)1073877001B], RCC_IT
+ 390 000a 1870     		strb	r0, [r3]	@ D.6994,
+ 391 000c 7047     		bx	lr	@
+ 392              	.L55:
+ 393 000e 1043     		orrs	r0, r0, r2	@, D.6994, RCC_IT, MEM[(volatile uint8_t *)1073877001B]
+ 394 0010 1870     		strb	r0, [r3]	@ D.6994,
+ 395 0012 7047     		bx	lr	@
+ 396              	.L57:
+ 397              		.align	2
+ 398              	.L56:
+ 399 0014 09100240 		.word	1073877001
+ 401              		.section	.text.RCC_USBCLKConfig,"ax",%progbits
+ 402              		.align	2
+ 403              		.global	RCC_USBCLKConfig
+ 404              		.thumb
+ 405              		.thumb_func
+ 407              	RCC_USBCLKConfig:
+ 408              		@ args = 0, pretend = 0, frame = 0
+ 409              		@ frame_needed = 0, uses_anonymous_args = 0
+ 410              		@ link register save eliminated.
+ 411 0000 014B     		ldr	r3, .L59	@ tmp111,
+ 412 0002 1860     		str	r0, [r3]	@ RCC_USBCLKSource, MEM[(volatile uint32_t *)1111621848B]
+ 413 0004 7047     		bx	lr	@
+ 414              	.L60:
+ 415 0006 00BF     		.align	2
+ 416              	.L59:
+ 417 0008 D8004242 		.word	1111621848
+ 419              		.section	.text.RCC_ADCCLKConfig,"ax",%progbits
+ 420              		.align	2
+ 421              		.global	RCC_ADCCLKConfig
+ 422              		.thumb
+ 423              		.thumb_func
+ 425              	RCC_ADCCLKConfig:
+ 426              		@ args = 0, pretend = 0, frame = 0
+ 427              		@ frame_needed = 0, uses_anonymous_args = 0
+ 428              		@ link register save eliminated.
+ 429 0000 034B     		ldr	r3, .L62	@ tmp114,
+ 430 0002 5A68     		ldr	r2, [r3, #4]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 431 0004 22F44042 		bic	r2, r2, #49152	@ tmpreg, tmpreg,
+ 432 0008 1043     		orrs	r0, r0, r2	@, tmpreg, RCC_PCLK2, tmpreg
+ 433 000a 5860     		str	r0, [r3, #4]	@ tmpreg, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 434 000c 7047     		bx	lr	@
+ 435              	.L63:
+ 436 000e 00BF     		.align	2
+ 437              	.L62:
+ 438 0010 00100240 		.word	1073876992
+ 440              		.section	.text.RCC_LSEConfig,"ax",%progbits
+ 441              		.align	2
+ 442              		.global	RCC_LSEConfig
+ 443              		.thumb
+ 444              		.thumb_func
+ 446              	RCC_LSEConfig:
+ 447              		@ args = 0, pretend = 0, frame = 0
+ 448              		@ frame_needed = 0, uses_anonymous_args = 0
+ 449              		@ link register save eliminated.
+ 450 0000 064B     		ldr	r3, .L69	@ tmp111,
+ 451 0002 0022     		movs	r2, #0	@ tmp112,
+ 452 0004 0128     		cmp	r0, #1	@ RCC_LSE,
+ 453 0006 1A70     		strb	r2, [r3]	@ tmp112, MEM[(volatile uint8_t *)1073877024B]
+ 454 0008 1A70     		strb	r2, [r3]	@ tmp112, MEM[(volatile uint8_t *)1073877024B]
+ 455 000a 05D0     		beq	.L66	@,
+ 456 000c 0428     		cmp	r0, #4	@ RCC_LSE,
+ 457 000e 02D1     		bne	.L68	@,
+ 458 0010 0522     		movs	r2, #5	@ tmp121,
+ 459 0012 1A70     		strb	r2, [r3]	@ tmp121, MEM[(volatile uint8_t *)1073877024B]
+ 460 0014 7047     		bx	lr	@
+ 461              	.L68:
+ 462 0016 7047     		bx	lr	@
+ 463              	.L66:
+ 464 0018 1870     		strb	r0, [r3]	@ RCC_LSE, MEM[(volatile uint8_t *)1073877024B]
+ 465 001a 7047     		bx	lr	@
+ 466              	.L70:
+ 467              		.align	2
+ 468              	.L69:
+ 469 001c 20100240 		.word	1073877024
+ 471              		.section	.text.RCC_LSICmd,"ax",%progbits
+ 472              		.align	2
+ 473              		.global	RCC_LSICmd
+ 474              		.thumb
+ 475              		.thumb_func
+ 477              	RCC_LSICmd:
+ 478              		@ args = 0, pretend = 0, frame = 0
+ 479              		@ frame_needed = 0, uses_anonymous_args = 0
+ 480              		@ link register save eliminated.
+ 481 0000 014B     		ldr	r3, .L72	@ tmp112,
+ 482 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1111622784B]
+ 483 0004 7047     		bx	lr	@
+ 484              	.L73:
+ 485 0006 00BF     		.align	2
+ 486              	.L72:
+ 487 0008 80044242 		.word	1111622784
+ 489              		.section	.text.RCC_RTCCLKConfig,"ax",%progbits
+ 490              		.align	2
+ 491              		.global	RCC_RTCCLKConfig
+ 492              		.thumb
+ 493              		.thumb_func
+ 495              	RCC_RTCCLKConfig:
+ 496              		@ args = 0, pretend = 0, frame = 0
+ 497              		@ frame_needed = 0, uses_anonymous_args = 0
+ 498              		@ link register save eliminated.
+ 499 0000 024B     		ldr	r3, .L75	@ tmp113,
+ 500 0002 1A6A     		ldr	r2, [r3, #32]	@ D.7007, MEM[(struct RCC_TypeDef *)1073876992B].BDCR
+ 501 0004 1043     		orrs	r0, r0, r2	@, D.7007, RCC_RTCCLKSource, D.7007
+ 502 0006 1862     		str	r0, [r3, #32]	@ D.7007, MEM[(struct RCC_TypeDef *)1073876992B].BDCR
+ 503 0008 7047     		bx	lr	@
+ 504              	.L76:
+ 505 000a 00BF     		.align	2
+ 506              	.L75:
+ 507 000c 00100240 		.word	1073876992
+ 509              		.section	.text.RCC_RTCCLKCmd,"ax",%progbits
+ 510              		.align	2
+ 511              		.global	RCC_RTCCLKCmd
+ 512              		.thumb
+ 513              		.thumb_func
+ 515              	RCC_RTCCLKCmd:
+ 516              		@ args = 0, pretend = 0, frame = 0
+ 517              		@ frame_needed = 0, uses_anonymous_args = 0
+ 518              		@ link register save eliminated.
+ 519 0000 014B     		ldr	r3, .L78	@ tmp112,
+ 520 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1111622716B]
+ 521 0004 7047     		bx	lr	@
+ 522              	.L79:
+ 523 0006 00BF     		.align	2
+ 524              	.L78:
+ 525 0008 3C044242 		.word	1111622716
+ 527              		.section	.text.RCC_GetClocksFreq,"ax",%progbits
+ 528              		.align	2
+ 529              		.global	RCC_GetClocksFreq
+ 530              		.thumb
+ 531              		.thumb_func
+ 533              	RCC_GetClocksFreq:
+ 534              		@ args = 0, pretend = 0, frame = 0
+ 535              		@ frame_needed = 0, uses_anonymous_args = 0
+ 536              		@ link register save eliminated.
+ 537 0000 1F49     		ldr	r1, .L90	@ tmp146,
+ 538 0002 30B4     		push	{r4, r5}	@
+ 539 0004 4B68     		ldr	r3, [r1, #4]	@ D.7013, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 540 0006 03F00C03 		and	r3, r3, #12	@ tmp, D.7013,
+ 541 000a 042B     		cmp	r3, #4	@ tmp,
+ 542 000c 01D0     		beq	.L82	@,
+ 543 000e 082B     		cmp	r3, #8	@ tmp,
+ 544 0010 20D0     		beq	.L83	@,
+ 545              	.L82:
+ 546 0012 1C4A     		ldr	r2, .L90+4	@ tmp149,
+ 547 0014 0260     		str	r2, [r0]	@ tmp149, RCC_Clocks_5(D)->SYSCLK_Frequency
+ 548              	.L85:
+ 549 0016 1A4B     		ldr	r3, .L90	@ tmp160,
+ 550 0018 1B49     		ldr	r1, .L90+8	@ tmp161,
+ 551 001a 5D68     		ldr	r5, [r3, #4]	@ D.7013, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 552 001c 1B4C     		ldr	r4, .L90+12	@ tmp177,
+ 553 001e C5F30315 		ubfx	r5, r5, #4, #4	@ tmp, D.7013,,
+ 554 0022 4D5D     		ldrb	r5, [r1, r5]	@ zero_extendqisi2	@ tmp164, APBAHBPrescTable
+ 555 0024 EA40     		lsrs	r2, r2, r5	@ D.7013, D.7013, tmp164
+ 556 0026 4260     		str	r2, [r0, #4]	@ D.7013, RCC_Clocks_5(D)->HCLK_Frequency
+ 557 0028 5D68     		ldr	r5, [r3, #4]	@ D.7013, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 558 002a C5F30225 		ubfx	r5, r5, #8, #3	@ tmp, D.7013,,
+ 559 002e 4D5D     		ldrb	r5, [r1, r5]	@ zero_extendqisi2	@ tmp169, APBAHBPrescTable
+ 560 0030 22FA05F5 		lsr	r5, r2, r5	@ D.7013, D.7013, tmp169
+ 561 0034 8560     		str	r5, [r0, #8]	@ D.7013, RCC_Clocks_5(D)->PCLK1_Frequency
+ 562 0036 5D68     		ldr	r5, [r3, #4]	@ D.7013, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 563 0038 C5F3C225 		ubfx	r5, r5, #11, #3	@ tmp, D.7013,,
+ 564 003c 495D     		ldrb	r1, [r1, r5]	@ zero_extendqisi2	@ tmp175, APBAHBPrescTable
+ 565 003e CA40     		lsrs	r2, r2, r1	@ D.7013, D.7013, tmp175
+ 566 0040 C260     		str	r2, [r0, #12]	@ D.7013, RCC_Clocks_5(D)->PCLK2_Frequency
+ 567 0042 5B68     		ldr	r3, [r3, #4]	@ D.7013, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 568 0044 C3F38133 		ubfx	r3, r3, #14, #2	@ tmp, D.7013,,
+ 569 0048 E35C     		ldrb	r3, [r4, r3]	@ zero_extendqisi2	@ tmp180, ADCPrescTable
+ 570 004a 30BC     		pop	{r4, r5}	@
+ 571 004c B2FBF3F2 		udiv	r2, r2, r3	@ D.7013, D.7013, tmp180
+ 572 0050 0261     		str	r2, [r0, #16]	@ D.7013, RCC_Clocks_5(D)->ADCCLK_Frequency
+ 573 0052 7047     		bx	lr	@
+ 574              	.L83:
+ 575 0054 4A68     		ldr	r2, [r1, #4]	@ D.7013, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 576 0056 4B68     		ldr	r3, [r1, #4]	@ D.7013, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 577 0058 C2F38342 		ubfx	r2, r2, #18, #4	@ D.7013, D.7013,,
+ 578 005c DC03     		lsls	r4, r3, #15	@, D.7013,
+ 579 005e 02F10202 		add	r2, r2, #2	@ pllmull, D.7013,
+ 580 0062 07D5     		bpl	.L89	@,
+ 581 0064 4B68     		ldr	r3, [r1, #4]	@ D.7013, MEM[(struct RCC_TypeDef *)1073876992B].CFGR
+ 582 0066 9B03     		lsls	r3, r3, #14	@, D.7013,
+ 583 0068 04D4     		bmi	.L89	@,
+ 584 006a 064B     		ldr	r3, .L90+4	@ tmp158,
+ 585 006c 03FB02F2 		mul	r2, r3, r2	@ D.7013, tmp158, pllmull
+ 586 0070 0260     		str	r2, [r0]	@ D.7013, RCC_Clocks_5(D)->SYSCLK_Frequency
+ 587 0072 D0E7     		b	.L85	@
+ 588              	.L89:
+ 589 0074 064B     		ldr	r3, .L90+16	@ tmp157,
+ 590 0076 03FB02F2 		mul	r2, r3, r2	@ D.7013, tmp157, pllmull
+ 591 007a 0260     		str	r2, [r0]	@ D.7013, RCC_Clocks_5(D)->SYSCLK_Frequency
+ 592 007c CBE7     		b	.L85	@
+ 593              	.L91:
+ 594 007e 00BF     		.align	2
+ 595              	.L90:
+ 596 0080 00100240 		.word	1073876992
+ 597 0084 00127A00 		.word	8000000
+ 598 0088 00000000 		.word	.LANCHOR0
+ 599 008c 00000000 		.word	.LANCHOR1
+ 600 0090 00093D00 		.word	4000000
+ 602              		.section	.text.RCC_AHBPeriphClockCmd,"ax",%progbits
+ 603              		.align	2
+ 604              		.global	RCC_AHBPeriphClockCmd
+ 605              		.thumb
+ 606              		.thumb_func
+ 608              	RCC_AHBPeriphClockCmd:
+ 609              		@ args = 0, pretend = 0, frame = 0
+ 610              		@ frame_needed = 0, uses_anonymous_args = 0
+ 611              		@ link register save eliminated.
+ 612 0000 044B     		ldr	r3, .L96	@ tmp117,
+ 613 0002 5A69     		ldr	r2, [r3, #20]	@ D.7017,
+ 614 0004 19B9     		cbnz	r1, .L95	@ NewState,
+ 615 0006 22EA0000 		bic	r0, r2, r0	@ D.7017, D.7017, RCC_AHBPeriph
+ 616 000a 5861     		str	r0, [r3, #20]	@ D.7017,
+ 617 000c 7047     		bx	lr	@
+ 618              	.L95:
+ 619 000e 1043     		orrs	r0, r0, r2	@, D.7017, RCC_AHBPeriph, D.7017
+ 620 0010 5861     		str	r0, [r3, #20]	@ D.7017,
+ 621 0012 7047     		bx	lr	@
+ 622              	.L97:
+ 623              		.align	2
+ 624              	.L96:
+ 625 0014 00100240 		.word	1073876992
+ 627              		.section	.text.RCC_APB2PeriphClockCmd,"ax",%progbits
+ 628              		.align	2
+ 629              		.global	RCC_APB2PeriphClockCmd
+ 630              		.thumb
+ 631              		.thumb_func
+ 633              	RCC_APB2PeriphClockCmd:
+ 634              		@ args = 0, pretend = 0, frame = 0
+ 635              		@ frame_needed = 0, uses_anonymous_args = 0
+ 636              		@ link register save eliminated.
+ 637 0000 044B     		ldr	r3, .L102	@ tmp117,
+ 638 0002 9A69     		ldr	r2, [r3, #24]	@ D.7020,
+ 639 0004 19B9     		cbnz	r1, .L101	@ NewState,
+ 640 0006 22EA0000 		bic	r0, r2, r0	@ D.7020, D.7020, RCC_APB2Periph
+ 641 000a 9861     		str	r0, [r3, #24]	@ D.7020,
+ 642 000c 7047     		bx	lr	@
+ 643              	.L101:
+ 644 000e 1043     		orrs	r0, r0, r2	@, D.7020, RCC_APB2Periph, D.7020
+ 645 0010 9861     		str	r0, [r3, #24]	@ D.7020,
+ 646 0012 7047     		bx	lr	@
+ 647              	.L103:
+ 648              		.align	2
+ 649              	.L102:
+ 650 0014 00100240 		.word	1073876992
+ 652              		.section	.text.RCC_APB1PeriphClockCmd,"ax",%progbits
+ 653              		.align	2
+ 654              		.global	RCC_APB1PeriphClockCmd
+ 655              		.thumb
+ 656              		.thumb_func
+ 658              	RCC_APB1PeriphClockCmd:
+ 659              		@ args = 0, pretend = 0, frame = 0
+ 660              		@ frame_needed = 0, uses_anonymous_args = 0
+ 661              		@ link register save eliminated.
+ 662 0000 044B     		ldr	r3, .L108	@ tmp117,
+ 663 0002 DA69     		ldr	r2, [r3, #28]	@ D.7023,
+ 664 0004 19B9     		cbnz	r1, .L107	@ NewState,
+ 665 0006 22EA0000 		bic	r0, r2, r0	@ D.7023, D.7023, RCC_APB1Periph
+ 666 000a D861     		str	r0, [r3, #28]	@ D.7023,
+ 667 000c 7047     		bx	lr	@
+ 668              	.L107:
+ 669 000e 1043     		orrs	r0, r0, r2	@, D.7023, RCC_APB1Periph, D.7023
+ 670 0010 D861     		str	r0, [r3, #28]	@ D.7023,
+ 671 0012 7047     		bx	lr	@
+ 672              	.L109:
+ 673              		.align	2
+ 674              	.L108:
+ 675 0014 00100240 		.word	1073876992
+ 677              		.section	.text.RCC_APB2PeriphResetCmd,"ax",%progbits
+ 678              		.align	2
+ 679              		.global	RCC_APB2PeriphResetCmd
+ 680              		.thumb
+ 681              		.thumb_func
+ 683              	RCC_APB2PeriphResetCmd:
+ 684              		@ args = 0, pretend = 0, frame = 0
+ 685              		@ frame_needed = 0, uses_anonymous_args = 0
+ 686              		@ link register save eliminated.
+ 687 0000 044B     		ldr	r3, .L114	@ tmp117,
+ 688 0002 DA68     		ldr	r2, [r3, #12]	@ D.7026,
+ 689 0004 19B9     		cbnz	r1, .L113	@ NewState,
+ 690 0006 22EA0000 		bic	r0, r2, r0	@ D.7026, D.7026, RCC_APB2Periph
+ 691 000a D860     		str	r0, [r3, #12]	@ D.7026,
+ 692 000c 7047     		bx	lr	@
+ 693              	.L113:
+ 694 000e 1043     		orrs	r0, r0, r2	@, D.7026, RCC_APB2Periph, D.7026
+ 695 0010 D860     		str	r0, [r3, #12]	@ D.7026,
+ 696 0012 7047     		bx	lr	@
+ 697              	.L115:
+ 698              		.align	2
+ 699              	.L114:
+ 700 0014 00100240 		.word	1073876992
+ 702              		.section	.text.RCC_APB1PeriphResetCmd,"ax",%progbits
+ 703              		.align	2
+ 704              		.global	RCC_APB1PeriphResetCmd
+ 705              		.thumb
+ 706              		.thumb_func
+ 708              	RCC_APB1PeriphResetCmd:
+ 709              		@ args = 0, pretend = 0, frame = 0
+ 710              		@ frame_needed = 0, uses_anonymous_args = 0
+ 711              		@ link register save eliminated.
+ 712 0000 044B     		ldr	r3, .L120	@ tmp117,
+ 713 0002 1A69     		ldr	r2, [r3, #16]	@ D.7029,
+ 714 0004 19B9     		cbnz	r1, .L119	@ NewState,
+ 715 0006 22EA0000 		bic	r0, r2, r0	@ D.7029, D.7029, RCC_APB1Periph
+ 716 000a 1861     		str	r0, [r3, #16]	@ D.7029,
+ 717 000c 7047     		bx	lr	@
+ 718              	.L119:
+ 719 000e 1043     		orrs	r0, r0, r2	@, D.7029, RCC_APB1Periph, D.7029
+ 720 0010 1861     		str	r0, [r3, #16]	@ D.7029,
+ 721 0012 7047     		bx	lr	@
+ 722              	.L121:
+ 723              		.align	2
+ 724              	.L120:
+ 725 0014 00100240 		.word	1073876992
+ 727              		.section	.text.RCC_BackupResetCmd,"ax",%progbits
+ 728              		.align	2
+ 729              		.global	RCC_BackupResetCmd
+ 730              		.thumb
+ 731              		.thumb_func
+ 733              	RCC_BackupResetCmd:
+ 734              		@ args = 0, pretend = 0, frame = 0
+ 735              		@ frame_needed = 0, uses_anonymous_args = 0
+ 736              		@ link register save eliminated.
+ 737 0000 014B     		ldr	r3, .L123	@ tmp112,
+ 738 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1111622720B]
+ 739 0004 7047     		bx	lr	@
+ 740              	.L124:
+ 741 0006 00BF     		.align	2
+ 742              	.L123:
+ 743 0008 40044242 		.word	1111622720
+ 745              		.section	.text.RCC_ClockSecuritySystemCmd,"ax",%progbits
+ 746              		.align	2
+ 747              		.global	RCC_ClockSecuritySystemCmd
+ 748              		.thumb
+ 749              		.thumb_func
+ 751              	RCC_ClockSecuritySystemCmd:
+ 752              		@ args = 0, pretend = 0, frame = 0
+ 753              		@ frame_needed = 0, uses_anonymous_args = 0
+ 754              		@ link register save eliminated.
+ 755 0000 014B     		ldr	r3, .L126	@ tmp112,
+ 756 0002 1860     		str	r0, [r3]	@ NewState, MEM[(volatile uint32_t *)1111621708B]
+ 757 0004 7047     		bx	lr	@
+ 758              	.L127:
+ 759 0006 00BF     		.align	2
+ 760              	.L126:
+ 761 0008 4C004242 		.word	1111621708
+ 763              		.section	.text.RCC_MCOConfig,"ax",%progbits
+ 764              		.align	2
+ 765              		.global	RCC_MCOConfig
+ 766              		.thumb
+ 767              		.thumb_func
+ 769              	RCC_MCOConfig:
+ 770              		@ args = 0, pretend = 0, frame = 0
+ 771              		@ frame_needed = 0, uses_anonymous_args = 0
+ 772              		@ link register save eliminated.
+ 773 0000 014B     		ldr	r3, .L129	@ tmp111,
+ 774 0002 1870     		strb	r0, [r3]	@ RCC_MCO, MEM[(volatile uint8_t *)1073876999B]
+ 775 0004 7047     		bx	lr	@
+ 776              	.L130:
+ 777 0006 00BF     		.align	2
+ 778              	.L129:
+ 779 0008 07100240 		.word	1073876999
+ 781              		.section	.text.RCC_GetFlagStatus,"ax",%progbits
+ 782              		.align	2
+ 783              		.global	RCC_GetFlagStatus
+ 784              		.thumb
+ 785              		.thumb_func
+ 787              	RCC_GetFlagStatus:
+ 788              		@ args = 0, pretend = 0, frame = 0
+ 789              		@ frame_needed = 0, uses_anonymous_args = 0
+ 790              		@ link register save eliminated.
+ 791 0000 4309     		lsrs	r3, r0, #5	@ tmp, RCC_FLAG,
+ 792 0002 012B     		cmp	r3, #1	@ tmp,
+ 793 0004 0BD0     		beq	.L135	@,
+ 794 0006 022B     		cmp	r3, #2	@ tmp,
+ 795 0008 094B     		ldr	r3, .L136	@ tmp122,
+ 796 000a 00F01F00 		and	r0, r0, #31	@ tmp.4, RCC_FLAG,
+ 797 000e 0CBF     		ite	eq
+ 798 0010 1B6A     		ldreq	r3, [r3, #32]	@ statusreg, MEM[(struct RCC_TypeDef *)1073876992B].BDCR
+ 799 0012 5B6A     		ldrne	r3, [r3, #36]	@ statusreg, MEM[(struct RCC_TypeDef *)1073876992B].CSR
+ 800 0014 23FA00F0 		lsr	r0, r3, r0	@ D.7042, statusreg, tmp.4
+ 801 0018 00F00100 		and	r0, r0, #1	@, D.7042,
+ 802 001c 7047     		bx	lr	@
+ 803              	.L135:
+ 804 001e 044B     		ldr	r3, .L136	@ tmp121,
+ 805 0020 00F01F00 		and	r0, r0, #31	@ tmp.4, RCC_FLAG,
+ 806 0024 1B68     		ldr	r3, [r3]	@ statusreg, MEM[(struct RCC_TypeDef *)1073876992B].CR
+ 807 0026 23FA00F0 		lsr	r0, r3, r0	@ D.7042, statusreg, tmp.4
+ 808 002a 00F00100 		and	r0, r0, #1	@, D.7042,
+ 809 002e 7047     		bx	lr	@
+ 810              	.L137:
+ 811              		.align	2
+ 812              	.L136:
+ 813 0030 00100240 		.word	1073876992
+ 815              		.section	.text.RCC_ClearFlag,"ax",%progbits
+ 816              		.align	2
+ 817              		.global	RCC_ClearFlag
+ 818              		.thumb
+ 819              		.thumb_func
+ 821              	RCC_ClearFlag:
+ 822              		@ args = 0, pretend = 0, frame = 0
+ 823              		@ frame_needed = 0, uses_anonymous_args = 0
+ 824              		@ link register save eliminated.
+ 825 0000 024B     		ldr	r3, .L139	@ tmp112,
+ 826 0002 5A6A     		ldr	r2, [r3, #36]	@ D.7046, MEM[(struct RCC_TypeDef *)1073876992B].CSR
+ 827 0004 42F08072 		orr	r2, r2, #16777216	@ D.7046, D.7046,
+ 828 0008 5A62     		str	r2, [r3, #36]	@ D.7046, MEM[(struct RCC_TypeDef *)1073876992B].CSR
+ 829 000a 7047     		bx	lr	@
+ 830              	.L140:
+ 831              		.align	2
+ 832              	.L139:
+ 833 000c 00100240 		.word	1073876992
+ 835              		.section	.text.RCC_GetITStatus,"ax",%progbits
+ 836              		.align	2
+ 837              		.global	RCC_GetITStatus
+ 838              		.thumb
+ 839              		.thumb_func
+ 841              	RCC_GetITStatus:
+ 842              		@ args = 0, pretend = 0, frame = 0
+ 843              		@ frame_needed = 0, uses_anonymous_args = 0
+ 844              		@ link register save eliminated.
+ 845 0000 034B     		ldr	r3, .L142	@ tmp117,
+ 846 0002 9B68     		ldr	r3, [r3, #8]	@ D.7049, MEM[(struct RCC_TypeDef *)1073876992B].CIR
+ 847 0004 1842     		tst	r0, r3	@ RCC_IT, D.7049
+ 848 0006 0CBF     		ite	eq	@
+ 849 0008 0020     		moveq	r0, #0	@,
+ 850 000a 0120     		movne	r0, #1	@,
+ 851 000c 7047     		bx	lr	@
+ 852              	.L143:
+ 853 000e 00BF     		.align	2
+ 854              	.L142:
+ 855 0010 00100240 		.word	1073876992
+ 857              		.section	.text.RCC_ClearITPendingBit,"ax",%progbits
+ 858              		.align	2
+ 859              		.global	RCC_ClearITPendingBit
+ 860              		.thumb
+ 861              		.thumb_func
+ 863              	RCC_ClearITPendingBit:
+ 864              		@ args = 0, pretend = 0, frame = 0
+ 865              		@ frame_needed = 0, uses_anonymous_args = 0
+ 866              		@ link register save eliminated.
+ 867 0000 014B     		ldr	r3, .L145	@ tmp111,
+ 868 0002 1870     		strb	r0, [r3]	@ RCC_IT, MEM[(volatile uint8_t *)1073877002B]
+ 869 0004 7047     		bx	lr	@
+ 870              	.L146:
+ 871 0006 00BF     		.align	2
+ 872              	.L145:
+ 873 0008 0A100240 		.word	1073877002
+ 875              		.section	.data.ADCPrescTable,"aw",%progbits
+ 876              		.align	2
+ 877              		.set	.LANCHOR1,. + 0
+ 880              	ADCPrescTable:
+ 881 0000 02       		.byte	2
+ 882 0001 04       		.byte	4
+ 883 0002 06       		.byte	6
+ 884 0003 08       		.byte	8
+ 885              		.section	.data.APBAHBPrescTable,"aw",%progbits
+ 886              		.align	2
+ 887              		.set	.LANCHOR0,. + 0
+ 890              	APBAHBPrescTable:
+ 891 0000 00       		.byte	0
+ 892 0001 00       		.byte	0
+ 893 0002 00       		.byte	0
+ 894 0003 00       		.byte	0
+ 895 0004 01       		.byte	1
+ 896 0005 02       		.byte	2
+ 897 0006 03       		.byte	3
+ 898 0007 04       		.byte	4
+ 899 0008 01       		.byte	1
+ 900 0009 02       		.byte	2
+ 901 000a 03       		.byte	3
+ 902 000b 04       		.byte	4
+ 903 000c 06       		.byte	6
+ 904 000d 07       		.byte	7
+ 905 000e 08       		.byte	8
+ 906 000f 09       		.byte	9
+ 907              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f10x_rcc.c
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:79     .text.RCC_DeInit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:84     .text.RCC_DeInit:00000000 RCC_DeInit
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:112    .text.RCC_DeInit:00000038 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:116    .text.RCC_HSEConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:121    .text.RCC_HSEConfig:00000000 RCC_HSEConfig
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:150    .text.RCC_HSEConfig:00000034 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:153    .text.RCC_WaitForHSEStartUp:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:158    .text.RCC_WaitForHSEStartUp:00000000 RCC_WaitForHSEStartUp
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:192    .text.RCC_WaitForHSEStartUp:00000034 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:195    .text.RCC_AdjustHSICalibrationValue:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:200    .text.RCC_AdjustHSICalibrationValue:00000000 RCC_AdjustHSICalibrationValue
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:213    .text.RCC_AdjustHSICalibrationValue:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:216    .text.RCC_HSICmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:221    .text.RCC_HSICmd:00000000 RCC_HSICmd
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:231    .text.RCC_HSICmd:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:234    .text.RCC_PLLConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:239    .text.RCC_PLLConfig:00000000 RCC_PLLConfig
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:253    .text.RCC_PLLConfig:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:256    .text.RCC_PLLCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:261    .text.RCC_PLLCmd:00000000 RCC_PLLCmd
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:271    .text.RCC_PLLCmd:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:274    .text.RCC_SYSCLKConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:279    .text.RCC_SYSCLKConfig:00000000 RCC_SYSCLKConfig
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:292    .text.RCC_SYSCLKConfig:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:295    .text.RCC_GetSYSCLKSource:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:300    .text.RCC_GetSYSCLKSource:00000000 RCC_GetSYSCLKSource
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:311    .text.RCC_GetSYSCLKSource:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:314    .text.RCC_HCLKConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:319    .text.RCC_HCLKConfig:00000000 RCC_HCLKConfig
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:332    .text.RCC_HCLKConfig:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:335    .text.RCC_PCLK1Config:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:340    .text.RCC_PCLK1Config:00000000 RCC_PCLK1Config
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:353    .text.RCC_PCLK1Config:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:356    .text.RCC_PCLK2Config:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:361    .text.RCC_PCLK2Config:00000000 RCC_PCLK2Config
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:374    .text.RCC_PCLK2Config:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:377    .text.RCC_ITConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:382    .text.RCC_ITConfig:00000000 RCC_ITConfig
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:399    .text.RCC_ITConfig:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:402    .text.RCC_USBCLKConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:407    .text.RCC_USBCLKConfig:00000000 RCC_USBCLKConfig
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:417    .text.RCC_USBCLKConfig:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:420    .text.RCC_ADCCLKConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:425    .text.RCC_ADCCLKConfig:00000000 RCC_ADCCLKConfig
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:438    .text.RCC_ADCCLKConfig:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:441    .text.RCC_LSEConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:446    .text.RCC_LSEConfig:00000000 RCC_LSEConfig
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:469    .text.RCC_LSEConfig:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:472    .text.RCC_LSICmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:477    .text.RCC_LSICmd:00000000 RCC_LSICmd
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:487    .text.RCC_LSICmd:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:490    .text.RCC_RTCCLKConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:495    .text.RCC_RTCCLKConfig:00000000 RCC_RTCCLKConfig
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:507    .text.RCC_RTCCLKConfig:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:510    .text.RCC_RTCCLKCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:515    .text.RCC_RTCCLKCmd:00000000 RCC_RTCCLKCmd
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:525    .text.RCC_RTCCLKCmd:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:528    .text.RCC_GetClocksFreq:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:533    .text.RCC_GetClocksFreq:00000000 RCC_GetClocksFreq
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:596    .text.RCC_GetClocksFreq:00000080 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:603    .text.RCC_AHBPeriphClockCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:608    .text.RCC_AHBPeriphClockCmd:00000000 RCC_AHBPeriphClockCmd
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:625    .text.RCC_AHBPeriphClockCmd:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:628    .text.RCC_APB2PeriphClockCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:633    .text.RCC_APB2PeriphClockCmd:00000000 RCC_APB2PeriphClockCmd
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:650    .text.RCC_APB2PeriphClockCmd:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:653    .text.RCC_APB1PeriphClockCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:658    .text.RCC_APB1PeriphClockCmd:00000000 RCC_APB1PeriphClockCmd
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:675    .text.RCC_APB1PeriphClockCmd:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:678    .text.RCC_APB2PeriphResetCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:683    .text.RCC_APB2PeriphResetCmd:00000000 RCC_APB2PeriphResetCmd
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:700    .text.RCC_APB2PeriphResetCmd:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:703    .text.RCC_APB1PeriphResetCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:708    .text.RCC_APB1PeriphResetCmd:00000000 RCC_APB1PeriphResetCmd
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:725    .text.RCC_APB1PeriphResetCmd:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:728    .text.RCC_BackupResetCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:733    .text.RCC_BackupResetCmd:00000000 RCC_BackupResetCmd
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:743    .text.RCC_BackupResetCmd:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:746    .text.RCC_ClockSecuritySystemCmd:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:751    .text.RCC_ClockSecuritySystemCmd:00000000 RCC_ClockSecuritySystemCmd
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:761    .text.RCC_ClockSecuritySystemCmd:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:764    .text.RCC_MCOConfig:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:769    .text.RCC_MCOConfig:00000000 RCC_MCOConfig
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:779    .text.RCC_MCOConfig:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:782    .text.RCC_GetFlagStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:787    .text.RCC_GetFlagStatus:00000000 RCC_GetFlagStatus
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:813    .text.RCC_GetFlagStatus:00000030 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:816    .text.RCC_ClearFlag:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:821    .text.RCC_ClearFlag:00000000 RCC_ClearFlag
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:833    .text.RCC_ClearFlag:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:836    .text.RCC_GetITStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:841    .text.RCC_GetITStatus:00000000 RCC_GetITStatus
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:855    .text.RCC_GetITStatus:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:858    .text.RCC_ClearITPendingBit:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:863    .text.RCC_ClearITPendingBit:00000000 RCC_ClearITPendingBit
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:873    .text.RCC_ClearITPendingBit:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:876    .data.ADCPrescTable:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:880    .data.ADCPrescTable:00000000 ADCPrescTable
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:886    .data.APBAHBPrescTable:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccVAzIBd.s:890    .data.APBAHBPrescTable:00000000 APBAHBPrescTable
+
+NO UNDEFINED SYMBOLS

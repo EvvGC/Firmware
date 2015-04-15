@@ -1,0 +1,166 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"usb_sil.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32_USB-FS-Device_Driver/src/usb_sil.d
+  31              	@ -MF Libraries/STM32_USB-FS-Device_Driver/src/usb_sil.d -MP
+  32              	@ -MT Libraries/STM32_USB-FS-Device_Driver/src/usb_sil.d
+  33              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32_USB-FS-Device_Driver/src/usb_sil.c -mcpu=cortex-m3
+  35              	@ -mthumb -auxbase-strip Libraries/STM32_USB-FS-Device_Driver/src/usb_sil.o
+  36              	@ -O2 -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  37              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  38              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  39              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  40              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  41              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  42              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  43              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  44              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  45              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  46              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  47              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  48              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  49              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  50              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  51              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  52              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  53              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  54              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  55              	@ -freorder-functions -frerun-cse-after-loop
+  56              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  57              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  58              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  59              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  60              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  61              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  62              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  63              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  64              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  65              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  66              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  67              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  68              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  69              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  70              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  71              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  72              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  73              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  74              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  75              	@ -munaligned-access -mvectorize-with-neon-quad
+  76              	
+  77              		.section	.text.USB_SIL_Init,"ax",%progbits
+  78              		.align	2
+  79              		.global	USB_SIL_Init
+  80              		.thumb
+  81              		.thumb_func
+  83              	USB_SIL_Init:
+  84              		@ args = 0, pretend = 0, frame = 0
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86              		@ link register save eliminated.
+  87 0000 10B4     		push	{r4}	@
+  88 0002 0649     		ldr	r1, .L2	@ tmp113,
+  89 0004 064C     		ldr	r4, .L2+4	@ tmp111,
+  90 0006 074A     		ldr	r2, .L2+8	@ tmp116,
+  91 0008 0020     		movs	r0, #0	@ tmp112,
+  92 000a 4FF43643 		mov	r3, #46592	@ tmp115,
+  93 000e 2060     		str	r0, [r4]	@ tmp112, MEM[(volatile unsigned int *)1073765444B]
+  94 0010 0B80     		strh	r3, [r1]	@ movhi	@ tmp115, wInterrupt_Mask
+  95 0012 5DF8044B 		ldr	r4, [sp], #4	@,
+  96 0016 1360     		str	r3, [r2]	@ tmp115, MEM[(volatile unsigned int *)1073765440B]
+  97 0018 7047     		bx	lr	@
+  98              	.L3:
+  99 001a 00BF     		.align	2
+ 100              	.L2:
+ 101 001c 00000000 		.word	wInterrupt_Mask
+ 102 0020 445C0040 		.word	1073765444
+ 103 0024 405C0040 		.word	1073765440
+ 105              		.section	.text.USB_SIL_Write,"ax",%progbits
+ 106              		.align	2
+ 107              		.global	USB_SIL_Write
+ 108              		.thumb
+ 109              		.thumb_func
+ 111              	USB_SIL_Write:
+ 112              		@ args = 0, pretend = 0, frame = 0
+ 113              		@ frame_needed = 0, uses_anonymous_args = 0
+ 114 0000 70B5     		push	{r4, r5, r6, lr}	@
+ 115 0002 00F07F05 		and	r5, r0, #127	@ D.6989, bEpAddr,
+ 116 0006 2846     		mov	r0, r5	@, D.6989
+ 117 0008 0E46     		mov	r6, r1	@ pBufferPointer, pBufferPointer
+ 118 000a 94B2     		uxth	r4, r2	@ D.6990, wBufferSize
+ 119 000c FFF7FEFF 		bl	GetEPTxAddr	@
+ 120 0010 2246     		mov	r2, r4	@, D.6990
+ 121 0012 0146     		mov	r1, r0	@ tmp118,
+ 122 0014 3046     		mov	r0, r6	@, pBufferPointer
+ 123 0016 FFF7FEFF 		bl	UserToPMABufferCopy	@
+ 124 001a 2846     		mov	r0, r5	@, D.6989
+ 125 001c 2146     		mov	r1, r4	@, D.6990
+ 126 001e FFF7FEFF 		bl	SetEPTxCount	@
+ 127 0022 0020     		movs	r0, #0	@,
+ 128 0024 70BD     		pop	{r4, r5, r6, pc}	@
+ 130 0026 00BF     		.section	.text.USB_SIL_Read,"ax",%progbits
+ 131              		.align	2
+ 132              		.global	USB_SIL_Read
+ 133              		.thumb
+ 134              		.thumb_func
+ 136              	USB_SIL_Read:
+ 137              		@ args = 0, pretend = 0, frame = 0
+ 138              		@ frame_needed = 0, uses_anonymous_args = 0
+ 139 0000 70B5     		push	{r4, r5, r6, lr}	@
+ 140 0002 00F07F05 		and	r5, r0, #127	@ D.6993, bEpAddr,
+ 141 0006 2846     		mov	r0, r5	@, D.6993
+ 142 0008 0E46     		mov	r6, r1	@ pBufferPointer, pBufferPointer
+ 143 000a FFF7FEFF 		bl	GetEPRxCount	@
+ 144 000e 0446     		mov	r4, r0	@ tmp118,
+ 145 0010 2846     		mov	r0, r5	@, D.6993
+ 146 0012 FFF7FEFF 		bl	GetEPRxAddr	@
+ 147 0016 2246     		mov	r2, r4	@, tmp118
+ 148 0018 0146     		mov	r1, r0	@ tmp119,
+ 149 001a 3046     		mov	r0, r6	@, pBufferPointer
+ 150 001c FFF7FEFF 		bl	PMAToUserBufferCopy	@
+ 151 0020 2046     		mov	r0, r4	@, tmp118
+ 152 0022 70BD     		pop	{r4, r5, r6, pc}	@
+ 154              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_sil.c
+C:\Users\Chris\AppData\Local\Temp\cc4oG093.s:78     .text.USB_SIL_Init:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc4oG093.s:83     .text.USB_SIL_Init:00000000 USB_SIL_Init
+C:\Users\Chris\AppData\Local\Temp\cc4oG093.s:101    .text.USB_SIL_Init:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\cc4oG093.s:106    .text.USB_SIL_Write:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc4oG093.s:111    .text.USB_SIL_Write:00000000 USB_SIL_Write
+C:\Users\Chris\AppData\Local\Temp\cc4oG093.s:131    .text.USB_SIL_Read:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cc4oG093.s:136    .text.USB_SIL_Read:00000000 USB_SIL_Read
+
+UNDEFINED SYMBOLS
+wInterrupt_Mask
+GetEPTxAddr
+UserToPMABufferCopy
+SetEPTxCount
+GetEPRxCount
+GetEPRxAddr
+PMAToUserBufferCopy

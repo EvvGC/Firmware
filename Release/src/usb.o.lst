@@ -1,0 +1,359 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"usb.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/usb.d -MF src/usb.d -MP -MT src/usb.d -D__USES_INITFINI__
+  31              	@ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER ../src/usb.c -mcpu=cortex-m3
+  32              	@ -mthumb -auxbase-strip src/usb.o -O2 -Wall -Wextra -Wstrict-prototypes
+  33              	@ -std=gnu99 -ffunction-sections -fdata-sections
+  34              	@ -fsingle-precision-constant -fverbose-asm
+  35              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  36              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  37              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  38              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  39              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  40              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  41              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  42              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  43              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  44              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  45              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  46              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  47              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  48              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  49              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  50              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  51              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  52              	@ -freorder-functions -frerun-cse-after-loop
+  53              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  54              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  55              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  56              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  57              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  58              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  59              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  60              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  61              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  62              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  63              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  64              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  65              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  66              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  67              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  68              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  69              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  70              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  71              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  72              	@ -munaligned-access -mvectorize-with-neon-quad
+  73              	
+  74              		.section	.text.usbOverrun,"ax",%progbits
+  75              		.align	2
+  76              		.global	usbOverrun
+  77              		.thumb
+  78              		.thumb_func
+  80              	usbOverrun:
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84 0000 014B     		ldr	r3, .L2	@ tmp112,
+  85 0002 9868     		ldr	r0, [r3, #8]	@ D.7197, RingBufferUSBTX.Overrun
+  86 0004 7047     		bx	lr	@
+  87              	.L3:
+  88 0006 00BF     		.align	2
+  89              	.L2:
+  90 0008 00000000 		.word	RingBufferUSBTX
+  92              		.section	.text.USBPushTXData,"ax",%progbits
+  93              		.align	2
+  94              		.global	USBPushTXData
+  95              		.thumb
+  96              		.thumb_func
+  98              	USBPushTXData:
+  99              		@ args = 0, pretend = 0, frame = 0
+ 100              		@ frame_needed = 0, uses_anonymous_args = 0
+ 101 0000 38B5     		push	{r3, r4, r5, lr}	@
+ 102 0002 0F4C     		ldr	r4, .L12	@ tmp142,
+ 103 0004 2568     		ldr	r5, [r4]	@ D.7200, RingBufferUSBTX.Read
+ 104 0006 6168     		ldr	r1, [r4, #4]	@ D.7200, RingBufferUSBTX.Write
+ 105 0008 2368     		ldr	r3, [r4]	@ D.7200, RingBufferUSBTX.Read
+ 106 000a C91A     		subs	r1, r1, r3	@ len, D.7200, D.7200
+ 107 000c 0029     		cmp	r1, #0	@ len,
+ 108 000e 0FD0     		beq	.L4	@,
+ 109 0010 0FDB     		blt	.L11	@,
+ 110              	.L6:
+ 111 0012 6019     		adds	r0, r4, r5	@ tmp131, tmp142, D.7200
+ 112 0014 C9B2     		uxtb	r1, r1	@, len
+ 113 0016 0C30     		adds	r0, r0, #12	@, tmp131,
+ 114 0018 FFF7FEFF 		bl	CDC_Send_DATA	@
+ 115 001c 2568     		ldr	r5, [r4]	@ D.7200, RingBufferUSBTX.Read
+ 116 001e 0544     		add	r5, r5, r0	@ D.7200,
+ 117 0020 0748     		ldr	r0, .L12	@,
+ 118 0022 FFF7FEFF 		bl	RingBufferSize	@
+ 119 0026 95FBF0F3 		sdiv	r3, r5, r0	@ tmp139, D.7200,
+ 120 002a 03FB1050 		mls	r0, r3, r0, r5	@ D.7200, tmp139,, D.7200
+ 121 002e 2060     		str	r0, [r4]	@ D.7200, RingBufferUSBTX.Read
+ 122              	.L4:
+ 123 0030 38BD     		pop	{r3, r4, r5, pc}	@
+ 124              	.L11:
+ 125 0032 2046     		mov	r0, r4	@, tmp142
+ 126 0034 FFF7FEFF 		bl	RingBufferSize	@
+ 127 0038 2168     		ldr	r1, [r4]	@ D.7200, RingBufferUSBTX.Read
+ 128 003a 411A     		subs	r1, r0, r1	@ len,, D.7200
+ 129 003c E9E7     		b	.L6	@
+ 130              	.L13:
+ 131 003e 00BF     		.align	2
+ 132              	.L12:
+ 133 0040 00000000 		.word	RingBufferUSBTX
+ 135              		.section	.text.USBPushTX,"ax",%progbits
+ 136              		.align	2
+ 137              		.global	USBPushTX
+ 138              		.thumb
+ 139              		.thumb_func
+ 141              	USBPushTX:
+ 142              		@ args = 0, pretend = 0, frame = 0
+ 143              		@ frame_needed = 0, uses_anonymous_args = 0
+ 144 0000 08B5     		push	{r3, lr}	@
+ 145 0002 064B     		ldr	r3, .L17	@ tmp112,
+ 146 0004 1B68     		ldr	r3, [r3]	@ packetSent.0, packetSent
+ 147 0006 03B1     		cbz	r3, .L16	@ packetSent.0,
+ 148 0008 08BD     		pop	{r3, pc}	@
+ 149              	.L16:
+ 150 000a FFF7FEFF 		bl	millis	@
+ 151 000e 044B     		ldr	r3, .L17+4	@ tmp113,
+ 152 0010 1860     		str	r0, [r3]	@, lastCallbackTime
+ 153 0012 BDE80840 		pop	{r3, lr}	@
+ 154 0016 FFF7FEBF 		b	USBPushTXData	@
+ 155              	.L18:
+ 156 001a 00BF     		.align	2
+ 157              	.L17:
+ 158 001c 00000000 		.word	packetSent
+ 159 0020 00000000 		.word	.LANCHOR0
+ 161              		.section	.text.EP1_IN_Callback,"ax",%progbits
+ 162              		.align	2
+ 163              		.global	EP1_IN_Callback
+ 164              		.thumb
+ 165              		.thumb_func
+ 167              	EP1_IN_Callback:
+ 168              		@ args = 0, pretend = 0, frame = 0
+ 169              		@ frame_needed = 0, uses_anonymous_args = 0
+ 170 0000 08B5     		push	{r3, lr}	@
+ 171 0002 0749     		ldr	r1, .L20	@ tmp111,
+ 172 0004 074B     		ldr	r3, .L20+4	@ tmp113,
+ 173 0006 0120     		movs	r0, #1	@ tmp112,
+ 174 0008 0022     		movs	r2, #0	@ tmp114,
+ 175 000a 1A60     		str	r2, [r3]	@ tmp114, packetSent
+ 176 000c 0860     		str	r0, [r1]	@ tmp112, USBCallBackCalled
+ 177 000e FFF7FEFF 		bl	millis	@
+ 178 0012 054B     		ldr	r3, .L20+8	@ tmp115,
+ 179 0014 1860     		str	r0, [r3]	@, lastCallbackTime
+ 180 0016 BDE80840 		pop	{r3, lr}	@
+ 181 001a FFF7FEBF 		b	USBPushTXData	@
+ 182              	.L21:
+ 183 001e 00BF     		.align	2
+ 184              	.L20:
+ 185 0020 00000000 		.word	.LANCHOR1
+ 186 0024 00000000 		.word	packetSent
+ 187 0028 00000000 		.word	.LANCHOR0
+ 189              		.section	.text.setupUSB,"ax",%progbits
+ 190              		.align	2
+ 191              		.global	setupUSB
+ 192              		.thumb
+ 193              		.thumb_func
+ 195              	setupUSB:
+ 196              		@ args = 0, pretend = 0, frame = 0
+ 197              		@ frame_needed = 0, uses_anonymous_args = 0
+ 198 0000 08B5     		push	{r3, lr}	@
+ 199 0002 FFF7FEFF 		bl	Set_System	@
+ 200 0006 FFF7FEFF 		bl	Set_USBClock	@
+ 201 000a FFF7FEFF 		bl	USB_Interrupts_Config	@
+ 202 000e FFF7FEFF 		bl	USB_Init	@
+ 203 0012 BDE80840 		pop	{r3, lr}	@
+ 204 0016 0248     		ldr	r0, .L23	@,
+ 205 0018 0249     		ldr	r1, .L23+4	@,
+ 206 001a FFF7FEBF 		b	RingBufferInit	@
+ 207              	.L24:
+ 208 001e 00BF     		.align	2
+ 209              	.L23:
+ 210 0020 00000000 		.word	RingBufferUSBTX
+ 211 0024 00000000 		.word	USBPushTX
+ 213              		.section	.text.usbSendBytes,"ax",%progbits
+ 214              		.align	2
+ 215              		.global	usbSendBytes
+ 216              		.thumb
+ 217              		.thumb_func
+ 219              	usbSendBytes:
+ 220              		@ args = 0, pretend = 0, frame = 0
+ 221              		@ frame_needed = 0, uses_anonymous_args = 0
+ 222 0000 38B5     		push	{r3, r4, r5, lr}	@
+ 223 0002 0546     		mov	r5, r0	@ sendBuf, sendBuf
+ 224 0004 0C46     		mov	r4, r1	@ len, len
+ 225 0006 FFF7FEFF 		bl	usbIsConnected	@
+ 226 000a 28B1     		cbz	r0, .L26	@,
+ 227 000c 2946     		mov	r1, r5	@, sendBuf
+ 228 000e 0348     		ldr	r0, .L30	@,
+ 229 0010 2246     		mov	r2, r4	@, len
+ 230 0012 0023     		movs	r3, #0	@,
+ 231 0014 FFF7FEFF 		bl	RingBufferPutBlock	@
+ 232              	.L26:
+ 233 0018 2046     		mov	r0, r4	@, len
+ 234 001a 38BD     		pop	{r3, r4, r5, pc}	@
+ 235              	.L31:
+ 236              		.align	2
+ 237              	.L30:
+ 238 001c 00000000 		.word	RingBufferUSBTX
+ 240              		.section	.text.usbEnableBlockingTx,"ax",%progbits
+ 241              		.align	2
+ 242              		.global	usbEnableBlockingTx
+ 243              		.thumb
+ 244              		.thumb_func
+ 246              	usbEnableBlockingTx:
+ 247              		@ args = 0, pretend = 0, frame = 0
+ 248              		@ frame_needed = 0, uses_anonymous_args = 0
+ 249              		@ link register save eliminated.
+ 250 0000 7047     		bx	lr	@
+ 252 0002 00BF     		.section	.text.usbDisableBlockingTx,"ax",%progbits
+ 253              		.align	2
+ 254              		.global	usbDisableBlockingTx
+ 255              		.thumb
+ 256              		.thumb_func
+ 258              	usbDisableBlockingTx:
+ 259              		@ args = 0, pretend = 0, frame = 0
+ 260              		@ frame_needed = 0, uses_anonymous_args = 0
+ 261              		@ link register save eliminated.
+ 262 0000 7047     		bx	lr	@
+ 264 0002 00BF     		.section	.text.usbBytesAvailable,"ax",%progbits
+ 265              		.align	2
+ 266              		.global	usbBytesAvailable
+ 267              		.thumb
+ 268              		.thumb_func
+ 270              	usbBytesAvailable:
+ 271              		@ args = 0, pretend = 0, frame = 0
+ 272              		@ frame_needed = 0, uses_anonymous_args = 0
+ 273              		@ link register save eliminated.
+ 274 0000 014B     		ldr	r3, .L35	@ tmp112,
+ 275 0002 1868     		ldr	r0, [r3]	@ D.7221, receiveLength
+ 276 0004 7047     		bx	lr	@
+ 277              	.L36:
+ 278 0006 00BF     		.align	2
+ 279              	.L35:
+ 280 0008 00000000 		.word	receiveLength
+ 282              		.section	.text.usbReceiveBytes,"ax",%progbits
+ 283              		.align	2
+ 284              		.global	usbReceiveBytes
+ 285              		.thumb
+ 286              		.thumb_func
+ 288              	usbReceiveBytes:
+ 289              		@ args = 0, pretend = 0, frame = 0
+ 290              		@ frame_needed = 0, uses_anonymous_args = 0
+ 291 0000 054B     		ldr	r3, .L39	@ tmp116,
+ 292 0002 10B5     		push	{r4, lr}	@
+ 293 0004 1C68     		ldr	r4, [r3]	@ len, receiveLength
+ 294 0006 8C42     		cmp	r4, r1	@ len, len
+ 295 0008 A8BF     		it	ge
+ 296 000a 0C46     		movge	r4, r1	@ len, len
+ 297 000c 2146     		mov	r1, r4	@, len
+ 298 000e FFF7FEFF 		bl	CDC_Receive_DATA	@
+ 299 0012 2046     		mov	r0, r4	@, len
+ 300 0014 10BD     		pop	{r4, pc}	@
+ 301              	.L40:
+ 302 0016 00BF     		.align	2
+ 303              	.L39:
+ 304 0018 00000000 		.word	receiveLength
+ 306              		.section	.text.usbDsbISR,"ax",%progbits
+ 307              		.align	2
+ 308              		.global	usbDsbISR
+ 309              		.thumb
+ 310              		.thumb_func
+ 312              	usbDsbISR:
+ 313              		@ args = 0, pretend = 0, frame = 0
+ 314              		@ frame_needed = 0, uses_anonymous_args = 0
+ 315              		@ link register save eliminated.
+ 316 0000 7047     		bx	lr	@
+ 318              		.comm	RingBufferUSBTX,528,4
+ 319 0002 00BF     		.section	.bss.lastCallbackTime,"aw",%nobits
+ 320              		.align	2
+ 321              		.set	.LANCHOR0,. + 0
+ 324              	lastCallbackTime:
+ 325 0000 00000000 		.space	4
+ 326              		.section	.bss.USBCallBackCalled,"aw",%nobits
+ 327              		.align	2
+ 328              		.set	.LANCHOR1,. + 0
+ 331              	USBCallBackCalled:
+ 332 0000 00000000 		.space	4
+ 333              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb.c
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:75     .text.usbOverrun:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:80     .text.usbOverrun:00000000 usbOverrun
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:90     .text.usbOverrun:00000008 $d
+                            *COM*:00000210 RingBufferUSBTX
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:93     .text.USBPushTXData:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:98     .text.USBPushTXData:00000000 USBPushTXData
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:133    .text.USBPushTXData:00000040 $d
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:136    .text.USBPushTX:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:141    .text.USBPushTX:00000000 USBPushTX
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:158    .text.USBPushTX:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:162    .text.EP1_IN_Callback:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:167    .text.EP1_IN_Callback:00000000 EP1_IN_Callback
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:185    .text.EP1_IN_Callback:00000020 $d
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:190    .text.setupUSB:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:195    .text.setupUSB:00000000 setupUSB
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:210    .text.setupUSB:00000020 $d
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:214    .text.usbSendBytes:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:219    .text.usbSendBytes:00000000 usbSendBytes
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:238    .text.usbSendBytes:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:241    .text.usbEnableBlockingTx:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:246    .text.usbEnableBlockingTx:00000000 usbEnableBlockingTx
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:253    .text.usbDisableBlockingTx:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:258    .text.usbDisableBlockingTx:00000000 usbDisableBlockingTx
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:265    .text.usbBytesAvailable:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:270    .text.usbBytesAvailable:00000000 usbBytesAvailable
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:280    .text.usbBytesAvailable:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:283    .text.usbReceiveBytes:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:288    .text.usbReceiveBytes:00000000 usbReceiveBytes
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:304    .text.usbReceiveBytes:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:307    .text.usbDsbISR:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:312    .text.usbDsbISR:00000000 usbDsbISR
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:320    .bss.lastCallbackTime:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:324    .bss.lastCallbackTime:00000000 lastCallbackTime
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:327    .bss.USBCallBackCalled:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\ccHNj7BB.s:331    .bss.USBCallBackCalled:00000000 USBCallBackCalled
+
+UNDEFINED SYMBOLS
+CDC_Send_DATA
+RingBufferSize
+millis
+packetSent
+Set_System
+Set_USBClock
+USB_Interrupts_Config
+USB_Init
+RingBufferInit
+usbIsConnected
+RingBufferPutBlock
+receiveLength
+CDC_Receive_DATA

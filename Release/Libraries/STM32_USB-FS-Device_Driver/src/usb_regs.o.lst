@@ -1,0 +1,1628 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"usb_regs.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD Libraries/STM32_USB-FS-Device_Driver/src/usb_regs.d
+  31              	@ -MF Libraries/STM32_USB-FS-Device_Driver/src/usb_regs.d -MP
+  32              	@ -MT Libraries/STM32_USB-FS-Device_Driver/src/usb_regs.d
+  33              	@ -D__USES_INITFINI__ -D STM32F10X_HD -D USE_STDPERIPH_DRIVER
+  34              	@ ../Libraries/STM32_USB-FS-Device_Driver/src/usb_regs.c -mcpu=cortex-m3
+  35              	@ -mthumb
+  36              	@ -auxbase-strip Libraries/STM32_USB-FS-Device_Driver/src/usb_regs.o -O2
+  37              	@ -Wall -Wextra -Wstrict-prototypes -std=gnu99 -ffunction-sections
+  38              	@ -fdata-sections -fsingle-precision-constant -fverbose-asm
+  39              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  40              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  41              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  42              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  43              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  44              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  45              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  46              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  47              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  48              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  49              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  50              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  51              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  52              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  53              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  54              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  55              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  56              	@ -freorder-functions -frerun-cse-after-loop
+  57              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  58              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  59              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  60              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  61              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  62              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  63              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  64              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  65              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  66              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  67              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  68              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  69              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  70              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  71              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  72              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  73              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  74              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  75              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  76              	@ -munaligned-access -mvectorize-with-neon-quad
+  77              	
+  78              		.section	.text.SetCNTR,"ax",%progbits
+  79              		.align	2
+  80              		.global	SetCNTR
+  81              		.thumb
+  82              		.thumb_func
+  84              	SetCNTR:
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+  88 0000 014B     		ldr	r3, .L2	@ tmp112,
+  89 0002 1860     		str	r0, [r3]	@ wRegValue, MEM[(volatile unsigned int *)1073765440B]
+  90 0004 7047     		bx	lr	@
+  91              	.L3:
+  92 0006 00BF     		.align	2
+  93              	.L2:
+  94 0008 405C0040 		.word	1073765440
+  96              		.section	.text.GetCNTR,"ax",%progbits
+  97              		.align	2
+  98              		.global	GetCNTR
+  99              		.thumb
+ 100              		.thumb_func
+ 102              	GetCNTR:
+ 103              		@ args = 0, pretend = 0, frame = 0
+ 104              		@ frame_needed = 0, uses_anonymous_args = 0
+ 105              		@ link register save eliminated.
+ 106 0000 014B     		ldr	r3, .L5	@ tmp113,
+ 107 0002 1868     		ldr	r0, [r3]	@ D.8034, MEM[(volatile unsigned int *)1073765440B]
+ 108 0004 80B2     		uxth	r0, r0	@, D.8034
+ 109 0006 7047     		bx	lr	@
+ 110              	.L6:
+ 111              		.align	2
+ 112              	.L5:
+ 113 0008 405C0040 		.word	1073765440
+ 115              		.section	.text.SetISTR,"ax",%progbits
+ 116              		.align	2
+ 117              		.global	SetISTR
+ 118              		.thumb
+ 119              		.thumb_func
+ 121              	SetISTR:
+ 122              		@ args = 0, pretend = 0, frame = 0
+ 123              		@ frame_needed = 0, uses_anonymous_args = 0
+ 124              		@ link register save eliminated.
+ 125 0000 014B     		ldr	r3, .L8	@ tmp112,
+ 126 0002 1860     		str	r0, [r3]	@ wRegValue, MEM[(volatile unsigned int *)1073765444B]
+ 127 0004 7047     		bx	lr	@
+ 128              	.L9:
+ 129 0006 00BF     		.align	2
+ 130              	.L8:
+ 131 0008 445C0040 		.word	1073765444
+ 133              		.section	.text.GetISTR,"ax",%progbits
+ 134              		.align	2
+ 135              		.global	GetISTR
+ 136              		.thumb
+ 137              		.thumb_func
+ 139              	GetISTR:
+ 140              		@ args = 0, pretend = 0, frame = 0
+ 141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142              		@ link register save eliminated.
+ 143 0000 014B     		ldr	r3, .L11	@ tmp113,
+ 144 0002 1868     		ldr	r0, [r3]	@ D.8041, MEM[(volatile unsigned int *)1073765444B]
+ 145 0004 80B2     		uxth	r0, r0	@, D.8041
+ 146 0006 7047     		bx	lr	@
+ 147              	.L12:
+ 148              		.align	2
+ 149              	.L11:
+ 150 0008 445C0040 		.word	1073765444
+ 152              		.section	.text.GetFNR,"ax",%progbits
+ 153              		.align	2
+ 154              		.global	GetFNR
+ 155              		.thumb
+ 156              		.thumb_func
+ 158              	GetFNR:
+ 159              		@ args = 0, pretend = 0, frame = 0
+ 160              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161              		@ link register save eliminated.
+ 162 0000 014B     		ldr	r3, .L14	@ tmp113,
+ 163 0002 1868     		ldr	r0, [r3]	@ D.8045, MEM[(volatile unsigned int *)1073765448B]
+ 164 0004 80B2     		uxth	r0, r0	@, D.8045
+ 165 0006 7047     		bx	lr	@
+ 166              	.L15:
+ 167              		.align	2
+ 168              	.L14:
+ 169 0008 485C0040 		.word	1073765448
+ 171              		.section	.text.SetDADDR,"ax",%progbits
+ 172              		.align	2
+ 173              		.global	SetDADDR
+ 174              		.thumb
+ 175              		.thumb_func
+ 177              	SetDADDR:
+ 178              		@ args = 0, pretend = 0, frame = 0
+ 179              		@ frame_needed = 0, uses_anonymous_args = 0
+ 180              		@ link register save eliminated.
+ 181 0000 014B     		ldr	r3, .L17	@ tmp112,
+ 182 0002 1860     		str	r0, [r3]	@ wRegValue, MEM[(volatile unsigned int *)1073765452B]
+ 183 0004 7047     		bx	lr	@
+ 184              	.L18:
+ 185 0006 00BF     		.align	2
+ 186              	.L17:
+ 187 0008 4C5C0040 		.word	1073765452
+ 189              		.section	.text.GetDADDR,"ax",%progbits
+ 190              		.align	2
+ 191              		.global	GetDADDR
+ 192              		.thumb
+ 193              		.thumb_func
+ 195              	GetDADDR:
+ 196              		@ args = 0, pretend = 0, frame = 0
+ 197              		@ frame_needed = 0, uses_anonymous_args = 0
+ 198              		@ link register save eliminated.
+ 199 0000 014B     		ldr	r3, .L20	@ tmp113,
+ 200 0002 1868     		ldr	r0, [r3]	@ D.8052, MEM[(volatile unsigned int *)1073765452B]
+ 201 0004 80B2     		uxth	r0, r0	@, D.8052
+ 202 0006 7047     		bx	lr	@
+ 203              	.L21:
+ 204              		.align	2
+ 205              	.L20:
+ 206 0008 4C5C0040 		.word	1073765452
+ 208              		.section	.text.SetBTABLE,"ax",%progbits
+ 209              		.align	2
+ 210              		.global	SetBTABLE
+ 211              		.thumb
+ 212              		.thumb_func
+ 214              	SetBTABLE:
+ 215              		@ args = 0, pretend = 0, frame = 0
+ 216              		@ frame_needed = 0, uses_anonymous_args = 0
+ 217              		@ link register save eliminated.
+ 218 0000 4FF6F873 		movw	r3, #65528	@ D.8057,
+ 219 0004 014A     		ldr	r2, .L23	@ tmp114,
+ 220 0006 0340     		ands	r3, r3, r0	@, D.8057, D.8057, wRegValue
+ 221 0008 1360     		str	r3, [r2]	@ D.8057, MEM[(volatile unsigned int *)1073765456B]
+ 222 000a 7047     		bx	lr	@
+ 223              	.L24:
+ 224              		.align	2
+ 225              	.L23:
+ 226 000c 505C0040 		.word	1073765456
+ 228              		.section	.text.GetBTABLE,"ax",%progbits
+ 229              		.align	2
+ 230              		.global	GetBTABLE
+ 231              		.thumb
+ 232              		.thumb_func
+ 234              	GetBTABLE:
+ 235              		@ args = 0, pretend = 0, frame = 0
+ 236              		@ frame_needed = 0, uses_anonymous_args = 0
+ 237              		@ link register save eliminated.
+ 238 0000 014B     		ldr	r3, .L26	@ tmp113,
+ 239 0002 1868     		ldr	r0, [r3]	@ D.8060, MEM[(volatile unsigned int *)1073765456B]
+ 240 0004 80B2     		uxth	r0, r0	@, D.8060
+ 241 0006 7047     		bx	lr	@
+ 242              	.L27:
+ 243              		.align	2
+ 244              	.L26:
+ 245 0008 505C0040 		.word	1073765456
+ 247              		.section	.text.SetENDPOINT,"ax",%progbits
+ 248              		.align	2
+ 249              		.global	SetENDPOINT
+ 250              		.thumb
+ 251              		.thumb_func
+ 253              	SetENDPOINT:
+ 254              		@ args = 0, pretend = 0, frame = 0
+ 255              		@ frame_needed = 0, uses_anonymous_args = 0
+ 256              		@ link register save eliminated.
+ 257 0000 8000     		lsls	r0, r0, #2	@ D.8064, bEpNum,
+ 258 0002 00F18040 		add	r0, r0, #1073741824	@ D.8065, D.8064,
+ 259 0006 00F5B840 		add	r0, r0, #23552	@ D.8065, D.8065,
+ 260 000a 0160     		str	r1, [r0]	@ wRegValue, *_4
+ 261 000c 7047     		bx	lr	@
+ 263 000e 00BF     		.section	.text.GetENDPOINT,"ax",%progbits
+ 264              		.align	2
+ 265              		.global	GetENDPOINT
+ 266              		.thumb
+ 267              		.thumb_func
+ 269              	GetENDPOINT:
+ 270              		@ args = 0, pretend = 0, frame = 0
+ 271              		@ frame_needed = 0, uses_anonymous_args = 0
+ 272              		@ link register save eliminated.
+ 273 0000 8000     		lsls	r0, r0, #2	@ D.8068, bEpNum,
+ 274 0002 00F18040 		add	r0, r0, #1073741824	@ D.8069, D.8068,
+ 275 0006 00F5B840 		add	r0, r0, #23552	@ D.8069, D.8069,
+ 276 000a 0068     		ldr	r0, [r0]	@ D.8068, *_4
+ 277 000c 80B2     		uxth	r0, r0	@, D.8068
+ 278 000e 7047     		bx	lr	@
+ 280              		.section	.text.SetEPType,"ax",%progbits
+ 281              		.align	2
+ 282              		.global	SetEPType
+ 283              		.thumb
+ 284              		.thumb_func
+ 286              	SetEPType:
+ 287              		@ args = 0, pretend = 0, frame = 0
+ 288              		@ frame_needed = 0, uses_anonymous_args = 0
+ 289              		@ link register save eliminated.
+ 290 0000 8000     		lsls	r0, r0, #2	@ D.8073, bEpNum,
+ 291 0002 00F18040 		add	r0, r0, #1073741824	@ D.8074, D.8073,
+ 292 0006 00F5B840 		add	r0, r0, #23552	@ D.8074, D.8074,
+ 293 000a 0368     		ldr	r3, [r0]	@ D.8073, *_4
+ 294 000c 23F4EC43 		bic	r3, r3, #30208	@ tmp125, D.8073,
+ 295 0010 23F07003 		bic	r3, r3, #112	@ tmp125, tmp125,
+ 296 0014 1943     		orrs	r1, r1, r3	@, tmp129, wType, tmp125
+ 297 0016 8BB2     		uxth	r3, r1	@ D.8073, tmp129
+ 298 0018 0360     		str	r3, [r0]	@ D.8073, *_4
+ 299 001a 7047     		bx	lr	@
+ 301              		.section	.text.GetEPType,"ax",%progbits
+ 302              		.align	2
+ 303              		.global	GetEPType
+ 304              		.thumb
+ 305              		.thumb_func
+ 307              	GetEPType:
+ 308              		@ args = 0, pretend = 0, frame = 0
+ 309              		@ frame_needed = 0, uses_anonymous_args = 0
+ 310              		@ link register save eliminated.
+ 311 0000 8000     		lsls	r0, r0, #2	@ D.8079, bEpNum,
+ 312 0002 00F18040 		add	r0, r0, #1073741824	@ D.8080, D.8079,
+ 313 0006 00F5B840 		add	r0, r0, #23552	@ D.8080, D.8080,
+ 314 000a 0068     		ldr	r0, [r0]	@ D.8079, *_4
+ 315 000c 00F4C060 		and	r0, r0, #1536	@, D.8079,
+ 316 0010 7047     		bx	lr	@
+ 318 0012 00BF     		.section	.text.SetEPTxStatus,"ax",%progbits
+ 319              		.align	2
+ 320              		.global	SetEPTxStatus
+ 321              		.thumb
+ 322              		.thumb_func
+ 324              	SetEPTxStatus:
+ 325              		@ args = 0, pretend = 0, frame = 0
+ 326              		@ frame_needed = 0, uses_anonymous_args = 0
+ 327              		@ link register save eliminated.
+ 328 0000 8000     		lsls	r0, r0, #2	@ D.8085, bEpNum,
+ 329 0002 00F18040 		add	r0, r0, #1073741824	@ D.8086, D.8085,
+ 330 0006 00F5B840 		add	r0, r0, #23552	@ D.8086, D.8086,
+ 331 000a 0368     		ldr	r3, [r0]	@ D.8085, *_6
+ 332 000c CA06     		lsls	r2, r1, #27	@, wState,
+ 333 000e 23F4E043 		bic	r3, r3, #28672	@ tmp125, D.8085,
+ 334 0012 23F04003 		bic	r3, r3, #64	@ tmp125, tmp125,
+ 335 0016 9BB2     		uxth	r3, r3	@ _wRegVal, tmp125
+ 336 0018 48BF     		it	mi
+ 337 001a 83F01003 		eormi	r3, r3, #16	@ _wRegVal, _wRegVal,
+ 338 001e 8A06     		lsls	r2, r1, #26	@, wState,
+ 339 0020 48BF     		it	mi
+ 340 0022 83F02003 		eormi	r3, r3, #32	@ _wRegVal, _wRegVal,
+ 341 0026 43F40043 		orr	r3, r3, #32768	@ D.8085, _wRegVal,
+ 342 002a 43F08003 		orr	r3, r3, #128	@ D.8085, D.8085,
+ 343 002e 0360     		str	r3, [r0]	@ D.8085, *_6
+ 344 0030 7047     		bx	lr	@
+ 346 0032 00BF     		.section	.text.SetEPRxStatus,"ax",%progbits
+ 347              		.align	2
+ 348              		.global	SetEPRxStatus
+ 349              		.thumb
+ 350              		.thumb_func
+ 352              	SetEPRxStatus:
+ 353              		@ args = 0, pretend = 0, frame = 0
+ 354              		@ frame_needed = 0, uses_anonymous_args = 0
+ 355              		@ link register save eliminated.
+ 356 0000 8000     		lsls	r0, r0, #2	@ D.8090, bEpNum,
+ 357 0002 00F18040 		add	r0, r0, #1073741824	@ D.8091, D.8090,
+ 358 0006 00F5B840 		add	r0, r0, #23552	@ D.8091, D.8091,
+ 359 000a 0368     		ldr	r3, [r0]	@ D.8090, *_6
+ 360 000c CA04     		lsls	r2, r1, #19	@, wState,
+ 361 000e 23F48043 		bic	r3, r3, #16384	@ tmp125, D.8090,
+ 362 0012 23F07003 		bic	r3, r3, #112	@ tmp125, tmp125,
+ 363 0016 9BB2     		uxth	r3, r3	@ _wRegVal, tmp125
+ 364 0018 48BF     		it	mi
+ 365 001a 83F48053 		eormi	r3, r3, #4096	@ _wRegVal, _wRegVal,
+ 366 001e 8A04     		lsls	r2, r1, #18	@, wState,
+ 367 0020 48BF     		it	mi
+ 368 0022 83F40053 		eormi	r3, r3, #8192	@ _wRegVal, _wRegVal,
+ 369 0026 43F40043 		orr	r3, r3, #32768	@ D.8090, _wRegVal,
+ 370 002a 43F08003 		orr	r3, r3, #128	@ D.8090, D.8090,
+ 371 002e 0360     		str	r3, [r0]	@ D.8090, *_6
+ 372 0030 7047     		bx	lr	@
+ 374 0032 00BF     		.section	.text.SetDouBleBuffEPStall,"ax",%progbits
+ 375              		.align	2
+ 376              		.global	SetDouBleBuffEPStall
+ 377              		.thumb
+ 378              		.thumb_func
+ 380              	SetDouBleBuffEPStall:
+ 381              		@ args = 0, pretend = 0, frame = 0
+ 382              		@ frame_needed = 0, uses_anonymous_args = 0
+ 383              		@ link register save eliminated.
+ 384 0000 8000     		lsls	r0, r0, #2	@ D.8095, bEpNum,
+ 385 0002 00F18040 		add	r0, r0, #1073741824	@ D.8096, D.8095,
+ 386 0006 00F5B840 		add	r0, r0, #23552	@ D.8096, D.8096,
+ 387 000a 0129     		cmp	r1, #1	@ bDir,
+ 388 000c 0368     		ldr	r3, [r0]	@ D.8095, *_14
+ 389 000e 07D0     		beq	.L54	@,
+ 390 0010 0229     		cmp	r1, #2	@ bDir,
+ 391 0012 00D0     		beq	.L55	@,
+ 392 0014 7047     		bx	lr	@
+ 393              	.L55:
+ 394 0016 4FF6EF72 		movw	r2, #65519	@ D.8095,
+ 395 001a 1A40     		ands	r2, r2, r3	@, D.8095, D.8095, D.8095
+ 396 001c 0260     		str	r2, [r0]	@ D.8095,* D.8096
+ 397 001e 7047     		bx	lr	@
+ 398              	.L54:
+ 399 0020 4EF6FF72 		movw	r2, #61439	@ D.8095,
+ 400 0024 1A40     		ands	r2, r2, r3	@, D.8095, D.8095, D.8095
+ 401 0026 0260     		str	r2, [r0]	@ D.8095,* D.8096
+ 402 0028 7047     		bx	lr	@
+ 404 002a 00BF     		.section	.text.GetEPTxStatus,"ax",%progbits
+ 405              		.align	2
+ 406              		.global	GetEPTxStatus
+ 407              		.thumb
+ 408              		.thumb_func
+ 410              	GetEPTxStatus:
+ 411              		@ args = 0, pretend = 0, frame = 0
+ 412              		@ frame_needed = 0, uses_anonymous_args = 0
+ 413              		@ link register save eliminated.
+ 414 0000 8000     		lsls	r0, r0, #2	@ D.8099, bEpNum,
+ 415 0002 00F18040 		add	r0, r0, #1073741824	@ D.8100, D.8099,
+ 416 0006 00F5B840 		add	r0, r0, #23552	@ D.8100, D.8100,
+ 417 000a 0068     		ldr	r0, [r0]	@ D.8099, *_4
+ 418 000c 00F03000 		and	r0, r0, #48	@, D.8099,
+ 419 0010 7047     		bx	lr	@
+ 421 0012 00BF     		.section	.text.GetEPRxStatus,"ax",%progbits
+ 422              		.align	2
+ 423              		.global	GetEPRxStatus
+ 424              		.thumb
+ 425              		.thumb_func
+ 427              	GetEPRxStatus:
+ 428              		@ args = 0, pretend = 0, frame = 0
+ 429              		@ frame_needed = 0, uses_anonymous_args = 0
+ 430              		@ link register save eliminated.
+ 431 0000 8000     		lsls	r0, r0, #2	@ D.8105, bEpNum,
+ 432 0002 00F18040 		add	r0, r0, #1073741824	@ D.8106, D.8105,
+ 433 0006 00F5B840 		add	r0, r0, #23552	@ D.8106, D.8106,
+ 434 000a 0068     		ldr	r0, [r0]	@ D.8105, *_4
+ 435 000c 00F44050 		and	r0, r0, #12288	@, D.8105,
+ 436 0010 7047     		bx	lr	@
+ 438 0012 00BF     		.section	.text.SetEPTxValid,"ax",%progbits
+ 439              		.align	2
+ 440              		.global	SetEPTxValid
+ 441              		.thumb
+ 442              		.thumb_func
+ 444              	SetEPTxValid:
+ 445              		@ args = 0, pretend = 0, frame = 0
+ 446              		@ frame_needed = 0, uses_anonymous_args = 0
+ 447              		@ link register save eliminated.
+ 448 0000 8000     		lsls	r0, r0, #2	@ D.8111, bEpNum,
+ 449 0002 00F18040 		add	r0, r0, #1073741824	@ D.8112, D.8111,
+ 450 0006 00F5B840 		add	r0, r0, #23552	@ D.8112, D.8112,
+ 451 000a 0368     		ldr	r3, [r0]	@ D.8111, *_4
+ 452 000c 23F4E043 		bic	r3, r3, #28672	@ tmp123, D.8111,
+ 453 0010 23F04003 		bic	r3, r3, #64	@ tmp123, tmp123,
+ 454 0014 9BB2     		uxth	r3, r3	@ _wRegVal, tmp123
+ 455 0016 83F03003 		eor	r3, r3, #48	@ tmp125, _wRegVal,
+ 456 001a 43F40043 		orr	r3, r3, #32768	@ D.8111, tmp125,
+ 457 001e 43F08003 		orr	r3, r3, #128	@ D.8111, D.8111,
+ 458 0022 0360     		str	r3, [r0]	@ D.8111, *_4
+ 459 0024 7047     		bx	lr	@
+ 461 0026 00BF     		.section	.text.SetEPRxValid,"ax",%progbits
+ 462              		.align	2
+ 463              		.global	SetEPRxValid
+ 464              		.thumb
+ 465              		.thumb_func
+ 467              	SetEPRxValid:
+ 468              		@ args = 0, pretend = 0, frame = 0
+ 469              		@ frame_needed = 0, uses_anonymous_args = 0
+ 470              		@ link register save eliminated.
+ 471 0000 8000     		lsls	r0, r0, #2	@ D.8116, bEpNum,
+ 472 0002 00F18040 		add	r0, r0, #1073741824	@ D.8117, D.8116,
+ 473 0006 00F5B840 		add	r0, r0, #23552	@ D.8117, D.8117,
+ 474 000a 0368     		ldr	r3, [r0]	@ D.8116, *_4
+ 475 000c 23F48043 		bic	r3, r3, #16384	@ tmp123, D.8116,
+ 476 0010 23F07003 		bic	r3, r3, #112	@ tmp123, tmp123,
+ 477 0014 9BB2     		uxth	r3, r3	@ _wRegVal, tmp123
+ 478 0016 83F44053 		eor	r3, r3, #12288	@ tmp125, _wRegVal,
+ 479 001a 43F40043 		orr	r3, r3, #32768	@ D.8116, tmp125,
+ 480 001e 43F08003 		orr	r3, r3, #128	@ D.8116, D.8116,
+ 481 0022 0360     		str	r3, [r0]	@ D.8116, *_4
+ 482 0024 7047     		bx	lr	@
+ 484 0026 00BF     		.section	.text.SetEP_KIND,"ax",%progbits
+ 485              		.align	2
+ 486              		.global	SetEP_KIND
+ 487              		.thumb
+ 488              		.thumb_func
+ 490              	SetEP_KIND:
+ 491              		@ args = 0, pretend = 0, frame = 0
+ 492              		@ frame_needed = 0, uses_anonymous_args = 0
+ 493              		@ link register save eliminated.
+ 494 0000 8000     		lsls	r0, r0, #2	@ D.8121, bEpNum,
+ 495 0002 00F18040 		add	r0, r0, #1073741824	@ D.8122, D.8121,
+ 496 0006 00F5B840 		add	r0, r0, #23552	@ D.8122, D.8122,
+ 497 000a 0368     		ldr	r3, [r0]	@ D.8121, *_4
+ 498 000c 40F60F62 		movw	r2, #3599	@ tmp123,
+ 499 0010 1340     		ands	r3, r3, r2	@, tmp125, D.8121, tmp123
+ 500 0012 43F40143 		orr	r3, r3, #33024	@ D.8121, tmp125,
+ 501 0016 43F08003 		orr	r3, r3, #128	@ D.8121, D.8121,
+ 502 001a 0360     		str	r3, [r0]	@ D.8121, *_4
+ 503 001c 7047     		bx	lr	@
+ 505 001e 00BF     		.section	.text.ClearEP_KIND,"ax",%progbits
+ 506              		.align	2
+ 507              		.global	ClearEP_KIND
+ 508              		.thumb
+ 509              		.thumb_func
+ 511              	ClearEP_KIND:
+ 512              		@ args = 0, pretend = 0, frame = 0
+ 513              		@ frame_needed = 0, uses_anonymous_args = 0
+ 514              		@ link register save eliminated.
+ 515 0000 8000     		lsls	r0, r0, #2	@ D.8127, bEpNum,
+ 516 0002 00F18040 		add	r0, r0, #1073741824	@ D.8128, D.8127,
+ 517 0006 00F5B840 		add	r0, r0, #23552	@ D.8128, D.8128,
+ 518 000a 0368     		ldr	r3, [r0]	@ D.8127, *_4
+ 519 000c 40F60F62 		movw	r2, #3599	@ tmp123,
+ 520 0010 1340     		ands	r3, r3, r2	@, tmp125, D.8127, tmp123
+ 521 0012 43F40043 		orr	r3, r3, #32768	@ D.8127, tmp125,
+ 522 0016 43F08003 		orr	r3, r3, #128	@ D.8127, D.8127,
+ 523 001a 0360     		str	r3, [r0]	@ D.8127, *_4
+ 524 001c 7047     		bx	lr	@
+ 526 001e 00BF     		.section	.text.Clear_Status_Out,"ax",%progbits
+ 527              		.align	2
+ 528              		.global	Clear_Status_Out
+ 529              		.thumb
+ 530              		.thumb_func
+ 532              	Clear_Status_Out:
+ 533              		@ args = 0, pretend = 0, frame = 0
+ 534              		@ frame_needed = 0, uses_anonymous_args = 0
+ 535              		@ link register save eliminated.
+ 536 0000 8000     		lsls	r0, r0, #2	@ D.8133, bEpNum,
+ 537 0002 00F18040 		add	r0, r0, #1073741824	@ D.8134, D.8133,
+ 538 0006 00F5B840 		add	r0, r0, #23552	@ D.8134, D.8134,
+ 539 000a 0368     		ldr	r3, [r0]	@ D.8133, *_4
+ 540 000c 40F60F62 		movw	r2, #3599	@ tmp123,
+ 541 0010 1340     		ands	r3, r3, r2	@, tmp125, D.8133, tmp123
+ 542 0012 43F40043 		orr	r3, r3, #32768	@ D.8133, tmp125,
+ 543 0016 43F08003 		orr	r3, r3, #128	@ D.8133, D.8133,
+ 544 001a 0360     		str	r3, [r0]	@ D.8133, *_4
+ 545 001c 7047     		bx	lr	@
+ 547 001e 00BF     		.section	.text.Set_Status_Out,"ax",%progbits
+ 548              		.align	2
+ 549              		.global	Set_Status_Out
+ 550              		.thumb
+ 551              		.thumb_func
+ 553              	Set_Status_Out:
+ 554              		@ args = 0, pretend = 0, frame = 0
+ 555              		@ frame_needed = 0, uses_anonymous_args = 0
+ 556              		@ link register save eliminated.
+ 557 0000 8000     		lsls	r0, r0, #2	@ D.8139, bEpNum,
+ 558 0002 00F18040 		add	r0, r0, #1073741824	@ D.8140, D.8139,
+ 559 0006 00F5B840 		add	r0, r0, #23552	@ D.8140, D.8140,
+ 560 000a 0368     		ldr	r3, [r0]	@ D.8139, *_4
+ 561 000c 40F60F62 		movw	r2, #3599	@ tmp123,
+ 562 0010 1340     		ands	r3, r3, r2	@, tmp125, D.8139, tmp123
+ 563 0012 43F40143 		orr	r3, r3, #33024	@ D.8139, tmp125,
+ 564 0016 43F08003 		orr	r3, r3, #128	@ D.8139, D.8139,
+ 565 001a 0360     		str	r3, [r0]	@ D.8139, *_4
+ 566 001c 7047     		bx	lr	@
+ 568 001e 00BF     		.section	.text.SetEPDoubleBuff,"ax",%progbits
+ 569              		.align	2
+ 570              		.global	SetEPDoubleBuff
+ 571              		.thumb
+ 572              		.thumb_func
+ 574              	SetEPDoubleBuff:
+ 575              		@ args = 0, pretend = 0, frame = 0
+ 576              		@ frame_needed = 0, uses_anonymous_args = 0
+ 577              		@ link register save eliminated.
+ 578 0000 8000     		lsls	r0, r0, #2	@ D.8145, bEpNum,
+ 579 0002 00F18040 		add	r0, r0, #1073741824	@ D.8146, D.8145,
+ 580 0006 00F5B840 		add	r0, r0, #23552	@ D.8146, D.8146,
+ 581 000a 0368     		ldr	r3, [r0]	@ D.8145, *_4
+ 582 000c 40F60F62 		movw	r2, #3599	@ tmp123,
+ 583 0010 1340     		ands	r3, r3, r2	@, tmp125, D.8145, tmp123
+ 584 0012 43F40143 		orr	r3, r3, #33024	@ D.8145, tmp125,
+ 585 0016 43F08003 		orr	r3, r3, #128	@ D.8145, D.8145,
+ 586 001a 0360     		str	r3, [r0]	@ D.8145, *_4
+ 587 001c 7047     		bx	lr	@
+ 589 001e 00BF     		.section	.text.ClearEPDoubleBuff,"ax",%progbits
+ 590              		.align	2
+ 591              		.global	ClearEPDoubleBuff
+ 592              		.thumb
+ 593              		.thumb_func
+ 595              	ClearEPDoubleBuff:
+ 596              		@ args = 0, pretend = 0, frame = 0
+ 597              		@ frame_needed = 0, uses_anonymous_args = 0
+ 598              		@ link register save eliminated.
+ 599 0000 8000     		lsls	r0, r0, #2	@ D.8151, bEpNum,
+ 600 0002 00F18040 		add	r0, r0, #1073741824	@ D.8152, D.8151,
+ 601 0006 00F5B840 		add	r0, r0, #23552	@ D.8152, D.8152,
+ 602 000a 0368     		ldr	r3, [r0]	@ D.8151, *_4
+ 603 000c 40F60F62 		movw	r2, #3599	@ tmp123,
+ 604 0010 1340     		ands	r3, r3, r2	@, tmp125, D.8151, tmp123
+ 605 0012 43F40043 		orr	r3, r3, #32768	@ D.8151, tmp125,
+ 606 0016 43F08003 		orr	r3, r3, #128	@ D.8151, D.8151,
+ 607 001a 0360     		str	r3, [r0]	@ D.8151, *_4
+ 608 001c 7047     		bx	lr	@
+ 610 001e 00BF     		.section	.text.GetTxStallStatus,"ax",%progbits
+ 611              		.align	2
+ 612              		.global	GetTxStallStatus
+ 613              		.thumb
+ 614              		.thumb_func
+ 616              	GetTxStallStatus:
+ 617              		@ args = 0, pretend = 0, frame = 0
+ 618              		@ frame_needed = 0, uses_anonymous_args = 0
+ 619              		@ link register save eliminated.
+ 620 0000 8000     		lsls	r0, r0, #2	@ D.8157, bEpNum,
+ 621 0002 00F18040 		add	r0, r0, #1073741824	@ D.8158, D.8157,
+ 622 0006 00F5B840 		add	r0, r0, #23552	@ D.8158, D.8158,
+ 623 000a 0068     		ldr	r0, [r0]	@ D.8157, *_4
+ 624 000c 00F03000 		and	r0, r0, #48	@ D.8159, D.8157,
+ 625 0010 B0F11003 		subs	r3, r0, #16	@, D.8159,
+ 626 0014 5842     		rsbs	r0, r3, #0	@,,
+ 627 0016 5841     		adcs	r0, r0, r3	@,,
+ 628 0018 7047     		bx	lr	@
+ 630 001a 00BF     		.section	.text.GetRxStallStatus,"ax",%progbits
+ 631              		.align	2
+ 632              		.global	GetRxStallStatus
+ 633              		.thumb
+ 634              		.thumb_func
+ 636              	GetRxStallStatus:
+ 637              		@ args = 0, pretend = 0, frame = 0
+ 638              		@ frame_needed = 0, uses_anonymous_args = 0
+ 639              		@ link register save eliminated.
+ 640 0000 8000     		lsls	r0, r0, #2	@ D.8164, bEpNum,
+ 641 0002 00F18040 		add	r0, r0, #1073741824	@ D.8165, D.8164,
+ 642 0006 00F5B840 		add	r0, r0, #23552	@ D.8165, D.8165,
+ 643 000a 0068     		ldr	r0, [r0]	@ D.8164, *_4
+ 644 000c 00F44050 		and	r0, r0, #12288	@ D.8166, D.8164,
+ 645 0010 B0F58053 		subs	r3, r0, #4096	@, D.8166,
+ 646 0014 5842     		rsbs	r0, r3, #0	@,,
+ 647 0016 5841     		adcs	r0, r0, r3	@,,
+ 648 0018 7047     		bx	lr	@
+ 650 001a 00BF     		.section	.text.ClearEP_CTR_RX,"ax",%progbits
+ 651              		.align	2
+ 652              		.global	ClearEP_CTR_RX
+ 653              		.thumb
+ 654              		.thumb_func
+ 656              	ClearEP_CTR_RX:
+ 657              		@ args = 0, pretend = 0, frame = 0
+ 658              		@ frame_needed = 0, uses_anonymous_args = 0
+ 659              		@ link register save eliminated.
+ 660 0000 8000     		lsls	r0, r0, #2	@ D.8171, bEpNum,
+ 661 0002 00F18040 		add	r0, r0, #1073741824	@ D.8172, D.8171,
+ 662 0006 00F5B840 		add	r0, r0, #23552	@ D.8172, D.8172,
+ 663 000a 0268     		ldr	r2, [r0]	@ D.8171, *_4
+ 664 000c 40F68F73 		movw	r3, #3983	@ tmp118,
+ 665 0010 1340     		ands	r3, r3, r2	@, D.8171, tmp118, D.8171
+ 666 0012 0360     		str	r3, [r0]	@ D.8171, *_4
+ 667 0014 7047     		bx	lr	@
+ 669 0016 00BF     		.section	.text.ClearEP_CTR_TX,"ax",%progbits
+ 670              		.align	2
+ 671              		.global	ClearEP_CTR_TX
+ 672              		.thumb
+ 673              		.thumb_func
+ 675              	ClearEP_CTR_TX:
+ 676              		@ args = 0, pretend = 0, frame = 0
+ 677              		@ frame_needed = 0, uses_anonymous_args = 0
+ 678              		@ link register save eliminated.
+ 679 0000 8000     		lsls	r0, r0, #2	@ D.8175, bEpNum,
+ 680 0002 00F18040 		add	r0, r0, #1073741824	@ D.8176, D.8175,
+ 681 0006 00F5B840 		add	r0, r0, #23552	@ D.8176, D.8176,
+ 682 000a 0268     		ldr	r2, [r0]	@ D.8175, *_4
+ 683 000c 48F60F73 		movw	r3, #36623	@ tmp118,
+ 684 0010 1340     		ands	r3, r3, r2	@, D.8175, tmp118, D.8175
+ 685 0012 0360     		str	r3, [r0]	@ D.8175, *_4
+ 686 0014 7047     		bx	lr	@
+ 688 0016 00BF     		.section	.text.ToggleDTOG_RX,"ax",%progbits
+ 689              		.align	2
+ 690              		.global	ToggleDTOG_RX
+ 691              		.thumb
+ 692              		.thumb_func
+ 694              	ToggleDTOG_RX:
+ 695              		@ args = 0, pretend = 0, frame = 0
+ 696              		@ frame_needed = 0, uses_anonymous_args = 0
+ 697              		@ link register save eliminated.
+ 698 0000 8000     		lsls	r0, r0, #2	@ D.8179, bEpNum,
+ 699 0002 00F18040 		add	r0, r0, #1073741824	@ D.8180, D.8179,
+ 700 0006 00F5B840 		add	r0, r0, #23552	@ D.8180, D.8180,
+ 701 000a 0268     		ldr	r2, [r0]	@ D.8179, *_5
+ 702 000c 40F60F73 		movw	r3, #3855	@ tmp123,
+ 703 0010 1340     		ands	r3, r3, r2	@, D.8181, tmp123, D.8179
+ 704 0012 43F44043 		orr	r3, r3, #49152	@ D.8179, D.8181,
+ 705 0016 43F08003 		orr	r3, r3, #128	@ D.8179, D.8179,
+ 706 001a 0360     		str	r3, [r0]	@ D.8179, *_5
+ 707 001c 7047     		bx	lr	@
+ 709 001e 00BF     		.section	.text.ToggleDTOG_TX,"ax",%progbits
+ 710              		.align	2
+ 711              		.global	ToggleDTOG_TX
+ 712              		.thumb
+ 713              		.thumb_func
+ 715              	ToggleDTOG_TX:
+ 716              		@ args = 0, pretend = 0, frame = 0
+ 717              		@ frame_needed = 0, uses_anonymous_args = 0
+ 718              		@ link register save eliminated.
+ 719 0000 8000     		lsls	r0, r0, #2	@ D.8184, bEpNum,
+ 720 0002 00F18040 		add	r0, r0, #1073741824	@ D.8185, D.8184,
+ 721 0006 00F5B840 		add	r0, r0, #23552	@ D.8185, D.8185,
+ 722 000a 0268     		ldr	r2, [r0]	@ D.8184, *_5
+ 723 000c 40F60F73 		movw	r3, #3855	@ tmp123,
+ 724 0010 1340     		ands	r3, r3, r2	@, D.8186, tmp123, D.8184
+ 725 0012 43F40043 		orr	r3, r3, #32768	@ D.8184, D.8186,
+ 726 0016 43F0C003 		orr	r3, r3, #192	@ D.8184, D.8184,
+ 727 001a 0360     		str	r3, [r0]	@ D.8184, *_5
+ 728 001c 7047     		bx	lr	@
+ 730 001e 00BF     		.section	.text.ClearDTOG_RX,"ax",%progbits
+ 731              		.align	2
+ 732              		.global	ClearDTOG_RX
+ 733              		.thumb
+ 734              		.thumb_func
+ 736              	ClearDTOG_RX:
+ 737              		@ args = 0, pretend = 0, frame = 0
+ 738              		@ frame_needed = 0, uses_anonymous_args = 0
+ 739              		@ link register save eliminated.
+ 740 0000 8000     		lsls	r0, r0, #2	@ D.8189, bEpNum,
+ 741 0002 00F18040 		add	r0, r0, #1073741824	@ D.8190, D.8189,
+ 742 0006 00F5B840 		add	r0, r0, #23552	@ D.8190, D.8190,
+ 743 000a 0368     		ldr	r3, [r0]	@ D.8189, *_5
+ 744 000c 5B04     		lsls	r3, r3, #17	@, D.8189,
+ 745 000e 08D5     		bpl	.L72	@,
+ 746 0010 0268     		ldr	r2, [r0]	@ D.8189, *_5
+ 747 0012 40F60F73 		movw	r3, #3855	@ D.8191,
+ 748 0016 1340     		ands	r3, r3, r2	@, D.8191, D.8191, D.8189
+ 749 0018 43F44043 		orr	r3, r3, #49152	@ D.8189, D.8191,
+ 750 001c 43F08003 		orr	r3, r3, #128	@ D.8189, D.8189,
+ 751 0020 0360     		str	r3, [r0]	@ D.8189, *_5
+ 752              	.L72:
+ 753 0022 7047     		bx	lr	@
+ 755              		.section	.text.ClearDTOG_TX,"ax",%progbits
+ 756              		.align	2
+ 757              		.global	ClearDTOG_TX
+ 758              		.thumb
+ 759              		.thumb_func
+ 761              	ClearDTOG_TX:
+ 762              		@ args = 0, pretend = 0, frame = 0
+ 763              		@ frame_needed = 0, uses_anonymous_args = 0
+ 764              		@ link register save eliminated.
+ 765 0000 8000     		lsls	r0, r0, #2	@ D.8194, bEpNum,
+ 766 0002 00F18040 		add	r0, r0, #1073741824	@ D.8195, D.8194,
+ 767 0006 00F5B840 		add	r0, r0, #23552	@ D.8195, D.8195,
+ 768 000a 0368     		ldr	r3, [r0]	@ D.8194, *_5
+ 769 000c 5B06     		lsls	r3, r3, #25	@, D.8194,
+ 770 000e 08D5     		bpl	.L77	@,
+ 771 0010 0268     		ldr	r2, [r0]	@ D.8194, *_5
+ 772 0012 40F60F73 		movw	r3, #3855	@ D.8196,
+ 773 0016 1340     		ands	r3, r3, r2	@, D.8196, D.8196, D.8194
+ 774 0018 43F40043 		orr	r3, r3, #32768	@ D.8194, D.8196,
+ 775 001c 43F0C003 		orr	r3, r3, #192	@ D.8194, D.8194,
+ 776 0020 0360     		str	r3, [r0]	@ D.8194, *_5
+ 777              	.L77:
+ 778 0022 7047     		bx	lr	@
+ 780              		.section	.text.SetEPAddress,"ax",%progbits
+ 781              		.align	2
+ 782              		.global	SetEPAddress
+ 783              		.thumb
+ 784              		.thumb_func
+ 786              	SetEPAddress:
+ 787              		@ args = 0, pretend = 0, frame = 0
+ 788              		@ frame_needed = 0, uses_anonymous_args = 0
+ 789              		@ link register save eliminated.
+ 790 0000 8000     		lsls	r0, r0, #2	@ D.8199, bEpNum,
+ 791 0002 00F18040 		add	r0, r0, #1073741824	@ D.8200, D.8199,
+ 792 0006 00F5B840 		add	r0, r0, #23552	@ D.8200, D.8200,
+ 793 000a 0368     		ldr	r3, [r0]	@ D.8199, *_5
+ 794 000c 41F40041 		orr	r1, r1, #32768	@ D.8201, bAddr,
+ 795 0010 40F60F72 		movw	r2, #3855	@ tmp128,
+ 796 0014 41F08001 		orr	r1, r1, #128	@ D.8201, D.8201,
+ 797 0018 1340     		ands	r3, r3, r2	@, D.8201, D.8199, tmp128
+ 798 001a 1943     		orrs	r1, r1, r3	@, D.8199, D.8201, D.8201
+ 799 001c 0160     		str	r1, [r0]	@ D.8199, *_5
+ 800 001e 7047     		bx	lr	@
+ 802              		.section	.text.GetEPAddress,"ax",%progbits
+ 803              		.align	2
+ 804              		.global	GetEPAddress
+ 805              		.thumb
+ 806              		.thumb_func
+ 808              	GetEPAddress:
+ 809              		@ args = 0, pretend = 0, frame = 0
+ 810              		@ frame_needed = 0, uses_anonymous_args = 0
+ 811              		@ link register save eliminated.
+ 812 0000 8000     		lsls	r0, r0, #2	@ D.8204, bEpNum,
+ 813 0002 00F18040 		add	r0, r0, #1073741824	@ D.8205, D.8204,
+ 814 0006 00F5B840 		add	r0, r0, #23552	@ D.8205, D.8205,
+ 815 000a 0068     		ldr	r0, [r0]	@ D.8204, *_4
+ 816 000c 00F00F00 		and	r0, r0, #15	@, D.8204,
+ 817 0010 7047     		bx	lr	@
+ 819 0012 00BF     		.section	.text.SetEPTxAddr,"ax",%progbits
+ 820              		.align	2
+ 821              		.global	SetEPTxAddr
+ 822              		.thumb
+ 823              		.thumb_func
+ 825              	SetEPTxAddr:
+ 826              		@ args = 0, pretend = 0, frame = 0
+ 827              		@ frame_needed = 0, uses_anonymous_args = 0
+ 828              		@ link register save eliminated.
+ 829 0000 064B     		ldr	r3, .L85	@ tmp125,
+ 830 0002 4908     		lsrs	r1, r1, #1	@ D.8211, wAddr,
+ 831 0004 1B68     		ldr	r3, [r3]	@ D.8210, MEM[(volatile unsigned int *)1073765456B]
+ 832 0006 4900     		lsls	r1, r1, #1	@ D.8211, D.8211,
+ 833 0008 9BB2     		uxth	r3, r3	@ D.8210, D.8210
+ 834 000a 03EBC000 		add	r0, r3, r0, lsl #3	@, tmp131, D.8210, bEpNum,
+ 835 000e 00F10050 		add	r0, r0, #536870912	@ tmp132, tmp131,
+ 836 0012 00F54050 		add	r0, r0, #12288	@ tmp132, tmp132,
+ 837 0016 4000     		lsls	r0, r0, #1	@ tmp134, tmp132,
+ 838 0018 0160     		str	r1, [r0]	@ D.8211, *_11
+ 839 001a 7047     		bx	lr	@
+ 840              	.L86:
+ 841              		.align	2
+ 842              	.L85:
+ 843 001c 505C0040 		.word	1073765456
+ 845              		.section	.text.SetEPRxAddr,"ax",%progbits
+ 846              		.align	2
+ 847              		.global	SetEPRxAddr
+ 848              		.thumb
+ 849              		.thumb_func
+ 851              	SetEPRxAddr:
+ 852              		@ args = 0, pretend = 0, frame = 0
+ 853              		@ frame_needed = 0, uses_anonymous_args = 0
+ 854              		@ link register save eliminated.
+ 855 0000 054A     		ldr	r2, .L88	@ tmp125,
+ 856 0002 064B     		ldr	r3, .L88+4	@ tmp132,
+ 857 0004 1268     		ldr	r2, [r2]	@ D.8218, MEM[(volatile unsigned int *)1073765456B]
+ 858 0006 4908     		lsrs	r1, r1, #1	@ D.8219, wAddr,
+ 859 0008 92B2     		uxth	r2, r2	@ D.8218, D.8218
+ 860 000a 02EBC000 		add	r0, r2, r0, lsl #3	@, tmp131, D.8218, bEpNum,
+ 861 000e 0344     		add	r3, r3, r0	@ tmp132, tmp131
+ 862 0010 4900     		lsls	r1, r1, #1	@ D.8219, D.8219,
+ 863 0012 5B00     		lsls	r3, r3, #1	@ tmp134, tmp132,
+ 864 0014 1960     		str	r1, [r3]	@ D.8219, *_11
+ 865 0016 7047     		bx	lr	@
+ 866              	.L89:
+ 867              		.align	2
+ 868              	.L88:
+ 869 0018 505C0040 		.word	1073765456
+ 870 001c 04300020 		.word	536883204
+ 872              		.section	.text.GetEPTxAddr,"ax",%progbits
+ 873              		.align	2
+ 874              		.global	GetEPTxAddr
+ 875              		.thumb
+ 876              		.thumb_func
+ 878              	GetEPTxAddr:
+ 879              		@ args = 0, pretend = 0, frame = 0
+ 880              		@ frame_needed = 0, uses_anonymous_args = 0
+ 881              		@ link register save eliminated.
+ 882 0000 054B     		ldr	r3, .L91	@ tmp123,
+ 883 0002 1B68     		ldr	r3, [r3]	@ D.8226, MEM[(volatile unsigned int *)1073765456B]
+ 884 0004 9BB2     		uxth	r3, r3	@ D.8226, D.8226
+ 885 0006 03EBC000 		add	r0, r3, r0, lsl #3	@, tmp127, D.8226, bEpNum,
+ 886 000a 00F10050 		add	r0, r0, #536870912	@ tmp128, tmp127,
+ 887 000e 00F54050 		add	r0, r0, #12288	@ tmp128, tmp128,
+ 888 0012 4000     		lsls	r0, r0, #1	@ tmp130, tmp128,
+ 889 0014 0088     		ldrh	r0, [r0]	@, *_11
+ 890 0016 7047     		bx	lr	@
+ 891              	.L92:
+ 892              		.align	2
+ 893              	.L91:
+ 894 0018 505C0040 		.word	1073765456
+ 896              		.section	.text.GetEPRxAddr,"ax",%progbits
+ 897              		.align	2
+ 898              		.global	GetEPRxAddr
+ 899              		.thumb
+ 900              		.thumb_func
+ 902              	GetEPRxAddr:
+ 903              		@ args = 0, pretend = 0, frame = 0
+ 904              		@ frame_needed = 0, uses_anonymous_args = 0
+ 905              		@ link register save eliminated.
+ 906 0000 044A     		ldr	r2, .L94	@ tmp123,
+ 907 0002 054B     		ldr	r3, .L94+4	@ tmp128,
+ 908 0004 1268     		ldr	r2, [r2]	@ D.8234, MEM[(volatile unsigned int *)1073765456B]
+ 909 0006 92B2     		uxth	r2, r2	@ D.8234, D.8234
+ 910 0008 02EBC000 		add	r0, r2, r0, lsl #3	@, tmp127, D.8234, bEpNum,
+ 911 000c 0344     		add	r3, r3, r0	@ tmp128, tmp127
+ 912 000e 5B00     		lsls	r3, r3, #1	@ tmp130, tmp128,
+ 913 0010 1888     		ldrh	r0, [r3]	@, *_11
+ 914 0012 7047     		bx	lr	@
+ 915              	.L95:
+ 916              		.align	2
+ 917              	.L94:
+ 918 0014 505C0040 		.word	1073765456
+ 919 0018 04300020 		.word	536883204
+ 921              		.section	.text.SetEPTxCount,"ax",%progbits
+ 922              		.align	2
+ 923              		.global	SetEPTxCount
+ 924              		.thumb
+ 925              		.thumb_func
+ 927              	SetEPTxCount:
+ 928              		@ args = 0, pretend = 0, frame = 0
+ 929              		@ frame_needed = 0, uses_anonymous_args = 0
+ 930              		@ link register save eliminated.
+ 931 0000 044A     		ldr	r2, .L97	@ tmp122,
+ 932 0002 054B     		ldr	r3, .L97+4	@ tmp126,
+ 933 0004 1268     		ldr	r2, [r2]	@ D.8242, MEM[(volatile unsigned int *)1073765456B]
+ 934 0006 92B2     		uxth	r2, r2	@ D.8242, D.8242
+ 935 0008 02EBC000 		add	r0, r2, r0, lsl #3	@, tmp125, D.8242, bEpNum,
+ 936 000c 0344     		add	r3, r3, r0	@ tmp126, tmp125
+ 937 000e 5B00     		lsls	r3, r3, #1	@ tmp128, tmp126,
+ 938 0010 1960     		str	r1, [r3]	@ wCount, *_11
+ 939 0012 7047     		bx	lr	@
+ 940              	.L98:
+ 941              		.align	2
+ 942              	.L97:
+ 943 0014 505C0040 		.word	1073765456
+ 944 0018 02300020 		.word	536883202
+ 946              		.section	.text.SetEPCountRxReg,"ax",%progbits
+ 947              		.align	2
+ 948              		.global	SetEPCountRxReg
+ 949              		.thumb
+ 950              		.thumb_func
+ 952              	SetEPCountRxReg:
+ 953              		@ args = 0, pretend = 0, frame = 0
+ 954              		@ frame_needed = 0, uses_anonymous_args = 0
+ 955              		@ link register save eliminated.
+ 956 0000 3E29     		cmp	r1, #62	@ wCount,
+ 957 0002 0AD9     		bls	.L100	@,
+ 958 0004 4B09     		lsrs	r3, r1, #5	@ wNBlocks, wCount,
+ 959 0006 C906     		lsls	r1, r1, #27	@, wCount,
+ 960 0008 04BF     		itt	eq
+ 961 000a 03F1FF33 		addeq	r3, r3, #-1	@ tmp127, wNBlocks,
+ 962 000e 9BB2     		uxtheq	r3, r3	@ wNBlocks, tmp127
+ 963 0010 9B02     		lsls	r3, r3, #10	@ D.8250, wNBlocks,
+ 964 0012 43F40043 		orr	r3, r3, #32768	@ D.8250, D.8250,
+ 965 0016 0360     		str	r3, [r0]	@ D.8250, *pdwReg_13(D)
+ 966 0018 7047     		bx	lr	@
+ 967              	.L100:
+ 968 001a 4B08     		lsrs	r3, r1, #1	@ wNBlocks, wCount,
+ 969 001c CA07     		lsls	r2, r1, #31	@, wCount,
+ 970 001e 44BF     		itt	mi
+ 971 0020 0133     		addmi	r3, r3, #1	@ tmp134, wNBlocks,
+ 972 0022 9BB2     		uxthmi	r3, r3	@ wNBlocks, tmp134
+ 973 0024 9B02     		lsls	r3, r3, #10	@ D.8250, wNBlocks,
+ 974 0026 0360     		str	r3, [r0]	@ D.8250, *pdwReg_13(D)
+ 975 0028 7047     		bx	lr	@
+ 977 002a 00BF     		.section	.text.SetEPRxCount,"ax",%progbits
+ 978              		.align	2
+ 979              		.global	SetEPRxCount
+ 980              		.thumb
+ 981              		.thumb_func
+ 983              	SetEPRxCount:
+ 984              		@ args = 0, pretend = 0, frame = 0
+ 985              		@ frame_needed = 0, uses_anonymous_args = 0
+ 986              		@ link register save eliminated.
+ 987 0000 0E4A     		ldr	r2, .L115	@ tmp132,
+ 988 0002 0F4B     		ldr	r3, .L115+4	@ D.8256,
+ 989 0004 1268     		ldr	r2, [r2]	@ D.8254, MEM[(volatile unsigned int *)1073765456B]
+ 990 0006 3E29     		cmp	r1, #62	@ wCount,
+ 991 0008 92B2     		uxth	r2, r2	@ D.8254, D.8254
+ 992 000a 02EBC000 		add	r0, r2, r0, lsl #3	@, D.8255, D.8254, bEpNum,
+ 993 000e 0344     		add	r3, r3, r0	@ D.8256, D.8255
+ 994 0010 4FEA4303 		lsl	r3, r3, #1	@ pdwReg, D.8256,
+ 995 0014 0AD9     		bls	.L108	@,
+ 996 0016 4A09     		lsrs	r2, r1, #5	@ wNBlocks, wCount,
+ 997 0018 C806     		lsls	r0, r1, #27	@, wCount,
+ 998 001a 04BF     		itt	eq
+ 999 001c 02F1FF32 		addeq	r2, r2, #-1	@ tmp142, wNBlocks,
+ 1000 0020 92B2     		uxtheq	r2, r2	@ wNBlocks, tmp142
+ 1001 0022 9202     		lsls	r2, r2, #10	@ D.8255, wNBlocks,
+ 1002 0024 42F40042 		orr	r2, r2, #32768	@ D.8255, D.8255,
+ 1003 0028 1A60     		str	r2, [r3]	@ D.8255, *pdwReg_14
+ 1004 002a 7047     		bx	lr	@
+ 1005              	.L108:
+ 1006 002c 4A08     		lsrs	r2, r1, #1	@ wNBlocks, wCount,
+ 1007 002e C907     		lsls	r1, r1, #31	@, wCount,
+ 1008 0030 44BF     		itt	mi
+ 1009 0032 0132     		addmi	r2, r2, #1	@ tmp149, wNBlocks,
+ 1010 0034 92B2     		uxthmi	r2, r2	@ wNBlocks, tmp149
+ 1011 0036 9202     		lsls	r2, r2, #10	@ D.8255, wNBlocks,
+ 1012 0038 1A60     		str	r2, [r3]	@ D.8255, *pdwReg_14
+ 1013 003a 7047     		bx	lr	@
+ 1014              	.L116:
+ 1015              		.align	2
+ 1016              	.L115:
+ 1017 003c 505C0040 		.word	1073765456
+ 1018 0040 06300020 		.word	536883206
+ 1020              		.section	.text.GetEPTxCount,"ax",%progbits
+ 1021              		.align	2
+ 1022              		.global	GetEPTxCount
+ 1023              		.thumb
+ 1024              		.thumb_func
+ 1026              	GetEPTxCount:
+ 1027              		@ args = 0, pretend = 0, frame = 0
+ 1028              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1029              		@ link register save eliminated.
+ 1030 0000 054A     		ldr	r2, .L118	@ tmp124,
+ 1031 0002 064B     		ldr	r3, .L118+4	@ tmp129,
+ 1032 0004 1268     		ldr	r2, [r2]	@ D.8261, MEM[(volatile unsigned int *)1073765456B]
+ 1033 0006 92B2     		uxth	r2, r2	@ D.8261, D.8261
+ 1034 0008 02EBC000 		add	r0, r2, r0, lsl #3	@, tmp128, D.8261, bEpNum,
+ 1035 000c 0344     		add	r3, r3, r0	@ tmp129, tmp128
+ 1036 000e 5B00     		lsls	r3, r3, #1	@ tmp131, tmp129,
+ 1037 0010 1868     		ldr	r0, [r3]	@ *_11, *_11
+ 1038 0012 C0F30900 		ubfx	r0, r0, #0, #10	@, *_11,,
+ 1039 0016 7047     		bx	lr	@
+ 1040              	.L119:
+ 1041              		.align	2
+ 1042              	.L118:
+ 1043 0018 505C0040 		.word	1073765456
+ 1044 001c 02300020 		.word	536883202
+ 1046              		.section	.text.GetEPRxCount,"ax",%progbits
+ 1047              		.align	2
+ 1048              		.global	GetEPRxCount
+ 1049              		.thumb
+ 1050              		.thumb_func
+ 1052              	GetEPRxCount:
+ 1053              		@ args = 0, pretend = 0, frame = 0
+ 1054              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1055              		@ link register save eliminated.
+ 1056 0000 054A     		ldr	r2, .L121	@ tmp124,
+ 1057 0002 064B     		ldr	r3, .L121+4	@ tmp129,
+ 1058 0004 1268     		ldr	r2, [r2]	@ D.8270, MEM[(volatile unsigned int *)1073765456B]
+ 1059 0006 92B2     		uxth	r2, r2	@ D.8270, D.8270
+ 1060 0008 02EBC000 		add	r0, r2, r0, lsl #3	@, tmp128, D.8270, bEpNum,
+ 1061 000c 0344     		add	r3, r3, r0	@ tmp129, tmp128
+ 1062 000e 5B00     		lsls	r3, r3, #1	@ tmp131, tmp129,
+ 1063 0010 1868     		ldr	r0, [r3]	@ *_11, *_11
+ 1064 0012 C0F30900 		ubfx	r0, r0, #0, #10	@, *_11,,
+ 1065 0016 7047     		bx	lr	@
+ 1066              	.L122:
+ 1067              		.align	2
+ 1068              	.L121:
+ 1069 0018 505C0040 		.word	1073765456
+ 1070 001c 06300020 		.word	536883206
+ 1072              		.section	.text.SetEPDblBuffAddr,"ax",%progbits
+ 1073              		.align	2
+ 1074              		.global	SetEPDblBuffAddr
+ 1075              		.thumb
+ 1076              		.thumb_func
+ 1078              	SetEPDblBuffAddr:
+ 1079              		@ args = 0, pretend = 0, frame = 0
+ 1080              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1081              		@ link register save eliminated.
+ 1082 0000 0C4B     		ldr	r3, .L124	@ tmp137,
+ 1083 0002 30B4     		push	{r4, r5}	@
+ 1084 0004 1C68     		ldr	r4, [r3]	@ D.8279, MEM[(volatile unsigned int *)1073765456B]
+ 1085 0006 1D68     		ldr	r5, [r3]	@ D.8279, MEM[(volatile unsigned int *)1073765456B]
+ 1086 0008 C000     		lsls	r0, r0, #3	@ D.8280, bEpNum,
+ 1087 000a A4B2     		uxth	r4, r4	@ D.8279, D.8279
+ 1088 000c 0444     		add	r4, r4, r0	@ tmp142, D.8280
+ 1089 000e ADB2     		uxth	r5, r5	@ D.8279, D.8279
+ 1090 0010 094B     		ldr	r3, .L124+4	@ tmp152,
+ 1091 0012 2844     		add	r0, r0, r5	@ tmp151, D.8279
+ 1092 0014 04F10054 		add	r4, r4, #536870912	@ tmp143, tmp142,
+ 1093 0018 4908     		lsrs	r1, r1, #1	@ D.8280, wBuf0Addr,
+ 1094 001a 5208     		lsrs	r2, r2, #1	@ D.8280, wBuf1Addr,
+ 1095 001c 04F54054 		add	r4, r4, #12288	@ tmp143, tmp143,
+ 1096 0020 0344     		add	r3, r3, r0	@ tmp152, tmp151
+ 1097 0022 6400     		lsls	r4, r4, #1	@ tmp145, tmp143,
+ 1098 0024 4900     		lsls	r1, r1, #1	@ D.8280, D.8280,
+ 1099 0026 5200     		lsls	r2, r2, #1	@ D.8280, D.8280,
+ 1100 0028 5B00     		lsls	r3, r3, #1	@ tmp154, tmp152,
+ 1101 002a 2160     		str	r1, [r4]	@ D.8280, *_11
+ 1102 002c 1A60     		str	r2, [r3]	@ D.8280, *_24
+ 1103 002e 30BC     		pop	{r4, r5}	@
+ 1104 0030 7047     		bx	lr	@
+ 1105              	.L125:
+ 1106 0032 00BF     		.align	2
+ 1107              	.L124:
+ 1108 0034 505C0040 		.word	1073765456
+ 1109 0038 04300020 		.word	536883204
+ 1111              		.section	.text.SetEPDblBuf0Addr,"ax",%progbits
+ 1112              		.align	2
+ 1113              		.global	SetEPDblBuf0Addr
+ 1114              		.thumb
+ 1115              		.thumb_func
+ 1117              	SetEPDblBuf0Addr:
+ 1118              		@ args = 0, pretend = 0, frame = 0
+ 1119              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1120              		@ link register save eliminated.
+ 1121 0000 064B     		ldr	r3, .L127	@ tmp125,
+ 1122 0002 4908     		lsrs	r1, r1, #1	@ D.8288, wBuf0Addr,
+ 1123 0004 1B68     		ldr	r3, [r3]	@ D.8287, MEM[(volatile unsigned int *)1073765456B]
+ 1124 0006 4900     		lsls	r1, r1, #1	@ D.8288, D.8288,
+ 1125 0008 9BB2     		uxth	r3, r3	@ D.8287, D.8287
+ 1126 000a 03EBC000 		add	r0, r3, r0, lsl #3	@, tmp131, D.8287, bEpNum,
+ 1127 000e 00F10050 		add	r0, r0, #536870912	@ tmp132, tmp131,
+ 1128 0012 00F54050 		add	r0, r0, #12288	@ tmp132, tmp132,
+ 1129 0016 4000     		lsls	r0, r0, #1	@ tmp134, tmp132,
+ 1130 0018 0160     		str	r1, [r0]	@ D.8288, *_11
+ 1131 001a 7047     		bx	lr	@
+ 1132              	.L128:
+ 1133              		.align	2
+ 1134              	.L127:
+ 1135 001c 505C0040 		.word	1073765456
+ 1137              		.section	.text.SetEPDblBuf1Addr,"ax",%progbits
+ 1138              		.align	2
+ 1139              		.global	SetEPDblBuf1Addr
+ 1140              		.thumb
+ 1141              		.thumb_func
+ 1143              	SetEPDblBuf1Addr:
+ 1144              		@ args = 0, pretend = 0, frame = 0
+ 1145              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1146              		@ link register save eliminated.
+ 1147 0000 054A     		ldr	r2, .L130	@ tmp125,
+ 1148 0002 064B     		ldr	r3, .L130+4	@ tmp132,
+ 1149 0004 1268     		ldr	r2, [r2]	@ D.8295, MEM[(volatile unsigned int *)1073765456B]
+ 1150 0006 4908     		lsrs	r1, r1, #1	@ D.8296, wBuf1Addr,
+ 1151 0008 92B2     		uxth	r2, r2	@ D.8295, D.8295
+ 1152 000a 02EBC000 		add	r0, r2, r0, lsl #3	@, tmp131, D.8295, bEpNum,
+ 1153 000e 0344     		add	r3, r3, r0	@ tmp132, tmp131
+ 1154 0010 4900     		lsls	r1, r1, #1	@ D.8296, D.8296,
+ 1155 0012 5B00     		lsls	r3, r3, #1	@ tmp134, tmp132,
+ 1156 0014 1960     		str	r1, [r3]	@ D.8296, *_11
+ 1157 0016 7047     		bx	lr	@
+ 1158              	.L131:
+ 1159              		.align	2
+ 1160              	.L130:
+ 1161 0018 505C0040 		.word	1073765456
+ 1162 001c 04300020 		.word	536883204
+ 1164              		.section	.text.GetEPDblBuf0Addr,"ax",%progbits
+ 1165              		.align	2
+ 1166              		.global	GetEPDblBuf0Addr
+ 1167              		.thumb
+ 1168              		.thumb_func
+ 1170              	GetEPDblBuf0Addr:
+ 1171              		@ args = 0, pretend = 0, frame = 0
+ 1172              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1173              		@ link register save eliminated.
+ 1174 0000 054B     		ldr	r3, .L133	@ tmp123,
+ 1175 0002 1B68     		ldr	r3, [r3]	@ D.8303, MEM[(volatile unsigned int *)1073765456B]
+ 1176 0004 9BB2     		uxth	r3, r3	@ D.8303, D.8303
+ 1177 0006 03EBC000 		add	r0, r3, r0, lsl #3	@, tmp127, D.8303, bEpNum,
+ 1178 000a 00F10050 		add	r0, r0, #536870912	@ tmp128, tmp127,
+ 1179 000e 00F54050 		add	r0, r0, #12288	@ tmp128, tmp128,
+ 1180 0012 4000     		lsls	r0, r0, #1	@ tmp130, tmp128,
+ 1181 0014 0088     		ldrh	r0, [r0]	@, *_11
+ 1182 0016 7047     		bx	lr	@
+ 1183              	.L134:
+ 1184              		.align	2
+ 1185              	.L133:
+ 1186 0018 505C0040 		.word	1073765456
+ 1188              		.section	.text.GetEPDblBuf1Addr,"ax",%progbits
+ 1189              		.align	2
+ 1190              		.global	GetEPDblBuf1Addr
+ 1191              		.thumb
+ 1192              		.thumb_func
+ 1194              	GetEPDblBuf1Addr:
+ 1195              		@ args = 0, pretend = 0, frame = 0
+ 1196              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1197              		@ link register save eliminated.
+ 1198 0000 044A     		ldr	r2, .L136	@ tmp123,
+ 1199 0002 054B     		ldr	r3, .L136+4	@ tmp128,
+ 1200 0004 1268     		ldr	r2, [r2]	@ D.8311, MEM[(volatile unsigned int *)1073765456B]
+ 1201 0006 92B2     		uxth	r2, r2	@ D.8311, D.8311
+ 1202 0008 02EBC000 		add	r0, r2, r0, lsl #3	@, tmp127, D.8311, bEpNum,
+ 1203 000c 0344     		add	r3, r3, r0	@ tmp128, tmp127
+ 1204 000e 5B00     		lsls	r3, r3, #1	@ tmp130, tmp128,
+ 1205 0010 1888     		ldrh	r0, [r3]	@, *_11
+ 1206 0012 7047     		bx	lr	@
+ 1207              	.L137:
+ 1208              		.align	2
+ 1209              	.L136:
+ 1210 0014 505C0040 		.word	1073765456
+ 1211 0018 04300020 		.word	536883204
+ 1213              		.section	.text.SetEPDblBuffCount,"ax",%progbits
+ 1214              		.align	2
+ 1215              		.global	SetEPDblBuffCount
+ 1216              		.thumb
+ 1217              		.thumb_func
+ 1219              	SetEPDblBuffCount:
+ 1220              		@ args = 0, pretend = 0, frame = 0
+ 1221              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1222              		@ link register save eliminated.
+ 1223 0000 0129     		cmp	r1, #1	@ bDir,
+ 1224 0002 30B4     		push	{r4, r5}	@
+ 1225 0004 03D0     		beq	.L147	@,
+ 1226 0006 0229     		cmp	r1, #2	@ bDir,
+ 1227 0008 20D0     		beq	.L148	@,
+ 1228 000a 30BC     		pop	{r4, r5}	@
+ 1229 000c 7047     		bx	lr	@
+ 1230              	.L147:
+ 1231 000e 2749     		ldr	r1, .L149	@ tmp190,
+ 1232 0010 C000     		lsls	r0, r0, #3	@ D.8319, bEpNum,
+ 1233 0012 0C68     		ldr	r4, [r1]	@ D.8320, MEM[(volatile unsigned int *)1073765456B]
+ 1234 0014 264B     		ldr	r3, .L149+4	@ D.8321,
+ 1235 0016 A4B2     		uxth	r4, r4	@ D.8320, D.8320
+ 1236 0018 0444     		add	r4, r4, r0	@ D.8319, D.8319
+ 1237 001a 2344     		add	r3, r3, r4	@ D.8321, D.8319
+ 1238 001c 3E2A     		cmp	r2, #62	@ wCount,
+ 1239 001e 4FEA4303 		lsl	r3, r3, #1	@ pdwReg, D.8321,
+ 1240 0022 28D9     		bls	.L140	@,
+ 1241 0024 5409     		lsrs	r4, r2, #5	@ wNBlocks, wCount,
+ 1242 0026 D206     		lsls	r2, r2, #27	@, wCount,
+ 1243 0028 3AD1     		bne	.L141	@,
+ 1244 002a 0D68     		ldr	r5, [r1]	@ D.8320, MEM[(volatile unsigned int *)1073765456B]
+ 1245 002c 013C     		subs	r4, r4, #1	@ tmp199, wNBlocks,
+ 1246 002e ADB2     		uxth	r5, r5	@ D.8320, D.8320
+ 1247 0030 2049     		ldr	r1, .L149+8	@ D.8321,
+ 1248 0032 A4B2     		uxth	r4, r4	@ wNBlocks, tmp199
+ 1249 0034 2844     		add	r0, r0, r5	@ D.8319, D.8320
+ 1250              	.L146:
+ 1251 0036 A202     		lsls	r2, r4, #10	@ D.8319, wNBlocks,
+ 1252 0038 0144     		add	r1, r1, r0	@ D.8321, D.8319
+ 1253 003a 4900     		lsls	r1, r1, #1	@ pdwReg, D.8321,
+ 1254 003c 42F40040 		orr	r0, r2, #32768	@ D.8319, D.8319,
+ 1255 0040 42F40042 		orr	r2, r2, #32768	@ D.8319, D.8319,
+ 1256 0044 1860     		str	r0, [r3]	@ D.8319, *pdwReg_18
+ 1257 0046 30BC     		pop	{r4, r5}	@
+ 1258 0048 0A60     		str	r2, [r1]	@ D.8319, *pdwReg_131
+ 1259 004a 7047     		bx	lr	@
+ 1260              	.L148:
+ 1261 004c 174B     		ldr	r3, .L149	@ tmp218,
+ 1262 004e C000     		lsls	r0, r0, #3	@ D.8319, bEpNum,
+ 1263 0050 1C68     		ldr	r4, [r3]	@ D.8320, MEM[(volatile unsigned int *)1073765456B]
+ 1264 0052 1D68     		ldr	r5, [r3]	@ D.8320, MEM[(volatile unsigned int *)1073765456B]
+ 1265 0054 A4B2     		uxth	r4, r4	@ D.8320, D.8320
+ 1266 0056 ADB2     		uxth	r5, r5	@ D.8320, D.8320
+ 1267 0058 01F10051 		add	r1, r1, #536870912	@ tmp221, tmp221,
+ 1268 005c 154B     		ldr	r3, .L149+8	@ tmp227,
+ 1269 005e 0444     		add	r4, r4, r0	@ tmp220, D.8319
+ 1270 0060 01F54051 		add	r1, r1, #12288	@ tmp221, tmp221,
+ 1271 0064 2844     		add	r0, r0, r5	@ tmp226, D.8320
+ 1272 0066 2144     		add	r1, r1, r4	@ tmp221, tmp220
+ 1273 0068 0344     		add	r3, r3, r0	@ tmp227, tmp226
+ 1274 006a 4900     		lsls	r1, r1, #1	@ tmp223, tmp221,
+ 1275 006c 5B00     		lsls	r3, r3, #1	@ tmp229, tmp227,
+ 1276 006e 0A60     		str	r2, [r1]	@ wCount, *_43
+ 1277 0070 30BC     		pop	{r4, r5}	@
+ 1278 0072 1A60     		str	r2, [r3]	@ wCount,
+ 1279 0074 7047     		bx	lr	@
+ 1280              	.L140:
+ 1281 0076 5408     		lsrs	r4, r2, #1	@ wNBlocks, wCount,
+ 1282 0078 12F0010F 		tst	r2, #1	@ wCount,
+ 1283 007c 0A68     		ldr	r2, [r1]	@ D.8320,
+ 1284 007e 0D49     		ldr	r1, .L149+8	@ D.8321,
+ 1285 0080 92B2     		uxth	r2, r2	@ D.8320, D.8320
+ 1286 0082 1044     		add	r0, r0, r2	@ D.8319, D.8320
+ 1287 0084 07D0     		beq	.L143	@,
+ 1288 0086 621C     		adds	r2, r4, #1	@ tmp211, wNBlocks,
+ 1289 0088 9202     		lsls	r2, r2, #10	@ D.8319, tmp211,
+ 1290 008a 0144     		add	r1, r1, r0	@ D.8321, D.8319
+ 1291 008c 1A60     		str	r2, [r3]	@ D.8319, *pdwReg_18
+ 1292 008e 4B00     		lsls	r3, r1, #1	@ pdwReg, D.8321,
+ 1293              	.L144:
+ 1294 0090 1A60     		str	r2, [r3]	@ D.8319,* pdwReg
+ 1295 0092 30BC     		pop	{r4, r5}	@
+ 1296 0094 7047     		bx	lr	@
+ 1297              	.L143:
+ 1298 0096 A202     		lsls	r2, r4, #10	@ D.8319, wNBlocks,
+ 1299 0098 0144     		add	r1, r1, r0	@ D.8321, D.8319
+ 1300 009a 1A60     		str	r2, [r3]	@ D.8319, *pdwReg_18
+ 1301 009c 4B00     		lsls	r3, r1, #1	@ pdwReg, D.8321,
+ 1302 009e F7E7     		b	.L144	@
+ 1303              	.L141:
+ 1304 00a0 0A68     		ldr	r2, [r1]	@ D.8320, MEM[(volatile unsigned int *)1073765456B]
+ 1305 00a2 0449     		ldr	r1, .L149+8	@ D.8321,
+ 1306 00a4 92B2     		uxth	r2, r2	@ D.8320, D.8320
+ 1307 00a6 1044     		add	r0, r0, r2	@ D.8319, D.8320
+ 1308 00a8 C5E7     		b	.L146	@
+ 1309              	.L150:
+ 1310 00aa 00BF     		.align	2
+ 1311              	.L149:
+ 1312 00ac 505C0040 		.word	1073765456
+ 1313 00b0 02300020 		.word	536883202
+ 1314 00b4 06300020 		.word	536883206
+ 1316              		.section	.text.SetEPDblBuf0Count,"ax",%progbits
+ 1317              		.align	2
+ 1318              		.global	SetEPDblBuf0Count
+ 1319              		.thumb
+ 1320              		.thumb_func
+ 1322              	SetEPDblBuf0Count:
+ 1323              		@ args = 0, pretend = 0, frame = 0
+ 1324              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1325              		@ link register save eliminated.
+ 1326 0000 0129     		cmp	r1, #1	@ bDir,
+ 1327 0002 0CD0     		beq	.L160	@,
+ 1328 0004 0229     		cmp	r1, #2	@ bDir,
+ 1329 0006 00D0     		beq	.L161	@,
+ 1330 0008 7047     		bx	lr	@
+ 1331              	.L161:
+ 1332 000a 1449     		ldr	r1, .L162	@ tmp162,
+ 1333 000c 144B     		ldr	r3, .L162+4	@ tmp166,
+ 1334 000e 0968     		ldr	r1, [r1]	@ D.8328, MEM[(volatile unsigned int *)1073765456B]
+ 1335 0010 89B2     		uxth	r1, r1	@ D.8328, D.8328
+ 1336 0012 01EBC000 		add	r0, r1, r0, lsl #3	@, tmp165, D.8328, bEpNum,
+ 1337 0016 0344     		add	r3, r3, r0	@ tmp166, tmp165
+ 1338 0018 5B00     		lsls	r3, r3, #1	@ tmp168, tmp166,
+ 1339 001a 1A60     		str	r2, [r3]	@ wCount, *_40
+ 1340 001c 7047     		bx	lr	@
+ 1341              	.L160:
+ 1342 001e 0F49     		ldr	r1, .L162	@ tmp143,
+ 1343 0020 0F4B     		ldr	r3, .L162+4	@ D.8330,
+ 1344 0022 0968     		ldr	r1, [r1]	@ D.8328, MEM[(volatile unsigned int *)1073765456B]
+ 1345 0024 3E2A     		cmp	r2, #62	@ wCount,
+ 1346 0026 89B2     		uxth	r1, r1	@ D.8328, D.8328
+ 1347 0028 01EBC000 		add	r0, r1, r0, lsl #3	@, D.8329, D.8328, bEpNum,
+ 1348 002c 0344     		add	r3, r3, r0	@ D.8330, D.8329
+ 1349 002e 4FEA4303 		lsl	r3, r3, #1	@ pdwReg, D.8330,
+ 1350 0032 0AD9     		bls	.L153	@,
+ 1351 0034 5109     		lsrs	r1, r2, #5	@ wNBlocks, wCount,
+ 1352 0036 D006     		lsls	r0, r2, #27	@, wCount,
+ 1353 0038 04BF     		itt	eq
+ 1354 003a 01F1FF31 		addeq	r1, r1, #-1	@ tmp153, wNBlocks,
+ 1355 003e 89B2     		uxtheq	r1, r1	@ wNBlocks, tmp153
+ 1356 0040 8902     		lsls	r1, r1, #10	@ D.8329, wNBlocks,
+ 1357 0042 41F40041 		orr	r1, r1, #32768	@ D.8329, D.8329,
+ 1358 0046 1960     		str	r1, [r3]	@ D.8329, *pdwReg_15
+ 1359 0048 7047     		bx	lr	@
+ 1360              	.L153:
+ 1361 004a 5108     		lsrs	r1, r2, #1	@ wNBlocks, wCount,
+ 1362 004c D207     		lsls	r2, r2, #31	@, wCount,
+ 1363 004e 44BF     		itt	mi
+ 1364 0050 0131     		addmi	r1, r1, #1	@ tmp160, wNBlocks,
+ 1365 0052 89B2     		uxthmi	r1, r1	@ wNBlocks, tmp160
+ 1366 0054 8902     		lsls	r1, r1, #10	@ D.8329, wNBlocks,
+ 1367 0056 1960     		str	r1, [r3]	@ D.8329, *pdwReg_15
+ 1368 0058 7047     		bx	lr	@
+ 1369              	.L163:
+ 1370 005a 00BF     		.align	2
+ 1371              	.L162:
+ 1372 005c 505C0040 		.word	1073765456
+ 1373 0060 02300020 		.word	536883202
+ 1375              		.section	.text.SetEPDblBuf1Count,"ax",%progbits
+ 1376              		.align	2
+ 1377              		.global	SetEPDblBuf1Count
+ 1378              		.thumb
+ 1379              		.thumb_func
+ 1381              	SetEPDblBuf1Count:
+ 1382              		@ args = 0, pretend = 0, frame = 0
+ 1383              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1384              		@ link register save eliminated.
+ 1385 0000 0129     		cmp	r1, #1	@ bDir,
+ 1386 0002 0CD0     		beq	.L173	@,
+ 1387 0004 0229     		cmp	r1, #2	@ bDir,
+ 1388 0006 00D0     		beq	.L174	@,
+ 1389 0008 7047     		bx	lr	@
+ 1390              	.L174:
+ 1391 000a 1449     		ldr	r1, .L175	@ tmp162,
+ 1392 000c 144B     		ldr	r3, .L175+4	@ tmp166,
+ 1393 000e 0968     		ldr	r1, [r1]	@ D.8336, MEM[(volatile unsigned int *)1073765456B]
+ 1394 0010 89B2     		uxth	r1, r1	@ D.8336, D.8336
+ 1395 0012 01EBC000 		add	r0, r1, r0, lsl #3	@, tmp165, D.8336, bEpNum,
+ 1396 0016 0344     		add	r3, r3, r0	@ tmp166, tmp165
+ 1397 0018 5B00     		lsls	r3, r3, #1	@ tmp168, tmp166,
+ 1398 001a 1A60     		str	r2, [r3]	@ wCount, *_40
+ 1399 001c 7047     		bx	lr	@
+ 1400              	.L173:
+ 1401 001e 0F49     		ldr	r1, .L175	@ tmp143,
+ 1402 0020 0F4B     		ldr	r3, .L175+4	@ D.8338,
+ 1403 0022 0968     		ldr	r1, [r1]	@ D.8336, MEM[(volatile unsigned int *)1073765456B]
+ 1404 0024 3E2A     		cmp	r2, #62	@ wCount,
+ 1405 0026 89B2     		uxth	r1, r1	@ D.8336, D.8336
+ 1406 0028 01EBC000 		add	r0, r1, r0, lsl #3	@, D.8337, D.8336, bEpNum,
+ 1407 002c 0344     		add	r3, r3, r0	@ D.8338, D.8337
+ 1408 002e 4FEA4303 		lsl	r3, r3, #1	@ pdwReg, D.8338,
+ 1409 0032 0AD9     		bls	.L166	@,
+ 1410 0034 5109     		lsrs	r1, r2, #5	@ wNBlocks, wCount,
+ 1411 0036 D006     		lsls	r0, r2, #27	@, wCount,
+ 1412 0038 04BF     		itt	eq
+ 1413 003a 01F1FF31 		addeq	r1, r1, #-1	@ tmp153, wNBlocks,
+ 1414 003e 89B2     		uxtheq	r1, r1	@ wNBlocks, tmp153
+ 1415 0040 8902     		lsls	r1, r1, #10	@ D.8337, wNBlocks,
+ 1416 0042 41F40041 		orr	r1, r1, #32768	@ D.8337, D.8337,
+ 1417 0046 1960     		str	r1, [r3]	@ D.8337, *pdwReg_15
+ 1418 0048 7047     		bx	lr	@
+ 1419              	.L166:
+ 1420 004a 5108     		lsrs	r1, r2, #1	@ wNBlocks, wCount,
+ 1421 004c D207     		lsls	r2, r2, #31	@, wCount,
+ 1422 004e 44BF     		itt	mi
+ 1423 0050 0131     		addmi	r1, r1, #1	@ tmp160, wNBlocks,
+ 1424 0052 89B2     		uxthmi	r1, r1	@ wNBlocks, tmp160
+ 1425 0054 8902     		lsls	r1, r1, #10	@ D.8337, wNBlocks,
+ 1426 0056 1960     		str	r1, [r3]	@ D.8337, *pdwReg_15
+ 1427 0058 7047     		bx	lr	@
+ 1428              	.L176:
+ 1429 005a 00BF     		.align	2
+ 1430              	.L175:
+ 1431 005c 505C0040 		.word	1073765456
+ 1432 0060 06300020 		.word	536883206
+ 1434              		.section	.text.GetEPDblBuf0Count,"ax",%progbits
+ 1435              		.align	2
+ 1436              		.global	GetEPDblBuf0Count
+ 1437              		.thumb
+ 1438              		.thumb_func
+ 1440              	GetEPDblBuf0Count:
+ 1441              		@ args = 0, pretend = 0, frame = 0
+ 1442              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1443              		@ link register save eliminated.
+ 1444 0000 054A     		ldr	r2, .L178	@ tmp124,
+ 1445 0002 064B     		ldr	r3, .L178+4	@ tmp129,
+ 1446 0004 1268     		ldr	r2, [r2]	@ D.8343, MEM[(volatile unsigned int *)1073765456B]
+ 1447 0006 92B2     		uxth	r2, r2	@ D.8343, D.8343
+ 1448 0008 02EBC000 		add	r0, r2, r0, lsl #3	@, tmp128, D.8343, bEpNum,
+ 1449 000c 0344     		add	r3, r3, r0	@ tmp129, tmp128
+ 1450 000e 5B00     		lsls	r3, r3, #1	@ tmp131, tmp129,
+ 1451 0010 1868     		ldr	r0, [r3]	@ *_11, *_11
+ 1452 0012 C0F30900 		ubfx	r0, r0, #0, #10	@, *_11,,
+ 1453 0016 7047     		bx	lr	@
+ 1454              	.L179:
+ 1455              		.align	2
+ 1456              	.L178:
+ 1457 0018 505C0040 		.word	1073765456
+ 1458 001c 02300020 		.word	536883202
+ 1460              		.section	.text.GetEPDblBuf1Count,"ax",%progbits
+ 1461              		.align	2
+ 1462              		.global	GetEPDblBuf1Count
+ 1463              		.thumb
+ 1464              		.thumb_func
+ 1466              	GetEPDblBuf1Count:
+ 1467              		@ args = 0, pretend = 0, frame = 0
+ 1468              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1469              		@ link register save eliminated.
+ 1470 0000 054A     		ldr	r2, .L181	@ tmp124,
+ 1471 0002 064B     		ldr	r3, .L181+4	@ tmp129,
+ 1472 0004 1268     		ldr	r2, [r2]	@ D.8352, MEM[(volatile unsigned int *)1073765456B]
+ 1473 0006 92B2     		uxth	r2, r2	@ D.8352, D.8352
+ 1474 0008 02EBC000 		add	r0, r2, r0, lsl #3	@, tmp128, D.8352, bEpNum,
+ 1475 000c 0344     		add	r3, r3, r0	@ tmp129, tmp128
+ 1476 000e 5B00     		lsls	r3, r3, #1	@ tmp131, tmp129,
+ 1477 0010 1868     		ldr	r0, [r3]	@ *_11, *_11
+ 1478 0012 C0F30900 		ubfx	r0, r0, #0, #10	@, *_11,,
+ 1479 0016 7047     		bx	lr	@
+ 1480              	.L182:
+ 1481              		.align	2
+ 1482              	.L181:
+ 1483 0018 505C0040 		.word	1073765456
+ 1484 001c 06300020 		.word	536883206
+ 1486              		.section	.text.GetEPDblBufDir,"ax",%progbits
+ 1487              		.align	2
+ 1488              		.global	GetEPDblBufDir
+ 1489              		.thumb
+ 1490              		.thumb_func
+ 1492              	GetEPDblBufDir:
+ 1493              		@ args = 0, pretend = 0, frame = 0
+ 1494              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1495              		@ link register save eliminated.
+ 1496 0000 0D4A     		ldr	r2, .L187	@ tmp137,
+ 1497 0002 C000     		lsls	r0, r0, #3	@ D.8364, bEpNum,
+ 1498 0004 1168     		ldr	r1, [r2]	@ D.8363, MEM[(volatile unsigned int *)1073765456B]
+ 1499 0006 0D4B     		ldr	r3, .L187+4	@ tmp140,
+ 1500 0008 89B2     		uxth	r1, r1	@ D.8363, D.8363
+ 1501 000a 0144     		add	r1, r1, r0	@ tmp139, D.8364
+ 1502 000c 0B44     		add	r3, r3, r1	@ tmp140, tmp139
+ 1503 000e 5B00     		lsls	r3, r3, #1	@ tmp142, tmp140,
+ 1504 0010 1B88     		ldrh	r3, [r3]	@ D.8362, *_12
+ 1505 0012 13F47C4F 		tst	r3, #64512	@ D.8362,
+ 1506 0016 0DD1     		bne	.L185	@,
+ 1507 0018 1268     		ldr	r2, [r2]	@ D.8363, MEM[(volatile unsigned int *)1073765456B]
+ 1508 001a 094B     		ldr	r3, .L187+8	@ tmp149,
+ 1509 001c 92B2     		uxth	r2, r2	@ D.8363, D.8363
+ 1510 001e 1044     		add	r0, r0, r2	@ tmp148, D.8363
+ 1511 0020 0344     		add	r3, r3, r0	@ tmp149, tmp148
+ 1512 0022 5B00     		lsls	r3, r3, #1	@ tmp151, tmp149,
+ 1513 0024 1B88     		ldrh	r3, [r3]	@ D.8362, *_22
+ 1514 0026 C3F30903 		ubfx	r3, r3, #0, #10	@ D.8364, D.8362,,
+ 1515 002a 002B     		cmp	r3, #0	@ D.8364,
+ 1516 002c 0CBF     		ite	eq	@
+ 1517 002e 0020     		moveq	r0, #0	@, D.8361,
+ 1518 0030 0220     		movne	r0, #2	@, D.8361,
+ 1519 0032 7047     		bx	lr	@
+ 1520              	.L185:
+ 1521 0034 0120     		movs	r0, #1	@ D.8361,
+ 1522 0036 7047     		bx	lr	@
+ 1523              	.L188:
+ 1524              		.align	2
+ 1525              	.L187:
+ 1526 0038 505C0040 		.word	1073765456
+ 1527 003c 06300020 		.word	536883206
+ 1528 0040 02300020 		.word	536883202
+ 1530              		.section	.text.FreeUserBuffer,"ax",%progbits
+ 1531              		.align	2
+ 1532              		.global	FreeUserBuffer
+ 1533              		.thumb
+ 1534              		.thumb_func
+ 1536              	FreeUserBuffer:
+ 1537              		@ args = 0, pretend = 0, frame = 0
+ 1538              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1539              		@ link register save eliminated.
+ 1540 0000 0129     		cmp	r1, #1	@ bDir,
+ 1541 0002 11D0     		beq	.L192	@,
+ 1542 0004 0229     		cmp	r1, #2	@ bDir,
+ 1543 0006 00D0     		beq	.L193	@,
+ 1544 0008 7047     		bx	lr	@
+ 1545              	.L193:
+ 1546 000a 8000     		lsls	r0, r0, #2	@ D.8369, bEpNum,
+ 1547 000c 00F18040 		add	r0, r0, #1073741824	@ D.8370, D.8369,
+ 1548 0010 00F5B840 		add	r0, r0, #23552	@ D.8370, D.8370,
+ 1549 0014 0268     		ldr	r2, [r0]	@ D.8369, *_18
+ 1550 0016 40F60F73 		movw	r3, #3855	@ D.8371,
+ 1551 001a 1340     		ands	r3, r3, r2	@, D.8371, D.8371, D.8369
+ 1552 001c 43F44043 		orr	r3, r3, #49152	@ D.8369, D.8371,
+ 1553 0020 43F08003 		orr	r3, r3, #128	@ D.8369, D.8369,
+ 1554 0024 0360     		str	r3, [r0]	@ D.8369,* D.8370
+ 1555 0026 7047     		bx	lr	@
+ 1556              	.L192:
+ 1557 0028 8000     		lsls	r0, r0, #2	@ D.8369, bEpNum,
+ 1558 002a 00F18040 		add	r0, r0, #1073741824	@ D.8370, D.8369,
+ 1559 002e 00F5B840 		add	r0, r0, #23552	@ D.8370, D.8370,
+ 1560 0032 0268     		ldr	r2, [r0]	@ D.8369, *_6
+ 1561 0034 40F60F73 		movw	r3, #3855	@ D.8371,
+ 1562 0038 1340     		ands	r3, r3, r2	@, D.8371, D.8371, D.8369
+ 1563 003a 43F40043 		orr	r3, r3, #32768	@ D.8369, D.8371,
+ 1564 003e 43F0C003 		orr	r3, r3, #192	@ D.8369, D.8369,
+ 1565 0042 0360     		str	r3, [r0]	@ D.8369,* D.8370
+ 1566 0044 7047     		bx	lr	@
+ 1568 0046 00BF     		.section	.text.ToWord,"ax",%progbits
+ 1569              		.align	2
+ 1570              		.global	ToWord
+ 1571              		.thumb
+ 1572              		.thumb_func
+ 1574              	ToWord:
+ 1575              		@ args = 0, pretend = 0, frame = 0
+ 1576              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1577              		@ link register save eliminated.
+ 1578 0000 41EA0020 		orr	r0, r1, r0, lsl #8	@,, bl, bh,
+ 1579 0004 7047     		bx	lr	@
+ 1581 0006 00BF     		.section	.text.ByteSwap,"ax",%progbits
+ 1582              		.align	2
+ 1583              		.global	ByteSwap
+ 1584              		.thumb
+ 1585              		.thumb_func
+ 1587              	ByteSwap:
+ 1588              		@ args = 0, pretend = 0, frame = 0
+ 1589              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1590              		@ link register save eliminated.
+ 1591 0000 C3B2     		uxtb	r3, r0	@ D.8380, wSwW
+ 1592 0002 000A     		lsrs	r0, r0, #8	@ tmp123, wSwW,
+ 1593 0004 40EA0320 		orr	r0, r0, r3, lsl #8	@,, tmp123, D.8380,
+ 1594 0008 7047     		bx	lr	@
+ 1596 000a 00BF     		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_regs.c
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:79     .text.SetCNTR:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:84     .text.SetCNTR:00000000 SetCNTR
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:94     .text.SetCNTR:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:97     .text.GetCNTR:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:102    .text.GetCNTR:00000000 GetCNTR
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:113    .text.GetCNTR:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:116    .text.SetISTR:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:121    .text.SetISTR:00000000 SetISTR
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:131    .text.SetISTR:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:134    .text.GetISTR:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:139    .text.GetISTR:00000000 GetISTR
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:150    .text.GetISTR:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:153    .text.GetFNR:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:158    .text.GetFNR:00000000 GetFNR
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:169    .text.GetFNR:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:172    .text.SetDADDR:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:177    .text.SetDADDR:00000000 SetDADDR
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:187    .text.SetDADDR:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:190    .text.GetDADDR:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:195    .text.GetDADDR:00000000 GetDADDR
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:206    .text.GetDADDR:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:209    .text.SetBTABLE:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:214    .text.SetBTABLE:00000000 SetBTABLE
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:226    .text.SetBTABLE:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:229    .text.GetBTABLE:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:234    .text.GetBTABLE:00000000 GetBTABLE
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:245    .text.GetBTABLE:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:248    .text.SetENDPOINT:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:253    .text.SetENDPOINT:00000000 SetENDPOINT
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:264    .text.GetENDPOINT:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:269    .text.GetENDPOINT:00000000 GetENDPOINT
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:281    .text.SetEPType:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:286    .text.SetEPType:00000000 SetEPType
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:302    .text.GetEPType:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:307    .text.GetEPType:00000000 GetEPType
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:319    .text.SetEPTxStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:324    .text.SetEPTxStatus:00000000 SetEPTxStatus
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:347    .text.SetEPRxStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:352    .text.SetEPRxStatus:00000000 SetEPRxStatus
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:375    .text.SetDouBleBuffEPStall:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:380    .text.SetDouBleBuffEPStall:00000000 SetDouBleBuffEPStall
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:405    .text.GetEPTxStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:410    .text.GetEPTxStatus:00000000 GetEPTxStatus
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:422    .text.GetEPRxStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:427    .text.GetEPRxStatus:00000000 GetEPRxStatus
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:439    .text.SetEPTxValid:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:444    .text.SetEPTxValid:00000000 SetEPTxValid
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:462    .text.SetEPRxValid:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:467    .text.SetEPRxValid:00000000 SetEPRxValid
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:485    .text.SetEP_KIND:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:490    .text.SetEP_KIND:00000000 SetEP_KIND
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:506    .text.ClearEP_KIND:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:511    .text.ClearEP_KIND:00000000 ClearEP_KIND
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:527    .text.Clear_Status_Out:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:532    .text.Clear_Status_Out:00000000 Clear_Status_Out
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:548    .text.Set_Status_Out:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:553    .text.Set_Status_Out:00000000 Set_Status_Out
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:569    .text.SetEPDoubleBuff:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:574    .text.SetEPDoubleBuff:00000000 SetEPDoubleBuff
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:590    .text.ClearEPDoubleBuff:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:595    .text.ClearEPDoubleBuff:00000000 ClearEPDoubleBuff
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:611    .text.GetTxStallStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:616    .text.GetTxStallStatus:00000000 GetTxStallStatus
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:631    .text.GetRxStallStatus:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:636    .text.GetRxStallStatus:00000000 GetRxStallStatus
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:651    .text.ClearEP_CTR_RX:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:656    .text.ClearEP_CTR_RX:00000000 ClearEP_CTR_RX
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:670    .text.ClearEP_CTR_TX:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:675    .text.ClearEP_CTR_TX:00000000 ClearEP_CTR_TX
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:689    .text.ToggleDTOG_RX:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:694    .text.ToggleDTOG_RX:00000000 ToggleDTOG_RX
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:710    .text.ToggleDTOG_TX:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:715    .text.ToggleDTOG_TX:00000000 ToggleDTOG_TX
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:731    .text.ClearDTOG_RX:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:736    .text.ClearDTOG_RX:00000000 ClearDTOG_RX
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:756    .text.ClearDTOG_TX:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:761    .text.ClearDTOG_TX:00000000 ClearDTOG_TX
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:781    .text.SetEPAddress:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:786    .text.SetEPAddress:00000000 SetEPAddress
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:803    .text.GetEPAddress:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:808    .text.GetEPAddress:00000000 GetEPAddress
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:820    .text.SetEPTxAddr:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:825    .text.SetEPTxAddr:00000000 SetEPTxAddr
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:843    .text.SetEPTxAddr:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:846    .text.SetEPRxAddr:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:851    .text.SetEPRxAddr:00000000 SetEPRxAddr
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:869    .text.SetEPRxAddr:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:873    .text.GetEPTxAddr:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:878    .text.GetEPTxAddr:00000000 GetEPTxAddr
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:894    .text.GetEPTxAddr:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:897    .text.GetEPRxAddr:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:902    .text.GetEPRxAddr:00000000 GetEPRxAddr
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:918    .text.GetEPRxAddr:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:922    .text.SetEPTxCount:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:927    .text.SetEPTxCount:00000000 SetEPTxCount
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:943    .text.SetEPTxCount:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:947    .text.SetEPCountRxReg:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:952    .text.SetEPCountRxReg:00000000 SetEPCountRxReg
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:978    .text.SetEPRxCount:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:983    .text.SetEPRxCount:00000000 SetEPRxCount
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1017   .text.SetEPRxCount:0000003c $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1021   .text.GetEPTxCount:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1026   .text.GetEPTxCount:00000000 GetEPTxCount
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1043   .text.GetEPTxCount:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1047   .text.GetEPRxCount:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1052   .text.GetEPRxCount:00000000 GetEPRxCount
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1069   .text.GetEPRxCount:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1073   .text.SetEPDblBuffAddr:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1078   .text.SetEPDblBuffAddr:00000000 SetEPDblBuffAddr
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1108   .text.SetEPDblBuffAddr:00000034 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1112   .text.SetEPDblBuf0Addr:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1117   .text.SetEPDblBuf0Addr:00000000 SetEPDblBuf0Addr
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1135   .text.SetEPDblBuf0Addr:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1138   .text.SetEPDblBuf1Addr:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1143   .text.SetEPDblBuf1Addr:00000000 SetEPDblBuf1Addr
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1161   .text.SetEPDblBuf1Addr:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1165   .text.GetEPDblBuf0Addr:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1170   .text.GetEPDblBuf0Addr:00000000 GetEPDblBuf0Addr
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1186   .text.GetEPDblBuf0Addr:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1189   .text.GetEPDblBuf1Addr:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1194   .text.GetEPDblBuf1Addr:00000000 GetEPDblBuf1Addr
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1210   .text.GetEPDblBuf1Addr:00000014 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1214   .text.SetEPDblBuffCount:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1219   .text.SetEPDblBuffCount:00000000 SetEPDblBuffCount
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1312   .text.SetEPDblBuffCount:000000ac $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1317   .text.SetEPDblBuf0Count:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1322   .text.SetEPDblBuf0Count:00000000 SetEPDblBuf0Count
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1372   .text.SetEPDblBuf0Count:0000005c $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1376   .text.SetEPDblBuf1Count:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1381   .text.SetEPDblBuf1Count:00000000 SetEPDblBuf1Count
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1431   .text.SetEPDblBuf1Count:0000005c $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1435   .text.GetEPDblBuf0Count:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1440   .text.GetEPDblBuf0Count:00000000 GetEPDblBuf0Count
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1457   .text.GetEPDblBuf0Count:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1461   .text.GetEPDblBuf1Count:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1466   .text.GetEPDblBuf1Count:00000000 GetEPDblBuf1Count
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1483   .text.GetEPDblBuf1Count:00000018 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1487   .text.GetEPDblBufDir:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1492   .text.GetEPDblBufDir:00000000 GetEPDblBufDir
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1526   .text.GetEPDblBufDir:00000038 $d
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1531   .text.FreeUserBuffer:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1536   .text.FreeUserBuffer:00000000 FreeUserBuffer
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1569   .text.ToWord:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1574   .text.ToWord:00000000 ToWord
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1582   .text.ByteSwap:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\ccW0obGE.s:1587   .text.ByteSwap:00000000 ByteSwap
+
+NO UNDEFINED SYMBOLS

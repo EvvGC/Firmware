@@ -1,0 +1,580 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"hw_config.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.8.3 20131129 (release) [ARM/embedded-4_8-
+  15              	@	compiled by GNU C version 4.2.1-sjlj (mingw32-2), GMP version 4.3.2, MPFR version 2.4.2, MPC vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed: 
+  18              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/arm-none-eabi/include
+  19              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include
+  20              	@ -I C:\Program Files (x86)\GNU Tools ARM Embedded\4.8 2013q4/lib/gcc/arm-none-eabi/4.8.3/include-f
+  21              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Include
+  22              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\CMSIS\Device\ST\STM32F10x\Include
+  23              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32_USB-FS-Device_Driver\inc
+  24              	@ -I C:\Users\Chris\workspace\Firmware-master\Libraries\STM32F10x_StdPeriph_Driver\inc
+  25              	@ -I C:\Users\Chris\workspace\Firmware-master\src
+  26              	@ -I C:\Users\Chris\workspace\Firmware-master\src\VCP\inc
+  27              	@ -imultilib armv7-m
+  28              	@ -iprefix c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../lib/gcc/arm-none-eabi/4.
+  29              	@ -isysroot c:\program files (x86)\gnu tools arm embedded\4.8 2013q4\bin\../arm-none-eabi
+  30              	@ -MMD src/VCP/src/hw_config.d -MF src/VCP/src/hw_config.d -MP
+  31              	@ -MT src/VCP/src/hw_config.d -D__USES_INITFINI__ -D STM32F10X_HD
+  32              	@ -D USE_STDPERIPH_DRIVER ../src/VCP/src/hw_config.c -mcpu=cortex-m3
+  33              	@ -mthumb -auxbase-strip src/VCP/src/hw_config.o -O2 -Wall -Wextra
+  34              	@ -Wstrict-prototypes -std=gnu99 -ffunction-sections -fdata-sections
+  35              	@ -fsingle-precision-constant -fverbose-asm
+  36              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  37              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  38              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  39              	@ -fdata-sections -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  40              	@ -fdwarf2-cfi-asm -fearly-inlining -feliminate-unused-debug-types
+  41              	@ -fexpensive-optimizations -fforward-propagate -ffunction-cse
+  42              	@ -ffunction-sections -fgcse -fgcse-lm -fgnu-runtime
+  43              	@ -fguess-branch-probability -fhoist-adjacent-loads -fident -fif-conversion
+  44              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  45              	@ -finline-functions-called-once -finline-small-functions -fipa-cp
+  46              	@ -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+  47              	@ -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+  48              	@ -fivopts -fkeep-static-consts -fleading-underscore -fmath-errno
+  49              	@ -fmerge-constants -fmerge-debug-strings -fmove-loop-invariants
+  50              	@ -fomit-frame-pointer -foptimize-register-move -foptimize-sibling-calls
+  51              	@ -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2
+  52              	@ -fprefetch-loop-arrays -freg-struct-return -fregmove -freorder-blocks
+  53              	@ -freorder-functions -frerun-cse-after-loop
+  54              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  55              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  56              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  57              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns
+  58              	@ -fschedule-insns2 -fsection-anchors -fshow-column -fshrink-wrap
+  59              	@ -fsigned-zeros -fsingle-precision-constant -fsplit-ivs-in-unroller
+  60              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  61              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  62              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+  63              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  64              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  65              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  66              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  67              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  68              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slp-vectorize
+  69              	@ -ftree-slsr -ftree-sra -ftree-switch-conversion -ftree-tail-merge
+  70              	@ -ftree-ter -ftree-vect-loop-version -ftree-vrp -funit-at-a-time
+  71              	@ -fverbose-asm -fzero-initialized-in-bss -mfix-cortex-m3-ldrd
+  72              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+  73              	@ -munaligned-access -mvectorize-with-neon-quad
+  74              	
+  75              		.section	.text.IntToUnicode,"ax",%progbits
+  76              		.align	2
+  77              		.thumb
+  78              		.thumb_func
+  80              	IntToUnicode:
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84 0000 30B4     		push	{r4, r5}	@
+  85 0002 92B1     		cbz	r2, .L1	@ len,
+  86 0004 551E     		subs	r5, r2, #1	@ tmp147, len,
+  87 0006 EDB2     		uxtb	r5, r5	@ D.7282, tmp147
+  88 0008 0135     		adds	r5, r5, #1	@ D.7282, D.7282,
+  89 000a 0023     		movs	r3, #0	@ ivtmp.34,
+  90 000c 6D00     		lsls	r5, r5, #1	@ D.7282, D.7282,
+  91 000e 1C46     		mov	r4, r3	@ tmp159, ivtmp.34
+  92              	.L6:
+  93 0010 020F     		lsrs	r2, r0, #28	@ D.7279, value,
+  94 0012 092A     		cmp	r2, #9	@ D.7279,
+  95 0014 94BF     		ite	ls
+  96 0016 3032     		addls	r2, r2, #48	@ tmp151, D.7279,
+  97 0018 3732     		addhi	r2, r2, #55	@ tmp154, D.7279,
+  98 001a CA54     		strb	r2, [r1, r3]	@ tmp154, MEM[base: pbuf_12(D), index: ivtmp.34_44, offset: 0B]
+  99 001c CA18     		adds	r2, r1, r3	@ D.7281, pbuf, ivtmp.34
+ 100 001e 0233     		adds	r3, r3, #2	@ ivtmp.34, ivtmp.34,
+ 101 0020 AB42     		cmp	r3, r5	@ ivtmp.34, D.7282
+ 102 0022 4FEA0010 		lsl	r0, r0, #4	@ value, value,
+ 103 0026 5470     		strb	r4, [r2, #1]	@ tmp159, MEM[base: _26, offset: 1B]
+ 104 0028 F2D1     		bne	.L6	@,
+ 105              	.L1:
+ 106 002a 30BC     		pop	{r4, r5}	@
+ 107 002c 7047     		bx	lr	@
+ 109 002e 00BF     		.section	.text.Set_System,"ax",%progbits
+ 110              		.align	2
+ 111              		.global	Set_System
+ 112              		.thumb
+ 113              		.thumb_func
+ 115              	Set_System:
+ 116              		@ args = 0, pretend = 0, frame = 8
+ 117              		@ frame_needed = 0, uses_anonymous_args = 0
+ 118 0000 30B5     		push	{r4, r5, lr}	@
+ 119 0002 184C     		ldr	r4, .L10	@ tmp116,
+ 120 0004 83B0     		sub	sp, sp, #12	@,,
+ 121 0006 0420     		movs	r0, #4	@,
+ 122 0008 0121     		movs	r1, #1	@,
+ 123 000a FFF7FEFF 		bl	RCC_APB2PeriphClockCmd	@
+ 124 000e 4FF48055 		mov	r5, #4096	@ tmp111,
+ 125 0012 0322     		movs	r2, #3	@ tmp112,
+ 126 0014 1423     		movs	r3, #20	@ tmp114,
+ 127 0016 2046     		mov	r0, r4	@, tmp116
+ 128 0018 01A9     		add	r1, sp, #4	@,,
+ 129 001a 8DF80620 		strb	r2, [sp, #6]	@ tmp112, GPIO_InitStructure.GPIO_Speed
+ 130 001e 8DF80730 		strb	r3, [sp, #7]	@ tmp114, GPIO_InitStructure.GPIO_Mode
+ 131 0022 ADF80450 		strh	r5, [sp, #4]	@ movhi	@ tmp111, GPIO_InitStructure.GPIO_Pin
+ 132 0026 FFF7FEFF 		bl	GPIO_Init	@
+ 133 002a 2946     		mov	r1, r5	@, tmp111
+ 134 002c 2046     		mov	r0, r4	@, tmp116
+ 135 002e FFF7FEFF 		bl	GPIO_ResetBits	@
+ 136 0032 C820     		movs	r0, #200	@,
+ 137 0034 FFF7FEFF 		bl	Delay_ms	@
+ 138 0038 2946     		mov	r1, r5	@, tmp111
+ 139 003a 2046     		mov	r0, r4	@, tmp116
+ 140 003c FFF7FEFF 		bl	GPIO_SetBits	@
+ 141 0040 4FF48020 		mov	r0, #262144	@,
+ 142 0044 FFF7FEFF 		bl	EXTI_ClearITPendingBit	@
+ 143 0048 074B     		ldr	r3, .L10+4	@ tmp120,
+ 144 004a 0821     		movs	r1, #8	@ tmp123,
+ 145 004c 0122     		movs	r2, #1	@ tmp126,
+ 146 004e 4FF48024 		mov	r4, #262144	@ tmp121,
+ 147 0052 1846     		mov	r0, r3	@, tmp120
+ 148 0054 1C60     		str	r4, [r3]	@ tmp121, EXTI_InitStructure.EXTI_Line
+ 149 0056 5971     		strb	r1, [r3, #5]	@ tmp123, EXTI_InitStructure.EXTI_Trigger
+ 150 0058 9A71     		strb	r2, [r3, #6]	@ tmp126, EXTI_InitStructure.EXTI_LineCmd
+ 151 005a FFF7FEFF 		bl	EXTI_Init	@
+ 152 005e 03B0     		add	sp, sp, #12	@,,
+ 153              		@ sp needed	@
+ 154 0060 30BD     		pop	{r4, r5, pc}	@
+ 155              	.L11:
+ 156 0062 00BF     		.align	2
+ 157              	.L10:
+ 158 0064 00080140 		.word	1073809408
+ 159 0068 00000000 		.word	EXTI_InitStructure
+ 161              		.section	.text.Set_USBClock,"ax",%progbits
+ 162              		.align	2
+ 163              		.global	Set_USBClock
+ 164              		.thumb
+ 165              		.thumb_func
+ 167              	Set_USBClock:
+ 168              		@ args = 0, pretend = 0, frame = 0
+ 169              		@ frame_needed = 0, uses_anonymous_args = 0
+ 170 0000 08B5     		push	{r3, lr}	@
+ 171 0002 0020     		movs	r0, #0	@,
+ 172 0004 FFF7FEFF 		bl	RCC_USBCLKConfig	@
+ 173 0008 BDE80840 		pop	{r3, lr}	@
+ 174 000c 4FF40000 		mov	r0, #8388608	@,
+ 175 0010 0121     		movs	r1, #1	@,
+ 176 0012 FFF7FEBF 		b	RCC_APB1PeriphClockCmd	@
+ 178 0016 00BF     		.section	.text.Enter_LowPowerMode,"ax",%progbits
+ 179              		.align	2
+ 180              		.global	Enter_LowPowerMode
+ 181              		.thumb
+ 182              		.thumb_func
+ 184              	Enter_LowPowerMode:
+ 185              		@ args = 0, pretend = 0, frame = 0
+ 186              		@ frame_needed = 0, uses_anonymous_args = 0
+ 187              		@ link register save eliminated.
+ 188 0000 014B     		ldr	r3, .L14	@ tmp110,
+ 189 0002 0322     		movs	r2, #3	@ tmp111,
+ 190 0004 1A60     		str	r2, [r3]	@ tmp111, bDeviceState
+ 191 0006 7047     		bx	lr	@
+ 192              	.L15:
+ 193              		.align	2
+ 194              	.L14:
+ 195 0008 00000000 		.word	bDeviceState
+ 197              		.section	.text.Leave_LowPowerMode,"ax",%progbits
+ 198              		.align	2
+ 199              		.global	Leave_LowPowerMode
+ 200              		.thumb
+ 201              		.thumb_func
+ 203              	Leave_LowPowerMode:
+ 204              		@ args = 0, pretend = 0, frame = 0
+ 205              		@ frame_needed = 0, uses_anonymous_args = 0
+ 206              		@ link register save eliminated.
+ 207 0000 064B     		ldr	r3, .L20	@ tmp111,
+ 208 0002 9B7A     		ldrb	r3, [r3, #10]	@ zero_extendqisi2	@ Device_Info.Current_Configuration, Device_Info.Current_Con
+ 209 0004 23B9     		cbnz	r3, .L19	@ Device_Info.Current_Configuration,
+ 210 0006 064B     		ldr	r3, .L20+4	@ tmp115,
+ 211 0008 0122     		movs	r2, #1	@ tmp116,
+ 212 000a 1A60     		str	r2, [r3]	@ tmp116, bDeviceState
+ 213 000c FFF7FEBF 		b	SystemInit	@
+ 214              	.L19:
+ 215 0010 034B     		ldr	r3, .L20+4	@ tmp113,
+ 216 0012 0522     		movs	r2, #5	@ tmp114,
+ 217 0014 1A60     		str	r2, [r3]	@ tmp114, bDeviceState
+ 218 0016 FFF7FEBF 		b	SystemInit	@
+ 219              	.L21:
+ 220 001a 00BF     		.align	2
+ 221              	.L20:
+ 222 001c 00000000 		.word	Device_Info
+ 223 0020 00000000 		.word	bDeviceState
+ 225              		.section	.text.USB_Interrupts_Config,"ax",%progbits
+ 226              		.align	2
+ 227              		.global	USB_Interrupts_Config
+ 228              		.thumb
+ 229              		.thumb_func
+ 231              	USB_Interrupts_Config:
+ 232              		@ args = 0, pretend = 0, frame = 8
+ 233              		@ frame_needed = 0, uses_anonymous_args = 0
+ 234 0000 10B5     		push	{r4, lr}	@
+ 235 0002 4FF4A060 		mov	r0, #1280	@,
+ 236 0006 82B0     		sub	sp, sp, #8	@,,
+ 237 0008 FFF7FEFF 		bl	NVIC_PriorityGroupConfig	@
+ 238 000c 0124     		movs	r4, #1	@ tmp116,
+ 239 000e 1421     		movs	r1, #20	@ tmp110,
+ 240 0010 0222     		movs	r2, #2	@ tmp112,
+ 241 0012 01A8     		add	r0, sp, #4	@,,
+ 242 0014 0023     		movs	r3, #0	@ tmp114,
+ 243 0016 8DF80410 		strb	r1, [sp, #4]	@ tmp110, NVIC_InitStructure.NVIC_IRQChannel
+ 244 001a 8DF80520 		strb	r2, [sp, #5]	@ tmp112, NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority
+ 245 001e 8DF80630 		strb	r3, [sp, #6]	@ tmp114, NVIC_InitStructure.NVIC_IRQChannelSubPriority
+ 246 0022 8DF80740 		strb	r4, [sp, #7]	@ tmp116, NVIC_InitStructure.NVIC_IRQChannelCmd
+ 247 0026 FFF7FEFF 		bl	NVIC_Init	@
+ 248 002a 2A23     		movs	r3, #42	@ tmp119,
+ 249 002c 01A8     		add	r0, sp, #4	@,,
+ 250 002e 8DF80540 		strb	r4, [sp, #5]	@ tmp116, NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority
+ 251 0032 8DF80430 		strb	r3, [sp, #4]	@ tmp119, NVIC_InitStructure.NVIC_IRQChannel
+ 252 0036 FFF7FEFF 		bl	NVIC_Init	@
+ 253 003a 02B0     		add	sp, sp, #8	@,,
+ 254              		@ sp needed	@
+ 255 003c 10BD     		pop	{r4, pc}	@
+ 257 003e 00BF     		.section	.text.USB_Cable_Config,"ax",%progbits
+ 258              		.align	2
+ 259              		.global	USB_Cable_Config
+ 260              		.thumb
+ 261              		.thumb_func
+ 263              	USB_Cable_Config:
+ 264              		@ args = 0, pretend = 0, frame = 0
+ 265              		@ frame_needed = 0, uses_anonymous_args = 0
+ 266              		@ link register save eliminated.
+ 267 0000 7047     		bx	lr	@
+ 269 0002 00BF     		.section	.text.Get_SerialNum,"ax",%progbits
+ 270              		.align	2
+ 271              		.global	Get_SerialNum
+ 272              		.thumb
+ 273              		.thumb_func
+ 275              	Get_SerialNum:
+ 276              		@ args = 0, pretend = 0, frame = 0
+ 277              		@ frame_needed = 0, uses_anonymous_args = 0
+ 278 0000 0A4A     		ldr	r2, .L27	@ tmp114,
+ 279 0002 0B4B     		ldr	r3, .L27+4	@ tmp116,
+ 280 0004 1268     		ldr	r2, [r2]	@ Device_Serial0, MEM[(uint32_t *)536868840B]
+ 281 0006 1B68     		ldr	r3, [r3]	@ MEM[(uint32_t *)536868848B], MEM[(uint32_t *)536868848B]
+ 282 0008 0A49     		ldr	r1, .L27+8	@ tmp115,
+ 283 000a D018     		adds	r0, r2, r3	@ Device_Serial0, Device_Serial0, MEM[(uint32_t *)536868848B]
+ 284 000c 10B5     		push	{r4, lr}	@
+ 285 000e 0C68     		ldr	r4, [r1]	@ Device_Serial1, MEM[(uint32_t *)536868844B]
+ 286 0010 00D1     		bne	.L26	@,
+ 287 0012 10BD     		pop	{r4, pc}	@
+ 288              	.L26:
+ 289 0014 0849     		ldr	r1, .L27+12	@,
+ 290 0016 0822     		movs	r2, #8	@,
+ 291 0018 FFF7FEFF 		bl	IntToUnicode	@
+ 292 001c 2046     		mov	r0, r4	@, Device_Serial1
+ 293 001e 0749     		ldr	r1, .L27+16	@,
+ 294 0020 0422     		movs	r2, #4	@,
+ 295 0022 BDE81040 		pop	{r4, lr}	@
+ 296 0026 FFF7FEBF 		b	IntToUnicode	@
+ 297              	.L28:
+ 298 002a 00BF     		.align	2
+ 299              	.L27:
+ 300 002c E8F7FF1F 		.word	536868840
+ 301 0030 F0F7FF1F 		.word	536868848
+ 302 0034 ECF7FF1F 		.word	536868844
+ 303 0038 02000000 		.word	Virtual_Com_Port_StringSerial+2
+ 304 003c 12000000 		.word	Virtual_Com_Port_StringSerial+18
+ 306              		.section	.text.CDC_Send_DATA,"ax",%progbits
+ 307              		.align	2
+ 308              		.global	CDC_Send_DATA
+ 309              		.thumb
+ 310              		.thumb_func
+ 312              	CDC_Send_DATA:
+ 313              		@ args = 0, pretend = 0, frame = 0
+ 314              		@ frame_needed = 0, uses_anonymous_args = 0
+ 315 0000 70B5     		push	{r4, r5, r6, lr}	@
+ 316 0002 104D     		ldr	r5, .L38	@ tmp122,
+ 317 0004 2B68     		ldr	r3, [r5]	@ packetSent.1, packetSent
+ 318 0006 BBB9     		cbnz	r3, .L33	@ packetSent.1,
+ 319 0008 4029     		cmp	r1, #64	@ sendLength,
+ 320 000a 11D9     		bls	.L36	@,
+ 321 000c 4024     		movs	r4, #64	@ D.7300,
+ 322 000e 2646     		mov	r6, r4	@ D.7301, D.7300
+ 323              	.L31:
+ 324 0010 3246     		mov	r2, r6	@, D.7301
+ 325 0012 C021     		movs	r1, #192	@,
+ 326 0014 FFF7FEFF 		bl	UserToPMABufferCopy	@
+ 327 0018 3146     		mov	r1, r6	@, D.7301
+ 328 001a 0120     		movs	r0, #1	@,
+ 329 001c FFF7FEFF 		bl	SetEPTxCount	@
+ 330 0020 2B68     		ldr	r3, [r5]	@ packetSent.2, packetSent
+ 331 0022 0120     		movs	r0, #1	@,
+ 332 0024 2344     		add	r3, r3, r4	@ packetSent.3, D.7300
+ 333 0026 2B60     		str	r3, [r5]	@ packetSent.3, packetSent
+ 334 0028 FFF7FEFF 		bl	SetEPTxValid	@
+ 335 002c 2046     		mov	r0, r4	@, D.7300
+ 336 002e 70BD     		pop	{r4, r5, r6, pc}	@
+ 337              	.L36:
+ 338 0030 0C46     		mov	r4, r1	@ D.7300, sendLength
+ 339 0032 21B9     		cbnz	r1, .L37	@ sendLength,
+ 340 0034 2046     		mov	r0, r4	@, D.7300
+ 341 0036 70BD     		pop	{r4, r5, r6, pc}	@
+ 342              	.L33:
+ 343 0038 0024     		movs	r4, #0	@ D.7300,
+ 344 003a 2046     		mov	r0, r4	@, D.7300
+ 345 003c 70BD     		pop	{r4, r5, r6, pc}	@
+ 346              	.L37:
+ 347 003e 0E46     		mov	r6, r1	@ D.7301, sendLength
+ 348 0040 0C46     		mov	r4, r1	@ D.7300, D.7301
+ 349 0042 E5E7     		b	.L31	@
+ 350              	.L39:
+ 351              		.align	2
+ 352              	.L38:
+ 353 0044 00000000 		.word	packetSent
+ 355              		.section	.text.CDC_Receive_DATA,"ax",%progbits
+ 356              		.align	2
+ 357              		.global	CDC_Receive_DATA
+ 358              		.thumb
+ 359              		.thumb_func
+ 361              	CDC_Receive_DATA:
+ 362              		@ args = 0, pretend = 0, frame = 0
+ 363              		@ frame_needed = 0, uses_anonymous_args = 0
+ 364 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}	@
+ 365 0002 174F     		ldr	r7, .L47	@ tmp149,
+ 366 0004 0D46     		mov	r5, r1	@ len, len
+ 367 0006 3B68     		ldr	r3, [r7]	@ receiveLength.4, receiveLength
+ 368 0008 DFF85CC0 		ldr	ip, .L47+8	@ tmp150,
+ 369 000c 8B42     		cmp	r3, r1	@ receiveLength.4, len
+ 370 000e 38BF     		it	cc
+ 371 0010 3D68     		ldrcc	r5, [r7]	@ len, receiveLength
+ 372 0012 0DB3     		cbz	r5, .L46	@ len,
+ 373 0014 0022     		movs	r2, #0	@ D.7307,
+ 374 0016 9CF80010 		ldrb	r1, [ip]	@ zero_extendqisi2	@ D.7311, offset
+ 375 001a 124E     		ldr	r6, .L47+4	@ tmp151,
+ 376 001c 1346     		mov	r3, r2	@ i, D.7307
+ 377              	.L44:
+ 378 001e F418     		adds	r4, r6, r3	@ tmp134, tmp151, i
+ 379 0020 0133     		adds	r3, r3, #1	@ tmp137, i,
+ 380 0022 DBB2     		uxtb	r3, r3	@ i, tmp137
+ 381 0024 645C     		ldrb	r4, [r4, r1]	@ zero_extendqisi2	@ D.7310, receiveBuffer
+ 382 0026 9D42     		cmp	r5, r3	@ len, i
+ 383 0028 8454     		strb	r4, [r0, r2]	@ D.7310, *_11
+ 384 002a 1A46     		mov	r2, r3	@ D.7307, i
+ 385 002c F7D8     		bhi	.L44	@,
+ 386              	.L43:
+ 387 002e 3B68     		ldr	r3, [r7]	@ receiveLength.7, receiveLength
+ 388 0030 2944     		add	r1, r1, r5	@ tmp142, len
+ 389 0032 5B1B     		subs	r3, r3, r5	@ receiveLength.8, receiveLength.7, len
+ 390 0034 3B60     		str	r3, [r7]	@ receiveLength.8, receiveLength
+ 391 0036 3C68     		ldr	r4, [r7]	@ receiveLength.10, receiveLength
+ 392 0038 8CF80010 		strb	r1, [ip]	@ tmp142, offset
+ 393 003c 0A4E     		ldr	r6, .L47+8	@ tmp140,
+ 394 003e 4CB9     		cbnz	r4, .L45	@ receiveLength.10,
+ 395 0040 0320     		movs	r0, #3	@,
+ 396 0042 4021     		movs	r1, #64	@,
+ 397 0044 FFF7FEFF 		bl	SetEPRxCount	@
+ 398 0048 0320     		movs	r0, #3	@,
+ 399 004a 4FF44051 		mov	r1, #12288	@,
+ 400 004e FFF7FEFF 		bl	SetEPRxStatus	@
+ 401 0052 3470     		strb	r4, [r6]	@ receiveLength.10, offset
+ 402              	.L45:
+ 403 0054 2846     		mov	r0, r5	@, len
+ 404 0056 F8BD     		pop	{r3, r4, r5, r6, r7, pc}	@
+ 405              	.L46:
+ 406 0058 9CF80010 		ldrb	r1, [ip]	@ zero_extendqisi2	@ D.7311, offset
+ 407 005c E7E7     		b	.L43	@
+ 408              	.L48:
+ 409 005e 00BF     		.align	2
+ 410              	.L47:
+ 411 0060 00000000 		.word	receiveLength
+ 412 0064 00000000 		.word	receiveBuffer
+ 413 0068 00000000 		.word	.LANCHOR0
+ 415              		.section	.text.usbIsConfigured,"ax",%progbits
+ 416              		.align	2
+ 417              		.global	usbIsConfigured
+ 418              		.thumb
+ 419              		.thumb_func
+ 421              	usbIsConfigured:
+ 422              		@ args = 0, pretend = 0, frame = 0
+ 423              		@ frame_needed = 0, uses_anonymous_args = 0
+ 424              		@ link register save eliminated.
+ 425 0000 024B     		ldr	r3, .L50	@ tmp114,
+ 426 0002 1868     		ldr	r0, [r3]	@ bDeviceState.11, bDeviceState
+ 427 0004 431F     		subs	r3, r0, #5	@, bDeviceState.11,
+ 428 0006 5842     		rsbs	r0, r3, #0	@,,
+ 429 0008 5841     		adcs	r0, r0, r3	@,,
+ 430 000a 7047     		bx	lr	@
+ 431              	.L51:
+ 432              		.align	2
+ 433              	.L50:
+ 434 000c 00000000 		.word	bDeviceState
+ 436              		.section	.text.usbIsConnected,"ax",%progbits
+ 437              		.align	2
+ 438              		.global	usbIsConnected
+ 439              		.thumb
+ 440              		.thumb_func
+ 442              	usbIsConnected:
+ 443              		@ args = 0, pretend = 0, frame = 0
+ 444              		@ frame_needed = 0, uses_anonymous_args = 0
+ 445              		@ link register save eliminated.
+ 446 0000 024B     		ldr	r3, .L53	@ tmp115,
+ 447 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2	@ VCPconnectMode, VCPconnectMode
+ 448 0004 431E     		subs	r3, r0, #1	@, VCPconnectMode,
+ 449 0006 5842     		rsbs	r0, r3, #0	@,,
+ 450 0008 5841     		adcs	r0, r0, r3	@,,
+ 451 000a 7047     		bx	lr	@
+ 452              	.L54:
+ 453              		.align	2
+ 454              	.L53:
+ 455 000c 00000000 		.word	.LANCHOR1
+ 457              		.section	.text.ERR_Callback,"ax",%progbits
+ 458              		.align	2
+ 459              		.global	ERR_Callback
+ 460              		.thumb
+ 461              		.thumb_func
+ 463              	ERR_Callback:
+ 464              		@ args = 0, pretend = 0, frame = 0
+ 465              		@ frame_needed = 0, uses_anonymous_args = 0
+ 466              		@ link register save eliminated.
+ 467 0000 0249     		ldr	r1, .L56	@ tmp110,
+ 468 0002 034A     		ldr	r2, .L56+4	@ tmp112,
+ 469 0004 0023     		movs	r3, #0	@ tmp111,
+ 470 0006 0B60     		str	r3, [r1]	@ tmp111, bDeviceState
+ 471 0008 1370     		strb	r3, [r2]	@ tmp111, VCPconnectMode
+ 472 000a 7047     		bx	lr	@
+ 473              	.L57:
+ 474              		.align	2
+ 475              	.L56:
+ 476 000c 00000000 		.word	bDeviceState
+ 477 0010 00000000 		.word	.LANCHOR1
+ 479              		.section	.text.SetVCPConnectMode,"ax",%progbits
+ 480              		.align	2
+ 481              		.global	SetVCPConnectMode
+ 482              		.thumb
+ 483              		.thumb_func
+ 485              	SetVCPConnectMode:
+ 486              		@ args = 0, pretend = 0, frame = 0
+ 487              		@ frame_needed = 0, uses_anonymous_args = 0
+ 488              		@ link register save eliminated.
+ 489 0000 034B     		ldr	r3, .L60	@ tmp111,
+ 490 0002 0128     		cmp	r0, #1	@ mode,
+ 491 0004 1870     		strb	r0, [r3]	@ mode, VCPconnectMode
+ 492 0006 02D1     		bne	.L58	@,
+ 493 0008 024B     		ldr	r3, .L60+4	@ tmp113,
+ 494 000a 0022     		movs	r2, #0	@ tmp114,
+ 495 000c 1A60     		str	r2, [r3]	@ tmp114, packetSent
+ 496              	.L58:
+ 497 000e 7047     		bx	lr	@
+ 498              	.L61:
+ 499              		.align	2
+ 500              	.L60:
+ 501 0010 00000000 		.word	.LANCHOR1
+ 502 0014 00000000 		.word	packetSent
+ 504              		.section	.text.GetVCPConnectMode,"ax",%progbits
+ 505              		.align	2
+ 506              		.global	GetVCPConnectMode
+ 507              		.thumb
+ 508              		.thumb_func
+ 510              	GetVCPConnectMode:
+ 511              		@ args = 0, pretend = 0, frame = 0
+ 512              		@ frame_needed = 0, uses_anonymous_args = 0
+ 513              		@ link register save eliminated.
+ 514 0000 014B     		ldr	r3, .L63	@ tmp113,
+ 515 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2	@, VCPconnectMode
+ 516 0004 7047     		bx	lr	@
+ 517              	.L64:
+ 518 0006 00BF     		.align	2
+ 519              	.L63:
+ 520 0008 00000000 		.word	.LANCHOR1
+ 522              		.comm	sendLength,4,4
+ 523              		.comm	receiveBuffer,64,4
+ 524              		.comm	packetSent,4,4
+ 525              		.comm	EXTI_InitStructure,8,4
+ 526              		.comm	HSEStartUpStatus,1,1
+ 527              		.section	.bss.VCPconnectMode,"aw",%nobits
+ 528              		.set	.LANCHOR1,. + 0
+ 531              	VCPconnectMode:
+ 532 0000 00       		.space	1
+ 533              		.section	.bss.offset.7114,"aw",%nobits
+ 534              		.set	.LANCHOR0,. + 0
+ 537              	offset.7114:
+ 538 0000 00       		.space	1
+ 539              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.3 20131129 (release) [ARM/embedded-4_8-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 hw_config.c
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:76     .text.IntToUnicode:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:80     .text.IntToUnicode:00000000 IntToUnicode
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:110    .text.Set_System:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:115    .text.Set_System:00000000 Set_System
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:158    .text.Set_System:00000064 $d
+                            *COM*:00000008 EXTI_InitStructure
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:162    .text.Set_USBClock:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:167    .text.Set_USBClock:00000000 Set_USBClock
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:179    .text.Enter_LowPowerMode:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:184    .text.Enter_LowPowerMode:00000000 Enter_LowPowerMode
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:195    .text.Enter_LowPowerMode:00000008 $d
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:198    .text.Leave_LowPowerMode:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:203    .text.Leave_LowPowerMode:00000000 Leave_LowPowerMode
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:222    .text.Leave_LowPowerMode:0000001c $d
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:226    .text.USB_Interrupts_Config:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:231    .text.USB_Interrupts_Config:00000000 USB_Interrupts_Config
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:258    .text.USB_Cable_Config:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:263    .text.USB_Cable_Config:00000000 USB_Cable_Config
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:270    .text.Get_SerialNum:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:275    .text.Get_SerialNum:00000000 Get_SerialNum
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:300    .text.Get_SerialNum:0000002c $d
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:307    .text.CDC_Send_DATA:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:312    .text.CDC_Send_DATA:00000000 CDC_Send_DATA
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:353    .text.CDC_Send_DATA:00000044 $d
+                            *COM*:00000004 packetSent
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:356    .text.CDC_Receive_DATA:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:361    .text.CDC_Receive_DATA:00000000 CDC_Receive_DATA
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:411    .text.CDC_Receive_DATA:00000060 $d
+                            *COM*:00000040 receiveBuffer
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:416    .text.usbIsConfigured:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:421    .text.usbIsConfigured:00000000 usbIsConfigured
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:434    .text.usbIsConfigured:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:437    .text.usbIsConnected:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:442    .text.usbIsConnected:00000000 usbIsConnected
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:455    .text.usbIsConnected:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:458    .text.ERR_Callback:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:463    .text.ERR_Callback:00000000 ERR_Callback
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:476    .text.ERR_Callback:0000000c $d
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:480    .text.SetVCPConnectMode:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:485    .text.SetVCPConnectMode:00000000 SetVCPConnectMode
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:501    .text.SetVCPConnectMode:00000010 $d
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:505    .text.GetVCPConnectMode:00000000 $t
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:510    .text.GetVCPConnectMode:00000000 GetVCPConnectMode
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:520    .text.GetVCPConnectMode:00000008 $d
+                            *COM*:00000004 sendLength
+                            *COM*:00000001 HSEStartUpStatus
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:531    .bss.VCPconnectMode:00000000 VCPconnectMode
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:532    .bss.VCPconnectMode:00000000 $d
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:537    .bss.offset.7114:00000000 offset.7114
+C:\Users\Chris\AppData\Local\Temp\cczDcdgn.s:538    .bss.offset.7114:00000000 $d
+
+UNDEFINED SYMBOLS
+RCC_APB2PeriphClockCmd
+GPIO_Init
+GPIO_ResetBits
+Delay_ms
+GPIO_SetBits
+EXTI_ClearITPendingBit
+EXTI_Init
+RCC_USBCLKConfig
+RCC_APB1PeriphClockCmd
+bDeviceState
+SystemInit
+Device_Info
+NVIC_PriorityGroupConfig
+NVIC_Init
+Virtual_Com_Port_StringSerial
+UserToPMABufferCopy
+SetEPTxCount
+SetEPTxValid
+SetEPRxCount
+SetEPRxStatus
+receiveLength
